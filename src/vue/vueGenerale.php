@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="../ressources/css/css_minimaliste.css">
+    <link rel="stylesheet" href="../ressources/css/style.css">
     <meta charset="UTF-8">
     <title>
         <?php
@@ -10,20 +10,14 @@
 </head>
 <body>
 <header>
-    <nav>
-        <ul>
-            <?php
-
-            ?>
-            <li>
-                <a href="controleurFrontal.php?action=afficherListe&controleur=utilisateur">Gestion des utilisateurs</a>
-            </li><li>
-                <a href="controleurFrontal.php?action=afficherListe&controleur=trajet">Gestion des trajets</a>
-            </li>
+    <nav class="navbar">
+        <div class="logo"> <a href="controleurFrontal.php?controleur=accueil">Play to Win</a> </div>
+        <ul class="nav-links">
+            <li><a href="controleurFrontal.php?controleur=accueil">Accueil</a></li>
+            <li><a href="controleurFrontal.php?action=afficherListe&controleur=coach">Coach</a></li>
+            <li><a href="controleurFrontal.php?controleur=contact">Contact</a></li>
         </ul>
     </nav>
-
-
 </header>
 <main>
     <?php
