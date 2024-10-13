@@ -31,15 +31,9 @@ class UtilisateurRepository extends AbstractRepository {
         );
     }
 
-
-
-    public function construireDepuisTableauSQL(array $utilisateurFormatTableau): Utilisateur
-    {
+    public function construireDepuisTableauSQL(array $utilisateurFormatTableau): Utilisateur {
         return new Utilisateur($utilisateurFormatTableau[0], $utilisateurFormatTableau[1], $utilisateurFormatTableau[2]);
     }
-
-
-
 
     public static function recupererTrajetsCommePassager(Utilisateur $user) : array {
         $sql = "

@@ -5,8 +5,6 @@ use App\Covoiturage\Modele\DataObject\Utilisateur;
 use App\Covoiturage\Modele\Repository\UtilisateurRepository;
 class ControleurUtilisateur {
 
-
-
     private static function afficherVue(string $cheminVue, array $parametres = []) : void{
         extract($parametres);
         require __DIR__ . "/../vue/$cheminVue";
@@ -19,7 +17,6 @@ class ControleurUtilisateur {
     }
 
     public static function afficherDetail() : void {
-
         if(!isset( $_GET['login'])){
             self::afficherErreur();
         }else{
