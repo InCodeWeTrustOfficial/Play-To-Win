@@ -49,8 +49,6 @@ def inserer_langues():
         ('KO', 'Coréen', 'drapeaux/kr.png'),
         ('IT', 'Italien', 'drapeaux/it.png')
     ]
-    
-    print(f"Répertoire de travail actuel : {os.getcwd()}")
 
     connexion = connexion_base_de_donnees()
     if connexion is None:
@@ -89,8 +87,6 @@ def inserer_jeux():
         ('League of Legends', "logo/lol.png"),
         ('Rocket League', "logo/rl.PNG")
     ]
-    
-    print(f"Répertoire de travail actuel : {os.getcwd()}")
 
     connexion = connexion_base_de_donnees()
     if connexion is None:
@@ -100,7 +96,7 @@ def inserer_jeux():
     try:
         curseur = connexion.cursor()
 
-        sql = "INSERT INTO p_Jeux (nom_jeu, logo) VALUES (%s, %s)"
+        sql = "INSERT INTO p_Jeux (nomJeux, logo) VALUES (%s, %s)"
 
         for jeu in jeux:
             nom_jeu = jeu[0]
@@ -181,8 +177,6 @@ def inserer_classement():
         ('Supersonic Legend', 1, None, 'Rocket League')
     ]
 
-    print(f"Répertoire de travail actuel : {os.getcwd()}")
-
     connexion = connexion_base_de_donnees()
     if connexion is None:
         print("Impossible de se connecter à la base de données.")
@@ -215,3 +209,4 @@ def inserer_classement():
 if __name__ == "__main__":
     inserer_langues()
     inserer_jeux()
+    inserer_classement()
