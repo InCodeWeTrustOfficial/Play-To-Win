@@ -230,7 +230,15 @@ def inserer_classement():
             id_classement = classement[0]
             nom_classement = classement[1]
             division = classement[2]
-            classement_avatar = classement[3]
+            avatar_filename = classement[3]
+            classement_avatar = None
+
+            if avatar_filename is not None:
+                classement_avatar = file_to_blob(avatar_filename)
+                
+                if classement_avatar is None:
+                    print(f"Erreur avec le fichier logo pour le classement {id_classement}: fichier non trouvé")
+                    continue
 
             try:
                 curseur.execute(sql, (id_classement, nom_classement, division, classement_avatar))

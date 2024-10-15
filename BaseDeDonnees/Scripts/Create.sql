@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS p_Classements (
     idClassement VARCHAR(50),
     nomClassement VARCHAR(50),
     divisionClassement VARCHAR(50),
-    avatarClassement VARCHAR(50),
+    avatarClassement LONGBLOB,
     PRIMARY KEY(idClassement, nomClassement, divisionClassement)
 );
 
