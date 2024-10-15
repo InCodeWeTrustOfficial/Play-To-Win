@@ -96,7 +96,7 @@ def inserer_jeux():
     try:
         curseur = connexion.cursor()
 
-        sql = "INSERT INTO p_Jeux (nomJeux, logo) VALUES (%s, %s)"
+        sql = "INSERT INTO p_Jeux (nomJeu, logoJeu) VALUES (%s, %s)"
 
         for jeu in jeux:
             nom_jeu = jeu[0]
@@ -158,61 +158,63 @@ def inserer_mode_jeux():
 
 def inserer_classement():
     classements = [
-        ('Fer', 4, "insertion/classement/fer-lol.png", 'League of Legends'),
-        ('Fer', 3, "insertion/classement/fer-lol.png", 'League of Legends'),
-        ('Fer', 2, "insertion/classement/fer-lol.png", 'League of Legends'),
-        ('Fer', 1, "insertion/classement/fer-lol.png", 'League of Legends'),
-        ('Bronze', 4, "insertion/classement/bronze-lol.png", 'League of Legends'),
-        ('Bronze', 3, "insertion/classement/bronze-lol.png", 'League of Legends'),
-        ('Bronze', 2, "insertion/classement/bronze-lol.png", 'League of Legends'),
-        ('Bronze', 1, "insertion/classement/bronze-lol.png", 'League of Legends'),
-        ('Argent', 4, "insertion/classement/argent-lol.png", 'League of Legends'),
-        ('Argent', 3, "insertion/classement/argent-lol.png", 'League of Legends'),
-        ('Argent', 2, "insertion/classement/argent-lol.png", 'League of Legends'),
-        ('Argent', 1, "insertion/classement/argent-lol.png", 'League of Legends'),
-        ('Or', 4, "insertion/classement/or-lol.png", 'League of Legends'),
-        ('Or', 3, "insertion/classement/or-lol.png", 'League of Legends'),
-        ('Or', 2, "insertion/classement/or-lol.png", 'League of Legends'),
-        ('Or', 1, "insertion/classement/or-lol.png", 'League of Legends'),
-        ('Platine', 4, "insertion/classement/platine-lol.png", 'League of Legends'),
-        ('Platine', 3, "insertion/classement/platine-lol.png", 'League of Legends'),
-        ('Platine', 2, "insertion/classement/platine-lol.png", 'League of Legends'),
-        ('Platine', 1, "insertion/classement/platine-lol.png", 'League of Legends'),
-        ('Diamant', 4, "insertion/classement/diamant-lol.png", 'League of Legends'),
-        ('Diamant', 3, "insertion/classement/diamant-lol.png", 'League of Legends'),
-        ('Diamant', 2, "insertion/classement/diamant-lol.png", 'League of Legends'),
-        ('Diamant', 1, "insertion/classement/diamant-lol.png", 'League of Legends'),
-        ('Émeraude', 4, "insertion/classement/emeuraude-lol.png", 'League of Legends'),
-        ('Émeraude', 3, "insertion/classement/emeuraude-lol.png", 'League of Legends'),
-        ('Émeraude', 2, "insertion/classement/emeuraude-lol.png", 'League of Legends'),
-        ('Émeraude', 1, "insertion/classement/emeuraude-lol.png", 'League of Legends'),
-        ('Maitre', 1, "insertion/classement/maitre-lol.png", 'League of Legends'),
-        ('Grand Maitre', 1, "insertion/classement/grand_maitre-lol.png", 'League of Legends'),
-        ('Challenger', 1, "insertion/classement/challenger-lol.png", 'League of Legends'),
+        # Classements pour League of Legends
+        ('L-1', 'Fer', 4, "insertion/classement/fer-lol.png"),
+        ('L-2', 'Fer', 3, "insertion/classement/fer-lol.png"),
+        ('L-3', 'Fer', 2, "insertion/classement/fer-lol.png"),
+        ('L-4', 'Fer', 1, "insertion/classement/fer-lol.png"),
+        ('L-5', 'Bronze', 4, "insertion/classement/bronze-lol.png"),
+        ('L-6', 'Bronze', 3, "insertion/classement/bronze-lol.png"),
+        ('L-7', 'Bronze', 2, "insertion/classement/bronze-lol.png"),
+        ('L-8', 'Bronze', 1, "insertion/classement/bronze-lol.png"),
+        ('L-9', 'Argent', 4, "insertion/classement/argent-lol.png"),
+        ('L-10', 'Argent', 3, "insertion/classement/argent-lol.png"),
+        ('L-11', 'Argent', 2, "insertion/classement/argent-lol.png"),
+        ('L-12', 'Argent', 1, "insertion/classement/argent-lol.png"),
+        ('L-13', 'Or', 4, "insertion/classement/or-lol.png"),
+        ('L-14', 'Or', 3, "insertion/classement/or-lol.png"),
+        ('L-15', 'Or', 2, "insertion/classement/or-lol.png"),
+        ('L-16', 'Or', 1, "insertion/classement/or-lol.png"),
+        ('L-17', 'Platine', 4, "insertion/classement/platine-lol.png"),
+        ('L-18', 'Platine', 3, "insertion/classement/platine-lol.png"),
+        ('L-19', 'Platine', 2, "insertion/classement/platine-lol.png"),
+        ('L-20', 'Platine', 1, "insertion/classement/platine-lol.png"),
+        ('L-21', 'Diamant', 4, "insertion/classement/diamant-lol.png"),
+        ('L-22', 'Diamant', 3, "insertion/classement/diamant-lol.png"),
+        ('L-23', 'Diamant', 2, "insertion/classement/diamant-lol.png"),
+        ('L-24', 'Diamant', 1, "insertion/classement/diamant-lol.png"),
+        ('L-25', 'Émeraude', 4, "insertion/classement/emeuraude-lol.png"),
+        ('L-26', 'Émeraude', 3, "insertion/classement/emeuraude-lol.png"),
+        ('L-27', 'Émeraude', 2, "insertion/classement/emeuraude-lol.png"),
+        ('L-28', 'Émeraude', 1, "insertion/classement/emeuraude-lol.png"),
+        ('L-29', 'Maitre', 1, "insertion/classement/maitre-lol.png"),
+        ('L-30', 'Grand Maitre', 1, "insertion/classement/grand_maitre-lol.png"),
+        ('L-31', 'Challenger', 1, "insertion/classement/challenger-lol.png"),
 
-    ('Fer', 1, None, 'Rocket League'),
-    ('Fer', 2, None, 'Rocket League'),
-    ('Fer', 3, None, 'Rocket League'),
-    ('Argent', 1, None, 'Rocket League'),
-    ('Argent', 2, None, 'Rocket League'),
-    ('Argent', 3, None, 'Rocket League'),
-    ('Or', 1, None, 'Rocket League'),
-    ('Or', 2, None, 'Rocket League'),
-    ('Or', 3, None, 'Rocket League'),
-    ('Platine', 1, None, 'Rocket League'),
-    ('Platine', 2, None, 'Rocket League'),
-    ('Platine', 3, None, 'Rocket League'),
-    ('Diamant', 1, None, 'Rocket League'),
-    ('Diamant', 2, None, 'Rocket League'),
-    ('Diamant', 3, None, 'Rocket League'),
-    ('Champion', 1, None, 'Rocket League'),
-    ('Champion', 2, None, 'Rocket League'),
-    ('Champion', 3, None, 'Rocket League'),
-    ('Grand Champion', 1, None, 'Rocket League'),
-    ('Grand Champion', 2, None, 'Rocket League'),
-    ('Grand Champion', 3, None, 'Rocket League'),
-    ('Supersonic Legend', 1, None, 'Rocket League')
-]
+        # Classements pour Rocket League
+        ('R-1', 'Fer', 1, None),
+        ('R-2', 'Fer', 2, None),
+        ('R-3', 'Fer', 3, None),
+        ('R-4', 'Argent', 1, None),
+        ('R-5', 'Argent', 2, None),
+        ('R-6', 'Argent', 3, None),
+        ('R-7', 'Or', 1, None),
+        ('R-8', 'Or', 2, None),
+        ('R-9', 'Or', 3, None),
+        ('R-10', 'Platine', 1, None),
+        ('R-11', 'Platine', 2, None),
+        ('R-12', 'Platine', 3, None),
+        ('R-13', 'Diamant', 1, None),
+        ('R-14', 'Diamant', 2, None),
+        ('R-15', 'Diamant', 3, None),
+        ('R-16', 'Champion', 1, None),
+        ('R-17', 'Champion', 2, None),
+        ('R-18', 'Champion', 3, None),
+        ('R-19', 'Grand Champion', 1, None),
+        ('R-20', 'Grand Champion', 2, None),
+        ('R-21', 'Grand Champion', 3, None),
+        ('R-22', 'Supersonic Legend', 1, None)
+    ]
 
     connexion = connexion_base_de_donnees()
     if connexion is None:
@@ -222,20 +224,20 @@ def inserer_classement():
     try:
         curseur = connexion.cursor()
 
-        sql = "INSERT INTO p_Classement_Info (nomClassement, division, classement_avatar, nomJeux) VALUES (%s, %s, %s, %s)"
+        sql = "INSERT INTO p_Classements (idClassement, nomClassement, divisionClassement, avatarClassement) VALUES (%s, %s, %s, %s)"
 
         for classement in classements:
-            nom_classement = classement[0]
-            division = classement[1]
-            classement_avatar = classement[2]
-            nom_jeux = classement[3]
+            id_classement = classement[0]
+            nom_classement = classement[1]
+            division = classement[2]
+            classement_avatar = classement[3]
 
             try:
-                curseur.execute(sql, (nom_classement, division, classement_avatar, nom_jeux))
+                curseur.execute(sql, (id_classement, nom_classement, division, classement_avatar))
                 connexion.commit()
-                print(f"Classement ajouté : {nom_classement} {division} pour le jeu {nom_jeux}")
+                print(f"Classement ajouté : {id_classement} {nom_classement} {division}")
             except Error as e:
-                print(f"Erreur lors de l'insertion du classement {nom_classement} {division} : {e}")
+                print(f"Erreur lors de l'insertion du classement {id_classement} {nom_classement} {division} : {e}")
 
     finally:
         if connexion.is_connected():
