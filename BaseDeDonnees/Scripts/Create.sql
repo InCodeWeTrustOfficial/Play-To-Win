@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS p_Classements (
 CREATE TABLE IF NOT EXISTS p_Services (
     codeService VARCHAR(50),
     nomService VARCHAR(50),
-    descriptionService VARCHAR(50),
+    descriptionService TEXT,
     prixService VARCHAR(50),
     idUtilisateur INT NOT NULL,
     nomJeu VARCHAR(50) NOT NULL,
