@@ -40,8 +40,12 @@
                 echo '
                 <li>
                 <a href="controleurFrontal.php?controleur=utilisateur&action=afficherDetail&login='.$loginURL.'"><img src="../ressources/img/user.png"></a>
-            </li><li>
+            </li>
+            <li>
                 <a href="controleurFrontal.php?controleur=utilisateur&action=deconnecter"><img src="../ressources/img/logout.png"></a>
+            </li>
+            <li>
+                <a href="controleurFrontal.php?controleur=utilisateur&action=proposerService"><img src="../ressources/img/produit.png"></a>
             </li>
                 ';
             }

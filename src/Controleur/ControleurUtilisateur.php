@@ -176,6 +176,19 @@ class ControleurUtilisateur extends ControleurGenerique {
         }
     }
 
+
+    public static function afficherFormulaireProposerService() : void{
+        self::afficherVue('vueGenerale.php',["titre" => "Proposition services", "cheminCorpsVue" => 'service/formulaireCreation.php']);
+    }
+
+    /**
+     * Permet a l'utilisateur de proposer un services (coaching / analyse vidéo)
+     * @return void
+     */
+    private static function proposerService() : void{
+
+    }
+
     /**
      * @return Utilisateur
      */
