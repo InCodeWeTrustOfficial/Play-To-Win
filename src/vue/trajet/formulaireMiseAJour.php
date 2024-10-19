@@ -6,9 +6,11 @@ use App\Covoiturage\Modele\DataObject\Trajet;
 
 $trajet = (new TrajetRepository())->recupererParClePrimaire($id);
 ?>
-<form method="get" action="controleurFrontal.php">
+<?php use App\Covoiturage\Configuration\ConfigurationSite;?>
+<form method="<?php if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>" action="controleurFrontal.php">
     <input type='hidden' name='action' value='mettreAJour'>
     <input type='hidden' name='controleur' value='trajet'>
+    <input type='hidden' name='id' value="<?= $id?>">
     <fieldset>
         <legend>Mon formulaire :</legend>
         <p class="InputAddOn">
@@ -33,7 +35,7 @@ $trajet = (new TrajetRepository())->recupererParClePrimaire($id);
         </>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="nonFumeur_id">Non Fumeur ?</label>
-            <input class="InputAddOn-field" type="checkbox" <?php if($trajet->isNonFumeur()){echo"checked=true";}?>name="nonFumeur" id="nonFumeur_id"/>
+            <input class="InputAddOn-field" type="checkbox" <?php if($trajet->isNonFumeur()){echo"checked=true";}?> name="nonFumeur" id="nonFumeur_id"/>
         </>
         <p>
             <input type="submit" value="Envoyer" />

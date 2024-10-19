@@ -1,4 +1,5 @@
-<form method="get" action="controleurFrontal.php">
+<?php use App\Covoiturage\Configuration\ConfigurationSite;?>
+<form method="<?php if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>" action="controleurFrontal.php">
     <input type='hidden' name='action' value='creerDepuisFormulaire'>
     <input type='hidden' name='controleur' value='trajet'>
     <fieldset>

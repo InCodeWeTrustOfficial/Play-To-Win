@@ -7,30 +7,25 @@ use App\Covoiturage\Modele\Repository\TrajetRepository;
 use App\Covoiturage\Modele\Repository\UtilisateurRepository;
 use DateTime;
 
-class ControleurTrajet
+class ControleurTrajet extends ControleurGenerique
 {
 
-    private static function afficherVue(string $cheminVue, array $parametres = []) : void{
-        extract($parametres);
-        require __DIR__ . "/../vue/$cheminVue";
-    }
+    private static string $controleur = "trajet";
 
     public static function afficherListe() : void {
         $trajets = (new TrajetRepository)->recuperer();
-        $controleur = "trajet";
-        self::afficherVue('vueGenerale.php',["titre" => "Liste des utilisateurs", "cheminCorpsVue" => "trajet/liste.php", 'trajets'=>$trajets, 'controleur'=>$controleur]);
+        self::afficherVue('vueGenerale.php',["titre" => "Liste des utilisateurs", "cheminCorpsVue" => "trajet/liste.php", 'trajets'=>$trajets, 'controleur'=>self::$controleur]);
     }
 
     public static function afficherDetail() : void {
 
-        if(!isset( $_GET['id'])){
+        if(!isset( $_REQUEST['id'])){
             self::afficherErreur();
         }else{
-            $id = $_GET['id'];
+            $id = $_REQUEST['id'];
             $trajet = (new TrajetRepository())->recupererParClePrimaire($id);
             if($trajet != NULL) {
-                $controleur = "trajet";
-                self::afficherVue('vueGenerale.php',["titre" => "Détail des trajets", "cheminCorpsVue" => "trajet/detail.php", 'trajet'=>$trajet,'controleur'=>$controleur]);
+                self::afficherVue('vueGenerale.php',["titre" => "Détail des trajets", "cheminCorpsVue" => "trajet/detail.php", 'trajet'=>$trajet,'controleur'=>self::$controleur]);
             } else{
                 $idHTML = htmlspecialchars($id);
                 self::afficherErreur($idHTML);
@@ -39,46 +34,33 @@ class ControleurTrajet
     }
 
     public static function afficherFormulaireCreation() : void{
-        $controleur = "trajet";
-        self::afficherVue('vueGenerale.php',["titre" => "Formulaire création trajet", "cheminCorpsVue" => 'trajet/formulaireCreation.php','controleur'=>$controleur]);
+        self::afficherVue('vueGenerale.php',["titre" => "Formulaire création trajet", "cheminCorpsVue" => 'trajet/formulaireCreation.php','controleur'=>self::$controleur]);
     }
 
     public static function afficherFormulaireMiseAJour() : void{
-        $controleur = "trajet";
-        if(!isset( $_GET['id'])){
+        if(!isset( $_REQUEST['id'])){
             self::afficherErreur("Erreur, le trajet n'existe pas !");
         } else{
-            $id = $_GET['id'];
-            self::afficherVue('vueGenerale.php', ["titre"=>"Formulaire de MAJ", "cheminCorpsVue" => 'trajet/formulaireMiseAJour.php', 'id'=>$id,'controleur'=>$controleur]);
+            $id = $_REQUEST['id'];
+            self::afficherVue('vueGenerale.php', ["titre"=>"Formulaire de MAJ", "cheminCorpsVue" => 'trajet/formulaireMiseAJour.php', 'id'=>$id,'controleur'=>self::$controleur]);
         }
     }
 
     public static function creerDepuisFormulaire() : void{
 
-        $controleur = "trajet";
-
-        $trajet = new Trajet(
-            null,
-            $_GET['depart'],
-            $_GET['arrivee'],
-            new DateTime($_GET['date']),
-            $_GET['prix'],
-            (new UtilisateurRepository())->recupererParClePrimaire($_GET['conducteurLogin']),
-            isset($_GET["nonFumeur"])
-        );
+        $trajet = self::construireDepuisFormulaire($_REQUEST);
         (new TrajetRepository())->ajouter($trajet);
 
         $trajets = (new TrajetRepository)->recuperer();
-        self::afficherVue('vueGenerale.php', ["titre" => "Création trajet", "cheminCorpsVue" => 'trajet/trajetCree.php', 'trajets'=>$trajets,'controleur'=>$controleur]);
+        self::afficherVue('vueGenerale.php', ["titre" => "Création trajet", "cheminCorpsVue" => 'trajet/trajetCree.php', 'trajets'=>$trajets,'controleur'=>self::$controleur]);
     }
 
     public static function supprimer() : void{
-        $controleur = "trajet";
-        if(isset($_GET['id'])){
-            (new TrajetRepository())->supprimer($_GET['id']);
+        if(isset($_REQUEST['id'])){
+            (new TrajetRepository())->supprimer($_REQUEST['id']);
             $trajets = (new TrajetRepository())->recuperer();
-            $idHTML = htmlspecialchars($_GET['id']);
-            self::afficherVue('vueGenerale.php', ["titre" => "Suppression trajet", "cheminCorpsVue" => 'trajet/trajetSupprime.php', 'trajets'=>$trajets, 'id'=>$idHTML,'controleur'=>$controleur]);
+            $idHTML = htmlspecialchars($_REQUEST['id']);
+            self::afficherVue('vueGenerale.php', ["titre" => "Suppression trajet", "cheminCorpsVue" => 'trajet/trajetSupprime.php', 'trajets'=>$trajets, 'id'=>$idHTML,'controleur'=>self::$controleur]);
         } else{
             self::afficherErreur("Erreur, le trajet n'existe pas !");
         }
@@ -86,10 +68,39 @@ class ControleurTrajet
 
 
     public static function afficherErreur(string $messageErreur = ""): void {
-        $controleur = "trajet";
         if(!$messageErreur == ""){
             $messageErreur = ': '.$messageErreur;
         }
-        self::afficherVue('vueGenerale.php',["titre" => "Problème avec l'utilisateur", "cheminCorpsVue" => "trajet/erreur.php", "messageErreur" => $messageErreur,'controleur'=>$controleur]);
+        self::afficherVue('vueGenerale.php',["titre" => "Problème avec l'utilisateur", "cheminCorpsVue" => "trajet/erreur.php", "messageErreur" => $messageErreur,'controleur'=>self::$controleur]);
+    }
+
+    public static function mettreAJour() : void{
+        if(!isset($_REQUEST['depart']) || !isset($_REQUEST['arrivee']) || !isset($_REQUEST['date']) || !isset($_REQUEST['prix']) || !isset($_REQUEST['conducteurLogin'])){
+            self::afficherErreur("Erreur, les informations ne sont pas complètes !");
+        } else {
+            $trajet = self::construireDepuisFormulaire($_REQUEST);
+            (new TrajetRepository())->mettreAJour($trajet);
+            $idHTML = htmlspecialchars($_REQUEST['id']);
+            $trajets = (new TrajetRepository())->recuperer();
+            self::afficherVue('vueGenerale.php', ["titre" => "Modification trajet", "cheminCorpsVue" => 'trajet/trajetMisAJour.php', 'id'=>$idHTML, 'trajets'=>$trajets,'controleur'=>self::$controleur]);
+        }
+    }
+
+    /**
+     * @return Trajet
+     * @throws \Exception
+     */
+    private static function construireDepuisFormulaire(array $tableauDonneesFormulaire): Trajet
+    {
+        $trajet = new Trajet(
+            $tableauDonneesFormulaire['id']??null,
+            $tableauDonneesFormulaire['depart'],
+            $tableauDonneesFormulaire['arrivee'],
+            new DateTime($tableauDonneesFormulaire['date']),
+            $tableauDonneesFormulaire['prix'],
+            (new UtilisateurRepository())->recupererParClePrimaire($tableauDonneesFormulaire['conducteurLogin']),
+            isset($tableauDonneesFormulaire["nonFumeur"])
+        );
+        return $trajet;
     }
 }
