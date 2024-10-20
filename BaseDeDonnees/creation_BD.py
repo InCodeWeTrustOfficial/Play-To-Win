@@ -274,7 +274,7 @@ def executer_script_sql(fichier_sql):
                 curseur.execute(instruction)
     
         connexion.commit()
-        print("Script SQL exécuté avec succès.")
+        print(fichier_sql + " : exécuté avec succès.")
         
     except Error as e:
         print(f"Erreur lors de l'exécution du script SQL : {e}")

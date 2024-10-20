@@ -1,3 +1,7 @@
+-- Suppression des tables avec leurs dépendances
+
+SET FOREIGN_KEY_CHECKS = 0;
+
 DROP TABLE IF EXISTS p_avoirDisponibiliteService CASCADE;
 DROP TABLE IF EXISTS p_avoirDisponibiliteCoach CASCADE;
 DROP TABLE IF EXISTS p_jouer CASCADE;
@@ -7,7 +11,6 @@ DROP TABLE IF EXISTS p_Coachings CASCADE;
 DROP TABLE IF EXISTS p_ExemplaireService CASCADE;
 DROP TABLE IF EXISTS p_Panier CASCADE;
 DROP TABLE IF EXISTS p_Disponibilites CASCADE;
-DROP TABLE IF EXISTS p_Services CASCADE;
 DROP TABLE IF EXISTS p_Classements CASCADE;
 DROP TABLE IF EXISTS p_ModesDeJeu CASCADE;
 DROP TABLE IF EXISTS p_Coachs CASCADE;

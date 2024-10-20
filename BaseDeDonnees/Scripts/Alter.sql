@@ -16,13 +16,13 @@ ADD CONSTRAINT fk_ExemplaireService_AnalysesVideo FOREIGN KEY (codeService) REFE
 
 -- Table p_Coachings
 ALTER TABLE p_Coachings
-ADD CONSTRAINT fk_Services_Jeux FOREIGN KEY (nomJeu) REFERENCES p_Jeux(nomJeu),
-ADD CONSTRAINT fk_Services_Coachs FOREIGN KEY (idUtilisateur) REFERENCES p_Coachs(idUtilisateur);
+ADD CONSTRAINT fk_Coachings_Jeux FOREIGN KEY (nomJeu) REFERENCES p_Jeux(nomJeu),
+ADD CONSTRAINT fk_Coachings_Coachs FOREIGN KEY (idUtilisateur) REFERENCES p_Coachs(idUtilisateur);
 
 -- Table p_AnalysesVideo
 ALTER TABLE p_AnalysesVideo
-ADD CONSTRAINT fk_Services_Jeux FOREIGN KEY (nomJeu) REFERENCES p_Jeux(nomJeu),
-ADD CONSTRAINT fk_Services_Coachs FOREIGN KEY (idUtilisateur) REFERENCES p_Coachs(idUtilisateur);
+ADD CONSTRAINT fk_AnalysesVideo_Jeux FOREIGN KEY (nomJeu) REFERENCES p_Jeux(nomJeu),
+ADD CONSTRAINT fk_AnalysesVideo_Coachs FOREIGN KEY (idUtilisateur) REFERENCES p_Coachs(idUtilisateur);
 
 -- Table p_Parler
 ALTER TABLE p_Parler
