@@ -16,31 +16,33 @@ DROP TABLE IF EXISTS p_Langues CASCADE;
 DROP TABLE IF EXISTS p_Jeux CASCADE;
 DROP TABLE IF EXISTS p_Utilisateurs CASCADE;
 
-CREATE OR REPLACE TABLE p_Utilisateurs (
-    idUtilisateur VARCHAR(50),
-    nom VARCHAR(50),
-    prenom VARCHAR(50),
-    pseudo VARCHAR(50),
-    email VARCHAR(50),
-    dateDeNaissance VARCHAR(50),
-    mdp VARCHAR(50),
+CREATE TABLE IF NOT EXISTS p_Utilisateurs (
+    idUtilisateur VARCHAR(32),
+    nom VARCHAR(32),
+    prenom VARCHAR(32),
+    pseudo VARCHAR(32),
+    email VARCHAR(256),
+    emailAValider VARCHAR(256),
+    nonce VARCHAR(32),
+    dateDeNaissance DATE,
+    mdpHache VARCHAR(256),
     avatar LONGBLOB,
     PRIMARY KEY(idUtilisateur)
-);
+    );
 
-CREATE OR REPLACE TABLE p_Langues (
+CREATE TABLE IF NOT EXISTS p_Langues (
     code_alpha VARCHAR(2),
     nom VARCHAR(50),
     drapeau LONGBLOB,
     PRIMARY KEY(code_alpha)
-);
+    );
 
-CREATE OR REPLACE TABLE p_Coach (
-    idCoach VARCHAR(50),
-    Biographie VARCHAR(50),
-    Baniere LONGBLOB,
+CREATE TABLE IF NOT EXISTS p_Coachs (
+    idCoach VARCHAR(32),
+    BiographieCoach VARCHAR(50),
+    BaniereCoach VARCHAR(50),
     PRIMARY KEY(idCoach)
-);
+    );
 
 CREATE OR REPLACE TABLE p_Services (
     code_service VARCHAR(50),

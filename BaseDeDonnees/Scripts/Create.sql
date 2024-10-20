@@ -6,13 +6,15 @@ CREATE TABLE IF NOT EXISTS p_Jeux (
 );
 
 CREATE TABLE IF NOT EXISTS p_Utilisateurs (
-    idUtilisateur INT AUTO_INCREMENT,
-    nom VARCHAR(50),
-    prenom VARCHAR(50),
-    pseudo VARCHAR(50),
-    email VARCHAR(50),
+    idUtilisateur VARCHAR(32),
+    nom VARCHAR(32),
+    prenom VARCHAR(32),
+    pseudo VARCHAR(32),
+    email VARCHAR(256),
+    emailAValider VARCHAR(256),
+    nonce VARCHAR(32),
     dateDeNaissance DATE,
-    mdp VARCHAR(256),
+    mdpHache VARCHAR(256),
     avatar LONGBLOB,
     PRIMARY KEY(idUtilisateur)
 );
@@ -25,10 +27,10 @@ CREATE TABLE IF NOT EXISTS p_Langues (
 );
 
 CREATE TABLE IF NOT EXISTS p_Coachs (
-    idUtilisateur INT,
+    idCoach VARCHAR(32),
     BiographieCoach VARCHAR(50),
     BaniereCoach VARCHAR(50),
-    PRIMARY KEY(idUtilisateur)
+    PRIMARY KEY(idCoach)
 );
 
 CREATE TABLE IF NOT EXISTS p_ModesDeJeu (

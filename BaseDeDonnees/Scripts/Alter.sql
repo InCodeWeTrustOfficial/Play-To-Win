@@ -2,7 +2,7 @@
 
 -- Table p_Coachs
 ALTER TABLE p_Coachs
-ADD CONSTRAINT fk_Coachs_Utilisateurs FOREIGN KEY (idUtilisateur) REFERENCES p_Utilisateurs(idUtilisateur);
+ADD CONSTRAINT fk_Coachs_Utilisateurs FOREIGN KEY (idCoach) REFERENCES p_Utilisateurs(idUtilisateur);
 
 -- Table p_Panier
 ALTER TABLE p_Panier
