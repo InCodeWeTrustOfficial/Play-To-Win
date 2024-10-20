@@ -15,6 +15,7 @@ CREATE TABLE IF NOT EXISTS p_Utilisateurs (
     nonce VARCHAR(32),
     dateDeNaissance DATE,
     mdpHache VARCHAR(256),
+    estAdmin TINYINT(1),
     avatar LONGBLOB,
     PRIMARY KEY(idUtilisateur)
 );
