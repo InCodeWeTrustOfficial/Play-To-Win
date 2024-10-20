@@ -1,5 +1,3 @@
--- Ajout des contraintes de clés étrangères
-
 -- Table p_Coachs
 ALTER TABLE p_Coachs
 ADD CONSTRAINT fk_Coachs_Utilisateurs FOREIGN KEY (idCoach) REFERENCES p_Utilisateurs(idUtilisateur);
@@ -10,19 +8,17 @@ ADD CONSTRAINT fk_Panier_Utilisateurs FOREIGN KEY (idUtilisateur) REFERENCES p_U
 
 -- Table p_ExemplaireService
 ALTER TABLE p_ExemplaireService
-ADD CONSTRAINT fk_ExemplaireService_Panier FOREIGN KEY (idPanier) REFERENCES p_Panier(idPanier),
-ADD CONSTRAINT fk_ExemplaireService_Coachings FOREIGN KEY (codeService) REFERENCES p_Coachings(codeService),
-ADD CONSTRAINT fk_ExemplaireService_AnalysesVideo FOREIGN KEY (codeService) REFERENCES p_AnalysesVideo(codeService);
+ADD CONSTRAINT fk_ExemplaireService_Panier FOREIGN KEY (idPanier) REFERENCES p_Panier(idPanier);
 
 -- Table p_Coachings
 ALTER TABLE p_Coachings
 ADD CONSTRAINT fk_Coachings_Jeux FOREIGN KEY (nomJeu) REFERENCES p_Jeux(nomJeu),
-ADD CONSTRAINT fk_Coachings_Coachs FOREIGN KEY (idUtilisateur) REFERENCES p_Coachs(idUtilisateur);
+ADD CONSTRAINT fk_Coachings_Utilisateurs FOREIGN KEY (idUtilisateur) REFERENCES p_Utilisateurs(idUtilisateur);
 
 -- Table p_AnalysesVideo
 ALTER TABLE p_AnalysesVideo
 ADD CONSTRAINT fk_AnalysesVideo_Jeux FOREIGN KEY (nomJeu) REFERENCES p_Jeux(nomJeu),
-ADD CONSTRAINT fk_AnalysesVideo_Coachs FOREIGN KEY (idUtilisateur) REFERENCES p_Coachs(idUtilisateur);
+ADD CONSTRAINT fk_AnalysesVideo_Utilisateurs FOREIGN KEY (idUtilisateur) REFERENCES p_Utilisateurs(idUtilisateur);
 
 -- Table p_Parler
 ALTER TABLE p_Parler
@@ -39,7 +35,7 @@ REFERENCES p_Classements(idClassement, nomClassement, divisionClassement);
 
 -- Table p_avoirDisponibiliteCoach
 ALTER TABLE p_avoirDisponibiliteCoach
-ADD CONSTRAINT fk_avoirDisponibiliteCoach_Coachs FOREIGN KEY (idUtilisateur) REFERENCES p_Coachs(idUtilisateur),
+ADD CONSTRAINT fk_avoirDisponibiliteCoach_Utilisateurs FOREIGN KEY (idUtilisateur) REFERENCES p_Utilisateurs(idUtilisateur),
 ADD CONSTRAINT fk_avoirDisponibiliteCoach_Disponibilites FOREIGN KEY (idDisponibilite) REFERENCES p_Disponibilites(idDisponibilite);
 
 -- Table p_avoirDisponibiliteService
