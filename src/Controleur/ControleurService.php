@@ -2,15 +2,14 @@
 
 namespace App\Covoiturage\Controleur;
 
-use App\Covoiturage\Lib\ConnexionUtilisateur;
-use App\Covoiturage\Lib\MotDePasse;
-use App\Covoiturage\Lib\VerificationEmail;
 use App\Covoiturage\Modele\DataObject\Services;
 use App\Covoiturage\Modele\DataObject\Utilisateur;
 use App\Covoiturage\Modele\Repository\AnalyseVideoRepository;
 use App\Covoiturage\Modele\Repository\CoachingRepository;
 use App\Covoiturage\Modele\Repository\ServiceRepository;
 use App\Covoiturage\Modele\Repository\UtilisateurRepository;
+use App\Covoiturage\Modele\DataObject\AnalyseVideo;
+use App\Covoiturage\Modele\DataObject\Coaching;
 
 class ControleurService extends ControleurGenerique {
 
@@ -20,6 +19,7 @@ class ControleurService extends ControleurGenerique {
         $utilisateurs = (new UtilisateurRepository())->recuperer();
         self::afficherVue('vueGenerale.php',["titre" => "Liste des utilisateurs", "cheminCorpsVue" => "utilisateur/liste.php", 'utilisateurs'=>$utilisateurs, 'controleur'=>self::$controleur]);
     }
+
     public static function afficherDetail() : void {
         if(!isset( $_REQUEST['login'])){
             self::afficherErreur();
@@ -39,7 +39,7 @@ class ControleurService extends ControleurGenerique {
         if(!$messageErreur == ""){
             $messageErreur = ': '.$messageErreur;
         }
-        self::afficherVue('vueGenerale.php',["titre" => "Problème avec l'utilisateur", "cheminCorpsVue" => "utilisateur/erreur.php", "messageErreur" => $messageErreur,'controleur'=>self::$controleur]);
+        self::afficherVue('vueGenerale.php',["titre" => "Problème avec le services", "cheminCorpsVue" => "service/erreur.php", "messageErreur" => $messageErreur,'controleur'=>self::$controleur]);
     }
 
     public static function afficherFormulaireProposerService() : void{
@@ -50,7 +50,7 @@ class ControleurService extends ControleurGenerique {
      * Permet a l'utilisateur de proposer un services (coaching / analyse vidéo)
      * @return void
      */
-    private static function proposerService(): void {
+    public static function creerDepuisFormulaire(): void {
         try {
             $service = self::construireDepuisFormulaire($_REQUEST);
 
@@ -89,11 +89,11 @@ class ControleurService extends ControleurGenerique {
         $descriptionService = $tableauDonneesFormulaire['description'];
         $nomJeu = $tableauDonneesFormulaire['jeu'];
         $prix = $tableauDonneesFormulaire['prix'];
-        $coach = ConnexionUtilisateur::getLoginUtilisateurConnecte();
+        $coach = "";  // ConnexionUtilisateur::getLoginUtilisateurConnecte();
         $typeService = $tableauDonneesFormulaire['type'];
 
         if ($typeService === "Analyse vidéo") {
-            $date = (int)$tableauDonneesFormulaire['date'];
+            $date = $tableauDonneesFormulaire['date'];
             return new AnalyseVideo(
                 $nomService,
                 $descriptionService,
@@ -116,6 +116,7 @@ class ControleurService extends ControleurGenerique {
             );
         }
 
-        return null;
+       return null;
+
     }
 }

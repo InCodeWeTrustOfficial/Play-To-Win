@@ -2,43 +2,28 @@
 
 namespace App\Covoiturage\Modele\DataObject;
 
-use Cassandra\Date;
-
 class AnalyseVideo extends Services {
+    private int $nbJourRendu;
 
-    private Date $Rendu;
-
-    /**
-     * @param string $codeService
-     * @param string $nomService
-     * @param string $descriptionService
-     * @param float $prixService
-     * @param int $prix
-     * @param string $coach
-     * @param string $nomJeu
-     * @param Date $Rendu
-     */
     public function __construct(
-        string $codeService,
+        int $codeService,
         string $nomService,
         string $descriptionService,
         float $prixService,
-        int $prix,
-        string $coach,
+        float $prix,
+        int $coach,
         string $nomJeu,
-        Date $Rendu
+        int $nbJourRendu
     ) {
         parent::__construct($codeService, $nomService, $descriptionService, $prixService, $prix, $coach, $nomJeu);
-        $this->Rendu = $Rendu;
+        $this->nbJourRendu = $nbJourRendu;
     }
 
-    public function getRendu(): Date {
-        return $this->Rendu;
+    public function getNbJourRendu(): int {
+        return $this->nbJourRendu;
     }
 
-    public function setRendu(Date $Rendu): void {
-        $this->Rendu = $Rendu;
+    public function setNbJourRendu(int $nbJourRendu): void {
+        $this->nbJourRendu = $nbJourRendu;
     }
-
-
 }

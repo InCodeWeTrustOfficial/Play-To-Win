@@ -24,8 +24,8 @@
 
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="type_id">Type de services</label>
-            <select class="InputAddOn-field" name="type" id="type_id" required onchange="toggleDateField()">
-                <option value="Analyse vidéo">Analyse vidéo</option>
+            <select class="InputAddOn-field" name="type" id="type_id" required onchange="toggleFields()">
+                <option value="Analyse vidéo" selected>Analyse vidéo</option> <!-- Default selected option -->
                 <option value="Coaching">Coaching</option>
             </select>
         </p>
@@ -33,6 +33,11 @@
         <p class="InputAddOn" id="date_field" style="display:none;">
             <label class="InputAddOn-item" for="date_id">Date</label>
             <input class="InputAddOn-field" type="date" name="date" id="date_id"/>
+        </p>
+
+        <p class="InputAddOn" id="days_before_field" style="display:block;"> <!-- Set to block for default view -->
+            <label class="InputAddOn-item" for="days_before_id">Nombre de jours avant le rendu</label>
+            <input class="InputAddOn-field" type="number" name="days_before" id="days_before_id" placeholder="Ex: 5" min="1" required/>
         </p>
 
         <p class="InputAddOn">
@@ -47,14 +52,19 @@
 </form>
 
 <script>
-    function toggleDateField() {
+    toggleFields();
+
+    function toggleFields() {
         var typeSelect = document.getElementById("type_id");
         var dateField = document.getElementById("date_field");
+        var daysBeforeField = document.getElementById("days_before_field");
 
-        if (typeSelect.value === "Coaching") {
-            dateField.style.display = "block";
-        } else {
+        if (typeSelect.value === "Analyse vidéo") {
             dateField.style.display = "none";
+            daysBeforeField.style.display = "block";
+        } else if (typeSelect.value === "Coaching") {
+            dateField.style.display = "block";
+            daysBeforeField.style.display = "none";
         }
     }
 </script>
