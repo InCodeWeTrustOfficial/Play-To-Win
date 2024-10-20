@@ -71,13 +71,6 @@ abstract class AbstractRepository {
             $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
 
             $values = $this->formatTableauSQL($objet);
-            echo "<pre>" . $sql . "</pre>";
-
-            echo "<ul>";
-            foreach ($values as $cle => $valeur) {
-                echo "<li><strong>" . $cle . ":</strong> " . $valeur . "</li>";
-            }
-            echo "</ul>";
 
             $pdoStatement->execute($values);
         }catch (PDOException){
