@@ -69,7 +69,7 @@ CREATE TABLE IF NOT EXISTS p_ExemplaireService (
 );
 
 CREATE TABLE IF NOT EXISTS p_Coachings (
-    codeService VARCHAR(50),
+    codeService INT AUTO_INCREMENT,
     nomService VARCHAR(50),
     descriptionService TEXT,
     prixService VARCHAR(50),
@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS p_Coachings (
 );
 
 CREATE TABLE IF NOT EXISTS p_AnalysesVideo (
-    codeService VARCHAR(50),
+    codeService INT AUTO_INCREMENT,
     nomService VARCHAR(50),
     descriptionService TEXT,
     prixService VARCHAR(50),
