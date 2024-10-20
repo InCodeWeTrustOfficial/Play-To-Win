@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS p_Disponibilites (
 CREATE TABLE IF NOT EXISTS p_Panier (
     idPanier VARCHAR(50),
     dateAchatPanier VARCHAR(50),
-    idUtilisateur INT NOT NULL,
+    idUtilisateur VARCHAR(32) NOT NULL,
     PRIMARY KEY(idPanier)
 );
 
@@ -74,7 +74,7 @@ CREATE TABLE IF NOT EXISTS p_Coachings (
     nomService VARCHAR(50),
     descriptionService TEXT,
     prixService VARCHAR(50),
-    idUtilisateur INT NOT NULL,
+    idCoach VARCHAR(32) NOT NULL,
     nomJeu VARCHAR(50) NOT NULL,
     duree VARCHAR(50),
     PRIMARY KEY(codeService)
@@ -85,21 +85,21 @@ CREATE TABLE IF NOT EXISTS p_AnalysesVideo (
     nomService VARCHAR(50),
     descriptionService TEXT,
     prixService VARCHAR(50),
-    idUtilisateur INT NOT NULL,
+    idCoach VARCHAR(32) NOT NULL,
     nomJeu VARCHAR(50) NOT NULL,
     tempsMaxRendu DATE,
     PRIMARY KEY(codeService)
 );
 
 CREATE TABLE IF NOT EXISTS p_Parler (
-    idUtilisateur INT,
+    idUtilisateur VARCHAR(32),
     code_alpha VARCHAR(2),
     PRIMARY KEY(idUtilisateur, code_alpha)
 );
 
 CREATE TABLE IF NOT EXISTS p_jouer (
     nomJeu VARCHAR(50),
-    idUtilisateur INT,
+    idUtilisateur VARCHAR(32),
     nomMode VARCHAR(50),
     idClassement VARCHAR(50) NOT NULL,
     nomClassement VARCHAR(50) NOT NULL,
@@ -108,9 +108,9 @@ CREATE TABLE IF NOT EXISTS p_jouer (
 );
 
 CREATE TABLE IF NOT EXISTS p_avoirDisponibiliteCoach (
-    idUtilisateur INT,
+    idCoach VARCHAR(32),
     idDisponibilite VARCHAR(50),
-    PRIMARY KEY(idUtilisateur, idDisponibilite)
+    PRIMARY KEY(idCoach, idDisponibilite)
 );
 
 CREATE TABLE IF NOT EXISTS p_avoirDisponibiliteService (
