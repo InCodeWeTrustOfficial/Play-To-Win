@@ -3,6 +3,7 @@
 require_once __DIR__ . '/../src/Lib/Psr4AutoloaderClass.php';
 
 use App\Covoiturage\Controleur\ControleurUtilisateur;
+use App\Covoiturage\Lib\PreferenceControleur;
 
 
 
@@ -14,22 +15,26 @@ $chargeurDeClasse->register();
 $chargeurDeClasse->addNamespace('App\Covoiturage', __DIR__ . '/../src');
 
 
-if(isset($_GET['action'])){
-    $action = $_GET['action'];
+if(isset($_REQUEST['action'])){
+    $action = $_REQUEST['action'];
 } else{
     $action = 'afficherListe';
 }
 
-if(isset($_GET['controleur'])){
-    $controleur = $_GET['controleur'];
+if(isset($_REQUEST['controleur'])){
+    $controleur = $_REQUEST['controleur'];
 } else{
-    $controleur = 'utilisateur';
+    if(PreferenceControleur::existe()){
+        $controleur = PreferenceControleur::lire();
+    } else{
+        $controleur = 'utilisateur';
+    }
 }
 
 $nomDeClasseControleur = 'App\Covoiturage\Controleur\Controleur'.ucfirst($controleur);
 
 $bool = false;
-foreach (get_class_methods('App\Covoiturage\Controleur\ControleurUtilisateur') as $possibleAction) {
+foreach (get_class_methods($nomDeClasseControleur) as $possibleAction) {
     if($possibleAction == $action && class_exists($nomDeClasseControleur)) {
         $nomDeClasseControleur::$possibleAction();
         $bool = true;

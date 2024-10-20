@@ -7,7 +7,7 @@ class ConfigurationBaseDeDonnees {
         'nomBaseDeDonnees' => 'turpinb',
         'port' => '3316',
         'login' => 'turpinb',
-        'motDePasse' => '080482285HA'
+        'motDePasse' => '080482285HA',
     );
 
     static public function getLogin():string{
@@ -25,5 +25,4 @@ class ConfigurationBaseDeDonnees {
     static public function getPassword():string{
         return ConfigurationBaseDeDonnees::$configurationBaseDeDonnees['motDePasse'];
     }
-
 }

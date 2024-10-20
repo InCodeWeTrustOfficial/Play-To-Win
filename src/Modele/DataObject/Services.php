@@ -2,7 +2,7 @@
 
 namespace App\Covoiturage\Modele\DataObject;
 
-class Services extends AbstractDataObject {
+abstract class Services extends AbstractDataObject {
 
     private string $codeService;
     private string $nomService;
@@ -94,8 +94,5 @@ class Services extends AbstractDataObject {
     public function setNomJeu(string $nomJeu): void {
         $this->nomJeu = $nomJeu;
     }
-
-
-
 
 }

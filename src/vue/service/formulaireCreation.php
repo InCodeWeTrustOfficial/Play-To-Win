@@ -1,9 +1,8 @@
-<?php use App\Covoiturage\Configuration\ConfigurationSite;?>
-<form method="<?php if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>" action="controleurFrontal.php">
+<form method="get" action="controleurFrontal.php">
     <input type='hidden' name='action' value='creerDepuisFormulaire'>
     <input type='hidden' name='controleur' value='trajet'>
     <fieldset>
-        <legend>Mon formulaire :</legend>
+        <legend>Services </legend>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="depart_id">Depart</label>
             <input class="InputAddOn-field" type="text" placeholder="Montpellier" name="depart" id="depart_id" required/>

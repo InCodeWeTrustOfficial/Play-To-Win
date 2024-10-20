@@ -18,7 +18,7 @@ class UtilisateurRepository extends AbstractRepository {
     }
     protected function getNomsColonnes(): array
     {
-        return ["login", "nom", "prenom"];
+        return ["login", "nom", "prenom", "mdpHache", "estAdmin","email","emailAValider","nonce"];
     }
 
     protected function formatTableauSQL(AbstractDataObject $utilisateur): array
@@ -28,12 +28,23 @@ class UtilisateurRepository extends AbstractRepository {
             ":loginTag" => $utilisateur->getLogin(),
             ":nomTag" => $utilisateur->getNom(),
             ":prenomTag" => $utilisateur->getPrenom(),
+            ":mdpHacheTag" => $utilisateur->getMdpHache(),
+            ":estAdminTag" => $utilisateur->isAdmin()?1:0,
+            ":emailTag" => $utilisateur->getEmail(),
+            ":emailAValiderTag" => $utilisateur->getEmailAValider(),
+            ":nonceTag" => $utilisateur->getNonce()
         );
     }
 
-    public function construireDepuisTableauSQL(array $utilisateurFormatTableau): Utilisateur {
-        return new Utilisateur($utilisateurFormatTableau[0], $utilisateurFormatTableau[1], $utilisateurFormatTableau[2]);
+
+
+    public function construireDepuisTableauSQL(array $utilisateurFormatTableau): Utilisateur
+    {
+        return new Utilisateur($utilisateurFormatTableau[0], $utilisateurFormatTableau[1], $utilisateurFormatTableau[2], $utilisateurFormatTableau[3], $utilisateurFormatTableau[4], $utilisateurFormatTableau[5], $utilisateurFormatTableau[6], $utilisateurFormatTableau[7]);
     }
+
+
+
 
     public static function recupererTrajetsCommePassager(Utilisateur $user) : array {
         $sql = "
@@ -51,7 +62,7 @@ class UtilisateurRepository extends AbstractRepository {
         $trajets = [];
 
         foreach ($pdoStatement as $trajet) {
-            $trajets[] = TrajetRepository::construireDepuisTableauSQL($trajet);
+            $trajets[] = (new TrajetRepository())->construireDepuisTableauSQL($trajet);
         }
 
         return $trajets;
