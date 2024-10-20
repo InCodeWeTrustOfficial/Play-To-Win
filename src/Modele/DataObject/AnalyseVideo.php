@@ -14,13 +14,12 @@ class AnalyseVideo extends Services {
         int $nbJourRendu
     ) {
         parent::__construct(
-            null,
-            $nomService,
-            $descriptionService,
-            $prixService,
-            $prixService,
-            $coach,
-            $nomJeu
+            null,                // codeService
+            $nomService,         // nomService
+            $descriptionService, // descriptionService
+            $prixService,        // prixService
+            $coach,              // coach
+            $nomJeu              // nomJeu
         );
         $this->nbJourRendu = $nbJourRendu;
     }

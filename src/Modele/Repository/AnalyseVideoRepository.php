@@ -10,7 +10,7 @@ use App\Covoiturage\Modele\DataObject\Utilisateur;
 class AnalyseVideoRepository extends ServiceRepository {
 
     protected function getNomTable(): string {
-        return "p_Services";
+        return "p_AnalysesVideo";
     }
 
     protected function getNomClePrimaire(): string {
@@ -18,7 +18,7 @@ class AnalyseVideoRepository extends ServiceRepository {
     }
 
     protected function getNomsColonnes(): array {
-        return ["nomService", "descriptionService", "prixService", "idCoach", "nomJeu", "nbJourRendu"];
+        return ["nomService", "descriptionService", "prixService", "idUtilisateur", "nomJeu", "nbJourRendu"];
     }
 
     protected function formatTableauSQL(AbstractDataObject $services): array {
@@ -33,17 +33,15 @@ class AnalyseVideoRepository extends ServiceRepository {
         );
     }
 
-
     public function construireDepuisTableauSQL(array $servicesFormatTableau): Services {
         return new AnalyseVideo(
             null,
             $servicesFormatTableau[0], // nomService
             $servicesFormatTableau[1], // descriptionService
             $servicesFormatTableau[2], // prixService
-            $servicesFormatTableau[3], // prix
-            $servicesFormatTableau[4], // idUtilisateur
-            $servicesFormatTableau[5], // nomJeu
-            $servicesFormatTableau[6]  // nbJourRendu
+            $servicesFormatTableau[3], // idUtilisateur
+            $servicesFormatTableau[4], // nomJeu
+            $servicesFormatTableau[5], // nbJourRendu
         );
     }
 

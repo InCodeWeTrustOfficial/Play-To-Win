@@ -86,17 +86,9 @@ class ControleurService extends ControleurGenerique {
         $nomService = $tableauDonneesFormulaire['nom_services'];
         $descriptionService = $tableauDonneesFormulaire['description'];
         $nomJeu = $tableauDonneesFormulaire['jeu'];
-        $prix = (float) $tableauDonneesFormulaire['prix'];
+        $prix = $tableauDonneesFormulaire['prix'];
         $coach = ConnexionUtilisateur::getLoginUtilisateurConnecte();
         $typeService = $tableauDonneesFormulaire['type'];
-
-        echo "Nom du service: " . $nomService . "<br>";
-        echo "Description du service: " . $descriptionService . "<br>";
-        echo "Nom du jeu: " . $nomJeu . "<br>";
-        echo "Prix: " . $prix . "<br>";
-        echo "Coach (utilisateur connecté): " . $coach . "<br>";
-        echo "Type de service: " . $typeService . "<br>";
-
 
         if ($typeService === "Analyse vidéo") {
             $nbJourRendu = (int) $tableauDonneesFormulaire['nbJourRendu'];
@@ -114,7 +106,6 @@ class ControleurService extends ControleurGenerique {
                 $nomService,
                 $descriptionService,
                 $prix,
-                $prix,
                 $coach,
                 $nomJeu,
                 $duree
@@ -123,5 +114,6 @@ class ControleurService extends ControleurGenerique {
 
         return null;
     }
+
 
 }

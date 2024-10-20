@@ -31,7 +31,6 @@ abstract class AbstractRepository {
     {
         $sql = "SELECT * from ".$this->getNomTable()." WHERE ".$this->getNomClePrimaire()." = :cleTag";
 
-        // Préparation de la requête
         $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
 
         $values = array(
@@ -74,7 +73,6 @@ abstract class AbstractRepository {
             $values = $this->formatTableauSQL($objet);
             echo "<pre>" . $sql . "</pre>";
 
-            echo "<h3>Valeurs à insérer :</h3>";
             echo "<ul>";
             foreach ($values as $cle => $valeur) {
                 echo "<li><strong>" . $cle . ":</strong> " . $valeur . "</li>";
