@@ -11,8 +11,8 @@ CREATE TABLE IF NOT EXISTS p_Utilisateurs (
     prenom VARCHAR(50),
     pseudo VARCHAR(50),
     email VARCHAR(50),
-    dateDeNaissance VARCHAR(50),
-    mdp VARCHAR(50),
+    dateDeNaissance DATE,
+    mdp VARCHAR(256),
     avatar LONGBLOB,
     PRIMARY KEY(idUtilisateur)
 );
@@ -44,16 +44,6 @@ CREATE TABLE IF NOT EXISTS p_Classements (
     PRIMARY KEY(idClassement, nomClassement, divisionClassement)
 );
 
-CREATE TABLE IF NOT EXISTS p_Services (
-    codeService VARCHAR(50),
-    nomService VARCHAR(50),
-    descriptionService TEXT,
-    prixService VARCHAR(50),
-    idUtilisateur INT NOT NULL,
-    nomJeu VARCHAR(50) NOT NULL,
-    PRIMARY KEY(codeService)
-);
-
 CREATE TABLE IF NOT EXISTS p_Disponibilites (
     idDisponibilite VARCHAR(50),
     dateDebut DATE,
@@ -78,13 +68,23 @@ CREATE TABLE IF NOT EXISTS p_ExemplaireService (
 
 CREATE TABLE IF NOT EXISTS p_Coachings (
     codeService VARCHAR(50),
+    nomService VARCHAR(50),
+    descriptionService TEXT,
+    prixService VARCHAR(50),
+    idUtilisateur INT NOT NULL,
+    nomJeu VARCHAR(50) NOT NULL,
     duree VARCHAR(50),
     PRIMARY KEY(codeService)
 );
 
 CREATE TABLE IF NOT EXISTS p_AnalysesVideo (
     codeService VARCHAR(50),
-    tempsMaxRendu VARCHAR(50),
+    nomService VARCHAR(50),
+    descriptionService TEXT,
+    prixService VARCHAR(50),
+    idUtilisateur INT NOT NULL,
+    nomJeu VARCHAR(50) NOT NULL,
+    tempsMaxRendu DATE,
     PRIMARY KEY(codeService)
 );
 

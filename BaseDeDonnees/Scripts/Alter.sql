@@ -4,11 +4,6 @@
 ALTER TABLE p_Coachs
 ADD CONSTRAINT fk_Coachs_Utilisateurs FOREIGN KEY (idUtilisateur) REFERENCES p_Utilisateurs(idUtilisateur);
 
--- Table p_Services
-ALTER TABLE p_Services
-ADD CONSTRAINT fk_Services_Coachs FOREIGN KEY (idUtilisateur) REFERENCES p_Coachs(idUtilisateur),
-ADD CONSTRAINT fk_Services_Jeux FOREIGN KEY (nomJeu) REFERENCES p_Jeux(nomJeu);
-
 -- Table p_Panier
 ALTER TABLE p_Panier
 ADD CONSTRAINT fk_Panier_Utilisateurs FOREIGN KEY (idUtilisateur) REFERENCES p_Utilisateurs(idUtilisateur);
@@ -16,15 +11,18 @@ ADD CONSTRAINT fk_Panier_Utilisateurs FOREIGN KEY (idUtilisateur) REFERENCES p_U
 -- Table p_ExemplaireService
 ALTER TABLE p_ExemplaireService
 ADD CONSTRAINT fk_ExemplaireService_Panier FOREIGN KEY (idPanier) REFERENCES p_Panier(idPanier),
-ADD CONSTRAINT fk_ExemplaireService_Services FOREIGN KEY (codeService) REFERENCES p_Services(codeService);
+ADD CONSTRAINT fk_ExemplaireService_Coachings FOREIGN KEY (codeService) REFERENCES p_Coachings(codeService),
+ADD CONSTRAINT fk_ExemplaireService_AnalysesVideo FOREIGN KEY (codeService) REFERENCES p_AnalysesVideo(codeService);
 
 -- Table p_Coachings
 ALTER TABLE p_Coachings
-ADD CONSTRAINT fk_Coachings_Services FOREIGN KEY (codeService) REFERENCES p_Services(codeService);
+ADD CONSTRAINT fk_Services_Jeux FOREIGN KEY (nomJeu) REFERENCES p_Jeux(nomJeu),
+ADD CONSTRAINT fk_Services_Coachs FOREIGN KEY (idUtilisateur) REFERENCES p_Coachs(idUtilisateur);
 
 -- Table p_AnalysesVideo
 ALTER TABLE p_AnalysesVideo
-ADD CONSTRAINT fk_AnalysesVideo_Services FOREIGN KEY (codeService) REFERENCES p_Services(codeService);
+ADD CONSTRAINT fk_Services_Jeux FOREIGN KEY (nomJeu) REFERENCES p_Jeux(nomJeu),
+ADD CONSTRAINT fk_Services_Coachs FOREIGN KEY (idUtilisateur) REFERENCES p_Coachs(idUtilisateur);
 
 -- Table p_Parler
 ALTER TABLE p_Parler
