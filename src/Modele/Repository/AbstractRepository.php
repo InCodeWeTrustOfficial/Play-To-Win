@@ -9,14 +9,11 @@ use PDOException;
 
 abstract class AbstractRepository {
 
-
     protected abstract function getNomTable() : string;
     protected abstract function getNomClePrimaire() : string;
     protected abstract function construireDepuisTableauSQL(array $objetFormatTableau) : AbstractDataObject;
     protected abstract function getNomsColonnes() : array;
     protected abstract function formatTableauSQL(AbstractDataObject $objet): array;
-
-
 
     public function recuperer(): array {
         $liste = array();

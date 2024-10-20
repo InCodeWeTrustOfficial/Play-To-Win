@@ -7,9 +7,9 @@ abstract class Services extends AbstractDataObject {
     private string $codeService;
     private string $nomService;
     private string $descriptionService;
-    private double $prixService;
-    private int $prix;
-    private Utilisateur $coach;
+    private float $prixService;
+    private float $prix;
+    private int $coach;
     private string $nomJeu;
 
     /**
@@ -17,8 +17,8 @@ abstract class Services extends AbstractDataObject {
      * @param string $nomService
      * @param string $descriptionService
      * @param float $prixService
-     * @param int $prix
-     * @param Utilisateur $coach
+     * @param float $prix
+     * @param int $coach
      * @param string $nomJeu
      */
     public function __construct(
@@ -26,10 +26,10 @@ abstract class Services extends AbstractDataObject {
         string $nomService,
         string $descriptionService,
         float $prixService,
-        int $prix,
-        Utilisateur $coach,
-        string $nomJeu)
-    {
+        float $prix,
+        int $coach,
+        string $nomJeu
+    ) {
         $this->codeService = $codeService;
         $this->nomService = $nomService;
         $this->descriptionService = $descriptionService;
@@ -38,6 +38,8 @@ abstract class Services extends AbstractDataObject {
         $this->coach = $coach;
         $this->nomJeu = $nomJeu;
     }
+
+    // Getters and setters...
 
     public function getCodeService(): string {
         return $this->codeService;
@@ -71,19 +73,19 @@ abstract class Services extends AbstractDataObject {
         $this->prixService = $prixService;
     }
 
-    public function getPrix(): int {
+    public function getPrix(): float {
         return $this->prix;
     }
 
-    public function setPrix(int $prix): void {
+    public function setPrix(float $prix): void {
         $this->prix = $prix;
     }
 
-    public function getCoach(): Utilisateur {
+    public function getCoach(): int {
         return $this->coach;
     }
 
-    public function setCoach(Utilisateur $coach): void {
+    public function setCoach(int $coach): void {
         $this->coach = $coach;
     }
 
@@ -94,5 +96,4 @@ abstract class Services extends AbstractDataObject {
     public function setNomJeu(string $nomJeu): void {
         $this->nomJeu = $nomJeu;
     }
-
 }

@@ -7,6 +7,9 @@ use App\Covoiturage\Lib\MotDePasse;
 use App\Covoiturage\Lib\VerificationEmail;
 use App\Covoiturage\Modele\DataObject\Services;
 use App\Covoiturage\Modele\DataObject\Utilisateur;
+use App\Covoiturage\Modele\Repository\AnalyseVideoRepository;
+use App\Covoiturage\Modele\Repository\CoachingRepository;
+use App\Covoiturage\Modele\Repository\ServiceRepository;
 use App\Covoiturage\Modele\Repository\UtilisateurRepository;
 
 class ControleurService extends ControleurGenerique {
@@ -17,7 +20,6 @@ class ControleurService extends ControleurGenerique {
         $utilisateurs = (new UtilisateurRepository())->recuperer();
         self::afficherVue('vueGenerale.php',["titre" => "Liste des utilisateurs", "cheminCorpsVue" => "utilisateur/liste.php", 'utilisateurs'=>$utilisateurs, 'controleur'=>self::$controleur]);
     }
-
     public static function afficherDetail() : void {
         if(!isset( $_REQUEST['login'])){
             self::afficherErreur();
@@ -48,23 +50,72 @@ class ControleurService extends ControleurGenerique {
      * Permet a l'utilisateur de proposer un services (coaching / analyse vidéo)
      * @return void
      */
-    private static function proposerService() : void{
+    private static function proposerService(): void {
+        try {
+            $service = self::construireDepuisFormulaire($_REQUEST);
 
-        $service = self::construireDepuisFormulaire($_REQUEST);
-        (new UtilisateurRepository)->ajouter($service);
-        $services = (new UtilisateurRepository())->recuperer();
-        self::afficherVue('vueGenerale.php', ["titre" => "Création service", "cheminCorpsVue" => 'service/utilisateurCree.php', 'utilisateurs' => $services, 'controleur' => self::$controleur]);
+            if ($_REQUEST['type'] === "Analyse vidéo") {
+                $repository = new AnalyseVideoRepository();
+            } else {
+                $repository = new CoachingRepository();
+            }
+
+            $repository->ajouter($service);
+            $services = $repository->recuperer();
+
+            self::afficherVue('vueGenerale.php', [
+                "titre" => "Création service",
+                "cheminCorpsVue" => 'service/ServicesCree.php',
+                'services' => $services,
+                'controleur' => self::$controleur
+            ]);
+
+        } catch (\Exception $e) {
+            self::afficherErreur("Une erreur est survenue lors de la création du service : " . $e->getMessage());
+        }
     }
 
     /**
      * @return Services
      */
-    private static function construireDepuisFormulaire(array $tableauDonneesFormulaire): Utilisateur {
-        $mdpHache = MotDePasse::hacher($tableauDonneesFormulaire['mdp']);
-        $utilisateur = new Utilisateur($tableauDonneesFormulaire['login'], $tableauDonneesFormulaire['nom'], $tableauDonneesFormulaire['prenom'], $mdpHache, isset($tableauDonneesFormulaire['estAdmin']),"",$tableauDonneesFormulaire['email'],MotDePasse::genererChaineAleatoire());
-        VerificationEmail::envoiEmailValidation($utilisateur);
-        return $utilisateur;
+    /**
+     * Construit un objet service en fonction du formulaire rempli par l'utilisateur.
+     * @param array $tableauDonneesFormulaire
+     * @return Services|null
+     */
+    private static function construireDepuisFormulaire(array $tableauDonneesFormulaire): ?Services {
+
+        $nomService = $tableauDonneesFormulaire['nom_services'];
+        $descriptionService = $tableauDonneesFormulaire['description'];
+        $nomJeu = $tableauDonneesFormulaire['jeu'];
+        $prix = $tableauDonneesFormulaire['prix'];
+        $coach = ConnexionUtilisateur::getLoginUtilisateurConnecte();
+        $typeService = $tableauDonneesFormulaire['type'];
+
+        if ($typeService === "Analyse vidéo") {
+            $date = (int)$tableauDonneesFormulaire['date'];
+            return new AnalyseVideo(
+                $nomService,
+                $descriptionService,
+                $prix,
+                $prix,
+                $coach,
+                $nomJeu,
+                $date
+            );
+        } elseif ($typeService === "Coaching") {
+            $duree = $tableauDonneesFormulaire['duree'];
+            return new Coaching(
+                $nomService,
+                $descriptionService,
+                $prix,
+                $prix,
+                $coach,
+                $nomJeu,
+                $duree
+            );
+        }
+
+        return null;
     }
-
-
 }

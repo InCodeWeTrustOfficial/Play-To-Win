@@ -39,7 +39,7 @@
                 $loginURL = rawurlencode($logins);
                 echo '
                 <li>
-                <a href="controleurFrontal.php?controleur=utilisateur&action=afficherDetail&login='.$loginURL.'"><img src="../ressources/img/user.png"></a>
+                <a href="controleurFrontal.php?controleur=utilisateur&action=afficherDetail&login='.$loginURL.'"><img src="../ressources/img/user.png "></a>
             </li>
             <li>
                 <a href="controleurFrontal.php?controleur=utilisateur&action=deconnecter"><img src="../ressources/img/logout.png"></a>
