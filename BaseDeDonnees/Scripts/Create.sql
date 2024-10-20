@@ -84,10 +84,10 @@ CREATE TABLE IF NOT EXISTS p_AnalysesVideo (
     codeService INT AUTO_INCREMENT,
     nomService VARCHAR(50),
     descriptionService TEXT,
-    prixService VARCHAR(50),
+    prixService FLOAT,
     idUtilisateur INT NOT NULL,
     nomJeu VARCHAR(50) NOT NULL,
-    tempsMaxRendu DATE,
+    nbJourRendu INT NOT NULL,
     PRIMARY KEY(codeService)
 );
 
