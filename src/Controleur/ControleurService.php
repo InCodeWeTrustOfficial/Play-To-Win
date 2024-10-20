@@ -2,6 +2,7 @@
 
 namespace App\Covoiturage\Controleur;
 
+use App\Covoiturage\Lib\ConnexionUtilisateur;
 use App\Covoiturage\Modele\DataObject\Services;
 use App\Covoiturage\Modele\DataObject\Utilisateur;
 use App\Covoiturage\Modele\Repository\AnalyseVideoRepository;
@@ -61,12 +62,10 @@ class ControleurService extends ControleurGenerique {
             }
 
             $repository->ajouter($service);
-            $services = $repository->recuperer();
 
             self::afficherVue('vueGenerale.php', [
                 "titre" => "Création service",
                 "cheminCorpsVue" => 'service/ServicesCree.php',
-                'services' => $services,
                 'controleur' => self::$controleur
             ]);
 
@@ -84,27 +83,33 @@ class ControleurService extends ControleurGenerique {
      * @return Services|null
      */
     private static function construireDepuisFormulaire(array $tableauDonneesFormulaire): ?Services {
-
         $nomService = $tableauDonneesFormulaire['nom_services'];
         $descriptionService = $tableauDonneesFormulaire['description'];
         $nomJeu = $tableauDonneesFormulaire['jeu'];
-        $prix = $tableauDonneesFormulaire['prix'];
-        $coach = "";  // ConnexionUtilisateur::getLoginUtilisateurConnecte();
+        $prix = (float) $tableauDonneesFormulaire['prix'];
+        $coach = ConnexionUtilisateur::getLoginUtilisateurConnecte();
         $typeService = $tableauDonneesFormulaire['type'];
 
+        echo "Nom du service: " . $nomService . "<br>";
+        echo "Description du service: " . $descriptionService . "<br>";
+        echo "Nom du jeu: " . $nomJeu . "<br>";
+        echo "Prix: " . $prix . "<br>";
+        echo "Coach (utilisateur connecté): " . $coach . "<br>";
+        echo "Type de service: " . $typeService . "<br>";
+
+
         if ($typeService === "Analyse vidéo") {
-            $date = $tableauDonneesFormulaire['date'];
+            $nbJourRendu = (int) $tableauDonneesFormulaire['nbJourRendu'];
             return new AnalyseVideo(
                 $nomService,
                 $descriptionService,
                 $prix,
-                $prix,
                 $coach,
                 $nomJeu,
-                $date
+                $nbJourRendu
             );
         } elseif ($typeService === "Coaching") {
-            $duree = $tableauDonneesFormulaire['duree'];
+            $duree = (int) $tableauDonneesFormulaire['duree'];
             return new Coaching(
                 $nomService,
                 $descriptionService,
@@ -116,7 +121,7 @@ class ControleurService extends ControleurGenerique {
             );
         }
 
-       return null;
-
+        return null;
     }
+
 }

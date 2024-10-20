@@ -4,11 +4,10 @@ namespace App\Covoiturage\Modele\DataObject;
 
 abstract class Services extends AbstractDataObject {
 
-    private string $codeService;
+    private ?int $codeService;
     private string $nomService;
     private string $descriptionService;
     private float $prixService;
-    private float $prix;
     private string $coach;
     private string $nomJeu;
 
@@ -21,7 +20,7 @@ abstract class Services extends AbstractDataObject {
      * @param string $nomJeu
      */
     public function __construct(
-        string $codeService,
+        ?int $codeService,
         string $nomService,
         string $descriptionService,
         float $prixService,
@@ -36,13 +35,11 @@ abstract class Services extends AbstractDataObject {
         $this->nomJeu = $nomJeu;
     }
 
-    // Getters and setters...
-
-    public function getCodeService(): string {
+    public function getCodeService(): int {
         return $this->codeService;
     }
 
-    public function setCodeService(string $codeService): void {
+    public function setCodeService(int $codeService): void {
         $this->codeService = $codeService;
     }
 

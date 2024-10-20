@@ -9,39 +9,41 @@ use App\Covoiturage\Modele\DataObject\Utilisateur;
 
 class AnalyseVideoRepository extends ServiceRepository {
 
-    protected function getNomTable(): string
-    {
+    protected function getNomTable(): string {
         return "p_Services";
     }
+
     protected function getNomClePrimaire(): string {
         return "codeService";
     }
+
     protected function getNomsColonnes(): array {
-        return ["codeService", "nomService", "descriptionService", "prixService", "idUtilisateur","nomJeu", "dateRendu"];
+        return ["nomService", "descriptionService", "prixService", "idCoach", "nomJeu", "nbJourRendu"];
     }
 
     protected function formatTableauSQL(AbstractDataObject $services): array {
         /** @var AnalyseVideo $services */
         return array(
-            ":codeServiceTag" => $services->getCodeService(),
             ":nomServiceTag" => $services->getNomService(),
             ":descriptionServiceTag" => $services->getDescriptionService(),
             ":prixServiceTag" => $services->getPrixService(),
-            ":idUtilisateurTag" => $services->getCoach(),
+            ":idCoachTag" => $services->getCoach(),
             ":nomJeuTag" => $services->getNomJeu(),
-            ":dateRenduTag" => $services->getRendu(),
+            ":nbJourRenduTag" => $services->getNbJourRendu()
         );
     }
 
+
     public function construireDepuisTableauSQL(array $servicesFormatTableau): Services {
         return new AnalyseVideo(
-            $servicesFormatTableau[0],
-            $servicesFormatTableau[1],
-            $servicesFormatTableau[2],
-            $servicesFormatTableau[3],
-            $servicesFormatTableau[4],
-            $servicesFormatTableau[5],
-            $servicesFormatTableau[6]
+            null,
+            $servicesFormatTableau[0], // nomService
+            $servicesFormatTableau[1], // descriptionService
+            $servicesFormatTableau[2], // prixService
+            $servicesFormatTableau[3], // prix
+            $servicesFormatTableau[4], // idUtilisateur
+            $servicesFormatTableau[5], // nomJeu
+            $servicesFormatTableau[6]  // nbJourRendu
         );
     }
 
