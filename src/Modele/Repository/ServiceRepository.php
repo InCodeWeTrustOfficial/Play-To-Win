@@ -4,21 +4,18 @@ namespace App\Covoiturage\Modele\Repository;
 
 use App\Covoiturage\Modele\DataObject\AbstractDataObject;
 use App\Covoiturage\Modele\DataObject\Utilisateur;
-use PDOException;
 
-class UtilisateurRepository extends AbstractRepository {
+class ServiceRepository extends AbstractRepository{
 
     protected function getNomTable(): string
     {
-        return "utilisateur";
+        return "p_Services";
     }
-    protected function getNomClePrimaire(): string
-    {
-        return "login";
+    protected function getNomClePrimaire(): string {
+        return "codeService	";
     }
-    protected function getNomsColonnes(): array
-    {
-        return ["login", "nom", "prenom", "mdpHache", "estAdmin","email","emailAValider","nonce"];
+    protected function getNomsColonnes(): array {
+        return ["codeService", "nomService", "descriptionService", "prixService", "idUtilisateur","nomJeu"];
     }
 
     protected function formatTableauSQL(AbstractDataObject $utilisateur): array
@@ -40,25 +37,4 @@ class UtilisateurRepository extends AbstractRepository {
         return new Utilisateur($utilisateurFormatTableau[0], $utilisateurFormatTableau[1], $utilisateurFormatTableau[2], $utilisateurFormatTableau[3], $utilisateurFormatTableau[4], $utilisateurFormatTableau[5], $utilisateurFormatTableau[6], $utilisateurFormatTableau[7]);
     }
 
-    public static function recupererTrajetsCommePassager(Utilisateur $user) : array {
-        $sql = "
-        SELECT * from trajet t
-        JOIN passager p on p.trajetId = t.id 
-        where p.passagerLogin = :loginTag";
-
-        $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
-
-        $values = array(
-            "loginTag" => $user->getLogin()
-        );
-        $pdoStatement->execute($values);
-
-        $trajets = [];
-
-        foreach ($pdoStatement as $trajet) {
-            $trajets[] = (new TrajetRepository())->construireDepuisTableauSQL($trajet);
-        }
-
-        return $trajets;
-    }
 }
