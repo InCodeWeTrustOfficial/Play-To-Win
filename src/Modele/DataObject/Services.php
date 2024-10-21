@@ -10,6 +10,7 @@ abstract class Services extends AbstractDataObject {
     private float $prixService;
     private string $coach;
     private string $nomJeu;
+    abstract public function getTypeService(): string;
 
     /**
      * @param int $codeService

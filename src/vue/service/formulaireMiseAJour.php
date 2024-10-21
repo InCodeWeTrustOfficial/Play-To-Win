@@ -2,19 +2,20 @@
 /** @var int $codeService */
 
 use App\Covoiturage\Modele\Repository\AnalyseVideoRepository;
-use App\Covoiturage\Modele\DataObject\AnalyseVideo;
+use App\Covoiturage\Modele\Repository\ServiceRepository;
 
 $service = (new AnalyseVideoRepository())->recupererParClePrimaire($codeService);
+
 ?>
 <form method="get" action="controleurFrontal.php">
     <input type='hidden' name='action' value='mettreAJour'>
-    <input type='hidden' name='controleur' value='trajet'>
+    <input type='hidden' name='controleur' value='service'>
     <fieldset>
         <legend>Modifier le Service :</legend>
 
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="nom_services_id">Nom du service</label>
-            <input class="InputAddOn-field" type="text" value="<?= $service->getNomService() ?>" name="nom_services" id="nom_services_id" required/>
+            <input class="InputAddOn-field" type="text" placeholder="<?= $service->getNomService() ?>" name="nom_services" id="nom_services_id" required/>
         </p>
 
         <p class="InputAddOn">
@@ -33,8 +34,8 @@ $service = (new AnalyseVideoRepository())->recupererParClePrimaire($codeService)
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="type_id">Type de service</label>
             <select class="InputAddOn-field" name="type" id="type_id" required onchange="toggleFields()">
-                <option value="Analyse vidéo" <?= $service instanceof AnalyseVideo ? 'selected' : '' ?>>Analyse vidéo</option>
-                <option value="Coaching" <?= !$service instanceof AnalyseVideo ? 'selected' : '' ?>>Coaching</option>
+                <option value="Analyse vidéo" <?= $service->getTypeService() === 'Analyse vidéo' ? 'selected' : '' ?>>Analyse vidéo</option>
+                <option value="Coaching" <?= $service->getTypeService() === 'Coaching' ? 'selected' : '' ?>>Coaching</option>
             </select>
         </p>
 
@@ -43,14 +44,14 @@ $service = (new AnalyseVideoRepository())->recupererParClePrimaire($codeService)
             <input class="InputAddOn-field" type="date" name="date" id="date_id"/>
         </p>
 
-        <p class="InputAddOn" id="nbJourRendu_champ" style="display:<?= $service instanceof AnalyseVideo ? 'block' : 'none' ?>;">
+        <p class="InputAddOn" id="nbJourRendu_champ" style="display:<?= $service->getTypeService() === 'Analyse vidéo' ? 'block' : 'none' ?>;">
             <label class="InputAddOn-item" for="nbJourRendu_id">Nombre de jours avant le rendu</label>
-            <input class="InputAddOn-field" type="number" name="nbJourRendu" id="nbJourRendu_id" value="<?= $service instanceof AnalyseVideo ? $service->getNbJourRendu() : '' ?>" min="1" required/>
+            <input class="InputAddOn-field" type="number" name="nbJourRendu" id="nbJourRendu_id" placeholder="<?= $service->getNbJourRendu() ?>" min="1" required/>
         </p>
 
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="prix_id">Prix</label>
-            <input class="InputAddOn-field" type="number" value="<?= $service->getPrixService() ?>" name="prix" id="prix_id" required/>
+            <input class="InputAddOn-field" type="number" placeholder="<?= $service->getPrixService() ?>" name="prix" id="prix_id" required/>
         </p>
 
         <p>

@@ -4,6 +4,10 @@ namespace App\Covoiturage\Modele\DataObject;
 
 class Coaching extends Services {
 
+    public function getTypeService(): string {
+        return "Coaching";
+    }
+
     private int $duree;
 
     /**
