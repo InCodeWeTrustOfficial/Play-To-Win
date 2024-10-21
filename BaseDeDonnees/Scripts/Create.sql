@@ -1,4 +1,5 @@
--- Création des nouvelles tables avec CREATE OR REPLACE
+-- Création des tables sans contraintes de clés étrangères
+
 CREATE TABLE IF NOT EXISTS p_Jeux (
     nomJeu VARCHAR(50),
     logoJeu LONGBLOB,
@@ -29,8 +30,8 @@ CREATE TABLE IF NOT EXISTS p_Langues (
 
 CREATE TABLE IF NOT EXISTS p_Coachs (
     idCoach VARCHAR(32),
-    BiographieCoach VARCHAR(50),
-    BanniereCoach VARCHAR(50),
+    biographieCoach VARCHAR(50),
+    banniereCoach VARCHAR(50),
     PRIMARY KEY(idCoach)
 );
 
@@ -56,7 +57,7 @@ CREATE TABLE IF NOT EXISTS p_Disponibilites (
 
 CREATE TABLE IF NOT EXISTS p_Panier (
     idPanier VARCHAR(50),
-    dateAchatPanier VARCHAR(50),
+    dateAchatPanier DATE,  
     idUtilisateur VARCHAR(32) NOT NULL,
     PRIMARY KEY(idPanier)
 );
@@ -69,26 +70,25 @@ CREATE TABLE IF NOT EXISTS p_ExemplaireService (
     PRIMARY KEY(idExemplaire)
 );
 
-CREATE TABLE IF NOT EXISTS p_Coachings (
+CREATE TABLE IF NOT EXISTS p_Services (
     codeService INT AUTO_INCREMENT,
     nomService VARCHAR(50),
     descriptionService TEXT,
-    prixService VARCHAR(50),
+    prixService FLOAT,
     idCoach VARCHAR(32) NOT NULL,
     nomJeu VARCHAR(50) NOT NULL,
-    duree VARCHAR(50),
+    PRIMARY KEY(codeService)
+);
+
+CREATE TABLE IF NOT EXISTS p_Coachings (
+    codeService INT,
+    duree INT,
     PRIMARY KEY(codeService)
 );
 
 CREATE TABLE IF NOT EXISTS p_AnalysesVideo (
-    codeService INT AUTO_INCREMENT,
-    nomService VARCHAR(50),
-    descriptionService TEXT,
-    idCoach VARCHAR(32) NOT NULL,
-    prixService FLOAT,
-    idUtilisateur VARCHAR(32) NOT NULL,
-    nomJeu VARCHAR(50) NOT NULL,
-    nbJourRendu INT NOT NULL,
+    codeService INT,
+    nbJourRendu INT,
     PRIMARY KEY(codeService)
 );
 

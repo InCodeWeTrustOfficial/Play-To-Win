@@ -284,6 +284,57 @@ def executer_script_sql(fichier_sql):
             curseur.close()
             connexion.close()
             print("Connexion MySQL fermée.")
+   
+def inserer_donnee_basique():
+    requettes = [
+        "INSERT INTO p_Utilisateurs (idUtilisateur, nom, prenom, pseudo, email, emailAValider, nonce, dateDeNaissance, mdpHache, estAdmin, avatar) "
+        "VALUES ('bnj_rl', 'Turpin', 'Benjamin', 'BNJ', 'tkt@gmail.com', '', '', '2005-08-09', '', '1', '');",
+        
+        "INSERT INTO p_Utilisateurs (idUtilisateur, nom, prenom, pseudo, email, emailAValider, nonce, dateDeNaissance, mdpHache, estAdmin, avatar) "
+        "VALUES ('Yota002', 'Michaux', 'Alexis', 'Yota002', 'Yota002@gmail.com', '', '', '2005-04-02', '', '1', '');",
+        
+        "INSERT INTO p_Coachs (idCoach, biographieCoach, banniereCoach)"
+        "VALUES ('bnj_rl', '1234','1234');",
+        
+        "INSERT INTO p_Coachs (idCoach, biographieCoach, banniereCoach)"
+        "VALUES ('Yota002', '4321','4321');",
+        
+        "INSERT INTO p_Services (nomService, descriptionService,prixService, idCoach, nomJeu)"
+        "VALUES ('Test', 'Test description', '30.0', 'bnj_rl', 'Rocket League');", 
+        
+        "INSERT INTO p_Services (nomService, descriptionService,prixService, idCoach, nomJeu)"
+        "VALUES ('Testlol', 'Test description', '25.0', 'Yota002', 'League of Legends');", 
+        
+        "INSERT INTO p_Coachings (codeService, duree)"
+        "VALUES (1, 120);", 
+        
+        "INSERT INTO p_AnalysesVideo (codeService, nbJourRendu)"
+        "VALUES (2, 2);"
+    
+    ]
+
+    connexion = connexion_base_de_donnees()
+    if connexion is None:
+        print("Impossible de se connecter à la base de données.")
+        return
+
+    try:
+        curseur = connexion.cursor()
+
+        for requette in requettes:
+            try:
+                curseur.execute(requette)
+                connexion.commit()
+                print(f"Données ajoutées avec succès.")
+            except Error as e:
+                print(f"Erreur lors de l'insertion : {e}")
+
+    finally:
+        if connexion.is_connected():
+            curseur.close()
+            connexion.close()
+            print("Connexion MySQL fermée.")
+           
             
 if __name__ == "__main__":
     print("\nDrop :")
@@ -298,3 +349,5 @@ if __name__ == "__main__":
     inserer_jeux()
     print("\nClassement : \n")
     inserer_classement()
+    print("\nDonnee basique : \n")
+    inserer_donnee_basique()
