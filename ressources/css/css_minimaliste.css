@@ -74,3 +74,9 @@ footer p {
 .InputAddOn-item:last-child {
     border-radius: 0 2px 2px 0;
 }
+
+.responsive-img {
+    width: 50%;
+    height: 32px;
+    object-fit: cover;
+}

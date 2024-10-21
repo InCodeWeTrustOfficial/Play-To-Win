@@ -66,7 +66,6 @@ class ControleurTrajet extends ControleurGenerique
         }
     }
 
-
     public static function afficherErreur(string $messageErreur = ""): void {
         if(!$messageErreur == ""){
             $messageErreur = ': '.$messageErreur;
@@ -90,8 +89,7 @@ class ControleurTrajet extends ControleurGenerique
      * @return Trajet
      * @throws \Exception
      */
-    private static function construireDepuisFormulaire(array $tableauDonneesFormulaire): Trajet
-    {
+    private static function construireDepuisFormulaire(array $tableauDonneesFormulaire): Trajet {
         $trajet = new Trajet(
             $tableauDonneesFormulaire['id']??null,
             $tableauDonneesFormulaire['depart'],

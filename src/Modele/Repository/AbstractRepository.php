@@ -9,14 +9,11 @@ use PDOException;
 
 abstract class AbstractRepository {
 
-
     protected abstract function getNomTable() : string;
     protected abstract function getNomClePrimaire() : string;
     protected abstract function construireDepuisTableauSQL(array $objetFormatTableau) : AbstractDataObject;
     protected abstract function getNomsColonnes() : array;
     protected abstract function formatTableauSQL(AbstractDataObject $objet): array;
-
-
 
     public function recuperer(): array {
         $liste = array();
@@ -25,8 +22,8 @@ abstract class AbstractRepository {
 
         foreach ($pdoStatement as $objetFormatTableau) {
             $objets[] = $this->construireDepuisTableauSQL($objetFormatTableau);
-
         }
+
         return $objets;
     }
 
@@ -34,7 +31,6 @@ abstract class AbstractRepository {
     {
         $sql = "SELECT * from ".$this->getNomTable()." WHERE ".$this->getNomClePrimaire()." = :cleTag";
 
-        // Préparation de la requête
         $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
 
         $values = array(
@@ -75,6 +71,7 @@ abstract class AbstractRepository {
             $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
 
             $values = $this->formatTableauSQL($objet);
+
             $pdoStatement->execute($values);
         }catch (PDOException){
             $valide = false;

@@ -11,14 +11,13 @@ use App\Covoiturage\Modele\HTTP\Cookie;
 class ControleurUtilisateur extends ControleurGenerique {
 
     private static string $controleur = "utilisateur";
-    public static function afficherListe() : void {
 
+    public static function afficherListe() : void {
         $utilisateurs = (new UtilisateurRepository())->recuperer();
         self::afficherVue('vueGenerale.php',["titre" => "Liste des utilisateurs", "cheminCorpsVue" => "utilisateur/liste.php", 'utilisateurs'=>$utilisateurs, 'controleur'=>self::$controleur]);
     }
 
     public static function afficherDetail() : void {
-
         if(!isset( $_REQUEST['login'])){
             self::afficherErreur();
         }else{
@@ -82,6 +81,7 @@ class ControleurUtilisateur extends ControleurGenerique {
             }
         }
     }
+
     public static function deconnecter(): void{
         ConnexionUtilisateur::deconnecter();
         $utilisateurs = (new UtilisateurRepository())->recuperer();
@@ -106,8 +106,7 @@ class ControleurUtilisateur extends ControleurGenerique {
         }
     }
 
-    public static function supprimer() : void
-    {
+    public static function supprimer() : void {
         if (!isset($_REQUEST['login'])) {
             self::afficherErreur("Login inexistant !");
         } else {
@@ -126,6 +125,7 @@ class ControleurUtilisateur extends ControleurGenerique {
             }
         }
     }
+
     public static function mettreAJour() : void{
         if(!isset($_REQUEST['login']) || !isset($_REQUEST['nom']) || !isset($_REQUEST['prenom']) || !isset($_REQUEST['amdp']) || !isset($_REQUEST['mdp']) || !isset($_REQUEST['mdp2'])){
             self::afficherErreur("Erreur, les informations ne sont pas complètes !");
@@ -158,12 +158,13 @@ class ControleurUtilisateur extends ControleurGenerique {
                         if($boolMail){VerificationEmail::envoiEmailValidation($utilPossible);}
                         $loginHTML = htmlspecialchars($_REQUEST['login']);
                         $utilisateurs = (new UtilisateurRepository())->recuperer();
-                        self::afficherVue('vueGenerale.php', ["titre" => "Modification utilisateur", "cheminCorpsVue" => 'utilisateur/utilisateurMisAJour.php', 'login' => $loginHTML, 'utilisateurs' => $utilisateurs, 'controleur' => self::$controleur]);
+                        self::afficherVue('vueGenerale.php', ["titre" => "Modification utilisateur", "cheminCorpsVue" => 'utilisateur/serviceMisAJour.php', 'login' => $loginHTML, 'utilisateurs' => $utilisateurs, 'controleur' => self::$controleur]);
                     }
                 }
             }
         }
     }
+
     public static function validerEmail() : void{
         if(!isset($_REQUEST['login']) || !isset($_REQUEST['nonce'])){
             self::afficherErreur("Problème avec le mail");
