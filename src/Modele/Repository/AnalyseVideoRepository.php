@@ -35,14 +35,16 @@ class AnalyseVideoRepository extends ServiceRepository {
 
     public function construireDepuisTableauSQL(array $servicesFormatTableau): Services {
         return new AnalyseVideo(
-            null,            // codeService
-            $servicesFormatTableau[0], // nomService
-            $servicesFormatTableau[1], // descriptionService
-            $servicesFormatTableau[2], // prixService
-            $servicesFormatTableau[3], // idUtilisateur
-            $servicesFormatTableau[4], // nomJeu
-            $servicesFormatTableau[5], // nbJourRendu
+            $servicesFormatTableau["nomService"],
+            $servicesFormatTableau["descriptionService"],
+            (float) $servicesFormatTableau["prixService"],
+            $servicesFormatTableau["idUtilisateur"],
+            $servicesFormatTableau["nomJeu"],
+            (int) $servicesFormatTableau["nbJourRendu"] 
         );
     }
+
+
+
 
 }

@@ -1,8 +1,8 @@
 <?php
 
-use App\Covoiturage\Modele\DataObject\Trajet;
+use App\Covoiturage\Modele\DataObject\Services;
 
-echo "<h2>Liste des trajets</h2>";
+echo "<h2>Liste des services proposé</h2>";
 /** @var Trajet[] $trajets */
 /** @var string $controleur  */
 foreach ($trajets as $trajet){
@@ -15,11 +15,5 @@ foreach ($trajets as $trajet){
          <a href = "../web/controleurFrontal.php?controleur='.$controleur.'&action=supprimer&id='.$idURL.'"> (-)</a>
          </p>';
 
-
-    /**
-    <a href = "../web/controleurFrontal.php?controleur='.$controleur.'&action=afficherDetail&login='.$loginURL.'">' . $loginHTML  . '</a>
-    <a href = "../web/controleurFrontal.php?controleur='.$controleur.'&action=afficherFormulaireMiseAJour&login='.$loginURL.'"> (ModifICI) </a>
-    <a href = "../web/controleurFrontal.php?controleur='.$controleur.'&action=supprimer&login='.$loginURL.'"> (-)</a>
-     */
 }
 echo '<br><h3>Lien pour créer un trajet : <a href = "../web/controleurFrontal.php?controleur='.$controleur.'&action=afficherFormulaireCreation">Ici</a></h3>';

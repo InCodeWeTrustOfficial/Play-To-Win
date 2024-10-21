@@ -17,8 +17,14 @@ class ControleurService extends ControleurGenerique {
     private static string $controleur = "service";
 
     public static function afficherListe() : void {
-        $utilisateurs = (new UtilisateurRepository())->recuperer();
-        self::afficherVue('vueGenerale.php',["titre" => "Liste des utilisateurs", "cheminCorpsVue" => "utilisateur/liste.php", 'utilisateurs'=>$utilisateurs, 'controleur'=>self::$controleur]);
+        $services = (new AnalyseVideoRepository())->recuperer();
+
+        foreach ($services as $service) {
+            echo $service->getCodeService();
+        }
+
+        //$services = $services + (new CoachingRepository())->recuperer();
+        self::afficherVue('vueGenerale.php',["titre" => "Liste des services", "cheminCorpsVue" => "service/liste.php", 'services'=>$services, 'controleur'=>self::$controleur]);
     }
 
     public static function afficherDetail() : void {

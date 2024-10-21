@@ -45,6 +45,9 @@
                 <a href="controleurFrontal.php?controleur=utilisateur&action=deconnecter"><img src="../ressources/img/logout.png"></a>
             </li>
             <li>
+                <a href="controleurFrontal.php?controleur=service&action=afficherListe"><img src="../ressources/img/produit.png"></a>
+            </li>
+            <li>
                 <a href="controleurFrontal.php?controleur=service&action=afficherFormulaireProposerService"><img src="../ressources/img/produit.png"></a>
             </li>
                 ';

@@ -12,7 +12,7 @@ abstract class Services extends AbstractDataObject {
     private string $nomJeu;
 
     /**
-     * @param string $codeService
+     * @param int $codeService
      * @param string $nomService
      * @param string $descriptionService
      * @param float $prixService
@@ -35,7 +35,7 @@ abstract class Services extends AbstractDataObject {
         $this->nomJeu = $nomJeu;
     }
 
-    public function getCodeService(): int {
+    public function getCodeService(): ?int {
         return $this->codeService;
     }
 
