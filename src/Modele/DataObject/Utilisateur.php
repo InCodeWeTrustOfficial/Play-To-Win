@@ -3,157 +3,146 @@ namespace App\Covoiturage\Modele\DataObject;
 
 use App\Covoiturage\Modele\Repository\UtilisateurRepository;
 use App\Covoiturage\Modele\DataObject\Trajet;
+use DateTime;
 
 class Utilisateur extends AbstractDataObject {
-    private string $login;
+    private string $idUtilisateur;
     private string $nom;
     private string $prenom;
-    private string $mdpHache;
-    private bool $estAdmin;
+    private string $pseudo;
     private string $email;
     private string $emailAValider;
     private string $nonce;
-    private ?array $trajetsCommePassager;
+    private DateTime $dateNaissance;
+    private string $mdpHache;
+    private bool $estAdmin;
+    private string $avatarPath;
+    private string $langue;
 
+    public function __construct(
+        string $idUtilisateur,
+        string $nom,
+        string $prenom,
+        string $pseudo,
+        string $email,
+        string $emailAValider,
+        string $nonce,
+        DateTime $dateNaissance,
+        string $mdpHache,
+        bool $estAdmin,
+        string $avatarPath,
+        string $langue
+    )
+    {
+        $this->idUtilisateur = $idUtilisateur;
+        $this->nom = $nom;
+        $this->prenom = $prenom;
+        $this->pseudo = $pseudo;
+        $this->email = $email;
+        $this->emailAValider = $emailAValider;
+        $this->nonce = $nonce;
+        $this->dateNaissance = $dateNaissance;
+        $this->mdpHache = $mdpHache;
+        $this->estAdmin = $estAdmin;
+        $this->avatarPath = $avatarPath;
+        $this->langue = $langue;
+    }
 
-    // un getter
+    public function getId(): string
+    {
+        return $this->idUtilisateur;
+    }
+    public function setId(string $idUtilisateur): void
+    {
+        $this->idUtilisateur = $idUtilisateur;
+    }
     public function getNom(): string
     {
         return $this->nom;
     }
-
-    // un setter
     public function setNom(string $nom)
     {
         $this->nom = $nom;
     }
-
-    // un constructeur
-    public function __construct(
-        string $login,
-        string $nom,
-        string $prenom,
-        string $mdpHache,
-        bool $estAdmin,
-        string $email,
-        string $emailAValider,
-        string $nonce
-    )
-    {
-        $this->login = $login;
-        $this->nom = $nom;
-        $this->prenom = $prenom;
-        $this->mdpHache = $mdpHache;
-        $this->estAdmin = $estAdmin;
-        $this->email = $email;
-        $this->emailAValider = $emailAValider;
-        $this->nonce = $nonce;
-        $this->trajetsCommePassager = null;
-    }
-
-    public function getTrajetsCommePassager(): ?array
-    {
-        if($this->trajetsCommePassager == null){
-            $this->trajetsCommePassager = UtilisateurRepository::recupererTrajetsCommePassager($this);
-        }
-        return $this->trajetsCommePassager;
-    }
-
-    public function setTrajetsCommePassager(?array $trajetsCommePassager): void
-    {
-        $this->trajetsCommePassager = $trajetsCommePassager;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getLogin(): string
-    {
-        return $this->login;
-    }
-
-    /**
-     * @param mixed $login
-     */
-    public function setLogin(string $login)
-    {
-        $this->login = $login;
-    }
-
-    /**
-     * @return mixed
-     */
     public function getPrenom(): string
     {
         return $this->prenom;
     }
-
-    /**
-     * @param mixed $prenom
-     */
     public function setPrenom(string $prenom)
     {
         $this->prenom = $prenom;
     }
-
-    public function getMdpHache(): string
+    public function getPseudo(): string
     {
-        return $this->mdpHache;
+        return $this->pseudo;
     }
-
-    public function setMdpHache(string $mdpHache): void
+    public function setPseudo(string $pseudo): void
     {
-        $this->mdpHache = $mdpHache;
+        $this->pseudo = $pseudo;
     }
-
-    public function isAdmin(): bool
-    {
-        return $this->estAdmin;
-    }
-
-    public function setAdmin(bool $estAdmin): void
-    {
-        $this->estAdmin = $estAdmin;
-    }
-
     public function getEmail(): string
     {
         return $this->email;
     }
-
     public function setEmail(string $email): void
     {
         $this->email = $email;
     }
-
     public function getEmailAValider(): string
     {
         return $this->emailAValider;
     }
-
     public function setEmailAValider(string $emailAValider): void
     {
         $this->emailAValider = $emailAValider;
     }
-
     public function getNonce(): string
     {
         return $this->nonce;
     }
-
     public function setNonce(string $nonce): void
     {
         $this->nonce = $nonce;
     }
-
-
-
-    /**
-    // Pour pouvoir convertir un objet en chaîne de caractères
-    public function __toString(): string
+    public function getDateNaissance(): DateTime
     {
-        return "$this->nom $this->prenom de login $this->login";
+        return $this->dateNaissance;
     }
-     * */
+    public function setDateNaissance(DateTime $dateNaissance): void
+    {
+        $this->dateNaissance = $dateNaissance;
+    }
+    public function isAdmin(): bool
+    {
+        return $this->estAdmin;
+    }
+    public function setAdmin(bool $estAdmin): void
+    {
+        $this->estAdmin = $estAdmin;
+    }
+    public function getMdpHache(): string
+    {
+        return $this->mdpHache;
+    }
+    public function setMdpHache(string $mdpHache): void
+    {
+        $this->mdpHache = $mdpHache;
+    }
+    public function getAvatarPath(): string
+    {
+        return $this->avatarPath;
+    }
+    public function setAvatarPath(string $avatarPath): void
+    {
+        $this->avatarPath = $avatarPath;
+    }
+    public function getLangue(): string
+    {
+        return $this->langue;
+    }
+    public function setLangue(string $langue): void
+    {
+        $this->langue = $langue;
+    }
 }
 ?>

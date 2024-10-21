@@ -4,8 +4,7 @@ namespace App\Covoiturage\Controleur;
 
 use App\Covoiturage\Lib\PreferenceControleur;
 
-abstract class ControleurGenerique
-{
+abstract class ControleurGenerique {
 
     protected static function afficherVue(string $cheminVue, array $parametres = []) : void{
         extract($parametres);
