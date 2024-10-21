@@ -157,10 +157,12 @@ class ControleurService extends ControleurGenerique {
 
         $repository->mettreAJour($service);
 
+        $services = (new AnalyseVideoRepository())->recuperer();
+
         self::afficherVue('vueGenerale.php', [
             "titre" => "Service mis à jour",
             "cheminCorpsVue" => 'service/serviceMisAJour.php',
-            'service' => $service,
+            'services' => $services,
             'controleur' => self::$controleur
         ]);
     }
