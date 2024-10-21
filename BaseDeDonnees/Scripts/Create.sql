@@ -84,7 +84,6 @@ CREATE TABLE IF NOT EXISTS p_AnalysesVideo (
     codeService INT AUTO_INCREMENT,
     nomService VARCHAR(50),
     descriptionService TEXT,
-    prixService VARCHAR(50),
     idCoach VARCHAR(32) NOT NULL,
     prixService FLOAT,
     idUtilisateur VARCHAR(32) NOT NULL,
