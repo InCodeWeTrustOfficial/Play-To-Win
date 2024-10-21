@@ -286,9 +286,15 @@ def executer_script_sql(fichier_sql):
             print("Connexion MySQL fermée.")
             
 if __name__ == "__main__":
+    print("\nDrop :")
     executer_script_sql("Scripts/Drop.sql")
+    print("\nCreate : \n")
     executer_script_sql("Scripts/Create.sql")
+    print("\nAlter : \n")
     executer_script_sql("Scripts/Alter.sql")
+    print("\nLangues : \n")
     inserer_langues()
+    print("\nJeux : \n")
     inserer_jeux()
+    print("\nClassement : \n")
     inserer_classement()

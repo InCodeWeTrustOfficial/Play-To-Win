@@ -65,12 +65,12 @@ CREATE TABLE IF NOT EXISTS p_ExemplaireService (
     idExemplaire VARCHAR(50),
     etatService VARCHAR(50),
     idPanier VARCHAR(50) NOT NULL,
-    codeService VARCHAR(50) NOT NULL,
+    codeService INT NOT NULL,
     PRIMARY KEY(idExemplaire)
 );
 
 CREATE TABLE IF NOT EXISTS p_Coachings (
-    codeService VARCHAR(50),
+    codeService INT AUTO_INCREMENT,
     nomService VARCHAR(50),
     descriptionService TEXT,
     prixService VARCHAR(50),
@@ -81,13 +81,15 @@ CREATE TABLE IF NOT EXISTS p_Coachings (
 );
 
 CREATE TABLE IF NOT EXISTS p_AnalysesVideo (
-    codeService VARCHAR(50),
+    codeService INT AUTO_INCREMENT,
     nomService VARCHAR(50),
     descriptionService TEXT,
     prixService VARCHAR(50),
     idCoach VARCHAR(32) NOT NULL,
+    prixService FLOAT,
+    idUtilisateur VARCHAR(32) NOT NULL,
     nomJeu VARCHAR(50) NOT NULL,
-    tempsMaxRendu DATE,
+    nbJourRendu INT NOT NULL,
     PRIMARY KEY(codeService)
 );
 
