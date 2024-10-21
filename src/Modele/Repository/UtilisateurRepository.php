@@ -8,63 +8,33 @@ use PDOException;
 
 class UtilisateurRepository extends AbstractRepository {
 
-    protected function getNomTable(): string
-    {
-        return "utilisateur";
+    protected function getNomTable(): string {
+        return "p_Utilisateurs";
     }
-    protected function getNomClePrimaire(): string
-    {
-        return "login";
+    protected function getNomClePrimaire(): string {
+        return "idUtilisateur";
     }
-    protected function getNomsColonnes(): array
-    {
-        return ["login", "nom", "prenom", "mdpHache", "estAdmin","email","emailAValider","nonce"];
+    protected function getNomsColonnes(): array {
+        return [$this->getNomClePrimaire(), "nom", "prenom", "pseudo", "email", "emailAValider","nonce","dateDeNaissance","mdpHache","estAdmin","avatar"];
     }
 
-    protected function formatTableauSQL(AbstractDataObject $utilisateur): array
-    {
+    protected function formatTableauSQL(AbstractDataObject $utilisateur): array {
         /** @var Utilisateur $utilisateur */
         return array(
-            ":loginTag" => $utilisateur->getLogin(),
+            ":idTag" => $utilisateur->getId(),
             ":nomTag" => $utilisateur->getNom(),
             ":prenomTag" => $utilisateur->getPrenom(),
-            ":mdpHacheTag" => $utilisateur->getMdpHache(),
-            ":estAdminTag" => $utilisateur->isAdmin()?1:0,
+            ":pseudoTag" => $utilisateur->getPseudo(),
             ":emailTag" => $utilisateur->getEmail(),
             ":emailAValiderTag" => $utilisateur->getEmailAValider(),
-            ":nonceTag" => $utilisateur->getNonce()
+            ":nonceTag" => $utilisateur->getNonce(),
+            ":dateNaissTag" => $utilisateur->getDateNaissance(),
+            ":mdpHacheTag" => $utilisateur->getMdpHache(),
+            ":estAdminTag" => $utilisateur->isAdmin()?1:0,
+            ":avatarTag" => $utilisateur->getAvatarPath()
         );
     }
-
-
-
-    public function construireDepuisTableauSQL(array $utilisateurFormatTableau): Utilisateur
-    {
-        return new Utilisateur($utilisateurFormatTableau[0], $utilisateurFormatTableau[1], $utilisateurFormatTableau[2], $utilisateurFormatTableau[3], $utilisateurFormatTableau[4], $utilisateurFormatTableau[5], $utilisateurFormatTableau[6], $utilisateurFormatTableau[7]);
-    }
-
-
-
-
-    public static function recupererTrajetsCommePassager(Utilisateur $user) : array {
-        $sql = "
-        SELECT * from trajet t
-        JOIN passager p on p.trajetId = t.id 
-        where p.passagerLogin = :loginTag";
-
-        $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
-
-        $values = array(
-            "loginTag" => $user->getLogin()
-        );
-        $pdoStatement->execute($values);
-
-        $trajets = [];
-
-        foreach ($pdoStatement as $trajet) {
-            $trajets[] = (new TrajetRepository())->construireDepuisTableauSQL($trajet);
-        }
-
-        return $trajets;
+    public function construireDepuisTableauSQL(array $utilisateurFormatTableau): Utilisateur {
+        return new Utilisateur($utilisateurFormatTableau[0], $utilisateurFormatTableau[1], $utilisateurFormatTableau[2], $utilisateurFormatTableau[3], $utilisateurFormatTableau[4], $utilisateurFormatTableau[5], $utilisateurFormatTableau[6], $utilisateurFormatTableau[7], $utilisateurFormatTableau[8], $utilisateurFormatTableau[9], $utilisateurFormatTableau[10], $utilisateurFormatTableau[11]);
     }
 }
