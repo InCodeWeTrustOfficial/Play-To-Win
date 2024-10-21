@@ -18,12 +18,13 @@ class AnalyseVideoRepository extends ServiceRepository {
     }
 
     protected function getNomsColonnes(): array {
-        return ["nomService", "descriptionService", "prixService", "idUtilisateur", "nomJeu", "nbJourRendu"];
+        return ["codeService", "nomService", "descriptionService", "prixService", "idUtilisateur", "nomJeu", "nbJourRendu"];
     }
 
     protected function formatTableauSQL(AbstractDataObject $services): array {
         /** @var AnalyseVideo $services */
         return array(
+            ":codeServiceTag" => $services->getCodeService(),
             ":nomServiceTag" => $services->getNomService(),
             ":descriptionServiceTag" => $services->getDescriptionService(),
             ":prixServiceTag" => $services->getPrixService(),
@@ -35,12 +36,13 @@ class AnalyseVideoRepository extends ServiceRepository {
 
     public function construireDepuisTableauSQL(array $servicesFormatTableau): Services {
         return new AnalyseVideo(
+            $servicesFormatTableau["codeService"],
             $servicesFormatTableau["nomService"],
             $servicesFormatTableau["descriptionService"],
             (float) $servicesFormatTableau["prixService"],
             $servicesFormatTableau["idUtilisateur"],
             $servicesFormatTableau["nomJeu"],
-            (int) $servicesFormatTableau["nbJourRendu"] 
+            (int) $servicesFormatTableau["nbJourRendu"]
         );
     }
 

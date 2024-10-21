@@ -19,25 +19,35 @@ class ControleurService extends ControleurGenerique {
     public static function afficherListe() : void {
         $services = (new AnalyseVideoRepository())->recuperer();
 
-        foreach ($services as $service) {
-            echo $service->getCodeService();
-        }
-
         //$services = $services + (new CoachingRepository())->recuperer();
         self::afficherVue('vueGenerale.php',["titre" => "Liste des services", "cheminCorpsVue" => "service/liste.php", 'services'=>$services, 'controleur'=>self::$controleur]);
     }
 
+    public static function afficherFormulaireMiseAJour() : void{
+        if(!isset( $_REQUEST['codeService'])){
+            self::afficherErreur("Erreur, le services n'existe pas !");
+        } else{
+            $codeService = $_REQUEST['codeService'];
+            self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'service/formulaireMiseAJour.php', 'codeService' => $codeService, 'controleur' => self::$controleur]);
+        }
+    }
+
     public static function afficherDetail() : void {
-        if(!isset( $_REQUEST['login'])){
-            self::afficherErreur();
+        if(!isset( $_REQUEST['codeService'])){
+            self::afficherErreur("code services manquant");
         }else{
-            $login = $_REQUEST['login'];
-            $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($login);
-            if($utilisateur != NULL) {
-                self::afficherVue('vueGenerale.php',["titre" => "Détail des utilisateurs", "cheminCorpsVue" => "utilisateur/detail.php", 'utilisateur'=>$utilisateur,'controleur'=>self::$controleur]);
+
+            $codeService = $_REQUEST['codeService'];
+            $service = (new AnalyseVideoRepository())->recupererParClePrimaire($codeService);
+
+            if($service == NULL){
+                $service = (new CoachingRepository())->recupererParClePrimaire($codeService);
+            }
+
+            if($service != NULL) {
+                self::afficherVue('vueGenerale.php',["titre" => "Détail des utilisateurs", "cheminCorpsVue" => "service/detail.php", 'service'=>$service,'controleur'=>self::$controleur]);
             } else{
-                $loginHTML = htmlspecialchars($login);
-                self::afficherErreur($loginHTML);
+                self::afficherErreur($codeService);
             }
         }
     }

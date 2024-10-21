@@ -6,6 +6,7 @@ class AnalyseVideo extends Services {
     private int $nbJourRendu;
 
     public function __construct(
+        ?int $codeService,
         string $nomService,
         string $descriptionService,
         float $prixService,
@@ -14,7 +15,7 @@ class AnalyseVideo extends Services {
         int $nbJourRendu
     ) {
         parent::__construct(
-            null,     // codeService
+            $codeService,     // codeService
             $nomService,         // nomService
             $descriptionService, // descriptionService
             $prixService,        // prixService
