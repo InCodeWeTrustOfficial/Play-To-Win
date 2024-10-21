@@ -4,6 +4,7 @@ namespace App\Covoiturage\Modele\Repository;
 
 use App\Covoiturage\Modele\DataObject\AbstractDataObject;
 use App\Covoiturage\Modele\DataObject\Utilisateur;
+use DateTime;
 use PDOException;
 
 class UtilisateurRepository extends AbstractRepository {
@@ -28,13 +29,13 @@ class UtilisateurRepository extends AbstractRepository {
             ":emailTag" => $utilisateur->getEmail(),
             ":emailAValiderTag" => $utilisateur->getEmailAValider(),
             ":nonceTag" => $utilisateur->getNonce(),
-            ":dateNaissTag" => $utilisateur->getDateNaissance(),
+            ":dateNaissTag" => $utilisateur->getDateNaissance()->format('Y-m-d'),
             ":mdpHacheTag" => $utilisateur->getMdpHache(),
             ":estAdminTag" => $utilisateur->isAdmin()?1:0,
             ":avatarTag" => $utilisateur->getAvatarPath()
         );
     }
     public function construireDepuisTableauSQL(array $utilisateurFormatTableau): Utilisateur {
-        return new Utilisateur($utilisateurFormatTableau[0], $utilisateurFormatTableau[1], $utilisateurFormatTableau[2], $utilisateurFormatTableau[3], $utilisateurFormatTableau[4], $utilisateurFormatTableau[5], $utilisateurFormatTableau[6], $utilisateurFormatTableau[7], $utilisateurFormatTableau[8], $utilisateurFormatTableau[9], $utilisateurFormatTableau[10], $utilisateurFormatTableau[11]);
+        return new Utilisateur($utilisateurFormatTableau[0], $utilisateurFormatTableau[1], $utilisateurFormatTableau[2], $utilisateurFormatTableau[3], $utilisateurFormatTableau[4], $utilisateurFormatTableau[5], $utilisateurFormatTableau[6], new DateTime($utilisateurFormatTableau[7]), $utilisateurFormatTableau[8], $utilisateurFormatTableau[9], $utilisateurFormatTableau[10]);
     }
 }

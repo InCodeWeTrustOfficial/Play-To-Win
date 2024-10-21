@@ -31,7 +31,6 @@ class Utilisateur extends AbstractDataObject {
         string $mdpHache,
         bool $estAdmin,
         string $avatarPath,
-        string $langue
     )
     {
         $this->idUtilisateur = $idUtilisateur;
@@ -45,7 +44,6 @@ class Utilisateur extends AbstractDataObject {
         $this->mdpHache = $mdpHache;
         $this->estAdmin = $estAdmin;
         $this->avatarPath = $avatarPath;
-        $this->langue = $langue;
     }
 
     public function getId(): string
