@@ -158,7 +158,7 @@ class ControleurUtilisateur extends ControleurGenerique {
                         if($boolMail){VerificationEmail::envoiEmailValidation($utilPossible);}
                         $loginHTML = htmlspecialchars($_REQUEST['login']);
                         $utilisateurs = (new UtilisateurRepository())->recuperer();
-                        self::afficherVue('vueGenerale.php', ["titre" => "Modification utilisateur", "cheminCorpsVue" => 'utilisateur/utilisateurMisAJour.php', 'login' => $loginHTML, 'utilisateurs' => $utilisateurs, 'controleur' => self::$controleur]);
+                        self::afficherVue('vueGenerale.php', ["titre" => "Modification utilisateur", "cheminCorpsVue" => 'utilisateur/serviceMisAJour.php', 'login' => $loginHTML, 'utilisateurs' => $utilisateurs, 'controleur' => self::$controleur]);
                     }
                 }
             }
