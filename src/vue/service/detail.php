@@ -16,6 +16,6 @@ echo '<p>coach : '. $coachHTML .' </p>';
 echo '<p>Prix : '. $prixHTML .' </p>';
 
 echo '
-    <a href = "../web/controleurFrontal.php?controleur=service&action=afficherFormulaireMiseAJour&codeService='.$service->getCodeService().'"> (ModifICI) </a>
+    <a href = "../web/controleurFrontal.php?controleur=' . $service->getTypeService() . '&action=afficherFormulaireMiseAJour&codeService='.$service->getCodeService().'"> (ModifICI) </a>
     <a href = "../web/controleurFrontal.php?controleur=' . $service->getTypeService() . '&action=supprimer&codeService='.$service->getCodeService().'"> (-)</a>
 ';

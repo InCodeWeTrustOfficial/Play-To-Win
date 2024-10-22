@@ -32,6 +32,35 @@ class ControleurAnalyseVideo extends ControleurService {
         }
     }
 
+    public static function mettreAJour(): void {
+
+        $codeService = $_REQUEST['codeService'];
+        $repository = new AnalyseVideoRepository();
+        $service = $repository->recupererParClePrimaire($codeService);
+
+        if ($service === null) {
+            self::afficherErreur("Service non trouvé !");
+            return;
+        }
+
+        $service->setNomService($_REQUEST['nom_services']);
+        $service->setDescriptionService($_REQUEST['description']);
+        $service->setNomJeu($_REQUEST['jeu']);
+        $service->setPrixService((float) $_REQUEST['prix']);
+        $service->setNbJourRendu((int) $_REQUEST['nbJourRendu']);
+
+        $repository->mettreAJour($service);
+
+        $services = (new AnalyseVideoRepository())->recuperer();
+
+        self::afficherVue('vueGenerale.php', [
+            "titre" => "Service mis à jour",
+            "cheminCorpsVue" => 'service/serviceMisAJour.php',
+            'services' => $services,
+            'controleur' => 'analyseVideo'
+        ]);
+    }
+
     /**
      * Permet a l'utilisateur de proposer un services (coaching / analyse vidéo)
      * @return void

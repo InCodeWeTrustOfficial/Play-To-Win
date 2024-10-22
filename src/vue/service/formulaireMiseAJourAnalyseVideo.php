@@ -9,7 +9,7 @@ $service = (new AnalyseVideoRepository())->recupererParClePrimaire($codeService)
 ?>
 <form method="get" action="controleurFrontal.php">
     <input type='hidden' name='action' value='mettreAJour'>
-    <input type='hidden' name='controleur' value='service'>
+    <input type='hidden' name='controleur' value='<?= $service->getTypeService() ?>'>
     <input type='hidden' name='codeService' value='<?= $codeService ?>'>
     <fieldset>
         <legend>Modifier l'analyse Vidéo :</legend>
