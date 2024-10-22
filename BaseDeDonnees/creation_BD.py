@@ -288,10 +288,10 @@ def executer_script_sql(fichier_sql):
 def inserer_donnee_basique():
     requettes = [
         "INSERT INTO p_Utilisateurs (idUtilisateur, nom, prenom, pseudo, email, emailAValider, nonce, dateDeNaissance, mdpHache, estAdmin, avatar) "
-        "VALUES ('bnj_rl', 'Turpin', 'Benjamin', 'BNJ', 'tkt@gmail.com', '', '', '2005-08-09', '', '1', '');",
+        "VALUES ('bnj_rl', 'Turpin', 'Benjamin', 'BNJ', 'tkt@gmail.com', '', '', '2005-08-09', '$2y$10$ClZFPF3y4hhWXpsyw1uVnufRydQrPB8tJnkTSWKC.ywVhOuhugY2u', '1', '');",
         
         "INSERT INTO p_Utilisateurs (idUtilisateur, nom, prenom, pseudo, email, emailAValider, nonce, dateDeNaissance, mdpHache, estAdmin, avatar) "
-        "VALUES ('Yota002', 'Michaux', 'Alexis', 'Yota002', 'Yota002@gmail.com', '', '', '2005-04-02', '', '1', '');",
+        "VALUES ('Yota002', 'Michaux', 'Alexis', 'Yota002', 'Yota002@gmail.com', '', '', '2005-04-02', '$2y$10$ClZFPF3y4hhWXpsyw1uVnufRydQrPB8tJnkTSWKC.ywVhOuhugY2u', '1', '');",
         
         "INSERT INTO p_Coachs (idCoach, biographieCoach, banniereCoach)"
         "VALUES ('bnj_rl', '1234','1234');",
