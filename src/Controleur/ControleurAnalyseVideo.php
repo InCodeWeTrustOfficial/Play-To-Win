@@ -13,6 +13,25 @@ class ControleurAnalyseVideo extends ControleurService {
 
     private static string $controleur = "analyseVideo";
 
+    public static function afficherFormulaireMiseAJour() : void{
+        if(!isset( $_REQUEST['codeService'])){
+            self::afficherErreur("Erreur, le services n'existe pas !");
+        } else{
+            $codeService = $_REQUEST['codeService'];
+            self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'service/formulaireMiseAJourAnalyseVideo.php', 'codeService' => $codeService, 'controleur' => self::$controleur]);
+        }
+    }
+
+    public static function supprimer() : void {
+        if (!isset($_REQUEST['codeService'])) {
+            self::afficherErreur("codeService inexistant !");
+        } else {
+            (new AnalyseVideoRepository())->supprimer($_REQUEST['codeService']);
+            $services = (new AnalyseVideoRepository())->recuperer();
+            self::afficherVue('vueGenerale.php', ["titre" => "Suppression analyse video", "cheminCorpsVue" => 'service/serviceSupprime.php','services' => $services, 'codeService' => $_REQUEST['codeService'], 'controleur' => self::$controleur]);
+        }
+    }
+
     /**
      * Permet a l'utilisateur de proposer un services (coaching / analyse vidéo)
      * @return void

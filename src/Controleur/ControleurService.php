@@ -15,19 +15,9 @@ class ControleurService extends ControleurGenerique {
     private static string $controleur = "service";
 
     public static function afficherListe() : void {
+        //$services = array_merge((new AnalyseVideoRepository())->recuperer(),(new CoachingRepository())->recuperer()) ;
         $services = (new AnalyseVideoRepository())->recuperer();
-
-        //$services = $services + (new CoachingRepository())->recuperer();
         self::afficherVue('vueGenerale.php',["titre" => "Liste des services", "cheminCorpsVue" => "service/liste.php", 'services'=>$services, 'controleur'=>self::$controleur]);
-    }
-
-    public static function afficherFormulaireMiseAJour() : void{
-        if(!isset( $_REQUEST['codeService'])){
-            self::afficherErreur("Erreur, le services n'existe pas !");
-        } else{
-            $codeService = $_REQUEST['codeService'];
-            self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'service/formulaireMiseAJourAnalyseVideo.php', 'codeService' => $codeService, 'controleur' => self::$controleur]);
-        }
     }
 
     public static function afficherDetail() : void {
@@ -59,26 +49,6 @@ class ControleurService extends ControleurGenerique {
 
     public static function afficherFormulaireProposerService() : void{
         self::afficherVue('vueGenerale.php',["titre" => "Proposition services", "cheminCorpsVue" => 'service/formulaireCreation.php']);
-    }
-
-    public static function supprimer() : void {
-        if (!isset($_REQUEST['codeService'])) {
-            self::afficherErreur("codeService inexistant !");
-        } else {
-
-            $service = self::construireDepuisFormulaire($_REQUEST);
-
-            if ($_REQUEST['type'] === "Analyse vidéo") {
-                $repository = new AnalyseVideoRepository();
-            } else {
-                $repository = new CoachingRepository();
-            }
-
-            $repository->supprimer($_REQUEST['codeService']);
-
-            $service = (new AnalyseVideoRepository())->recuperer();
-            self::afficherVue('vueGenerale.php', ["titre" => "Suppression utilisateur", "cheminCorpsVue" => 'service/serviceSupprime.php','service' => $service, 'codeService' => $_REQUEST['codeService'], 'controleur' => self::$controleur]);
-        }
     }
 
     public static function mettreAJour(): void {

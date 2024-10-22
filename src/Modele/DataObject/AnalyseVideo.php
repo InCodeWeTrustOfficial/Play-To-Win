@@ -33,4 +33,8 @@ class AnalyseVideo extends Services {
     public function setNbJourRendu(int $nbJourRendu): void {
         $this->nbJourRendu = $nbJourRendu;
     }
+
+    public function getTypeService(): string {
+        return "analyseVideo";
+    }
 }

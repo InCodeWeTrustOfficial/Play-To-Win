@@ -24,14 +24,15 @@ abstract class ServiceRepository extends AbstractRepository{
     public function supprimer(string $cle) : bool{
         $valide = true;
         try{
-            $sql = "DELETE FROM ".$this->getNomTable()." WHERE ".$this->getNomClePrimaire()." = :cleTag";
+            // Suppression d'abord dans la table p_AnalysesVideo
+            $sql = "DELETE FROM " . $this->getNomTableService() . " WHERE " . $this->getNomClePrimaire() . " = :cleTag";
             $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
             $values = array("cleTag" => $cle);
             $pdoStatement->execute($values);
 
-            $sql = "DELETE FROM ".$this->getNomsColonnesService()." WHERE ".$this->getNomClePrimaire()." = :cleTag";
+            // Puis suppression dans la table p_Services
+            $sql = "DELETE FROM " . $this->getNomTable() . " WHERE " . $this->getNomClePrimaire() . " = :cleTag";
             $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
-            $values = array("cleTag" => $cle);
             $pdoStatement->execute($values);
 
         }catch(PDOException){

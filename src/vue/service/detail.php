@@ -1,9 +1,7 @@
 <?php
 /** @var Services $service */
-/** @var Utilisateur $utilisateur */
 
 use App\Covoiturage\Modele\DataObject\Services;
-use App\Covoiturage\Modele\DataObject\Utilisateur;
 
 $codeServiceHTML = htmlspecialchars($service->getCodeService());
 $nomServiceHTML = htmlspecialchars($service->getNomService());
@@ -19,5 +17,5 @@ echo '<p>Prix : '. $prixHTML .' </p>';
 
 echo '
     <a href = "../web/controleurFrontal.php?controleur=service&action=afficherFormulaireMiseAJour&codeService='.$service->getCodeService().'"> (ModifICI) </a>
-    <a href = "../web/controleurFrontal.php?controleur=service&action=supprimer&codeService='.$service->getCodeService().'"> (-)</a>
+    <a href = "../web/controleurFrontal.php?controleur=' . $service->getTypeService() . '&action=supprimer&codeService='.$service->getCodeService().'"> (-)</a>
 ';
