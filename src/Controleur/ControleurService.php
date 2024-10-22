@@ -26,7 +26,7 @@ class ControleurService extends ControleurGenerique {
             self::afficherErreur("Erreur, le services n'existe pas !");
         } else{
             $codeService = $_REQUEST['codeService'];
-            self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'service/formulaireMiseAJour.php', 'codeService' => $codeService, 'controleur' => self::$controleur]);
+            self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'service/formulaireMiseAJourAnalyseVideo.php', 'codeService' => $codeService, 'controleur' => self::$controleur]);
         }
     }
 

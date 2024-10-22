@@ -12,7 +12,7 @@ $service = (new AnalyseVideoRepository())->recupererParClePrimaire($codeService)
     <input type='hidden' name='controleur' value='service'>
     <input type='hidden' name='codeService' value='<?= $codeService ?>'>
     <fieldset>
-        <legend>Modifier le Service :</legend>
+        <legend>Modifier l'analyse Vidéo :</legend>
 
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="nom_services_id">Nom du service</label>
@@ -21,7 +21,7 @@ $service = (new AnalyseVideoRepository())->recupererParClePrimaire($codeService)
 
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="description_id">Description</label>
-            <textarea class="InputAddOn-field" name="description" id="description_id" rows="4" cols="50" required><?= $service->getDescriptionService() ?></textarea>
+            <textarea class="InputAddOn-field" name="description" placeholder="<?= $service->getDescriptionService() ?>" id="description_id" rows="4" cols="50" required></textarea>
         </p>
 
         <p class="InputAddOn">
@@ -32,20 +32,7 @@ $service = (new AnalyseVideoRepository())->recupererParClePrimaire($codeService)
             </select>
         </p>
 
-        <p class="InputAddOn">
-            <label class="InputAddOn-item" for="type_id">Type de service</label>
-            <select class="InputAddOn-field" name="type" id="type_id" required onchange="toggleFields()">
-                <option value="Analyse vidéo" <?= $service->getTypeService() === 'Analyse vidéo' ? 'selected' : '' ?>>Analyse vidéo</option>
-                <option value="Coaching" <?= $service->getTypeService() === 'Coaching' ? 'selected' : '' ?>>Coaching</option>
-            </select>
-        </p>
-
-        <p class="InputAddOn" id="date_champ" style="display:none;">
-            <label class="InputAddOn-item" for="date_id">Date</label>
-            <input class="InputAddOn-field" type="date" name="date" id="date_id"/>
-        </p>
-
-        <p class="InputAddOn" id="nbJourRendu_champ" style="display:<?= $service->getTypeService() === 'Analyse vidéo' ? 'block' : 'none' ?>;">
+        <p class="InputAddOn" id="nbJourRendu_champ">
             <label class="InputAddOn-item" for="nbJourRendu_id">Nombre de jours avant le rendu</label>
             <input class="InputAddOn-field" type="number" name="nbJourRendu" id="nbJourRendu_id" placeholder="<?= $service->getNbJourRendu() ?>" min="1" required/>
         </p>
@@ -60,21 +47,3 @@ $service = (new AnalyseVideoRepository())->recupererParClePrimaire($codeService)
         </p>
     </fieldset>
 </form>
-
-<script>
-    toggleFields();
-
-    function toggleFields() {
-        var typeSelect = document.getElementById("type_id");
-        var dateField = document.getElementById("date_champ");
-        var daysBeforeField = document.getElementById("nbJourRendu_champ");
-
-        if (typeSelect.value === "Analyse vidéo") {
-            dateField.style.display = "none";
-            daysBeforeField.style.display = "block";
-        } else if (typeSelect.value === "Coaching") {
-            dateField.style.display = "block";
-            daysBeforeField.style.display = "none";
-        }
-    }
-</script>
