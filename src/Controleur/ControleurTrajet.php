@@ -42,7 +42,7 @@ class ControleurTrajet extends ControleurGenerique
             self::afficherErreur("Erreur, le trajet n'existe pas !");
         } else{
             $id = $_REQUEST['id'];
-            self::afficherVue('vueGenerale.php', ["titre"=>"Formulaire de MAJ", "cheminCorpsVue" => 'trajet/formulaireMiseAJourAnalyseVideo.php', 'id'=>$id,'controleur'=>self::$controleur]);
+            self::afficherVue('vueGenerale.php', ["titre"=>"Formulaire de MAJ", "cheminCorpsVue" => 'trajet/formulaireMiseAJourAnalysevideo.php', 'id'=>$id,'controleur'=>self::$controleur]);
         }
     }
 

@@ -4,23 +4,13 @@ namespace App\Covoiturage\Controleur;
 
 use App\Covoiturage\Lib\ConnexionUtilisateur;
 use App\Covoiturage\Modele\DataObject\AnalyseVideo;
-use App\Covoiturage\Modele\DataObject\Coaching;
 use App\Covoiturage\Modele\DataObject\Services;
 use App\Covoiturage\Modele\Repository\AnalyseVideoRepository;
 use App\Covoiturage\Modele\Repository\CoachingRepository;
 
-class ControleurAnalyseVideo extends ControleurService {
+class ControleurCoaching extends ControleurService {
 
-    private static string $controleur = "analyseVideo";
-
-    public static function afficherFormulaireMiseAJour() : void{
-        if(!isset( $_REQUEST['codeService'])){
-            self::afficherErreur("Erreur, le services n'existe pas !");
-        } else{
-            $codeService = $_REQUEST['codeService'];
-            self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'service/formulaireMiseAJourAnalyseVideo.php', 'codeService' => $codeService, 'controleur' => self::$controleur]);
-        }
-    }
+    protected static string $controleur = "coaching";
 
     public static function supprimer() : void {
         if (!isset($_REQUEST['codeService'])) {
@@ -35,7 +25,7 @@ class ControleurAnalyseVideo extends ControleurService {
     public static function mettreAJour(): void {
 
         $codeService = $_REQUEST['codeService'];
-        $repository = new AnalyseVideoRepository();
+        $repository = new CoachingRepository();
         $service = $repository->recupererParClePrimaire($codeService);
 
         if ($service === null) {
@@ -47,11 +37,11 @@ class ControleurAnalyseVideo extends ControleurService {
         $service->setDescriptionService($_REQUEST['description']);
         $service->setNomJeu($_REQUEST['jeu']);
         $service->setPrixService((float) $_REQUEST['prix']);
-        $service->setNbJourRendu((int) $_REQUEST['nbJourRendu']);
+        $service->setDuree((int) $_REQUEST['duree']);
 
         $repository->mettreAJour($service);
 
-        $services = (new AnalyseVideoRepository())->recuperer();
+        $services = (new CoachingRepository())->recuperer();
 
         self::afficherVue('vueGenerale.php', [
             "titre" => "Service mis à jour",
@@ -69,7 +59,7 @@ class ControleurAnalyseVideo extends ControleurService {
         try {
             $service = self::construireDepuisFormulaire($_REQUEST);
 
-            (new AnalyseVideoRepository())->ajouter($service);
+            (new CoachingRepository())->ajouter($service);
 
             self::afficherVue('vueGenerale.php', [
                 "titre" => "Création service",
@@ -94,7 +84,7 @@ class ControleurAnalyseVideo extends ControleurService {
         $nomJeu = $tableauDonneesFormulaire['jeu'];
         $prix = $tableauDonneesFormulaire['prix'];
         $coach = ConnexionUtilisateur::getIdUtilisateurConnecte();
-        $nbJourRendu = $tableauDonneesFormulaire['nbJourRendu'];
+        $duree = $tableauDonneesFormulaire['duree'];
 
         return new AnalyseVideo(
             null,
@@ -103,9 +93,13 @@ class ControleurAnalyseVideo extends ControleurService {
             $prix,
             $coach,
             $nomJeu,
-            $nbJourRendu
+            $duree
         );
+    }
 
+    public static function getControleur(): string {
+        echo self::$controleur;
+        return self::$controleur;
     }
 
 }

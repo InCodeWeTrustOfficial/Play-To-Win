@@ -57,7 +57,7 @@ class ControleurUtilisateur extends ControleurGenerique {
                 if(!ConnexionUtilisateur::estAdministrateur()){
                     $id = ConnexionUtilisateur::getIdUtilisateurConnecte();
                 }
-                self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'utilisateur/formulaireMiseAJourAnalyseVideo.php', 'id' => $id, 'controleur' => self::$controleur]);
+                self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'utilisateur/formulaireMiseAJourAnalysevideo.php', 'id' => $id, 'controleur' => self::$controleur]);
             }
         }
     }

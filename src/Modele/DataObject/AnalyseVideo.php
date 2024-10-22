@@ -35,6 +35,6 @@ class AnalyseVideo extends Services {
     }
 
     public function getTypeService(): string {
-        return "analyseVideo";
+        return "analysevideo";
     }
 }
