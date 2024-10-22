@@ -181,7 +181,7 @@ class ControleurService extends ControleurGenerique {
         $descriptionService = $tableauDonneesFormulaire['description'];
         $nomJeu = $tableauDonneesFormulaire['jeu'];
         $prix = $tableauDonneesFormulaire['prix'];
-        $coach = ConnexionUtilisateur::getLoginUtilisateurConnecte();
+        $coach = ConnexionUtilisateur::getIdUtilisateurConnecte();
         $typeService = $tableauDonneesFormulaire['type'];
 
         if ($typeService === "Analyse vidéo") {

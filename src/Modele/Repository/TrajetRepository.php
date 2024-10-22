@@ -31,7 +31,7 @@ class TrajetRepository extends AbstractRepository {
             ":arriveeTag" => $t->getArrivee(),
             ":dateTag" => $t->getDate()->format("Y-m-d"),
             ":prixTag" => $t->getPrix(),
-            ":conducteurLoginTag" => $t->getConducteur()->getLogin(),
+            ":conducteurLoginTag" => $t->getConducteur()->getId(),
             ":nonFumeurTag" => $t->isNonFumeur()?1:0
         );
     }

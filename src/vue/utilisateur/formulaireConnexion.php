@@ -5,8 +5,8 @@
     <fieldset>
         <legend>Connexion :</legend>
         <p class="InputAddOn">
-            <label class="InputAddOn-item" for="login_id">Login</label>
-            <input class="InputAddOn-field" type="text" placeholder="leblancj" name="login" id="login_id" required/>
+            <label class="InputAddOn-item" for="id_id">id</label>
+            <input class="InputAddOn-field" type="text" placeholder="leblancj" name="id" id="id_id" required/>
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="mdp_id">Mot de passe&#42;</label>

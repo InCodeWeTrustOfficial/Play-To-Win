@@ -1,4 +1,4 @@
 <?php
-/** @var string $login */
-echo "L'utilisateur de login $login a été modifié ";
+/** @var string $id */
+echo "L'utilisateur de id $id a été modifié ";
 require 'liste.php';

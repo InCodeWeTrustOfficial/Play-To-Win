@@ -16,21 +16,22 @@ class VerificationEmail
         $enTete .= "Content-type:text/html;charset=UTF-8\r\n";
 
         // Corps de l'email
-        $loginURL = rawurlencode($utilisateur->getLogin());
+        $idURL = rawurlencode($utilisateur->getId());
         $nonceURL = rawurlencode($utilisateur->getNonce());
         $URLAbsolue = ConfigurationSite::getURLAbsolue();
-        $lienValidationEmail = "$URLAbsolue?action=validerEmail&controleur=utilisateur&login=$loginURL&nonce=$nonceURL";
+        $lienValidationEmail = "$URLAbsolue?action=validerEmail&controleur=utilisateur&id=$idURL&nonce=$nonceURL";
         $corpsEmailHTML = "<a href=\"$lienValidationEmail\">Validation</a>";
 
         // Temporairement avant d'envoyer un vrai mail
-        //echo "Simulation d'envoi d'un mail<br> Destinataire : $destinataire<br> Sujet : $sujet<br> Corps : <br>$corpsEmailHTML";
+        echo "Simulation d'envoi d'un mail<br> Destinataire : $destinataire<br> Sujet : $sujet<br> Corps : <br>$corpsEmailHTML";
 
         // Quand vous aurez configué l'envoi de mail via PHP
         mail($destinataire, $sujet, $corpsEmailHTML, $enTete);
     }
 
-    public static function traiterEmailValidation($login, $nonce): bool {
-        $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($login);
+    public static function traiterEmailValidation($id, $nonce): bool {
+        /** @var Utilisateur $utilisateur */
+        $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($id);
 
         if($utilisateur != null && $utilisateur->getNonce() == $nonce) {
             $utilisateur->setEmail($utilisateur->getEmailAValider());

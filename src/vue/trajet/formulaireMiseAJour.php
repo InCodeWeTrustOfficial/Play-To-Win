@@ -30,8 +30,8 @@ $trajet = (new TrajetRepository())->recupererParClePrimaire($id);
             <input class="InputAddOn-field" type="int" placeholder="<?= $trajet->getPrix()?>" name="prix" id="prix_id"  required/>
         </>
         <p class="InputAddOn">
-            <label class="InputAddOn-item" for="conducteurLogin_id">Login du conducteur</label>
-            <input class="InputAddOn-field" type="text" placeholder="<?= $trajet->getConducteur()->getLogin()?>" name="conducteurLogin" id="conducteurLogin_id" required/>
+            <label class="InputAddOn-item" for="conducteurid_id">id du conducteur</label>
+            <input class="InputAddOn-field" type="text" placeholder="<?= $trajet->getConducteur()->getId()?>" name="conducteurid" id="conducteurid_id" required/>
         </>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="nonFumeur_id">Non Fumeur ?</label>

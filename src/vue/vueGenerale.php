@@ -35,7 +35,7 @@
             </li>
                 ';
             } else{
-                $logins = ConnexionUtilisateur::getLoginUtilisateurConnecte();
+                $logins = ConnexionUtilisateur::getIdUtilisateurConnecte();
                 $loginURL = rawurlencode($logins);
                 echo '
                 <li>

@@ -10,7 +10,7 @@ class ConfigurationBaseDeDonnees {
         'motDePasse' => '080482285HA',
     );
 
-    static public function getLogin():string{
+    static public function getId():string{
         return ConfigurationBaseDeDonnees::$configurationBaseDeDonnees['login'];
     }
     static public function getNomHote():string{

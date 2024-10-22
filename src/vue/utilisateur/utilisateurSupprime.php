@@ -1,4 +1,4 @@
 <?php
-/** @var string $login */
-echo "L'utilisateur de login $login a bien été supprimé !";
+/** @var string $id */
+echo "L'utilisateur de id $id a bien été supprimé !";
 require 'liste.php';

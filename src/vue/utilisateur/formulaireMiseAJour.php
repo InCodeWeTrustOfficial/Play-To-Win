@@ -1,8 +1,8 @@
 <?php
-/** @var string $login */
+/** @var string $id */
 use App\Covoiturage\Modele\DataObject\Utilisateur;
 use App\Covoiturage\Modele\Repository\UtilisateurRepository;
-$utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($login);
+$utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($id);
 ?>
 <?php use App\Covoiturage\Configuration\ConfigurationSite;?>
 <form method="<?php if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>" action="controleurFrontal.php">
@@ -11,8 +11,8 @@ $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($login);
     <fieldset>
         <legend>Formulaire de modification :</legend>
         <p class="InputAddOn">
-            <label class="InputAddOn-item" for="login_id">Login</label>
-            <input class="InputAddOn-field" value="<?= $login ?>" readonly ="readonly" type="text" name="login" id="login_id" required/>
+            <label class="InputAddOn-item" for="id_id">id</label>
+            <input class="InputAddOn-field" value="<?= $id ?>" readonly ="readonly" type="text" name="id" id="id_id" required/>
 
         </p>
         <p class="InputAddOn">

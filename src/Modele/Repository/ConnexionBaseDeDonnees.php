@@ -14,7 +14,7 @@ class ConnexionBaseDeDonnees {
         $nomHote = ConfigurationBaseDeDonnees::getNomHote();
         $port = ConfigurationBaseDeDonnees::getPort();
         $nomBaseDeDonnees = ConfigurationBaseDeDonnees::getNomBaseDeDonnees();
-        $login = ConfigurationBaseDeDonnees::getLogin();
+        $login = ConfigurationBaseDeDonnees::getId();
         $motDePasse = ConfigurationBaseDeDonnees::getPassword();
 
         $this->pdo = new PDO("mysql:host=$nomHote;port=$port;dbname=$nomBaseDeDonnees",$login,$motDePasse,

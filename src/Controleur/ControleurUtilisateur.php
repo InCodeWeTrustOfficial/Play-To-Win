@@ -8,6 +8,8 @@ use App\Covoiturage\Modele\DataObject\Utilisateur;
 use App\Covoiturage\Modele\HTTP\Session;
 use App\Covoiturage\Modele\Repository\UtilisateurRepository;
 use App\Covoiturage\Modele\HTTP\Cookie;
+use DateTime;
+
 class ControleurUtilisateur extends ControleurGenerique {
 
     private static string $controleur = "utilisateur";
@@ -18,16 +20,16 @@ class ControleurUtilisateur extends ControleurGenerique {
     }
 
     public static function afficherDetail() : void {
-        if(!isset( $_REQUEST['login'])){
+        if(!isset( $_REQUEST['id'])){
             self::afficherErreur();
         }else{
-            $login = $_REQUEST['login'];
-            $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($login);
+            $id = $_REQUEST['id'];
+            $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($id);
             if($utilisateur != NULL) {
                 self::afficherVue('vueGenerale.php',["titre" => "Détail des utilisateurs", "cheminCorpsVue" => "utilisateur/detail.php", 'utilisateur'=>$utilisateur,'controleur'=>self::$controleur]);
             } else{
-                $loginHTML = htmlspecialchars($login);
-                self::afficherErreur($loginHTML);
+                $idHTML = htmlspecialchars($id);
+                self::afficherErreur($idHTML);
             }
         }
     }
@@ -44,18 +46,18 @@ class ControleurUtilisateur extends ControleurGenerique {
     }
 
     public static function afficherFormulaireMiseAJour() : void{
-        if(!isset( $_REQUEST['login'])){
+        if(!isset( $_REQUEST['id'])){
             self::afficherErreur("Erreur, l'utilisateur n'existe pas !");
         } else{
             if(!ConnexionUtilisateur::estConnecte()) {
                 self::afficherErreur("La mise à jour n'est possible que pour l'utilisateur connecté.");
 
             } else{
-                $login = $_REQUEST['login'];
+                $id = $_REQUEST['id'];
                 if(!ConnexionUtilisateur::estAdministrateur()){
-                    $login = ConnexionUtilisateur::getLoginUtilisateurConnecte();
+                    $id = ConnexionUtilisateur::getIdUtilisateurConnecte();
                 }
-                self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'utilisateur/formulaireMiseAJour.php', 'login' => $login, 'controleur' => self::$controleur]);
+                self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'utilisateur/formulaireMiseAJour.php', 'id' => $id, 'controleur' => self::$controleur]);
             }
         }
     }
@@ -65,17 +67,17 @@ class ControleurUtilisateur extends ControleurGenerique {
     }
 
     public static function connecter() : void{
-        if (!isset($_REQUEST["login"]) || !isset($_REQUEST["mdp"])){
+        if (!isset($_REQUEST["id"]) || !isset($_REQUEST["mdp"])){
             self::afficherErreur("Formulaire incomplet !");
         } else{
-            $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($_REQUEST["login"]);
+            $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($_REQUEST["id"]);
             if($utilisateur == null || !MotDePasse::verifier($_REQUEST["mdp"],$utilisateur->getMdpHache())){
-                self::afficherErreur("Login et/ou mot de passe incorrect");
+                self::afficherErreur("id et/ou mot de passe incorrect");
             } else{
                 if(!VerificationEmail::aValideEmail($utilisateur)){
                     self::afficherErreur("Vous devez valider le mail !");
                 }else {
-                    ConnexionUtilisateur::connecter($utilisateur->getLogin());
+                    ConnexionUtilisateur::connecter($utilisateur->getId());
                     self::afficherVue("vueGenerale.php", ["titre" => "Utilisateur connecte", "cheminCorpsVue" => "utilisateur/utilisateurConnecte.php", 'utilisateur' => $utilisateur]);
                 }
             }
@@ -107,31 +109,31 @@ class ControleurUtilisateur extends ControleurGenerique {
     }
 
     public static function supprimer() : void {
-        if (!isset($_REQUEST['login'])) {
-            self::afficherErreur("Login inexistant !");
+        if (!isset($_REQUEST['id'])) {
+            self::afficherErreur("id inexistant !");
         } else {
             if (!ConnexionUtilisateur::estConnecte()) {
                 self::afficherErreur("Vous devez être connecté");
             } else {
-                if (ConnexionUtilisateur::getLoginUtilisateurConnecte() != $_REQUEST['login']) {
-                    self::afficherErreur("login non valide !");
+                if (ConnexionUtilisateur::getIdUtilisateurConnecte() != $_REQUEST['id']) {
+                    self::afficherErreur("id non valide !");
                 } else {
                     ConnexionUtilisateur::deconnecter();
-                    (new UtilisateurRepository())->supprimer($_REQUEST['login']);
+                    (new UtilisateurRepository())->supprimer($_REQUEST['id']);
                     $utilisateurs = (new UtilisateurRepository())->recuperer();
-                    $loginHTML = htmlspecialchars($_REQUEST['login']);
-                    self::afficherVue('vueGenerale.php', ["titre" => "Suppression utilisateur", "cheminCorpsVue" => 'utilisateur/utilisateurSupprime.php', 'utilisateurs' => $utilisateurs, 'login' => $loginHTML, 'controleur' => self::$controleur]);
+                    $idHTML = htmlspecialchars($_REQUEST['id']);
+                    self::afficherVue('vueGenerale.php', ["titre" => "Suppression utilisateur", "cheminCorpsVue" => 'utilisateur/utilisateurSupprime.php', 'utilisateurs' => $utilisateurs, 'id' => $idHTML, 'controleur' => self::$controleur]);
                 }
             }
         }
     }
 
     public static function mettreAJour() : void{
-        if(!isset($_REQUEST['login']) || !isset($_REQUEST['nom']) || !isset($_REQUEST['prenom']) || !isset($_REQUEST['amdp']) || !isset($_REQUEST['mdp']) || !isset($_REQUEST['mdp2'])){
+        if(!isset($_REQUEST['id']) || !isset($_REQUEST['nom']) || !isset($_REQUEST['prenom']) || !isset($_REQUEST['amdp']) || !isset($_REQUEST['mdp']) || !isset($_REQUEST['mdp2'])){
             self::afficherErreur("Erreur, les informations ne sont pas complètes !");
         } else {
-            $utilPossible = (new UtilisateurRepository())->recupererParClePrimaire($_REQUEST['login']);
-            if($utilPossible == null || ($utilPossible->getLogin() != ConnexionUtilisateur::getLoginUtilisateurConnecte() && !ConnexionUtilisateur::estAdministrateur())){
+            $utilPossible = (new UtilisateurRepository())->recupererParClePrimaire($_REQUEST['id']);
+            if($utilPossible == null || ($utilPossible->getId() != ConnexionUtilisateur::getIdUtilisateurConnecte() && !ConnexionUtilisateur::estAdministrateur())){
                 self::afficherErreur("Utilisateur non valide !");
             } else {
                 if($_REQUEST['mdp'] != $_REQUEST['mdp2']){
@@ -156,9 +158,9 @@ class ControleurUtilisateur extends ControleurGenerique {
                         }
                         (new UtilisateurRepository())->mettreAJour($utilPossible);
                         if($boolMail){VerificationEmail::envoiEmailValidation($utilPossible);}
-                        $loginHTML = htmlspecialchars($_REQUEST['login']);
+                        $idHTML = htmlspecialchars($_REQUEST['id']);
                         $utilisateurs = (new UtilisateurRepository())->recuperer();
-                        self::afficherVue('vueGenerale.php', ["titre" => "Modification utilisateur", "cheminCorpsVue" => 'utilisateur/serviceMisAJour.php', 'login' => $loginHTML, 'utilisateurs' => $utilisateurs, 'controleur' => self::$controleur]);
+                        self::afficherVue('vueGenerale.php', ["titre" => "Modification utilisateur", "cheminCorpsVue" => 'utilisateur/serviceMisAJour.php', 'id' => $idHTML, 'utilisateurs' => $utilisateurs, 'controleur' => self::$controleur]);
                     }
                 }
             }
@@ -166,10 +168,10 @@ class ControleurUtilisateur extends ControleurGenerique {
     }
 
     public static function validerEmail() : void{
-        if(!isset($_REQUEST['login']) || !isset($_REQUEST['nonce'])){
+        if(!isset($_REQUEST['id']) || !isset($_REQUEST['nonce'])){
             self::afficherErreur("Problème avec le mail");
         } else{
-            if(!VerificationEmail::traiterEmailValidation($_REQUEST['login'], $_REQUEST['nonce'])){
+            if(!VerificationEmail::traiterEmailValidation($_REQUEST['id'], $_REQUEST['nonce'])){
                 self::afficherErreur("Erreur bip boup");
             } else{
                 self::afficherDetail();
@@ -182,7 +184,7 @@ class ControleurUtilisateur extends ControleurGenerique {
      */
     private static function construireDepuisFormulaire(array $tableauDonneesFormulaire): Utilisateur {
         $mdpHache = MotDePasse::hacher($tableauDonneesFormulaire['mdp']);
-        $utilisateur = new Utilisateur($tableauDonneesFormulaire['login'], $tableauDonneesFormulaire['nom'], $tableauDonneesFormulaire['prenom'], $mdpHache, isset($tableauDonneesFormulaire['estAdmin']),"",$tableauDonneesFormulaire['email'],MotDePasse::genererChaineAleatoire());
+        $utilisateur = new Utilisateur($tableauDonneesFormulaire['id'], $tableauDonneesFormulaire['nom'], $tableauDonneesFormulaire['prenom'],$tableauDonneesFormulaire['pseudo'],"",$tableauDonneesFormulaire['email'],MotDePasse::genererChaineAleatoire(), new DateTime($tableauDonneesFormulaire['dateDeNaissance']), $mdpHache, isset($tableauDonneesFormulaire['estAdmin']),"");
         VerificationEmail::envoiEmailValidation($utilisateur);
         return $utilisateur;
     }
