@@ -21,7 +21,7 @@ class AnalyseVideoRepository extends ServiceRepository {
         );
     }
 
-    public function getNomsColonnesService2(): array {
+    public function getNomsColonnesServiceAll(): array {
         return array_merge(parent::getNomsColonnes(), $this->getNomsColonnes());
     }
 

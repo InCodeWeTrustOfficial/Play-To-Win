@@ -86,6 +86,7 @@ abstract class ServiceRepository extends AbstractRepository{
                     $args = $args . ',';
                 }
             }
+
             $sql = "UPDATE ".$this->getNomTable()." SET ".$args." WHERE ".$this->getNomClePrimaire()." = ".array_keys($this->formatTableauSQL($objet))[0];
 
             $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
@@ -99,17 +100,16 @@ abstract class ServiceRepository extends AbstractRepository{
     }
 
     public function recupererParClePrimaire(string $cle): ?AbstractDataObject {
-
-        $sql = "SELECT s.".join(',',$this->getNomsColonnesService())." from ".$this->getNomTable()." s join ".$this->getNomTableService()." p on p.".$this->getNomClePrimaire()." = s.".$this->getNomClePrimaire()."; WHERE ".$this->getNomClePrimaire()." = :cleTag";
+        // Requette sql pour récuperer les données
+        $sql = "SELECT s." . join(', s.', $this->getNomsColonnes()) . ", p." . join(', p.', $this->getNomsColonnesService()) . " 
+            FROM " . $this->getNomTable() . " s 
+            JOIN " . $this->getNomTableService() . " p 
+            ON p." . $this->getNomClePrimaire() . " = s." . $this->getNomClePrimaire() . " 
+            WHERE s." . $this->getNomClePrimaire() . " = :cleTag;";
 
         $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
-
-        $values = array(
-            "cleTag" => $cle,
-        );
-
+        $values = array("cleTag" => $cle);
         $pdoStatement->execute($values);
-
         $objetFormatTableau = $pdoStatement->fetch();
 
         if ($objetFormatTableau == null) {
@@ -121,16 +121,22 @@ abstract class ServiceRepository extends AbstractRepository{
     public function recuperer(): array {
         $liste = array();
 
-        $sql = "select s.".join(',',$this->getNomsColonnesService())." from ".$this->getNomTable()." s join ".$this->getNomTableService()." p on p.".$this->getNomClePrimaire()." = s.".$this->getNomClePrimaire().";";
+        // Requette sql pour récuperer les données
+        $sql = "SELECT s." . join(', s.', $this->getNomsColonnes()) . ", p." . join(', p.', $this->getNomsColonnesService()) . " 
+            FROM " . $this->getNomTable() . " s 
+            JOIN " . $this->getNomTableService() . " p 
+            ON p." . $this->getNomClePrimaire() . " = s." . $this->getNomClePrimaire() . ";";
 
         $pdoStatement = ConnexionBaseDeDonnees::getPdo()->query($sql);
 
+        $objets = [];
         foreach ($pdoStatement as $objetFormatTableau) {
             $objets[] = $this->construireDepuisTableauSQL($objetFormatTableau);
         }
 
         return $objets;
     }
+
 
     protected function formatTableauSQL(AbstractDataObject $services): array {
         /** @var Services $services */
