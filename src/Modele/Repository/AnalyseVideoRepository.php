@@ -9,44 +9,35 @@ use App\Covoiturage\Modele\DataObject\Utilisateur;
 
 class AnalyseVideoRepository extends ServiceRepository {
 
-    protected function getNomTable(): string {
-        return "p_AnalysesVideo";
-    }
-
-    protected function getNomClePrimaire(): string {
-        return "codeService";
-    }
-
-    protected function getNomsColonnes(): array {
-        return ["codeService", "nomService", "descriptionService", "prixService", "idUtilisateur", "nomJeu", "nbJourRendu"];
-    }
-
-    protected function formatTableauSQL(AbstractDataObject $services): array {
-        /** @var AnalyseVideo $services */
-        return array(
-            ":codeServiceTag" => $services->getCodeService(),
-            ":nomServiceTag" => $services->getNomService(),
-            ":descriptionServiceTag" => $services->getDescriptionService(),
-            ":prixServiceTag" => $services->getPrixService(),
-            ":idCoachTag" => $services->getCoach(),
-            ":nomJeuTag" => $services->getNomJeu(),
-            ":nbJourRenduTag" => $services->getNbJourRendu()
-        );
-    }
-
     public function construireDepuisTableauSQL(array $servicesFormatTableau): Services {
         return new AnalyseVideo(
             $servicesFormatTableau["codeService"],
             $servicesFormatTableau["nomService"],
             $servicesFormatTableau["descriptionService"],
-            (float) $servicesFormatTableau["prixService"],
-            $servicesFormatTableau["idUtilisateur"],
+            $servicesFormatTableau["prixService"],
+            $servicesFormatTableau["idCoach"],
             $servicesFormatTableau["nomJeu"],
-            (int) $servicesFormatTableau["nbJourRendu"]
+            $servicesFormatTableau["nbJourRendu"]
         );
     }
 
+    public function getNomsColonnesService2(): array {
+        return array_merge(parent::getNomsColonnes(), $this->getNomsColonnes());
+    }
 
+    public function getNomsColonnesService(): array {
+        return ["codeService","nbJourRendu"];
+    }
 
+    function getNomTableService(): string {
+        return "p_AnalysesVideo";
+    }
 
+    function formatTableauSQLServices(AbstractDataObject $services) {
+        /** @var Services $services */
+        return array(
+            ":codeServiceTag" => $services->getCodeService(),
+            ":nbJourRenduTag" => $services->getNbJourRendu()
+        );
+    }
 }

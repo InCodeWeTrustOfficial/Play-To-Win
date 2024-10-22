@@ -8,16 +8,15 @@ abstract class Services extends AbstractDataObject {
     private string $nomService;
     private string $descriptionService;
     private float $prixService;
-    private string $coach;
+    private string $idCoach;
     private string $nomJeu;
-    abstract public function getTypeService(): string;
 
     /**
      * @param int $codeService
      * @param string $nomService
      * @param string $descriptionService
      * @param float $prixService
-     * @param string $coach
+     * @param string $idCoach
      * @param string $nomJeu
      */
     public function __construct(
@@ -25,14 +24,14 @@ abstract class Services extends AbstractDataObject {
         string $nomService,
         string $descriptionService,
         float $prixService,
-        string $coach,
+        string $idCoach,
         string $nomJeu
     ) {
         $this->codeService = $codeService;
         $this->nomService = $nomService;
         $this->descriptionService = $descriptionService;
         $this->prixService = $prixService;
-        $this->coach = $coach;
+        $this->idCoach = $idCoach;
         $this->nomJeu = $nomJeu;
     }
 
@@ -69,11 +68,11 @@ abstract class Services extends AbstractDataObject {
     }
 
     public function getCoach(): string {
-        return $this->coach;
+        return $this->idCoach;
     }
 
     public function setCoach(string $coach): void {
-        $this->coach = $coach;
+        $this->idCoach = $coach;
     }
 
     public function getNomJeu(): string {

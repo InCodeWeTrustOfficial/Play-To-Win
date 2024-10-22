@@ -3,14 +3,10 @@
 namespace App\Covoiturage\Controleur;
 
 use App\Covoiturage\Lib\ConnexionUtilisateur;
-use App\Covoiturage\Lib\MotDePasse;
-use App\Covoiturage\Lib\VerificationEmail;
 use App\Covoiturage\Modele\DataObject\Services;
 use App\Covoiturage\Modele\DataObject\Utilisateur;
 use App\Covoiturage\Modele\Repository\AnalyseVideoRepository;
 use App\Covoiturage\Modele\Repository\CoachingRepository;
-use App\Covoiturage\Modele\Repository\ServiceRepository;
-use App\Covoiturage\Modele\Repository\UtilisateurRepository;
 use App\Covoiturage\Modele\DataObject\AnalyseVideo;
 use App\Covoiturage\Modele\DataObject\Coaching;
 
@@ -63,33 +59,6 @@ class ControleurService extends ControleurGenerique {
 
     public static function afficherFormulaireProposerService() : void{
         self::afficherVue('vueGenerale.php',["titre" => "Proposition services", "cheminCorpsVue" => 'service/formulaireCreation.php']);
-    }
-
-    /**
-     * Permet a l'utilisateur de proposer un services (coaching / analyse vidéo)
-     * @return void
-     */
-    public static function creerDepuisFormulaire(): void {
-        try {
-            $service = self::construireDepuisFormulaire($_REQUEST);
-
-            if ($_REQUEST['type'] === "Analyse vidéo") {
-                $repository = new AnalyseVideoRepository();
-            } else {
-                $repository = new CoachingRepository();
-            }
-
-            $repository->ajouter($service);
-
-            self::afficherVue('vueGenerale.php', [
-                "titre" => "Création service",
-                "cheminCorpsVue" => 'service/ServicesCree.php',
-                'controleur' => self::$controleur
-            ]);
-
-        } catch (\Exception $e) {
-            self::afficherErreur("Une erreur est survenue lors de la création du service : " . $e->getMessage());
-        }
     }
 
     public static function supprimer() : void {
@@ -166,48 +135,5 @@ class ControleurService extends ControleurGenerique {
             'controleur' => self::$controleur
         ]);
     }
-
-
-    /**
-     * @return Services
-     */
-    /**
-     * Construit un objet service en fonction du formulaire rempli par l'utilisateur.
-     * @param array $tableauDonneesFormulaire
-     * @return Services|null
-     */
-    private static function construireDepuisFormulaire(array $tableauDonneesFormulaire): ?Services {
-        $nomService = $tableauDonneesFormulaire['nom_services'];
-        $descriptionService = $tableauDonneesFormulaire['description'];
-        $nomJeu = $tableauDonneesFormulaire['jeu'];
-        $prix = $tableauDonneesFormulaire['prix'];
-        $coach = ConnexionUtilisateur::getIdUtilisateurConnecte();
-        $typeService = $tableauDonneesFormulaire['type'];
-
-        if ($typeService === "Analyse vidéo") {
-            $nbJourRendu = (int) $tableauDonneesFormulaire['nbJourRendu'];
-            return new AnalyseVideo(
-                $nomService,
-                $descriptionService,
-                $prix,
-                $coach,
-                $nomJeu,
-                $nbJourRendu
-            );
-        } elseif ($typeService === "Coaching") {
-            $duree = (int) $tableauDonneesFormulaire['duree'];
-            return new Coaching(
-                $nomService,
-                $descriptionService,
-                $prix,
-                $coach,
-                $nomJeu,
-                $duree
-            );
-        }
-
-        return null;
-    }
-
 
 }

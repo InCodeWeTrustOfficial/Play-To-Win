@@ -4,10 +4,6 @@ namespace App\Covoiturage\Modele\DataObject;
 
 class AnalyseVideo extends Services {
 
-    public function getTypeService(): string {
-        return "Analyse vidéo";
-    }
-
     private int $nbJourRendu;
 
     public function __construct(
