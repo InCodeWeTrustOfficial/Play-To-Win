@@ -36,6 +36,6 @@ class UtilisateurRepository extends AbstractRepository {
         );
     }
     public function construireDepuisTableauSQL(array $utilisateurFormatTableau): Utilisateur {
-        return new Utilisateur($utilisateurFormatTableau[0], $utilisateurFormatTableau[1], $utilisateurFormatTableau[2], $utilisateurFormatTableau[3], $utilisateurFormatTableau[4], $utilisateurFormatTableau[5], $utilisateurFormatTableau[6], new DateTime($utilisateurFormatTableau[7]), $utilisateurFormatTableau[8], $utilisateurFormatTableau[9], $utilisateurFormatTableau[10]);
+        return new Utilisateur($utilisateurFormatTableau[0], $utilisateurFormatTableau[1], $utilisateurFormatTableau[2], $utilisateurFormatTableau[3], $utilisateurFormatTableau[4], $utilisateurFormatTableau[5], $utilisateurFormatTableau[6], new DateTime($utilisateurFormatTableau[7]), $utilisateurFormatTableau[8], $utilisateurFormatTableau[9]?1:0, $utilisateurFormatTableau[10]);
     }
 }

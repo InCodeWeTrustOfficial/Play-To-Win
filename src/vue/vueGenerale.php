@@ -35,11 +35,11 @@
             </li>
                 ';
             } else{
-                $logins = ConnexionUtilisateur::getIdUtilisateurConnecte();
-                $loginURL = rawurlencode($logins);
+                $ids = ConnexionUtilisateur::getIdUtilisateurConnecte();
+                $idURL = rawurlencode($ids);
                 echo '
                 <li>
-                <a href="controleurFrontal.php?controleur=utilisateur&action=afficherDetail&login='.$loginURL.'"><img src="../ressources/img/user.png "></a>
+                <a href="controleurFrontal.php?controleur=utilisateur&action=afficherDetail&id='.$idURL.'"><img src="../ressources/img/user.png "></a>
             </li>
             <li>
                 <a href="controleurFrontal.php?controleur=utilisateur&action=deconnecter"><img src="../ressources/img/logout.png"></a>

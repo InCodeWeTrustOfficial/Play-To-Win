@@ -115,10 +115,10 @@ class ControleurUtilisateur extends ControleurGenerique {
             if (!ConnexionUtilisateur::estConnecte()) {
                 self::afficherErreur("Vous devez être connecté");
             } else {
-                if (ConnexionUtilisateur::getIdUtilisateurConnecte() != $_REQUEST['id']) {
+                if (ConnexionUtilisateur::getIdUtilisateurConnecte() != $_REQUEST['id'] && !ConnexionUtilisateur::estAdministrateur()) {
                     self::afficherErreur("id non valide !");
                 } else {
-                    ConnexionUtilisateur::deconnecter();
+                    if(!ConnexionUtilisateur::estAdministrateur()){ConnexionUtilisateur::deconnecter();}
                     (new UtilisateurRepository())->supprimer($_REQUEST['id']);
                     $utilisateurs = (new UtilisateurRepository())->recuperer();
                     $idHTML = htmlspecialchars($_REQUEST['id']);
@@ -129,9 +129,10 @@ class ControleurUtilisateur extends ControleurGenerique {
     }
 
     public static function mettreAJour() : void{
-        if(!isset($_REQUEST['id']) || !isset($_REQUEST['nom']) || !isset($_REQUEST['prenom']) || !isset($_REQUEST['amdp']) || !isset($_REQUEST['mdp']) || !isset($_REQUEST['mdp2'])){
+        if(!isset($_REQUEST['id']) || !isset($_REQUEST['nom']) || !isset($_REQUEST['prenom']) || !isset($_REQUEST['pseudo']) || !isset($_REQUEST['date']) || !isset($_REQUEST['amdp']) || !isset($_REQUEST['mdp']) || !isset($_REQUEST['mdp2'])){
             self::afficherErreur("Erreur, les informations ne sont pas complètes !");
         } else {
+            /** @var Utilisateur $utilPossible */
             $utilPossible = (new UtilisateurRepository())->recupererParClePrimaire($_REQUEST['id']);
             if($utilPossible == null || ($utilPossible->getId() != ConnexionUtilisateur::getIdUtilisateurConnecte() && !ConnexionUtilisateur::estAdministrateur())){
                 self::afficherErreur("Utilisateur non valide !");
@@ -152,6 +153,8 @@ class ControleurUtilisateur extends ControleurGenerique {
                         }
                         $utilPossible->setNom($_REQUEST['nom']);
                         $utilPossible->setPrenom($_REQUEST['prenom']);
+                        $utilPossible->setPseudo($_REQUEST['pseudo']);
+                        $utilPossible->setDateNaissance(new DateTime($_REQUEST['date']));
                         $utilPossible->setMdpHache(MotDePasse::hacher($_REQUEST['mdp']));
                         if(ConnexionUtilisateur::estAdministrateur()){
                             $utilPossible->setAdmin(isset($_REQUEST['estAdmin']));
@@ -160,7 +163,7 @@ class ControleurUtilisateur extends ControleurGenerique {
                         if($boolMail){VerificationEmail::envoiEmailValidation($utilPossible);}
                         $idHTML = htmlspecialchars($_REQUEST['id']);
                         $utilisateurs = (new UtilisateurRepository())->recuperer();
-                        self::afficherVue('vueGenerale.php', ["titre" => "Modification utilisateur", "cheminCorpsVue" => 'utilisateur/serviceMisAJour.php', 'id' => $idHTML, 'utilisateurs' => $utilisateurs, 'controleur' => self::$controleur]);
+                        self::afficherVue('vueGenerale.php', ["titre" => "Modification utilisateur", "cheminCorpsVue" => 'utilisateur/utilisateurMisAJour.php', 'id' => $idHTML, 'utilisateurs' => $utilisateurs, 'controleur' => self::$controleur]);
                     }
                 }
             }

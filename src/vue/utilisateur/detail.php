@@ -30,7 +30,7 @@ echo '<p>Email : '. $emailHTML .' </p>';
 echo '<p>Date de naissance : '. $dateNaissanceHTML .' </p>';
 echo '<p>Avatar : '. $avatarHTML .' </p>';
 
-if(ConnexionUtilisateur::estUtilisateur($utilisateur->getId())){
+if(ConnexionUtilisateur::estUtilisateur($utilisateur->getId()) || ConnexionUtilisateur::estAdministrateur()){
     echo '
     <a href = "../web/controleurFrontal.php?controleur=utilisateur&action=afficherFormulaireMiseAJour&id='.$idURL.'"> (ModifICI) </a>
     <a href = "../web/controleurFrontal.php?controleur=utilisateur&action=supprimer&id='.$idURL.'"> (-)</a>
