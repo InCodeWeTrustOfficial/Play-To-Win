@@ -12,7 +12,7 @@ class ConfigurationSite {
         return ConfigurationSite::$configurationSite['dureeExpiration'];
     }
     public static function getURLAbsolue():string{
-        return "http://localhost/tds-php/TD/web/controleurFrontal.php";
+        return "http://localhost/s3-projetweb/web/controleurFrontal.php";
     }
 
     public static function getDebug():bool{
