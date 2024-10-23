@@ -11,26 +11,31 @@ class Coaching extends Services {
     private int $duree;
 
     /**
-     * @param string $codeService
+     * @param ?int $codeService
      * @param string $nomService
      * @param string $descriptionService
      * @param float $prixService
-     * @param int $prix
      * @param string $coach
      * @param string $nomJeu
      * @param int $duree
      */
     public function __construct(
-        string $codeService,
+        ?int $codeService,
         string $nomService,
         string $descriptionService,
         float $prixService,
-        int $prix,
         string $coach,
         string $nomJeu,
         int $duree
     ) {
-        parent::__construct($codeService, $nomService, $descriptionService, $prixService, $prix, $coach, $nomJeu);
+        parent::__construct(
+            $codeService,
+            $nomService,
+            $descriptionService,
+            $prixService,
+            $coach,
+            $nomJeu
+        );
         $this->duree = $duree;
     }
 

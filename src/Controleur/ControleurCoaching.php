@@ -4,6 +4,7 @@ namespace App\Covoiturage\Controleur;
 
 use App\Covoiturage\Lib\ConnexionUtilisateur;
 use App\Covoiturage\Modele\DataObject\AnalyseVideo;
+use App\Covoiturage\Modele\DataObject\Coaching;
 use App\Covoiturage\Modele\DataObject\Services;
 use App\Covoiturage\Modele\Repository\AnalyseVideoRepository;
 use App\Covoiturage\Modele\Repository\CoachingRepository;
@@ -16,8 +17,8 @@ class ControleurCoaching extends ControleurService {
         if (!isset($_REQUEST['codeService'])) {
             self::afficherErreur("codeService inexistant !");
         } else {
-            (new AnalyseVideoRepository())->supprimer($_REQUEST['codeService']);
-            $services = (new AnalyseVideoRepository())->recuperer();
+            (new Coaching())->supprimer($_REQUEST['codeService']);
+            $services = (new Coaching())->recuperer();
             self::afficherVue('vueGenerale.php', ["titre" => "Suppression analyse video", "cheminCorpsVue" => 'service/serviceSupprime.php','services' => $services, 'codeService' => $_REQUEST['codeService'], 'controleur' => self::$controleur]);
         }
     }
@@ -86,7 +87,7 @@ class ControleurCoaching extends ControleurService {
         $coach = ConnexionUtilisateur::getIdUtilisateurConnecte();
         $duree = $tableauDonneesFormulaire['duree'];
 
-        return new AnalyseVideo(
+        return new Coaching (
             null,
             $nomService,
             $descriptionService,

@@ -1,6 +1,6 @@
 <form method="get" action="controleurFrontal.php" id="serviceForm">
     <input type='hidden' name='action' value='creerDepuisFormulaire'>
-    <input type='hidden' name='controleur' id="controleur" value='service'>
+    <input type='hidden' name='controleur' id="controleur" value='coaching'>
     <fieldset>
         <legend>Services</legend>
 
@@ -31,14 +31,13 @@
         </p>
 
         <p class="InputAddOn" id="date_champ" style="display:none;">
-            <label class="InputAddOn-item" for="nbJourRendu_id">Duree du coaching</label>
-            <input class="InputAddOn-field" type="number" name="nbJourRendu" id="nbJourRendu_id" placeholder="Ex : 30 min" min="1" required/>
-            <input class="InputAddOn-field" type="number" id="time_increment" name="duree" min="0" step="15" value="0">
+            <label class="InputAddOn-item" for="duree_id">Duree du coaching</label>
+            <input class="InputAddOn-field" type="number" name="duree" id="duree_id" placeholder="Ex : 30 min" min="0" step="15" />
         </p>
 
         <p class="InputAddOn" id="nbJourRendu_champ" style="display:block;">
             <label class="InputAddOn-item" for="nbJourRendu_id">Nombre de jours avant le rendu</label>
-            <input class="InputAddOn-field" type="number" name="nbJourRendu" id="nbJourRendu_id" placeholder="Ex : 5" min="1" required/>
+            <input class="InputAddOn-field" type="number" name="nbJourRendu" id="nbJourRendu_id" placeholder="Ex : 5" min="1" />
         </p>
 
         <p class="InputAddOn">
