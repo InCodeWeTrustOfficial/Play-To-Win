@@ -51,7 +51,7 @@ class ControleurAnalysevideo extends ControleurService {
     }
 
     /**
-     * Permet a l'utilisateur de proposer un services (coaching / analyse vidéo)
+     * Permet a l'utilisateur de proposer un services analyse vidéo
      * @return void
      */
     public static function creerDepuisFormulaire(): void {
@@ -97,7 +97,6 @@ class ControleurAnalysevideo extends ControleurService {
     }
 
     public static function getControleur(): string {
-        echo self::$controleur;
         return self::$controleur;
     }
 

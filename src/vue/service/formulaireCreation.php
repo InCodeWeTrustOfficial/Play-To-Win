@@ -1,6 +1,6 @@
-<form method="get" action="controleurFrontal.php">
+<form method="get" action="controleurFrontal.php" id="serviceForm">
     <input type='hidden' name='action' value='creerDepuisFormulaire'>
-    <input type='hidden' name='controleur' value='service'>
+    <input type='hidden' name='controleur' id="controleur" value='service'>
     <fieldset>
         <legend>Services</legend>
 
@@ -25,14 +25,15 @@
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="type_id">Type de service</label>
             <select class="InputAddOn-field" name="type" id="type_id" required onchange="toggleFields()">
-                <option value="Analyse vidéo" selected>Analyse vidéo</option>
-                <option value="Coaching">Coaching</option>
+                <option value="analysevideo" selected>Analyse vidéo</option>
+                <option value="coaching">Coaching</option>
             </select>
         </p>
 
         <p class="InputAddOn" id="date_champ" style="display:none;">
-            <label class="InputAddOn-item" for="date_id">Date</label>
-            <input class="InputAddOn-field" type="date" name="date" id="date_id"/>
+            <label class="InputAddOn-item" for="nbJourRendu_id">Duree du coaching</label>
+            <input class="InputAddOn-field" type="number" name="nbJourRendu" id="nbJourRendu_id" placeholder="Ex : 30 min" min="1" required/>
+            <input class="InputAddOn-field" type="number" id="time_increment" name="duree" min="0" step="15" value="0">
         </p>
 
         <p class="InputAddOn" id="nbJourRendu_champ" style="display:block;">
@@ -44,6 +45,8 @@
             <label class="InputAddOn-item" for="prix_id">Prix</label>
             <input class="InputAddOn-field" type="number" placeholder="Ex : 20" name="prix" id="prix_id" required/>
         </p>
+
+        <p id="affichageControleur">Controleur : analysevideo</p>
 
         <p>
             <input type="submit" value="Envoyer" />
@@ -58,13 +61,19 @@
         var typeSelect = document.getElementById("type_id");
         var dateField = document.getElementById("date_champ");
         var daysBeforeField = document.getElementById("nbJourRendu_champ");
+        var controleurInput = document.getElementById("controleur");
+        var affichageControleur = document.getElementById("affichageControleur");
 
-        if (typeSelect.value === "Analyse vidéo") {
+        if (typeSelect.value === "analysevideo") {
             dateField.style.display = "none";
             daysBeforeField.style.display = "block";
-        } else if (typeSelect.value === "Coaching") {
+            controleurInput.value = "analysevideo";
+        } else if (typeSelect.value === "coaching") {
             dateField.style.display = "block";
             daysBeforeField.style.display = "none";
+            controleurInput.value = "coaching";
         }
+
+        affichageControleur.textContent = "Controleur : " + controleurInput.value;
     }
 </script>

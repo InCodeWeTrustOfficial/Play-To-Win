@@ -5,13 +5,12 @@ namespace App\Covoiturage\Controleur;
 use App\Covoiturage\Modele\Repository\AnalyseVideoRepository;
 use App\Covoiturage\Modele\Repository\CoachingRepository;
 
-class ControleurService extends ControleurGenerique {
+abstract class ControleurService extends ControleurGenerique {
 
     protected static string $controleur = 'service';
 
     public static function afficherListe() : void {
-        //$services = array_merge((new AnalyseVideoRepository())->recuperer(),(new CoachingRepository())->recuperer()) ;
-        $services = (new AnalyseVideoRepository())->recuperer();
+        $services = array_merge((new AnalyseVideoRepository())->recuperer(),(new CoachingRepository())->recuperer()) ;
         self::afficherVue('vueGenerale.php',["titre" => "Liste des services", "cheminCorpsVue" => "service/liste.php", 'services'=>$services, 'controleur'=>self::$controleur]);
     }
 
@@ -20,7 +19,7 @@ class ControleurService extends ControleurGenerique {
             self::afficherErreur("Erreur, le services n'existe pas !");
         } else{
             $codeService = $_REQUEST['codeService'];
-            self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'service/formulaireMiseAJour' . ucfirst(self::getControleur()) . '.php', 'codeService' => $codeService, 'controleur' => self::$controleur]);
+            self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'service/formulaireMiseAJour' . ucfirst(static::getControleur()) . '.php', 'codeService' => $codeService, 'controleur' => self::$controleur]);
         }
     }
 
@@ -55,10 +54,6 @@ class ControleurService extends ControleurGenerique {
         self::afficherVue('vueGenerale.php',["titre" => "Proposition services", "cheminCorpsVue" => 'service/formulaireCreation.php']);
     }
 
-    public static function getControleur(): string {
-        echo self::$controleur;
-        return self::$controleur;
-    }
-
+    abstract static function getControleur(): string ;
 
 }

@@ -98,7 +98,6 @@ class ControleurCoaching extends ControleurService {
     }
 
     public static function getControleur(): string {
-        echo self::$controleur;
         return self::$controleur;
     }
 
