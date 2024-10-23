@@ -2,6 +2,7 @@
 <html>
 <head>
     <link rel="stylesheet" href="../ressources/css/css_minimaliste.css">
+    <link rel="stylesheet" href="../ressources/css/navstyles.css">
     <meta charset="UTF-8">
     <title>
         <?php
@@ -52,8 +53,22 @@
             ?>
         </ul>
     </nav>
-
-
+    <div>
+        <?php
+        /** @var string[][] $messagesFlash */
+        foreach($messagesFlash as $type => $messagesFlashPourUnType) {
+            // $type est l'une des valeurs suivantes : "success", "info", "warning", "danger"
+            // $messagesFlashPourUnType est la liste des messages flash d'un type
+            foreach ($messagesFlashPourUnType as $messageFlash) {
+                echo <<< HTML
+            <div class="alert alert-$type">
+               $messageFlash
+            </div>
+            HTML;
+            }
+        }
+        ?>
+    </div>
 </header>
 <main>
     <?php
