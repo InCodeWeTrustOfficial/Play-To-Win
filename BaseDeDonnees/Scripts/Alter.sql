@@ -39,6 +39,10 @@ ALTER TABLE p_avoirDisponibiliteCoach
 ADD CONSTRAINT fk_avoirDisponibiliteCoach_Coachs FOREIGN KEY (idCoach) REFERENCES p_Coachs(idCoach),
 ADD CONSTRAINT fk_avoirDisponibiliteCoach_Disponibilites FOREIGN KEY (idDisponibilite) REFERENCES p_Disponibilites(idDisponibilite);
 
+ALTER TABLE p_avoirReserve
+ADD CONSTRAINT fk_avoirReserve_Coachs FOREIGN KEY (idCoach) REFERENCES p_Coachs(idCoach),
+ADD CONSTRAINT fk_avoirReserve_Disponibilites FOREIGN KEY (idDisponibilite) REFERENCES p_Disponibilites(idDisponibilite);
+
 -- Table p_avoirDisponibiliteService
 ALTER TABLE p_avoirDisponibiliteService
 ADD CONSTRAINT fk_avoirDisponibiliteService_Disponibilites FOREIGN KEY (idDisponibilite) REFERENCES p_Disponibilites(idDisponibilite),

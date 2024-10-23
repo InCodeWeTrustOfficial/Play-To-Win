@@ -2,7 +2,6 @@
 
 CREATE TABLE IF NOT EXISTS p_Jeux (
     nomJeu VARCHAR(50),
-    logoJeu VARCHAR(64),
     PRIMARY KEY(nomJeu)
 );
 
@@ -17,21 +16,18 @@ CREATE TABLE IF NOT EXISTS p_Utilisateurs (
     dateDeNaissance DATE,
     mdpHache VARCHAR(256),
     estAdmin TINYINT(1),
-    avatar VARCHAR(64),
     PRIMARY KEY(idUtilisateur)
 );
 
 CREATE TABLE IF NOT EXISTS p_Langues (
     code_alpha VARCHAR(2),
     nom VARCHAR(50),
-    drapeau VARCHAR(64),
     PRIMARY KEY(code_alpha)
 );
 
 CREATE TABLE IF NOT EXISTS p_Coachs (
     idCoach VARCHAR(32),
     biographieCoach VARCHAR(50),
-    banniereCoach VARCHAR(50),
     PRIMARY KEY(idCoach)
 );
 
@@ -44,7 +40,6 @@ CREATE TABLE IF NOT EXISTS p_Classements (
     idClassement VARCHAR(50),
     nomClassement VARCHAR(50),
     divisionClassement VARCHAR(50),
-    avatarClassement VARCHAR(64),
     PRIMARY KEY(idClassement, nomClassement, divisionClassement)
 );
 
@@ -65,6 +60,7 @@ CREATE TABLE IF NOT EXISTS p_Panier (
 CREATE TABLE IF NOT EXISTS p_ExemplaireService (
     idExemplaire VARCHAR(50),
     etatService VARCHAR(50),
+    sujet VARCHAR(256),
     idPanier VARCHAR(50) NOT NULL,
     codeService INT NOT NULL,
     PRIMARY KEY(idExemplaire)
@@ -92,6 +88,8 @@ CREATE TABLE IF NOT EXISTS p_AnalysesVideo (
     PRIMARY KEY(codeService)
 );
 
+
+
 CREATE TABLE IF NOT EXISTS p_Parler (
     idUtilisateur VARCHAR(32),
     code_alpha VARCHAR(2),
@@ -109,6 +107,11 @@ CREATE TABLE IF NOT EXISTS p_jouer (
 );
 
 CREATE TABLE IF NOT EXISTS p_avoirDisponibiliteCoach (
+    idCoach VARCHAR(32),
+    idDisponibilite VARCHAR(50),
+    PRIMARY KEY(idCoach, idDisponibilite)
+);
+CREATE TABLE IF NOT EXISTS p_avoirReserve (
     idCoach VARCHAR(32),
     idDisponibilite VARCHAR(50),
     PRIMARY KEY(idCoach, idDisponibilite)
