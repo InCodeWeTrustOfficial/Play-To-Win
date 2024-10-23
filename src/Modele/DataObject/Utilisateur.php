@@ -1,8 +1,8 @@
 <?php
-namespace App\Covoiturage\Modele\DataObject;
+namespace App\PlayToWin\Modele\DataObject;
 
-use App\Covoiturage\Modele\Repository\UtilisateurRepository;
-use App\Covoiturage\Modele\DataObject\Trajet;
+use App\PlayToWin\Modele\Repository\UtilisateurRepository;
+use App\PlayToWin\Modele\DataObject\Trajet;
 use DateTime;
 
 class Utilisateur extends AbstractDataObject {

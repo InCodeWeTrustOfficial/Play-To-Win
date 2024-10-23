@@ -1,5 +1,5 @@
 <?php
-use App\Covoiturage\Lib\PreferenceControleur;
+use App\PlayToWin\Lib\PreferenceControleur;
 ?>
 
 <form method="get" action="controleurFrontal.php">

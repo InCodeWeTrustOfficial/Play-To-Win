@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Covoiturage\Lib;
+namespace App\PlayToWin\Lib;
 
 class MotDePasse
 {

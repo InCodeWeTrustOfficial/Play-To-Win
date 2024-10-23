@@ -1,4 +1,4 @@
-<?php use App\Covoiturage\Configuration\ConfigurationSite;?>
+<?php use App\PlayToWin\Configuration\ConfigurationSite;?>
 <form method="<?php if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>" action="controleurFrontal.php">
     <input type='hidden' name='action' value='creerDepuisFormulaire'>
     <input type='hidden' name='controleur' value="utilisateur">
@@ -37,7 +37,7 @@
             <input class="InputAddOn-field" type="password" value="" placeholder="" name="mdp2" id="mdp2_id" required>
         </p>
         <?php
-        use App\Covoiturage\Lib\ConnexionUtilisateur;
+        use App\PlayToWin\Lib\ConnexionUtilisateur;
         if (ConnexionUtilisateur::estAdministrateur()){
             echo '
             <p class="InputAddOn">

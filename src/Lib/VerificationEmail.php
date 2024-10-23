@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Covoiturage\Lib;
+namespace App\PlayToWin\Lib;
 
-use App\Covoiturage\Configuration\ConfigurationSite;
-use App\Covoiturage\Modele\DataObject\Utilisateur;
-use App\Covoiturage\Modele\Repository\UtilisateurRepository;
+use App\PlayToWin\Configuration\ConfigurationSite;
+use App\PlayToWin\Modele\DataObject\Utilisateur;
+use App\PlayToWin\Modele\Repository\UtilisateurRepository;
 
 class VerificationEmail
 {

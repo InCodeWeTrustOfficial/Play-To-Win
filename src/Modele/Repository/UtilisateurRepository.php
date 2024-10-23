@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Covoiturage\Modele\Repository;
+namespace App\PlayToWin\Modele\Repository;
 
-use App\Covoiturage\Modele\DataObject\AbstractDataObject;
-use App\Covoiturage\Modele\DataObject\Utilisateur;
+use App\PlayToWin\Modele\DataObject\AbstractDataObject;
+use App\PlayToWin\Modele\DataObject\Utilisateur;
 use DateTime;
 use PDOException;
 

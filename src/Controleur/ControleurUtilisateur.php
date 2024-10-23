@@ -1,13 +1,13 @@
 <?php
-namespace App\Covoiturage\Controleur;
+namespace App\PlayToWin\Controleur;
 //require_once __DIR__ . '/../Modele/ModeleUtilisateur.php';
-use App\Covoiturage\Lib\ConnexionUtilisateur;
-use App\Covoiturage\Lib\MotDePasse;
-use App\Covoiturage\Lib\VerificationEmail;
-use App\Covoiturage\Modele\DataObject\Utilisateur;
-use App\Covoiturage\Modele\HTTP\Session;
-use App\Covoiturage\Modele\Repository\UtilisateurRepository;
-use App\Covoiturage\Modele\HTTP\Cookie;
+use App\PlayToWin\Lib\ConnexionUtilisateur;
+use App\PlayToWin\Lib\MotDePasse;
+use App\PlayToWin\Lib\VerificationEmail;
+use App\PlayToWin\Modele\DataObject\Utilisateur;
+use App\PlayToWin\Modele\HTTP\Session;
+use App\PlayToWin\Modele\Repository\UtilisateurRepository;
+use App\PlayToWin\Modele\HTTP\Cookie;
 use DateTime;
 
 class ControleurUtilisateur extends ControleurGenerique {

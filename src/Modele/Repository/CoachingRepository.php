@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Covoiturage\Modele\Repository;
+namespace App\PlayToWin\Modele\Repository;
 
-use App\Covoiturage\Modele\DataObject\AbstractDataObject;
-use App\Covoiturage\Modele\DataObject\AnalyseVideo;
-use App\Covoiturage\Modele\DataObject\Coaching;
-use App\Covoiturage\Modele\DataObject\Services;
-use App\Covoiturage\Modele\DataObject\Utilisateur;
+use App\PlayToWin\Modele\DataObject\AbstractDataObject;
+use App\PlayToWin\Modele\DataObject\AnalyseVideo;
+use App\PlayToWin\Modele\DataObject\Coaching;
+use App\PlayToWin\Modele\DataObject\Services;
+use App\PlayToWin\Modele\DataObject\Utilisateur;
 
 class CoachingRepository extends ServiceRepository {
 

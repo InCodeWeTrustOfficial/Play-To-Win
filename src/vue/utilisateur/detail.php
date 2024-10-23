@@ -1,8 +1,8 @@
 <?php
 /** @var Utilisateur $utilisateur */
 
-use App\Covoiturage\Lib\ConnexionUtilisateur;
-use App\Covoiturage\Modele\DataObject\Utilisateur;
+use App\PlayToWin\Lib\ConnexionUtilisateur;
+use App\PlayToWin\Modele\DataObject\Utilisateur;
 
 $idURL = rawurlencode($utilisateur->getId());
 

@@ -1,11 +1,11 @@
 <?php
 /** @var string $id */
 /** @var Utilisateur $utilisateur */
-use App\Covoiturage\Modele\DataObject\Utilisateur;
-use App\Covoiturage\Modele\Repository\UtilisateurRepository;
+use App\PlayToWin\Modele\DataObject\Utilisateur;
+use App\PlayToWin\Modele\Repository\UtilisateurRepository;
 $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($id);
 ?>
-<?php use App\Covoiturage\Configuration\ConfigurationSite;?>
+<?php use App\PlayToWin\Configuration\ConfigurationSite;?>
 <form method="<?php if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>" action="controleurFrontal.php">
     <input type='hidden' name='action' value='mettreAJour'>
     <input type='hidden' name='controleur' value="utilisateur">
@@ -52,7 +52,7 @@ $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($id);
         </p>
 
         <?php
-        use App\Covoiturage\Lib\ConnexionUtilisateur;
+        use App\PlayToWin\Lib\ConnexionUtilisateur;
         if (ConnexionUtilisateur::estAdministrateur()){
             echo '
         

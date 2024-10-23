@@ -1,6 +1,6 @@
 <?php
 
-use App\Covoiturage\Modele\DataObject\Services;
+use App\PlayToWin\Modele\DataObject\Services;
 
 echo "<h2>Liste des services proposé</h2>";
 /** @var Services[] $services */

@@ -2,17 +2,17 @@
 //require_once __DIR__ . '/../src/Controleur/ControleurUtilisateur.php';
 require_once __DIR__ . '/../src/Lib/Psr4AutoloaderClass.php';
 
-use App\Covoiturage\Controleur\ControleurUtilisateur;
-use App\Covoiturage\Lib\PreferenceControleur;
+use App\PlayToWin\Controleur\ControleurUtilisateur;
+use App\PlayToWin\Lib\PreferenceControleur;
 
 
 
 
 // initialisation en activant l'affichage de débogage
-$chargeurDeClasse = new App\Covoiturage\Lib\Psr4AutoloaderClass(false);
+$chargeurDeClasse = new App\PlayToWin\Lib\Psr4AutoloaderClass(false);
 $chargeurDeClasse->register();
 // enregistrement d'une association "espace de nom" → "dossier"
-$chargeurDeClasse->addNamespace('App\Covoiturage', __DIR__ . '/../src');
+$chargeurDeClasse->addNamespace('App\PlayToWin', __DIR__ . '/../src');
 
 
 if(isset($_REQUEST['action'])){
@@ -31,7 +31,7 @@ if(isset($_REQUEST['controleur'])){
     }
 }
 
-$nomDeClasseControleur = 'App\Covoiturage\Controleur\Controleur'.ucfirst($controleur);
+$nomDeClasseControleur = 'App\PlayToWin\Controleur\Controleur'.ucfirst($controleur);
 
 $bool = false;
 foreach (get_class_methods($nomDeClasseControleur) as $possibleAction) {

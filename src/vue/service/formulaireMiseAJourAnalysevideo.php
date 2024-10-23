@@ -1,8 +1,8 @@
 <?php
 /** @var int $codeService */
 
-use App\Covoiturage\Modele\Repository\AnalyseVideoRepository;
-use App\Covoiturage\Modele\Repository\ServiceRepository;
+use App\PlayToWin\Modele\Repository\AnalyseVideoRepository;
+use App\PlayToWin\Modele\Repository\ServiceRepository;
 
 $service = (new AnalyseVideoRepository())->recupererParClePrimaire($codeService);
 

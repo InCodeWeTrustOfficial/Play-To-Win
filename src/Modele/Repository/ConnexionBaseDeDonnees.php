@@ -1,7 +1,7 @@
 <?php
-namespace App\Covoiturage\Modele\Repository;
+namespace App\PlayToWin\Modele\Repository;
 //require_once __DIR__ . '/../Configuration/ConfigurationBaseDeDonnees.php';
-use App\Covoiturage\Configuration\ConfigurationBaseDeDonnees;
+use App\PlayToWin\Configuration\ConfigurationBaseDeDonnees;
 use \PDO as PDO;
 
 class ConnexionBaseDeDonnees {

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Covoiturage\Controleur;
+namespace App\PlayToWin\Controleur;
 
-use App\Covoiturage\Lib\ConnexionUtilisateur;
-use App\Covoiturage\Modele\DataObject\AnalyseVideo;
-use App\Covoiturage\Modele\DataObject\Services;
-use App\Covoiturage\Modele\Repository\AnalyseVideoRepository;
+use App\PlayToWin\Lib\ConnexionUtilisateur;
+use App\PlayToWin\Modele\DataObject\AnalyseVideo;
+use App\PlayToWin\Modele\DataObject\Services;
+use App\PlayToWin\Modele\Repository\AnalyseVideoRepository;
 
 class ControleurAnalysevideo extends ControleurService {
 

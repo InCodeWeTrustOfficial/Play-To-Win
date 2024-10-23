@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Covoiturage\Modele\HTTP;
+namespace App\PlayToWin\Modele\HTTP;
 
 class Cookie {
     public static function enregistrer(string $cle, mixed $valeur, ?int $dureeExpiration = null) : void{

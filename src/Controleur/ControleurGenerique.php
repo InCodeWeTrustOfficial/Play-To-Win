@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Covoiturage\Controleur;
+namespace App\PlayToWin\Controleur;
 
-use App\Covoiturage\Lib\PreferenceControleur;
+use App\PlayToWin\Lib\PreferenceControleur;
 
 abstract class ControleurGenerique {
 

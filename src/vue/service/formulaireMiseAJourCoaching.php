@@ -1,7 +1,7 @@
 <?php
 /** @var int $codeService */
 
-use App\Covoiturage\Modele\Repository\CoachingRepository;
+use App\PlayToWin\Modele\Repository\CoachingRepository;
 
 $service = (new CoachingRepository())->recupererParClePrimaire($codeService);
 

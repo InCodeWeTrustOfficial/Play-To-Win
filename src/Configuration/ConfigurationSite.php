@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Covoiturage\Configuration;
+namespace App\PlayToWin\Configuration;
 
 class ConfigurationSite {
     static private array $configurationSite = array(

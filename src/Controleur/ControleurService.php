@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Covoiturage\Controleur;
+namespace App\PlayToWin\Controleur;
 
-use App\Covoiturage\Modele\Repository\AnalyseVideoRepository;
-use App\Covoiturage\Modele\Repository\CoachingRepository;
+use App\PlayToWin\Modele\Repository\AnalyseVideoRepository;
+use App\PlayToWin\Modele\Repository\CoachingRepository;
 
 abstract class ControleurService extends ControleurGenerique {
 

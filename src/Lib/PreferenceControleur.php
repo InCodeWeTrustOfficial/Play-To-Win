@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Covoiturage\Lib;
+namespace App\PlayToWin\Lib;
 
-use App\Covoiturage\Modele\HTTP\Cookie;
+use App\PlayToWin\Modele\HTTP\Cookie;
 
 class PreferenceControleur {
     private static string $clePreference = "preferenceControleur";

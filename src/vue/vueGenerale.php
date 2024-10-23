@@ -7,7 +7,7 @@
         <?php
         /** @var string $titre */
 
-        use App\Covoiturage\Lib\ConnexionUtilisateur;
+        use App\PlayToWin\Lib\ConnexionUtilisateur;
 
         echo $titre; ?></title>
 </head>
@@ -63,7 +63,7 @@
 </main>
 <footer>
     <p>
-        Site de covoiturage du PNJ
+        PlayToWin, site de e-commerce
     </p>
 </footer>
 </body>

@@ -1,5 +1,5 @@
 <?php
-namespace App\Covoiturage\Configuration;
+namespace App\PlayToWin\Configuration;
 
 class ConfigurationBaseDeDonnees {
     static private array $configurationBaseDeDonnees = array(

@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Covoiturage\Lib;
+namespace App\PlayToWin\Lib;
 
-use App\Covoiturage\Modele\HTTP\Session;
-use App\Covoiturage\Modele\Repository\UtilisateurRepository;
+use App\PlayToWin\Modele\HTTP\Session;
+use App\PlayToWin\Modele\Repository\UtilisateurRepository;
 
 class ConnexionUtilisateur
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Covoiturage\Modele\DataObject;
+namespace App\PlayToWin\Modele\DataObject;
 
 class AnalyseVideo extends Services {
 

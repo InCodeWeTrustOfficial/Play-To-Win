@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Covoiturage\Modele\Repository;
-use App\Covoiturage\Modele\DataObject\AbstractDataObject;
-use App\Covoiturage\Modele\DataObject\Langue;
+namespace App\PlayToWin\Modele\Repository;
+use App\PlayToWin\Modele\DataObject\AbstractDataObject;
+use App\PlayToWin\Modele\DataObject\Langue;
 
 class LangueRepository extends AbstractRepository
 {

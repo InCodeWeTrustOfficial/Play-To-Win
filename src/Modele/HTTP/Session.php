@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Covoiturage\Modele\HTTP;
+namespace App\PlayToWin\Modele\HTTP;
 
-use App\Covoiturage\Configuration\ConfigurationSite;
+use App\PlayToWin\Configuration\ConfigurationSite;
 use Exception;
-use App\Covoiturage\Configuration\ConfigurationBaseDeDonnees;
+use App\PlayToWin\Configuration\ConfigurationBaseDeDonnees;
 
 class Session
 {

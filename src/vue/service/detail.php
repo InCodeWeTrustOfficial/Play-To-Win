@@ -1,7 +1,7 @@
 <?php
 /** @var Services $service */
 
-use App\Covoiturage\Modele\DataObject\Services;
+use App\PlayToWin\Modele\DataObject\Services;
 
 $codeServiceHTML = htmlspecialchars($service->getCodeService());
 $nomServiceHTML = htmlspecialchars($service->getNomService());
