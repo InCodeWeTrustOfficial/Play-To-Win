@@ -2,7 +2,7 @@
 
 CREATE TABLE IF NOT EXISTS p_Jeux (
     nomJeu VARCHAR(50),
-    logoJeu LONGBLOB,
+    logoJeu VARCHAR(64),
     PRIMARY KEY(nomJeu)
 );
 
@@ -17,14 +17,14 @@ CREATE TABLE IF NOT EXISTS p_Utilisateurs (
     dateDeNaissance DATE,
     mdpHache VARCHAR(256),
     estAdmin TINYINT(1),
-    avatar LONGBLOB,
+    avatar VARCHAR(64),
     PRIMARY KEY(idUtilisateur)
 );
 
 CREATE TABLE IF NOT EXISTS p_Langues (
     code_alpha VARCHAR(2),
     nom VARCHAR(50),
-    drapeau LONGBLOB,
+    drapeau VARCHAR(64),
     PRIMARY KEY(code_alpha)
 );
 
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS p_Classements (
     idClassement VARCHAR(50),
     nomClassement VARCHAR(50),
     divisionClassement VARCHAR(50),
-    avatarClassement LONGBLOB,
+    avatarClassement VARCHAR(64),
     PRIMARY KEY(idClassement, nomClassement, divisionClassement)
 );
 

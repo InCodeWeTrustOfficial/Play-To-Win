@@ -26,14 +26,14 @@ CREATE TABLE IF NOT EXISTS p_Utilisateurs (
     nonce VARCHAR(32),
     dateDeNaissance DATE,
     mdpHache VARCHAR(256),
-    avatar LONGBLOB,
+    avatar VARCHAR(64),
     PRIMARY KEY(idUtilisateur)
     );
 
 CREATE TABLE IF NOT EXISTS p_Langues (
     code_alpha VARCHAR(2),
     nom VARCHAR(50),
-    drapeau LONGBLOB,
+    drapeau VARCHAR(64),
     PRIMARY KEY(code_alpha)
     );
 
@@ -69,14 +69,14 @@ CREATE OR REPLACE TABLE p_Classement_Info (
     idClassement INT AUTO_INCREMENT,
     nomClassement VARCHAR(50),
     division TINYINT,
-    classement_avatar LONGBLOB,
+    classement_avatar VARCHAR(64),
     nomJeux VARCHAR(50) NOT NULL,
     PRIMARY KEY(idClassement, nomClassement, division, nomJeux)
 );
 
 CREATE OR REPLACE TABLE p_Jeux (
     nomJeux VARCHAR(50),
-    logo LONGBLOB,
+    logo VARCHAR(64),
     PRIMARY KEY(nomJeux)
 );
 
