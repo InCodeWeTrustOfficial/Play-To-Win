@@ -17,8 +17,8 @@ class ControleurCoaching extends ControleurService {
         if (!isset($_REQUEST['codeService'])) {
             self::afficherErreur("codeService inexistant !");
         } else {
-            (new Coaching())->supprimer($_REQUEST['codeService']);
-            $services = (new Coaching())->recuperer();
+            (new CoachingRepository())->supprimer($_REQUEST['codeService']);
+            $services = (new CoachingRepository())->recuperer();
             self::afficherVue('vueGenerale.php', ["titre" => "Suppression analyse video", "cheminCorpsVue" => 'service/serviceSupprime.php','services' => $services, 'codeService' => $_REQUEST['codeService'], 'controleur' => self::$controleur]);
         }
     }

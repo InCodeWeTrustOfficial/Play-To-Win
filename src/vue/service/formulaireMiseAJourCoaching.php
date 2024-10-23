@@ -11,7 +11,7 @@ $service = (new CoachingRepository())->recupererParClePrimaire($codeService);
     <input type='hidden' name='controleur' value='<?= $service->getTypeService() ?>'>
     <input type='hidden' name='codeService' value='<?= $codeService ?>'>
     <fieldset>
-        <legend>Modifier l'analyse Vidéo :</legend>
+        <legend>Modifier le Coaching :</legend>
 
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="nom_services_id">Nom du service</label>
@@ -31,9 +31,9 @@ $service = (new CoachingRepository())->recupererParClePrimaire($codeService);
             </select>
         </p>
 
-        <p class="InputAddOn" id="date_champ">
-            <label class="InputAddOn-item" for="date_id">Date</label>
-            <input class="InputAddOn-field" type="date" name="date" id="date_id"/>
+        <p class="InputAddOn" id="date_champ" >
+            <label class="InputAddOn-item" for="duree_id">Duree du coaching</label>
+            <input class="InputAddOn-field" type="number" name="duree" id="duree_id" placeholder="Ex : 30 min" min="0" step="15" />
         </p>
 
         <p class="InputAddOn">

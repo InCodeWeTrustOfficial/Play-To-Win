@@ -45,8 +45,6 @@
             <input class="InputAddOn-field" type="number" placeholder="Ex : 20" name="prix" id="prix_id" required/>
         </p>
 
-        <p id="affichageControleur">Controleur : analysevideo</p>
-
         <p>
             <input type="submit" value="Envoyer" />
         </p>
