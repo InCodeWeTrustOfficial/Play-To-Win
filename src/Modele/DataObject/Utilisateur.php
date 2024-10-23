@@ -16,8 +16,6 @@ class Utilisateur extends AbstractDataObject {
     private DateTime $dateNaissance;
     private string $mdpHache;
     private bool $estAdmin;
-    private string $avatarPath;
-    private string $langue;
 
     public function __construct(
         string $idUtilisateur,
@@ -29,8 +27,7 @@ class Utilisateur extends AbstractDataObject {
         string $nonce,
         DateTime $dateNaissance,
         string $mdpHache,
-        bool $estAdmin,
-        string $avatarPath,
+        bool $estAdmin
     )
     {
         $this->idUtilisateur = $idUtilisateur;
@@ -43,7 +40,6 @@ class Utilisateur extends AbstractDataObject {
         $this->dateNaissance = $dateNaissance;
         $this->mdpHache = $mdpHache;
         $this->estAdmin = $estAdmin;
-        $this->avatarPath = $avatarPath;
     }
 
     public function getId(): string
@@ -128,19 +124,7 @@ class Utilisateur extends AbstractDataObject {
     }
     public function getAvatarPath(): string
     {
-        return $this->avatarPath;
-    }
-    public function setAvatarPath(string $avatarPath): void
-    {
-        $this->avatarPath = $avatarPath;
-    }
-    public function getLangue(): string
-    {
-        return $this->langue;
-    }
-    public function setLangue(string $langue): void
-    {
-        $this->langue = $langue;
+        return "img/uploads/pp-utilisateurs/$this->idUtilisateur.png";
     }
 }
 ?>

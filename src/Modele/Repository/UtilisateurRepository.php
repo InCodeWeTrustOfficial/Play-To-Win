@@ -16,7 +16,7 @@ class UtilisateurRepository extends AbstractRepository {
         return "idUtilisateur";
     }
     protected function getNomsColonnes(): array {
-        return [$this->getNomClePrimaire(), "nom", "prenom", "pseudo", "email", "emailAValider","nonce","dateDeNaissance","mdpHache","estAdmin","avatar"];
+        return [$this->getNomClePrimaire(), "nom", "prenom", "pseudo", "email", "emailAValider","nonce","dateDeNaissance","mdpHache","estAdmin"];
     }
 
     protected function formatTableauSQL(AbstractDataObject $utilisateur): array {
@@ -32,10 +32,9 @@ class UtilisateurRepository extends AbstractRepository {
             ":dateNaissTag" => $utilisateur->getDateNaissance()->format('Y-m-d'),
             ":mdpHacheTag" => $utilisateur->getMdpHache(),
             ":estAdminTag" => $utilisateur->isAdmin()?1:0,
-            ":avatarTag" => $utilisateur->getAvatarPath()
         );
     }
     public function construireDepuisTableauSQL(array $utilisateurFormatTableau): Utilisateur {
-        return new Utilisateur($utilisateurFormatTableau[0], $utilisateurFormatTableau[1], $utilisateurFormatTableau[2], $utilisateurFormatTableau[3], $utilisateurFormatTableau[4], $utilisateurFormatTableau[5], $utilisateurFormatTableau[6], new DateTime($utilisateurFormatTableau[7]), $utilisateurFormatTableau[8], $utilisateurFormatTableau[9]?1:0, $utilisateurFormatTableau[10]);
+        return new Utilisateur($utilisateurFormatTableau[0], $utilisateurFormatTableau[1], $utilisateurFormatTableau[2], $utilisateurFormatTableau[3], $utilisateurFormatTableau[4], $utilisateurFormatTableau[5], $utilisateurFormatTableau[6], new DateTime($utilisateurFormatTableau[7]), $utilisateurFormatTableau[8], $utilisateurFormatTableau[9]?1:0);
     }
 }
