@@ -3,6 +3,7 @@
 
 use App\PlayToWin\Lib\ConnexionUtilisateur;
 use App\PlayToWin\Modele\DataObject\Utilisateur;
+use App\PlayToWin\Modele\Repository\CoachRepository;
 
 $idURL = rawurlencode($utilisateur->getId());
 
@@ -29,11 +30,26 @@ echo '<p>Pseudo : '. $pseudoHTML .' </p>';
 echo '<p>Email : '. $emailHTML .' </p>';
 echo '<p>Date de naissance : '. $dateNaissanceHTML .' </p>';
 echo '<p>Avatar : '. $avatarHTML .' </p>';
+if( (new CoachRepository())->estCoach($utilisateur->getId())){
+    echo 'Utilisateur coach !';
+    echo '<a href = "../web/controleurFrontal.php?controleur=coach&action=afficherDetail&id='.$idURL.'"> Voir sa page de coach </a>';
+} else{
+    if(ConnexionUtilisateur::estUtilisateur($utilisateur->getId()) || ConnexionUtilisateur::estAdministrateur()) {
 
-if(ConnexionUtilisateur::estUtilisateur($utilisateur->getId()) || ConnexionUtilisateur::estAdministrateur()){
-    echo '
-    <a href = "../web/controleurFrontal.php?controleur=utilisateur&action=afficherFormulaireMiseAJour&id='.$idURL.'"> (ModifICI) </a>
-    <a href = "../web/controleurFrontal.php?controleur=utilisateur&action=supprimer&id='.$idURL.'"> (-)</a>
-    ';
+        echo 'Devenir coach ?
+          <a href = "../web/controleurFrontal.php?controleur=coach&action=afficherFormulaireCreation&id=' . $idURL . '"> je souhaite devenir coach... </a>
+          ';
+    }
+}
+
+if (ConnexionUtilisateur::estUtilisateur($utilisateur->getId()) || ConnexionUtilisateur::estAdministrateur()) {
+    echo '<p>
+    <a href = "../web/controleurFrontal.php?controleur=utilisateur&action=afficherFormulaireMiseAJour&id=' . $idURL . '"> (ModifICI) </a>';
+
+    if (!ConnexionUtilisateur::estUtilisateur($utilisateur->getId())) {
+
+        echo '<a href = "../web/controleurFrontal.php?controleur=utilisateur&action=supprimer&id=' . $idURL . '"> (-)</a>
+    </p>';
+    }
 }
 
