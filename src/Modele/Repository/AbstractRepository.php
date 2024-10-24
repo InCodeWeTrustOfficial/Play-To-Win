@@ -2,9 +2,8 @@
 
 namespace App\PlayToWin\Modele\Repository;
 
+use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Modele\DataObject\AbstractDataObject;
-use App\PlayToWin\Modele\DataObject\Trajet;
-use App\PlayToWin\Modele\DataObject\Utilisateur;
 use PDOException;
 
 abstract class AbstractRepository {
@@ -41,6 +40,7 @@ abstract class AbstractRepository {
         $objetFormatTableau = $pdoStatement->fetch();
 
         if ($objetFormatTableau == null) {
+            MessageFlash::ajouter("warning","Clé inexistante.");
             return null;
         }
         return $this->construireDepuisTableauSQL($objetFormatTableau);
@@ -57,7 +57,8 @@ abstract class AbstractRepository {
 
             $pdoStatement->execute($values);
 
-        }catch(PDOException){
+        }catch(PDOException $e){
+            MessageFlash::ajouter("danger", $e->getMessage());
             $valide = false;
         }
         return $valide;
@@ -73,7 +74,8 @@ abstract class AbstractRepository {
             $values = $this->formatTableauSQL($objet);
 
             $pdoStatement->execute($values);
-        }catch (PDOException){
+        }catch (PDOException $e){
+            MessageFlash::ajouter("danger",$e->getMessage());
             $valide = false;
         }
         return $valide;
@@ -101,7 +103,8 @@ abstract class AbstractRepository {
 
             $values = $this -> formatTableauSQL($objet);
             $pdoStatement->execute($values);
-        }catch (PDOException){
+        }catch (PDOException $e){
+            MessageFlash::ajouter("danger",$e->getMessage());
             $valide = false;
         }
         return $valide;
