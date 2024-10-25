@@ -229,23 +229,24 @@ class ControleurUtilisateur extends ControleurGenerique {
                     self::redirectionVersURL("afficherFormulaireAvatar", self::$controleur);
                 } else {
                     $id = $_REQUEST['id'];
+                    $idUrl = rawurlencode($id);
                     if (!(!empty($_FILES[$id]) && is_uploaded_file($_FILES[$id]['tmp_name']))) {
                         MessageFlash::ajouter("warning", "Problème avec le fichier.");
                         self::redirectionVersURL();
                     } else {
-
                         $allowed_ext = array("jpg", "png");
                         $explosion = explode(".", $_FILES[$id]['name']);
                         if(!in_array(end($explosion), $allowed_ext)){
                             MessageFlash::ajouter("warning","Les fichiers autorisés sont en .png et .jpg");
+                            self::redirectionVersURL("afficherFormulaireAvatar?id=", self::$controleur);
                         } else{
-                            $pic_path = __DIR__ ."/../../ressources/img/uploads/pp_utilisateurs/$id.".end($explosion);
+                            $pic_path = __DIR__ ."/../../ressources/img/uploads/pp_utilisateurs/$idUrl.".end($explosion);
                             if (!move_uploaded_file($_FILES[$id]['tmp_name'], $pic_path)) {
                                 MessageFlash::ajouter("danger", "Problème d'export d'image, peut-être un problème venant de votre fichier.");
                                 self::redirectionVersURL();
                             } else {
                                 MessageFlash::ajouter("success", "Changement de votre photo de profil!");
-                                self::redirectionVersURL("afficherDetail&id=$id", self::$controleur);
+                                self::redirectionVersURL("afficherDetail&id=$idUrl", self::$controleur);
                             }
                         }
                     }
