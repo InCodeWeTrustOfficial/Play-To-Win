@@ -13,7 +13,8 @@ echo "<h2>Top coach</h2>";
             <div class="coach-card">
 
                 <div class="coach-banner">
-                    <img src="../ressources/img/uploads/coach/bannieres/Yota002.png" alt="Banner" class="banner-image">
+                    <img src="../<?=$coach->getBannierePath()?>" alt="Bannière" style="width: 1546px; height: 423px; object-fit: cover;"
+                         onerror="this.onerror=null; this.src='../ressources/img/defaut_banniere.png';">
                 </div>
 
                 <img src="../ressources/img/jeux/lol.png" alt="Icon" class="coach-icon">
