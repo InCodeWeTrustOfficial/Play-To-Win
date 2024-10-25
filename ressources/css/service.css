@@ -1,0 +1,63 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+.service-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.service-card {
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    padding: 20px;
+    width: 200px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    position: relative;
+}
+
+.service-icon {
+    width: 30px;
+    height: auto;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.service-name {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-top: 30px;
+}
+
+.service-card:hover {
+    transform: scale(1.05);
+}
+
+.service-description {
+    margin: 10px 0;
+}
+
+.service-price {
+    color: #bebebe;
+    font-weight: bold;
+}
+
+.service-coach,
+.service-game {
+    color: #555;
+}
+
+.detail-link {
+    text-decoration: none;
+    color: blue;
+    font-weight: bold;
+}
+
+.detail-link:hover {
+    text-decoration: none;
+    color: darkblue;
+}

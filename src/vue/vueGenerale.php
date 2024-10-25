@@ -3,6 +3,7 @@
 <head>
     <link rel="stylesheet" href="../ressources/css/css_minimaliste.css">
     <link rel="stylesheet" href="../ressources/css/navstyles.css">
+    <link rel="stylesheet" href="../ressources/css/service.css">
     <meta charset="UTF-8">
     <title>
         <?php
