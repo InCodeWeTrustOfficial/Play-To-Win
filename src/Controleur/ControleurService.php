@@ -132,7 +132,6 @@ abstract class ControleurService extends ControleurGenerique {
         self::redirectionVersURL("afficherPanier", self::$controleur);
     }
 
-
     public static function supprimerProduit(): void {
         if (!isset($_REQUEST['codeService'])) {
             MessageFlash::ajouter("danger", "Code du service manquant.");
@@ -155,8 +154,27 @@ abstract class ControleurService extends ControleurGenerique {
         self::redirectionVersURL("afficherPanier", self::$controleur);
     }
 
-
     public static function passerCommande() {
+        if (!isset($_REQUEST['codeService'])) {
+            MessageFlash::ajouter("danger", "Code du service manquant.");
+            self::redirectionVersURL("afficherPanier", self::$controleur);
+            return;
+        }
 
+        $session = Session::getInstance();
+        $panier = $session->lire('panier');
+        $codeService = $_REQUEST['codeService'];
+
+        if (isset($panier[$codeService])) {
+            unset($panier[$codeService]);
+            MessageFlash::ajouter("success", "Service supprimé du panier.");
+        } else {
+            MessageFlash::ajouter("danger", "Service introuvable dans le panier.");
+        }
+
+
+
+        $session->detruire();
+        self::redirectionVersURL("afficherListe", self::$controleur);
     }
 }
