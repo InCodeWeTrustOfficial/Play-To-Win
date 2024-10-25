@@ -18,9 +18,6 @@
 <header>
     <nav>
         <ul>
-            <?php
-
-            ?>
             <li>
                 <a href="controleurFrontal.php?action=afficherListe&controleur=coach">Coaching</a>
             </li>
@@ -47,6 +44,10 @@
             </li>
             <li>
                 <a href="controleurFrontal.php?controleur=utilisateur&action=deconnecter"><img src="../ressources/img/logout.png"></a>
+            </li>
+            
+            <li>
+                <a href="controleurFrontal.php?controleur=service&action=afficherPanier"><img src="../ressources/img/panier.png"></a>
             </li>
             
             <li>

@@ -29,9 +29,11 @@ class ConnexionUtilisateur
     {
         return Session::getInstance()->lire(self::$cleConnexion);
     }
+
     public static function estUtilisateur($id) : bool{
         return self::getIdUtilisateurConnecte() == $id;
     }
+
     public static function estAdministrateur() : bool{
         if(self::estConnecte()){
             $user = (new UtilisateurRepository())->recupererParClePrimaire(self::getIdUtilisateurConnecte());
