@@ -238,7 +238,7 @@ class ControleurUtilisateur extends ControleurGenerique {
                         $explosion = explode(".", $_FILES[$id]['name']);
                         if(!in_array(end($explosion), $allowed_ext)){
                             MessageFlash::ajouter("warning","Les fichiers autorisés sont en .png et .jpg");
-                            self::redirectionVersURL("afficherFormulaireAvatar?id=", self::$controleur);
+                            self::redirectionVersURL("afficherFormulaireAvatar&id=$idUrl", self::$controleur);
                         } else{
                             $pic_path = __DIR__ ."/../../ressources/img/uploads/pp_utilisateurs/$idUrl.".end($explosion);
                             if (!move_uploaded_file($_FILES[$id]['tmp_name'], $pic_path)) {
