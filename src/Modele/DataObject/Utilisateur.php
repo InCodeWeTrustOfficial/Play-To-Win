@@ -124,9 +124,14 @@ class Utilisateur extends AbstractDataObject {
     {
         $this->mdpHache = $mdpHache;
     }
-    public function getAvatarPath(): string
-    {
-        return $this::$pathAvatar.$this->idUtilisateur.".png";
+    public function getAvatarPath(): string {
+        $ext = "";
+        if(file_exists(__DIR__ ."/../../../ressources/img/uploads/pp_utilisateurs/".$this->idUtilisateur.".png")){
+            $ext = ".png";
+        } else if (file_exists(__DIR__ ."/../../../ressources/img/uploads/pp_utilisateurs/".$this->idUtilisateur.".jpg")){
+            $ext = ".jpg";
+        }
+        return $this::$pathAvatar.$this->idUtilisateur.$ext;
     }
 }
 ?>

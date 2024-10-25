@@ -63,6 +63,24 @@ class ControleurUtilisateur extends ControleurGenerique {
         }
     }
 
+    public static function afficherFormulaireAvatar() : void{
+        if(!isset( $_REQUEST['id'])){
+            MessageFlash::ajouter("danger","Login non valide.");
+            self::redirectionVersURL();
+        } else{
+            if(!ConnexionUtilisateur::estUtilisateur($_REQUEST['id']) && !ConnexionUtilisateur::estAdministrateur()) {
+                MessageFlash::ajouter("danger","Formulaire restreint à l'utilisateur connecté.");
+                self::redirectionVersURL("afficherListe",self::$controleur);
+            } else{
+                $id = $_REQUEST['id'];
+                if(!ConnexionUtilisateur::estAdministrateur()){
+                    $id = ConnexionUtilisateur::getIdUtilisateurConnecte();
+                }
+                self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'utilisateur/formulaireAvatar.php', 'id' => $id]);
+            }
+        }
+    }
+
     public static function afficherFormulaireConnexion() : void{
         self::afficherVue('vueGenerale.php',["titre" => "Connexion Utilisateur", "cheminCorpsVue" => 'utilisateur/formulaireConnexion.php']);
     }
@@ -195,7 +213,46 @@ class ControleurUtilisateur extends ControleurGenerique {
             }
         }
     }
+    public static function mettreAJourAvatar():void{
+        if(!isset($_REQUEST['id']) || !isset($_REQUEST['mdp'])){
+            MessageFlash::ajouter("danger","Informations non complètes.");
+            self::redirectionVersURL();
+        } else{
+            if(!ConnexionUtilisateur::estAdministrateur() && !ConnexionUtilisateur::estUtilisateur($_REQUEST['id'])){
+                MessageFlash::ajouter("danger","Utilisateur non valide.");
+                self::redirectionVersURL();
+            }else {
+                /** @var Utilisateur $utilisateur */
+                $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($_REQUEST['id']);
+                if (!ConnexionUtilisateur::estAdministrateur() && !MotDePasse::verifier($_REQUEST['mdp'], $utilisateur->getMdpHache())) {
+                    MessageFlash::ajouter("warning", "Mot de passe incorrect !");
+                    self::redirectionVersURL("afficherFormulaireAvatar", self::$controleur);
+                } else {
+                    $id = $_REQUEST['id'];
+                    if (!(!empty($_FILES[$id]) && is_uploaded_file($_FILES[$id]['tmp_name']))) {
+                        MessageFlash::ajouter("warning", "Problème avec le fichier.");
+                        self::redirectionVersURL();
+                    } else {
 
+                        $allowed_ext = array("jpg", "png");
+                        $explosion = explode(".", $_FILES[$id]['name']);
+                        if(!in_array(end($explosion), $allowed_ext)){
+                            MessageFlash::ajouter("warning","Les fichiers autorisés sont en .png et .jpg");
+                        } else{
+                            $pic_path = __DIR__ ."/../../ressources/img/uploads/pp_utilisateurs/$id.".end($explosion);
+                            if (!move_uploaded_file($_FILES[$id]['tmp_name'], $pic_path)) {
+                                MessageFlash::ajouter("danger", "Problème d'export d'image, peut-être un problème venant de votre fichier.");
+                                self::redirectionVersURL();
+                            } else {
+                                MessageFlash::ajouter("success", "Changement de votre photo de profil!");
+                                self::redirectionVersURL("afficherDetail&id=$id", self::$controleur);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     public static function validerEmail() : void{
         if(!isset($_REQUEST['id']) || !isset($_REQUEST['nonce'])){
             MessageFlash::ajouter("danger","Inexistant");

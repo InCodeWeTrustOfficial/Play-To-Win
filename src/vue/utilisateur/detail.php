@@ -22,7 +22,6 @@ if($utilisateur->isAdmin()){
     echo "Administrateur !";
 }
 $avatarHTML = htmlspecialchars($utilisateur->getAvatarPath());
-
 echo '<p>id : '. $idHTML .' </p>';
 echo '<p>Nom : '. $nomHTML .' </p>';
 echo '<p>Prenom : '. $prenomHTML .' </p>';
@@ -38,7 +37,6 @@ if( (new CoachRepository())->estCoach($utilisateur->getId())){
     echo '<a href = "../web/controleurFrontal.php?controleur=coach&action=afficherDetail&id='.$idURL.'"> Voir sa page de coach </a>';
 } else{
     if(ConnexionUtilisateur::estUtilisateur($utilisateur->getId()) || ConnexionUtilisateur::estAdministrateur()) {
-
         echo 'Devenir coach ?
           <a href = "../web/controleurFrontal.php?controleur=coach&action=afficherFormulaireCreation&id=' . $idURL . '"> je souhaite devenir coach... </a>
           ';
@@ -46,13 +44,15 @@ if( (new CoachRepository())->estCoach($utilisateur->getId())){
 }
 
 if (ConnexionUtilisateur::estUtilisateur($utilisateur->getId()) || ConnexionUtilisateur::estAdministrateur()) {
+
+    echo '<p>
+          <a href = "../web/controleurFrontal.php?controleur=utilisateur&action=afficherFormulaireAvatar&id=' . $idURL . '">Envie de changer de pp?</a>
+</p>';
+
     echo '<p>
     <a href = "../web/controleurFrontal.php?controleur=utilisateur&action=afficherFormulaireMiseAJour&id=' . $idURL . '"> (ModifICI) </a>';
-
-    if (!ConnexionUtilisateur::estUtilisateur($utilisateur->getId())) {
-
-        echo '<a href = "../web/controleurFrontal.php?controleur=utilisateur&action=supprimer&id=' . $idURL . '"> (-)</a>
+    echo '<a href = "../web/controleurFrontal.php?controleur=utilisateur&action=supprimer&id=' . $idURL . '"> (-)</a>
     </p>';
-    }
+
 }
 
