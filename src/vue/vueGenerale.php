@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="../ressources/css/navstyles.css">
     <link rel="stylesheet" href="../ressources/css/service.css">
     <link rel="stylesheet" href="../ressources/css/coach.css">
+    <link rel="stylesheet" href="../ressources/css/panier.css">
     <meta charset="UTF-8">
     <title>
         <?php

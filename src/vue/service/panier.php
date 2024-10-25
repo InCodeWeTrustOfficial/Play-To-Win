@@ -1,4 +1,5 @@
-<?php use App\PlayToWin\Modele\HTTP\Session;
+<?php
+use App\PlayToWin\Modele\HTTP\Session;
 $panier = Session::getInstance()->lire('panier');
 
 if (empty($panier)): ?>
@@ -15,20 +16,25 @@ if (empty($panier)): ?>
         </tr>
         </thead>
         <tbody>
-        <?php foreach ($panier as $produit): ?>
+        <?php
+        $totalGlobal = 0; // Initialize total variable
+        foreach ($panier as $produit):
+            $sousTotal = $produit['prix'] * $produit['quantite']; // Calculate subtotal for each product
+            $totalGlobal += $sousTotal; // Add to the global total
+            ?>
             <tr>
                 <td><?= htmlspecialchars($produit['nom']) ?></td>
                 <td>
-                    <form method="post" action="controleurFrontal.php?controleur=servicea&action=modifierQuantite">
+                    <form method="post" action="controleurFrontal.php?controleur=service&action=modifierQuantite&codeService=<?= htmlspecialchars($produit['id']) ?>">
                         <input type="hidden" name="id" value="<?= htmlspecialchars($produit['id']) ?>">
                         <input type="number" name="quantite" value="<?= htmlspecialchars($produit['quantite']) ?>" min="1">
                         <input type="submit" value="Modifier">
                     </form>
                 </td>
                 <td><?= number_format($produit['prix'], 2, ',', ' ') ?> €</td>
-                <td><?= number_format($produit['prix'] * $produit['quantite'], 2, ',', ' ') ?> €</td>
+                <td><?= number_format($sousTotal, 2, ',', ' ') ?> €</td>
                 <td>
-                    <form method="post" action="controleurFrontal.php?controleur=servicea&action=supprimerProduit">
+                    <form method="post" action="controleurFrontal.php?controleur=service&action=supprimerProduit&codeService=<?= htmlspecialchars($produit['id']) ?>">
                         <input type="hidden" name="id" value="<?= htmlspecialchars($produit['id']) ?>">
                         <input type="submit" value="Supprimer">
                     </form>
@@ -38,7 +44,11 @@ if (empty($panier)): ?>
         </tbody>
     </table>
 
-    <form method="post" action="controleurFrontal.php?controleur=servicea&ction=passerCommande">
+    <div class="total">
+        <strong>Total Commande :</strong> <?= number_format($totalGlobal, 2, ',', ' ') ?> €
+    </div>
+
+    <form method="post" action="controleurFrontal.php?controleur=service&action=passerCommande">
         <input type="submit" value="Passer la commande">
     </form>
 <?php endif; ?>

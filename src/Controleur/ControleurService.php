@@ -102,4 +102,61 @@ abstract class ControleurService extends ControleurGenerique {
 
         self::redirectionVersURL("afficherListe", self::$controleur);
     }
+
+    public static function modifierQuantite(): void {
+        if (!isset($_REQUEST['codeService']) || !isset($_REQUEST['quantite'])) {
+            MessageFlash::ajouter("danger", "Code du service ou quantité manquant.");
+            self::redirectionVersURL("afficherPanier", self::$controleur);
+            return;
+        }
+
+        $codeService = $_REQUEST['codeService'];
+        $quantite = (int)$_REQUEST['quantite'];
+
+        $session = Session::getInstance();
+        $panier = $session->lire('panier');
+
+        if (isset($panier[$codeService])) {
+            if ($quantite <= 0) {
+                unset($panier[$codeService]);
+                MessageFlash::ajouter("info", "Service supprimé du panier.");
+            } else {
+                $panier[$codeService]['quantite'] = $quantite;
+                MessageFlash::ajouter("success", "Quantité mise à jour.");
+            }
+        } else {
+            MessageFlash::ajouter("danger", "Service introuvable dans le panier.");
+        }
+
+        $session->enregistrer('panier', $panier);
+        self::redirectionVersURL("afficherPanier", self::$controleur);
+    }
+
+
+    public static function supprimerProduit(): void {
+        if (!isset($_REQUEST['codeService'])) {
+            MessageFlash::ajouter("danger", "Code du service manquant.");
+            self::redirectionVersURL("afficherPanier", self::$controleur);
+            return;
+        }
+
+        $codeService = $_REQUEST['codeService'];
+        $session = Session::getInstance();
+        $panier = $session->lire('panier');
+
+        if (isset($panier[$codeService])) {
+            unset($panier[$codeService]);
+            MessageFlash::ajouter("success", "Service supprimé du panier.");
+        } else {
+            MessageFlash::ajouter("danger", "Service introuvable dans le panier.");
+        }
+
+        $session->enregistrer('panier', $panier);
+        self::redirectionVersURL("afficherPanier", self::$controleur);
+    }
+
+
+    public static function passerCommande() {
+
+    }
 }
