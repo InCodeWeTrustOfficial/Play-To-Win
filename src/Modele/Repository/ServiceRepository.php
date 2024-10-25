@@ -103,7 +103,6 @@ abstract class ServiceRepository extends AbstractRepository{
     }
 
     public function recupererParClePrimaire(string $cle): ?AbstractDataObject {
-        // Requette sql pour récuperer les données
         $sql = "SELECT s." . join(', s.', $this->getNomsColonnes()) . ", p." . join(', p.', $this->getNomsColonnesService()) . " 
             FROM " . $this->getNomTable() . " s 
             JOIN " . $this->getNomTableService() . " p 
@@ -124,7 +123,6 @@ abstract class ServiceRepository extends AbstractRepository{
     public function recuperer(): array {
         $liste = array();
 
-        // Requette sql pour récuperer les données
         $sql = "SELECT s." . join(', s.', $this->getNomsColonnes()) . ", p." . join(', p.', $this->getNomsColonnesService()) . " 
             FROM " . $this->getNomTable() . " s 
             JOIN " . $this->getNomTableService() . " p 
