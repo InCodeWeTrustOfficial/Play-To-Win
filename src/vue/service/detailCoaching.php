@@ -9,6 +9,7 @@ $descriptionServiceHTML = htmlspecialchars($service->getDescriptionService());
 $coachHTML = htmlspecialchars($service->getCoach());
 $coachURL = rawurlencode($service->getCoach());
 $prixHTML = htmlspecialchars($service->getPrixService());
+$duree = htmlspecialchars($service->getDuree());
 
 echo '<h1 class="service-name">' . $nomServiceHTML . '</h1>';
 
@@ -17,6 +18,7 @@ echo '
         <img src="../ressources/img/jeux/lol.png" alt="Icon" class="game-icon">
         <span class="game-name">' . $service->getNomJeu() . '</span>
         <span class="service-price">' . $prixHTML . ' €</span>
+         <span class="service-price"> ' . $duree . ' min </span>
     </div>
 ';
 

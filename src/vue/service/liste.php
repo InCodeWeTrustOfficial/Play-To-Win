@@ -9,15 +9,17 @@ echo "<h2>Liste des services proposé</h2>";
 
 <div class="service-container">
     <?php foreach ($services as $service): ?>
-    <a class="detail-link" href="../web/controleurFrontal.php?controleur=<?php echo $controleur; ?>&action=afficherDetail&codeService=<?php echo $service->getCodeService(); ?>">
+        <a class="detail-link" href="../web/controleurFrontal.php?controleur=<?php echo $controleur; ?>&action=afficherDetail&codeService=<?php echo $service->getCodeService(); ?>">
+            <div class="service-card">
+                <img src="../ressources/img/jeux/lol.png" alt="Icon" class="service-icon">
+                <div class="service-name"><?php echo $service->getNomService(); ?></div>
+                <div class="service-description"><?php echo $service->getDescriptionService(); ?></div>
+                <div class="service-price"><?php echo number_format($service->getPrixService(), 2); ?> €</div>
+                <div class="service-price"><?php echo $service->getTypeService(); ?> </div>
 
-    <div class="service-card">
-             <img src="../ressources/img/jeux/lol.png" alt="Icon" class="service-icon">
-            <div class="service-name"><?php echo $service->getNomService(); ?></div>
-            <div class="service-description"><?php echo $service->getDescriptionService(); ?></div>
-            <div class="service-price"><?php echo number_format($service->getPrixService(), 2); ?> €</div>
-        </div>
-    </a>
+            </div>
+
+        </a>
     <?php endforeach; ?>
 </div>
 

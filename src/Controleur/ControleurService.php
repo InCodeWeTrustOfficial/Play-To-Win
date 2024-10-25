@@ -36,7 +36,7 @@ abstract class ControleurService extends ControleurGenerique {
             }
 
             if($service != NULL) {
-                self::afficherVue('vueGenerale.php',["titre" => "Détail des utilisateurs", "cheminCorpsVue" => "service/detail.php", 'service'=>$service,'controleur'=>self::$controleur]);
+                self::afficherVue('vueGenerale.php',["titre" => "Détail des utilisateurs", "cheminCorpsVue" => "service/detail" . ucfirst($service->getTypeService()) . ".php", 'service'=>$service,'controleur'=>self::$controleur]);
             } else{
                 self::afficherErreur($codeService);
             }

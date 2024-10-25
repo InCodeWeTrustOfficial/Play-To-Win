@@ -25,7 +25,7 @@ class ControleurUtilisateur extends ControleurGenerique {
             $id = $_REQUEST['id'];
             $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($id);
             if($utilisateur != NULL) {
-                self::afficherVue('vueGenerale.php',["titre" => "Détail des utilisateurs", "cheminCorpsVue" => "utilisateur/detail.php", 'utilisateur'=>$utilisateur,'controleur'=>self::$controleur]);
+                self::afficherVue('vueGenerale.php',["titre" => "Détail des utilisateurs", "cheminCorpsVue" => "utilisateur/detailCoaching.php", 'utilisateur'=>$utilisateur,'controleur'=>self::$controleur]);
             } else{
                 $idHTML = htmlspecialchars($id);
                 MessageFlash::ajouter("warning","L'utilisateur $idHTML n'existe pas !");

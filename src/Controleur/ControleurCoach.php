@@ -27,7 +27,7 @@ class ControleurCoach extends ControleurGenerique {
                 self::redirectionVersURL();
             }else{
                 $coach = (new CoachRepository())->recupererParClePrimaire($id);
-                self::afficherVue("vueGenerale.php",["titre" => "Informations Coach","cheminCorpsVue" => "coach/detail.php", "coach" => $coach]);
+                self::afficherVue("vueGenerale.php",["titre" => "Informations Coach","cheminCorpsVue" => "coach/detailCoaching.php", "coach" => $coach]);
             }
         }
     }
