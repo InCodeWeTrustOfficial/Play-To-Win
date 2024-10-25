@@ -9,11 +9,23 @@
     border: 1px solid #ccc;
     border-radius: 15px;
     padding: 20px;
-    width: 200px;
+    width: 300px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s;
     position: relative;
 }
+
+.coach-banner {
+    width: 100%;
+    overflow: hidden; /* Assurez-vous que rien ne déborde */
+}
+
+.banner-image {
+    width: 100%; /* Fait que l'image prenne toute la largeur */
+    height: auto; /* Maintient les proportions de l'image */
+    border-radius: 15px 15px 0 0; /* Arrondi les coins supérieurs de l'image */
+}
+
 
 .coach-icon {
     width: 30px;
