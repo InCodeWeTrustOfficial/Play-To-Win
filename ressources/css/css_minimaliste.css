@@ -1,10 +1,33 @@
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
+
+body {
+    margin-left: 20px;
+    margin-right: 20px;
+    padding: 0;
+    height: 100%;
+}
+
+header, footer, main {
+    width: 100%;
+}
+
+nav {
+    position: sticky; /* Ou utilisez fixed si vous voulez qu'il reste en haut */
+    top: 0; /* Colle la nav en haut */
+    background-color: white; /* Ajoute une couleur de fond pour la visibilité */
+    z-index: 1000; /* Assure que la nav est au-dessus d'autres éléments */
+}
 
 nav ul {
     list-style: none;
     padding-left: 0;
     text-align: center;
-    display:flex;
-    justify-content:center;
+    display: flex;
+    justify-content: center;
 }
 
 nav ul li {
@@ -28,18 +51,12 @@ nav ul li a {
     padding-right: 5px;
 }
 
-header, footer, main {
-    width: 600px;
-}
-
 footer p {
     border: 1px solid black;
-    text-align:right;
-    /* width:600px; */
-    padding-right:1em;
+    text-align: right;
+    padding-right: 1em;
 }
 
-/* https://philipwalton.github.io/solved-by-flexbox/demos/input-add-ons/ */
 .InputAddOn {
     display: flex;
     margin-bottom: 1.5em;
@@ -48,9 +65,11 @@ footer p {
 .InputAddOn-field {
     flex: 1;
 }
+
 .InputAddOn-field:not(:first-child) {
     border-left: 0;
 }
+
 .InputAddOn-field:not(:last-child) {
     border-right: 0;
 }
@@ -67,10 +86,12 @@ footer p {
     border: 1px solid rgba(147, 128, 108, 0.25);
     padding: 0.5em 0.75em;
 }
+
 .InputAddOn-field:first-child,
 .InputAddOn-item:first-child {
     border-radius: 2px 0 0 2px;
 }
+
 .InputAddOn-field:last-child,
 .InputAddOn-item:last-child {
     border-radius: 0 2px 2px 0;
