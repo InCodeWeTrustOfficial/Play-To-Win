@@ -46,9 +46,61 @@ body {
     font-weight: bold;
 }
 
-.service-coach,
-.service-game {
-    color: #555;
+.detail-link {
+    text-decoration: none;
+    color: blue;
+    font-weight: bold;
+}
+
+.detail-link:hover {
+    text-decoration: none;
+    color: darkblue;
+}
+
+.service-name {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.game-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.game-icon {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+}
+
+.game-name {
+    font-size: 1.2em;
+    margin-right: 10px;
+}
+
+.coach-name {
+    color: #bebebe;
+    font-size: 1.2em;
+    margin-right: 10px;
+}
+
+.coach-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.separator {
+    flex-grow: 1;
+    margin-left: 10px;
+    margin-right: 0;
+}
+
+.service-description {
+    margin-top: 20px;
 }
 
 .detail-link {
@@ -60,4 +112,36 @@ body {
 .detail-link:hover {
     text-decoration: none;
     color: darkblue;
+}
+
+.button-container {
+    margin-top: 20px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 15px;
+    margin-right: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.modify-btn {
+    background-color: #007bff;
+}
+
+.modify-btn:hover {
+    background-color: #0056b3;
+}
+
+.delete-btn {
+    background-color: #dc3545;
+}
+
+.delete-btn:hover {
+    background-color: #c82333;
 }

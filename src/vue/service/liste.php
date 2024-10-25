@@ -15,8 +15,6 @@ echo "<h2>Liste des services proposé</h2>";
              <img src="../ressources/img/jeux/lol.png" alt="Icon" class="service-icon">
             <div class="service-name"><?php echo $service->getNomService(); ?></div>
             <div class="service-description"><?php echo $service->getDescriptionService(); ?></div>
-            <div class="service-coach">Coach ID: <?php echo $service->getCoach(); ?></div>
-            <div class="service-game">Jeu: <?php echo $service->getNomJeu(); ?></div>
             <div class="service-price"><?php echo number_format($service->getPrixService(), 2); ?> €</div>
         </div>
     </a>
