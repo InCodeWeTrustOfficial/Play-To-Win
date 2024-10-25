@@ -80,7 +80,7 @@ abstract class ControleurService extends ControleurGenerique {
 
         if ($service != null) {
             $session = Session::getInstance();
-            $panier = $session->lire('panier') ?? [];
+            $panier = $session->lire('panier');
 
             if (isset($panier[$codeService])) {
                 $panier[$codeService]['quantite']++;

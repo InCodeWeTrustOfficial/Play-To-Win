@@ -1,4 +1,7 @@
-<?php if (empty($panier)): ?>
+<?php use App\PlayToWin\Modele\HTTP\Session;
+$panier = Session::getInstance()->lire('panier');
+
+if (empty($panier)): ?>
     <p>Votre panier est vide.</p>
 <?php else: ?>
     <table>

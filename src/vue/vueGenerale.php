@@ -39,8 +39,8 @@
                 $ids = ConnexionUtilisateur::getIdUtilisateurConnecte();
                 $idURL = rawurlencode($ids);
                 echo '
-                <li>
-                <a href="controleurFrontal.php?controleur=utilisateur&action=afficherDetail&id='.$idURL.'"><img src="../ressources/img/user.png "></a>
+            <li>
+                <a href="controleurFrontal.php?controleur=utilisateur&panier=&action=afficherDetail&id='.$idURL.'"><img src="../ressources/img/user.png "></a>
             </li>
             <li>
                 <a href="controleurFrontal.php?controleur=utilisateur&action=deconnecter"><img src="../ressources/img/logout.png"></a>
