@@ -29,7 +29,10 @@ echo '<p>Prenom : '. $prenomHTML .' </p>';
 echo '<p>Pseudo : '. $pseudoHTML .' </p>';
 echo '<p>Email : '. $emailHTML .' </p>';
 echo '<p>Date de naissance : '. $dateNaissanceHTML .' </p>';
-echo '<p>Avatar : '. $avatarHTML .' </p>';
+echo '<p>
+<img src="../'.$utilisateur->getAvatarPath().'" alt="Photo de profil" style="width: 70px; height: 70px; object-fit: cover;" 
+     onerror="this.onerror=null; this.src=\'../ressources/img/defaut_pp.png\';">
+</p>';
 if( (new CoachRepository())->estCoach($utilisateur->getId())){
     echo 'Utilisateur coach !';
     echo '<a href = "../web/controleurFrontal.php?controleur=coach&action=afficherDetail&id='.$idURL.'"> Voir sa page de coach </a>';

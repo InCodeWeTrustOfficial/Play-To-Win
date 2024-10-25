@@ -17,6 +17,8 @@ class Utilisateur extends AbstractDataObject {
     private string $mdpHache;
     private bool $estAdmin;
 
+    private static $pathAvatar = "ressources/img/uploads/pp_utilisateurs/";
+
     public function __construct(
         string $idUtilisateur,
         string $nom,
@@ -124,7 +126,7 @@ class Utilisateur extends AbstractDataObject {
     }
     public function getAvatarPath(): string
     {
-        return "img/uploads/pp-utilisateurs/$this->idUtilisateur.png";
+        return $this::$pathAvatar.$this->idUtilisateur.".png";
     }
 }
 ?>
