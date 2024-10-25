@@ -32,7 +32,7 @@ class ControleurCoach extends ControleurGenerique {
                 self::redirectionVersURL();
             }else{
                 $coach = (new CoachRepository())->recupererParClePrimaire($id);
-                self::afficherVue("vueGenerale.php",["titre" => "Informations Coach","cheminCorpsVue" => "coach/detailCoaching.php", "coach" => $coach]);
+                self::afficherVue("vueGenerale.php",["titre" => "Informations Coach","cheminCorpsVue" => "coach/detail.php", "coach" => $coach]);
             }
         }
     }
@@ -69,7 +69,7 @@ class ControleurCoach extends ControleurGenerique {
 
     public static function afficherFormulaireMiseAJour():void{
         if(!isset($_REQUEST['id'])){
-            MessageFlash::ajouter("danger","Aucun id.");
+            MessageFlash::ajouter("danger","AucuAjout image testn id.");
             self::redirectionVersURL();
         } else{
             if(!(ConnexionUtilisateur::estAdministrateur() || ConnexionUtilisateur::estUtilisateur($_REQUEST['id']))){
