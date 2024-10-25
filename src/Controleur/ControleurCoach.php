@@ -15,6 +15,11 @@ class ControleurCoach extends ControleurGenerique {
 
     private static string $controleur = "coach";
 
+    public static function afficherListe() : void {
+        $utilisateurs = (new CoachRepository())->recuperer();
+        self::afficherVue('vueGenerale.php',["titre" => "Liste des utilisateurs", "cheminCorpsVue" => "coach/liste.php", 'coachs'=>$utilisateurs, 'controleur'=>self::$controleur]);
+    }
+    
     public static function afficherDetail() : void{
         if(!isset($_REQUEST['id'])){
             MessageFlash::ajouter("warning","Le coach n'existe pas.");

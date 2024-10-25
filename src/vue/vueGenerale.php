@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="../ressources/css/css_minimaliste.css">
     <link rel="stylesheet" href="../ressources/css/navstyles.css">
     <link rel="stylesheet" href="../ressources/css/service.css">
+    <link rel="stylesheet" href="../ressources/css/coach.css">
     <meta charset="UTF-8">
     <title>
         <?php
@@ -21,9 +22,10 @@
 
             ?>
             <li>
+                <a href="controleurFrontal.php?action=afficherListe&controleur=coach">Coaching</a>
+            </li>
+            <li>
                 <a href="controleurFrontal.php?action=afficherListe&controleur=utilisateur">Gestion des utilisateurs</a>
-            </li><li>
-                <a href="controleurFrontal.php?action=afficherListe&controleur=trajet">Gestion des trajets</a>
             </li><li>
                 <a href="controleurFrontal.php?action=afficherFormulairePreference"><img src="../ressources/img/heart.png"></a>
             </li>

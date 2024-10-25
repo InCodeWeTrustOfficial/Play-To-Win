@@ -11,16 +11,16 @@ class Coach extends Utilisateur {
         parent::__construct($utilisateur->getId(),$utilisateur->getNom(),$utilisateur->getPrenom(),$utilisateur->getPseudo(),$utilisateur->getEmail(),$utilisateur->getEmailAValider(),$utilisateur->getNonce(),$utilisateur->getDateNaissance(),$utilisateur->getMdpHache(),$utilisateur->isAdmin());
         $this->biographie = $biographie;
     }
-    public function getBiographie(): string
-    {
+
+    public function getBiographie(): string {
         return $this->biographie;
     }
-    public function setBiographie(string $biographie): void
-    {
+
+    public function setBiographie(string $biographie): void {
         $this->biographie = $biographie;
     }
-    public function getBanniere(): string
-    {
+
+    public function getBanniere(): string {
         return "img/uploads/coach/banniere/".$this->getId().".png";
     }
 }
