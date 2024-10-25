@@ -16,10 +16,10 @@ header, footer, main {
 }
 
 nav {
-    position: sticky; /* Ou utilisez fixed si vous voulez qu'il reste en haut */
-    top: 0; /* Colle la nav en haut */
-    background-color: white; /* Ajoute une couleur de fond pour la visibilité */
-    z-index: 1000; /* Assure que la nav est au-dessus d'autres éléments */
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 1000;
 }
 
 nav ul {
