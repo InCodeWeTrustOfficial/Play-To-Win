@@ -15,16 +15,13 @@ echo "<h2>Liste des services proposé</h2>";
                 <div class="service-name"><?php echo $service->getNomService(); ?></div>
                 <div class="service-description"><?php echo $service->getDescriptionService(); ?></div>
                 <div class="service-price"><?php echo number_format($service->getPrixService(), 2); ?> €</div>
-                <div class="service-price"><?php echo $service->getTypeService(); ?> </div>
-
+                <div class="service-price"><?php echo $service->getTypeService(); ?></div>
             </div>
-
         </a>
     <?php endforeach; ?>
 </div>
 
 <br>
-<h3>
-    Lien pour créer un services :
-    <a href="controleurFrontal.php?controleur=service&action=afficherFormulaireProposerService">Création</a>
-</h3>
+<div class="btn">
+    <a href="../web/controleurFrontal.php?controleur=service&action=afficherFormulaireProposerService" class="btn new-service-btn">Nouveau</a>
+</div>

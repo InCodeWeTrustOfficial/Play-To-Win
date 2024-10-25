@@ -21,7 +21,6 @@ body {
 
 .service-icon {
     width: 30px;
-    height: auto;
     position: absolute;
     top: 10px;
     left: 10px;
@@ -30,7 +29,7 @@ body {
 .service-name {
     font-size: 1.5em;
     font-weight: bold;
-    margin-top: 30px;
+    margin: 30px 0 10px;
 }
 
 .service-card:hover {
@@ -41,7 +40,7 @@ body {
     margin: 10px 0;
 }
 
-.service-price {
+.service-price, .coach-name, .game-name {
     color: #bebebe;
     font-weight: bold;
 }
@@ -53,17 +52,10 @@ body {
 }
 
 .detail-link:hover {
-    text-decoration: none;
     color: darkblue;
 }
 
-.service-name {
-    font-size: 1.5em;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.game-info {
+.game-info, .coach-info {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
@@ -75,43 +67,9 @@ body {
     margin-right: 10px;
 }
 
-.game-name {
-    font-size: 1.2em;
-    margin-right: 10px;
-}
-
-.coach-name {
-    color: #bebebe;
-    font-size: 1.2em;
-    margin-right: 10px;
-}
-
-.coach-info {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-}
-
 .separator {
     flex-grow: 1;
-    margin-left: 10px;
-    margin-right: 0;
-}
-
-.service-description {
-    margin-top: 20px;
-}
-
-.detail-link {
-    text-decoration: none;
-    color: blue;
-    font-weight: bold;
-}
-
-.detail-link:hover {
-    text-decoration: none;
-    color: darkblue;
+    margin: 0 10px;
 }
 
 .button-container {
@@ -128,6 +86,14 @@ body {
     font-weight: bold;
     text-align: center;
     transition: background-color 0.3s;
+}
+
+.new-service-btn {
+    background-color: #0056b3;
+}
+
+.new-service-btn:hover {
+    background-color: #004494;
 }
 
 .modify-btn {
