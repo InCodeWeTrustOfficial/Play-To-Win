@@ -18,6 +18,11 @@ $dateNaissanceHTML = htmlspecialchars($coach->getDateNaissance()->format("d/m/Y"
 
 $avatarHTML = htmlspecialchars($coach->getAvatarPath());
 
+echo '<p>
+<img src="../'.$coach->getBannierePath().'" alt="Bannière" style="width: 1546px; height: 423px; object-fit: cover;" 
+     onerror="this.onerror=null; this.src=\'../ressources/img/defaut_banniere.png\';">
+</p>';
+
 echo '<p>id du coach : '. $idHTML .' </p>';
 echo '<p>Nom du coach: '. $nomHTML .' </p>';
 echo '<p>Prenom du coach: '. $prenomHTML .' </p>';
@@ -29,6 +34,10 @@ echo '<p>Biographie du coach: '.$biographieHTML.'</p>';
 echo '<a href = "../web/controleurFrontal.php?controleur=utilisateur&action=afficherDetail&id='.$idURL.'">Voir page Joueur</a>';
 
 if (ConnexionUtilisateur::estUtilisateur($coach->getId()) || ConnexionUtilisateur::estAdministrateur()) {
+    echo '<p>
+          <a href = "../web/controleurFrontal.php?controleur=coach&action=afficherFormulaireBanniere&id=' . $idURL . '">Envie de changer de bannière?</a>
+</p>';
+
     echo '<p><a href = "../web/controleurFrontal.php?controleur=coach&action=afficherFormulaireMiseAJour&id=' . $idURL . '">Modifier formulaire coach ici</a></p>';
     echo '<p><a href = "../web/controleurFrontal.php?controleur=coach&action=supprimer&id=' . $idURL . '">Se désinscrire de la liste des coachs !</a></p>';
 }
