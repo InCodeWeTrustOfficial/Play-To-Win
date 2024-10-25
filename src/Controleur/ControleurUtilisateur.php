@@ -222,14 +222,14 @@ class ControleurUtilisateur extends ControleurGenerique {
                 MessageFlash::ajouter("danger","Utilisateur non valide.");
                 self::redirectionVersURL();
             }else {
+                $id = $_REQUEST['id'];
+                $idUrl = rawurlencode($id);
                 /** @var Utilisateur $utilisateur */
-                $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($_REQUEST['id']);
+                $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($id);
                 if (!ConnexionUtilisateur::estAdministrateur() && !MotDePasse::verifier($_REQUEST['mdp'], $utilisateur->getMdpHache())) {
                     MessageFlash::ajouter("warning", "Mot de passe incorrect !");
-                    self::redirectionVersURL("afficherFormulaireAvatar", self::$controleur);
+                    self::redirectionVersURL("afficherFormulaireAvatar&id=$idUrl", self::$controleur);
                 } else {
-                    $id = $_REQUEST['id'];
-                    $idUrl = rawurlencode($id);
                     if (!(!empty($_FILES[$id]) && is_uploaded_file($_FILES[$id]['tmp_name']))) {
                         MessageFlash::ajouter("warning", "Problème avec le fichier.");
                         self::redirectionVersURL();
