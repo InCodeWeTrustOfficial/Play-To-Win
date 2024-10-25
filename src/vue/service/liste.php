@@ -9,6 +9,7 @@ echo "<h2>Liste des services proposé</h2>";
 
 <div class="service-container">
     <?php foreach ($services as $service): ?>
+
         <a class="detail-link" href="../web/controleurFrontal.php?controleur=<?php echo $controleur; ?>&action=afficherDetail&codeService=<?php echo $service->getCodeService(); ?>">
             <div class="service-card">
                 <img src="../ressources/img/jeux/lol.png" alt="Icon" class="service-icon">
