@@ -17,10 +17,10 @@ if (empty($panier)): ?>
         </thead>
         <tbody>
         <?php
-        $totalGlobal = 0; // Initialize total variable
+        $totalGlobal = 0;
         foreach ($panier as $produit):
-            $sousTotal = $produit['prix'] * $produit['quantite']; // Calculate subtotal for each product
-            $totalGlobal += $sousTotal; // Add to the global total
+            $sousTotal = $produit['prix'] * $produit['quantite'];
+            $totalGlobal += $sousTotal;
             ?>
             <tr>
                 <td><?= htmlspecialchars($produit['nom']) ?></td>
@@ -48,7 +48,7 @@ if (empty($panier)): ?>
         <strong>Total Commande :</strong> <?= number_format($totalGlobal, 2, ',', ' ') ?> €
     </div>
 
-    <form method="post" action="controleurFrontal.php?controleur=service&action=passerCommande">
+    <form method="post" action="controleurFrontal.php?controleur=exemplaireservice&action=passerCommande&codeService=<?= htmlspecialchars($produit['id']) ?>">
         <input type="submit" value="Passer la commande">
     </form>
 <?php endif; ?>

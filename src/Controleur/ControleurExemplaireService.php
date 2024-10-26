@@ -3,21 +3,21 @@
 namespace App\PlayToWin\Controleur;
 
 use App\PlayToWin\Lib\MessageFlash;
-use App\PlayToWin\Modele\DataObject\ExemplaireAnalyse;
+use App\PlayToWin\Modele\DataObject\ExemplaireService;
 use App\PlayToWin\Modele\HTTP\Session;
 use App\PlayToWin\Modele\Repository\AnalyseVideoRepository;
 use App\PlayToWin\Modele\Repository\CoachingRepository;
 use App\PlayToWin\Modele\Repository\ExemplaireAnalyseRepository;
 
-abstract class ControleurService extends ControleurGenerique {
+abstract class ControleurExemplaireService extends ControleurGenerique {
 
-    protected static string $controleur = 'service';
+    protected static string $controleur = 'exemplaireservice';
     abstract static function getControleur(): string;
-    abstract static function construireDepuisFormulaire(): string;
+    abstract static function construireDepuisFormulaire(array $tableauDonneesFormulaire): ExemplaireService;
 
     public static function afficherListe() : void {
-        $services = array_merge((new AnalyseVideoRepository())->recuperer(), (new CoachingRepository())->recuperer());
-        self::afficherVue('vueGenerale.php', ["titre" => "Liste des services", "cheminCorpsVue" => "service/liste.php", 'services' => $services, 'controleur' => self::$controleur]);
+        $services = array_merge((new ExemplaireAnalyseRepository())->recuperer(), (new CoachingRepository())->recuperer());
+        self::afficherVue('vueGenerale.php', ["titre" => "Liste des exemplaire services", "cheminCorpsVue" => "exemplaireservice/liste.php", 'services' => $services, 'controleur' => self::$controleur]);
     }
 
     public static function afficherFormulaireMiseAJour() : void {
@@ -84,6 +84,7 @@ abstract class ControleurService extends ControleurGenerique {
         $session->detruire();
         self::redirectionVersURL("afficherListe", self::$controleur);
     }
+
 
 
 
