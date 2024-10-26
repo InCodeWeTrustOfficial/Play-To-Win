@@ -2,8 +2,10 @@
 /** @var Utilisateur $utilisateur */
 
 use App\PlayToWin\Lib\ConnexionUtilisateur;
+use App\PlayToWin\Modele\DataObject\Langue;
 use App\PlayToWin\Modele\DataObject\Utilisateur;
-use App\PlayToWin\Modele\Repository\CoachRepository;
+use App\PlayToWin\Modele\Repository\Association\ParlerRepository;
+use App\PlayToWin\Modele\Repository\Single\CoachRepository;
 
 $idURL = rawurlencode($utilisateur->getId());
 
@@ -22,6 +24,20 @@ if($utilisateur->isAdmin()){
     echo "Administrateur !";
 }
 $avatarHTML = htmlspecialchars($utilisateur->getAvatarPath());
+
+echo '<p>Langues parlées: ';
+$langues = (new ParlerRepository())->recupererLangues($utilisateur->getId());
+if($langues == null){
+    echo 'Aucune :(';
+} else{
+    /** @var Langue $l */
+    foreach ($langues as $l){
+        echo '<p>
+<img src="../'.$l->getDrapeauPath().'" alt="Drapeau" style="width: 40px; height: 26px; object-fit: cover;"> </p>';
+    }
+}
+echo '</p>';
+
 echo '<p>id : '. $idHTML .' </p>';
 echo '<p>Nom : '. $nomHTML .' </p>';
 echo '<p>Prenom : '. $prenomHTML .' </p>';
