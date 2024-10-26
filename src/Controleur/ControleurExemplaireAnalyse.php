@@ -9,7 +9,7 @@ use App\PlayToWin\Modele\Repository\CoachingRepository;
 
 class ControleurExemplaireAnalyse extends ControleurExemplaireService {
 
-    protected static string $controleur = 'exsanalyse';
+    protected static string $controleur = 'exemplaireanalyse';
 
     public static function afficherDetail() : void {
         if (!isset($_REQUEST['codeService'])) {

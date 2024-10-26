@@ -4,7 +4,6 @@ namespace App\PlayToWin\Controleur;
 
 use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Modele\DataObject\ExemplaireService;
-use App\PlayToWin\Modele\HTTP\Session;
 use App\PlayToWin\Modele\Repository\AnalyseVideoRepository;
 use App\PlayToWin\Modele\Repository\CoachingRepository;
 use App\PlayToWin\Modele\Repository\ExemplaireAnalyseRepository;
@@ -59,33 +58,23 @@ abstract class ControleurExemplaireService extends ControleurGenerique {
         self::afficherVue('vueGenerale.php', ["titre" => "Problème avec le service", "cheminCorpsVue" => "service/erreur.php", "messageErreur" => $messageErreur, 'controleur' => self::$controleur]);
     }
 
-    public static function passerCommande() {
-        if (!isset($_REQUEST['codeService'])) {
-            MessageFlash::ajouter("danger", "Code du service manquant.");
-            self::redirectionVersURL("afficherPanier", self::$controleur);
-            return;
+    public static function creerDepuisCookie(): void {
+        try {
+
+            $service = static::construireDepuisFormulaire($_REQUEST);
+
+            (new ExemplaireAnalyseRepository())->ajouter($service);
+
+            self::afficherVue('vueGenerale.php', [
+                "titre" => "Création service",
+                "cheminCorpsVue" => 'service/ServicesCree.php',
+                'controleur' => self::$controleur
+            ]);
+
+        } catch (\Exception $e) {
+            self::afficherErreur("Une erreur est survenue lors de la création du service : " . $e->getMessage());
         }
-
-        $session = Session::getInstance();
-        $panier = $session->lire('panier');
-        $codeService = $_REQUEST['codeService'];
-
-        if (isset($panier[$codeService])) {
-            unset($panier[$codeService]);
-            MessageFlash::ajouter("success", "Service supprimé du panier.");
-        } else {
-            MessageFlash::ajouter("danger", "Service introuvable dans le panier.");
-        }
-
-        $service = static::construireDepuisFormulaire($_REQUEST);
-
-        (new ExemplaireAnalyseRepository())->ajouter($service);
-
-        $session->detruire();
-        self::redirectionVersURL("afficherListe", self::$controleur);
     }
-
-
 
 
 }

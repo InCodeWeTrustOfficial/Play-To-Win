@@ -3,7 +3,7 @@
 namespace App\PlayToWin\Modele\DataObject;
 use Cassandra\Date;
 
-abstract class Commande extends AbstractDataObject {
+class Commande extends AbstractDataObject {
 
     private ?int $idCommande;
     private Date $dateAchat;
