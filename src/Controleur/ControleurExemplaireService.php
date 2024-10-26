@@ -13,6 +13,7 @@ abstract class ControleurService extends ControleurGenerique {
 
     protected static string $controleur = 'service';
     abstract static function getControleur(): string;
+    abstract static function construireDepuisFormulaire(): string;
 
     public static function afficherListe() : void {
         $services = array_merge((new AnalyseVideoRepository())->recuperer(), (new CoachingRepository())->recuperer());
@@ -50,10 +51,6 @@ abstract class ControleurService extends ControleurGenerique {
         }
     }
 
-    public static function afficherFormulaireProposerService() : void {
-        self::afficherVue('vueGenerale.php', ["titre" => "Proposition services", "cheminCorpsVue" => 'service/formulaireCreation.php']);
-    }
-
     public static function afficherErreur(string $messageErreur = ""): void {
         if (!$messageErreur == "") {
             $messageErreur = ': ' . $messageErreur;
@@ -62,88 +59,16 @@ abstract class ControleurService extends ControleurGenerique {
         self::afficherVue('vueGenerale.php', ["titre" => "Problème avec le service", "cheminCorpsVue" => "service/erreur.php", "messageErreur" => $messageErreur, 'controleur' => self::$controleur]);
     }
 
-    public static function afficherPanier() : void {
-        self::afficherVue('vueGenerale.php',["titre" => "Panier", "cheminCorpsVue" => "service/panier.php", 'controleur'=>self::$controleur]);
-    }
-
-    public static function ajouterAuPanier() : void {
-        if (!isset($_REQUEST['codeService'])) {
-            MessageFlash::ajouter("danger", "Code du service manquant.");
-            self::redirectionVersURL("afficherListe", self::$controleur);
-            return;
-        }
-
-        $codeService = $_REQUEST['codeService'];
-        $service = (new AnalyseVideoRepository())->recupererParClePrimaire($codeService);
-
-        if ($service == null) {
-            $service = (new CoachingRepository())->recupererParClePrimaire($codeService);
-        }
-
-        if ($service != null) {
-            $session = Session::getInstance();
-            $panier = $session->lire('panier');
-
-            if (isset($panier[$codeService])) {
-                $panier[$codeService]['quantite']++;
-                MessageFlash::ajouter("info", "La quantité du service a été augmentée.");
-            } else {
-                $panier[$codeService] = [
-                    'id' => $service->getCodeService(),
-                    'nom' => $service->getNomService(),
-                    'prix' => $service->getPrixService(),
-                    'quantite' => 1
-                ];
-                MessageFlash::ajouter("success", "Service ajouté au panier !");
-            }
-
-            $session->enregistrer('panier', $panier);
-        } else {
-            MessageFlash::ajouter("danger", "Service introuvable.");
-        }
-
-        self::redirectionVersURL("afficherListe", self::$controleur);
-    }
-
-    public static function modifierQuantite(): void {
-        if (!isset($_REQUEST['codeService']) || !isset($_REQUEST['quantite'])) {
-            MessageFlash::ajouter("danger", "Code du service ou quantité manquant.");
-            self::redirectionVersURL("afficherPanier", self::$controleur);
-            return;
-        }
-
-        $codeService = $_REQUEST['codeService'];
-        $quantite = (int)$_REQUEST['quantite'];
-
-        $session = Session::getInstance();
-        $panier = $session->lire('panier');
-
-        if (isset($panier[$codeService])) {
-            if ($quantite <= 0) {
-                unset($panier[$codeService]);
-                MessageFlash::ajouter("info", "Service supprimé du panier.");
-            } else {
-                $panier[$codeService]['quantite'] = $quantite;
-                MessageFlash::ajouter("success", "Quantité mise à jour.");
-            }
-        } else {
-            MessageFlash::ajouter("danger", "Service introuvable dans le panier.");
-        }
-
-        $session->enregistrer('panier', $panier);
-        self::redirectionVersURL("afficherPanier", self::$controleur);
-    }
-
-    public static function supprimerProduit(): void {
+    public static function passerCommande() {
         if (!isset($_REQUEST['codeService'])) {
             MessageFlash::ajouter("danger", "Code du service manquant.");
             self::redirectionVersURL("afficherPanier", self::$controleur);
             return;
         }
 
-        $codeService = $_REQUEST['codeService'];
         $session = Session::getInstance();
         $panier = $session->lire('panier');
+        $codeService = $_REQUEST['codeService'];
 
         if (isset($panier[$codeService])) {
             unset($panier[$codeService]);
@@ -152,8 +77,14 @@ abstract class ControleurService extends ControleurGenerique {
             MessageFlash::ajouter("danger", "Service introuvable dans le panier.");
         }
 
-        $session->enregistrer('panier', $panier);
-        self::redirectionVersURL("afficherPanier", self::$controleur);
+        $service = static::construireDepuisFormulaire($_REQUEST);
+
+        (new ExemplaireAnalyseRepository())->ajouter($service);
+
+        $session->detruire();
+        self::redirectionVersURL("afficherListe", self::$controleur);
     }
+
+
 
 }
