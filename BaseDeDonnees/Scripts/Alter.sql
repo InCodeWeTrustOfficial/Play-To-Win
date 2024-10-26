@@ -4,9 +4,9 @@
 ALTER TABLE p_Coachs
 ADD CONSTRAINT fk_Coachs_Utilisateurs FOREIGN KEY (idCoach) REFERENCES p_Utilisateurs(idUtilisateur) ON DELETE CASCADE;
 
--- Table p_Panier
-ALTER TABLE p_Panier
-ADD CONSTRAINT fk_Panier_Utilisateurs FOREIGN KEY (idUtilisateur) REFERENCES p_Utilisateurs(idUtilisateur) ON DELETE CASCADE;
+-- Table p_Commande
+ALTER TABLE p_Commandes
+ADD CONSTRAINT fk_Commande_Utilisateurs FOREIGN KEY (idUtilisateur) REFERENCES p_Utilisateurs(idUtilisateur) ON DELETE CASCADE;
 
 -- Table p_Services
 ALTER TABLE p_Services
@@ -50,5 +50,5 @@ ADD CONSTRAINT fk_avoirDisponibiliteService_ExemplaireService FOREIGN KEY (idExe
 
 -- Table p_ExemplaireService
 ALTER TABLE p_ExemplaireService
-ADD CONSTRAINT fk_ExemplaireService_Panier FOREIGN KEY (idPanier) REFERENCES p_Panier(idPanier) ON DELETE CASCADE,
+ADD CONSTRAINT fk_ExemplaireService_Commande FOREIGN KEY (idCommande) REFERENCES p_Commandes(idCommande) ON DELETE CASCADE,
 ADD CONSTRAINT fk_ExemplaireService_Services FOREIGN KEY (codeService) REFERENCES p_Services(codeService) ON DELETE CASCADE;

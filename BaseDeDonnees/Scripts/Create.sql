@@ -50,19 +50,20 @@ CREATE TABLE IF NOT EXISTS p_Disponibilites (
     PRIMARY KEY(idDisponibilite)
 );
 
-CREATE TABLE IF NOT EXISTS p_Panier (
-    idPanier VARCHAR(50),
-    dateAchatPanier DATE,  
+CREATE TABLE IF NOT EXISTS p_Commandes (
+    idCommande VARCHAR(50),
+    dateAchatCommande DATE,
     idUtilisateur VARCHAR(32) NOT NULL,
-    PRIMARY KEY(idPanier)
+    PRIMARY KEY(idCommande)
 );
 
 CREATE TABLE IF NOT EXISTS p_ExemplaireService (
     idExemplaire VARCHAR(50),
     etatService VARCHAR(50),
     sujet VARCHAR(256),
-    idPanier VARCHAR(50) NOT NULL,
+    idCommande VARCHAR(50) NOT NULL,
     codeService INT NOT NULL,
+    quantite INT,
     PRIMARY KEY(idExemplaire)
 );
 
