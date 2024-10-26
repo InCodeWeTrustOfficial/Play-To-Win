@@ -2,7 +2,7 @@
 /** @var string $id */
 /** @var Coach $coach */
 use App\PlayToWin\Modele\DataObject\Coach;
-use App\PlayToWin\Modele\Repository\CoachRepository;
+use App\PlayToWin\Modele\Repository\Single\CoachRepository;
 $coach = (new CoachRepository())->recupererParClePrimaire($id);
 ?>
 <?php use App\PlayToWin\Configuration\ConfigurationSite;?>

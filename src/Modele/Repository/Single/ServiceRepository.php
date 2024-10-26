@@ -1,10 +1,12 @@
 <?php
 
-namespace App\PlayToWin\Modele\Repository;
+namespace App\PlayToWin\Modele\Repository\Single;
 
 use App\PlayToWin\Modele\DataObject\AbstractDataObject;
 use App\PlayToWin\Modele\DataObject\Services;
 use App\PlayToWin\Modele\DataObject\Utilisateur;
+use App\PlayToWin\Modele\Repository\ConnexionBaseDeDonnees;
+use PDOException;
 
 abstract class ServiceRepository extends AbstractRepository{
 
@@ -14,7 +16,7 @@ abstract class ServiceRepository extends AbstractRepository{
     protected function getNomTable(): string {
         return "p_Services";
     }
-    protected function getNomClePrimaire(): string {
+    public function getNomClePrimaire(): string {
         return "codeService	";
     }
     protected function getNomsColonnes(): array {

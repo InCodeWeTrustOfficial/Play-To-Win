@@ -1,7 +1,7 @@
 <?php
 namespace App\PlayToWin\Modele\DataObject;
 
-use App\PlayToWin\Modele\Repository\UtilisateurRepository;
+use App\PlayToWin\Modele\Repository\Single\UtilisateurRepository;
 use App\PlayToWin\Modele\DataObject\Trajet;
 use DateTime;
 

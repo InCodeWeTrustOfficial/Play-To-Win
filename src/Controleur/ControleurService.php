@@ -2,8 +2,8 @@
 
 namespace App\PlayToWin\Controleur;
 
-use App\PlayToWin\Modele\Repository\AnalyseVideoRepository;
-use App\PlayToWin\Modele\Repository\CoachingRepository;
+use App\PlayToWin\Modele\Repository\Single\AnalyseVideoRepository;
+use App\PlayToWin\Modele\Repository\Single\CoachingRepository;
 
 abstract class ControleurService extends ControleurGenerique {
 

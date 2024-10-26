@@ -2,7 +2,7 @@
 /** @var string $id */
 /** @var Utilisateur $utilisateur */
 use App\PlayToWin\Modele\DataObject\Utilisateur;
-use App\PlayToWin\Modele\Repository\UtilisateurRepository;
+use App\PlayToWin\Modele\Repository\Single\UtilisateurRepository;
 $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($id);
 ?>
 <?php use App\PlayToWin\Configuration\ConfigurationSite;?>

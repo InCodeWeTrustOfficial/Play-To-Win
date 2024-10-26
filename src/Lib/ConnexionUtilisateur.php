@@ -3,7 +3,7 @@
 namespace App\PlayToWin\Lib;
 
 use App\PlayToWin\Modele\HTTP\Session;
-use App\PlayToWin\Modele\Repository\UtilisateurRepository;
+use App\PlayToWin\Modele\Repository\Single\UtilisateurRepository;
 
 class ConnexionUtilisateur
 {

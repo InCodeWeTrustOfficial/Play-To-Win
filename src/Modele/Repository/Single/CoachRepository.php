@@ -1,17 +1,17 @@
 <?php
 
-namespace App\PlayToWin\Modele\Repository;
+namespace App\PlayToWin\Modele\Repository\Single;
 
 use App\PlayToWin\Modele\DataObject\AbstractDataObject;
 use App\PlayToWin\Modele\DataObject\Coach;
-use App\PlayToWin\Modele\DataObject\Utilisateur;
+use App\PlayToWin\Modele\Repository\ConnexionBaseDeDonnees;
 
 class CoachRepository extends AbstractRepository {
     protected function getNomTable(): string {
         return "p_Coachs";
     }
 
-    protected function getNomClePrimaire(): string {
+    public function getNomClePrimaire(): string {
         return "idCoach";
     }
     protected function getNomsColonnes(): array {

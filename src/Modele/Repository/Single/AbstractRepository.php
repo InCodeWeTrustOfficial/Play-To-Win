@@ -1,17 +1,19 @@
 <?php
 
-namespace App\PlayToWin\Modele\Repository;
+namespace App\PlayToWin\Modele\Repository\Single;
 
 use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Modele\DataObject\AbstractDataObject;
+use App\PlayToWin\Modele\Repository\AbstractMain;
+use App\PlayToWin\Modele\Repository\ConnexionBaseDeDonnees;
 use PDOException;
 
-abstract class AbstractRepository {
+abstract class AbstractRepository extends AbstractMain {
 
-    protected abstract function getNomTable() : string;
-    protected abstract function getNomClePrimaire() : string;
+
+    abstract protected function getNomClePrimaire() : string;
     protected abstract function construireDepuisTableauSQL(array $objetFormatTableau) : AbstractDataObject;
-    protected abstract function getNomsColonnes() : array;
+
     protected abstract function formatTableauSQL(AbstractDataObject $objet): array;
 
     public function recuperer(): array {
@@ -28,7 +30,8 @@ abstract class AbstractRepository {
 
     public function recupererParClePrimaire(string $cle): ?AbstractDataObject
     {
-        $sql = "SELECT * from ".$this->getNomTable()." WHERE ".$this->getNomClePrimaire()." = :cleTag";
+
+        $sql = "SELECT * from " . $this->getNomTable() . " WHERE " . $this->getNomClePrimaire() . " = :cleTag";
 
         $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
 
@@ -39,31 +42,13 @@ abstract class AbstractRepository {
 
         $objetFormatTableau = $pdoStatement->fetch();
 
+
         if ($objetFormatTableau == null) {
-            MessageFlash::ajouter("warning","Clé inexistante.");
+            MessageFlash::ajouter("warning","$sql $cle.");
             return null;
         }
         return $this->construireDepuisTableauSQL($objetFormatTableau);
     }
-
-    public function supprimer(string $cle) : bool{
-        $valide = true;
-        try{
-            $sql = "DELETE FROM ".$this->getNomTable()." WHERE ".$this->getNomClePrimaire()." = :cleTag";
-
-            $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
-
-            $values = array("cleTag" => $cle);
-
-            $pdoStatement->execute($values);
-
-        }catch(PDOException $e){
-            MessageFlash::ajouter("danger", $e->getMessage());
-            $valide = false;
-        }
-        return $valide;
-    }
-
     public function ajouter(AbstractDataObject $objet):bool {
         $valide = true;
         try{

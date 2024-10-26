@@ -1,8 +1,9 @@
 <?php
 
-namespace App\PlayToWin\Modele\Repository;
+namespace App\PlayToWin\Modele\Repository\Single;
 
 use App\PlayToWin\Modele\DataObject\AbstractDataObject;
+use App\PlayToWin\Modele\DataObject\Langue;
 use App\PlayToWin\Modele\DataObject\Utilisateur;
 use DateTime;
 use PDOException;
@@ -12,7 +13,7 @@ class UtilisateurRepository extends AbstractRepository {
     protected function getNomTable(): string {
         return "p_Utilisateurs";
     }
-    protected function getNomClePrimaire(): string {
+    public function getNomClePrimaire(): string {
         return "idUtilisateur";
     }
     protected function getNomsColonnes(): array {
@@ -36,5 +37,8 @@ class UtilisateurRepository extends AbstractRepository {
     }
     public function construireDepuisTableauSQL(array $utilisateurFormatTableau): Utilisateur {
         return new Utilisateur($utilisateurFormatTableau[0], $utilisateurFormatTableau[1], $utilisateurFormatTableau[2], $utilisateurFormatTableau[3], $utilisateurFormatTableau[4], $utilisateurFormatTableau[5], $utilisateurFormatTableau[6], new DateTime($utilisateurFormatTableau[7]), $utilisateurFormatTableau[8], $utilisateurFormatTableau[9]?1:0);
+    }
+    public function ajouterLangue(Langue $langue):void{
+
     }
 }

@@ -2,16 +2,14 @@
 
 namespace App\PlayToWin\Modele\DataObject;
 
-class Langue extends AbstractDataObject
-{
+class Langue extends AbstractDataObject {
     private string $code_alpha;
     private string $nomLangue;
-    private string $drapeau;
+    private static string $drapeauxPath = "ressources/img/drapeaux/";
 
-    public function __construct(string $code_alpha, string $nomLangue, string $drapeau){
+    public function __construct(string $code_alpha, string $nomLangue){
         $this->code_alpha = $code_alpha;
         $this->nomLangue = $nomLangue;
-        $this->drapeau = $drapeau;
     }
 
     public function getCodeAlpha(): string{
@@ -21,7 +19,7 @@ class Langue extends AbstractDataObject
     public function getNom(): string{
         return $this->nomLangue;
     }
-    public function getDrapeau(): string{
-        return $this->drapeau;
+    public function getDrapeauPath(): string{
+        return self::$drapeauxPath.strtolower($this->code_alpha).".png";
     }
 }

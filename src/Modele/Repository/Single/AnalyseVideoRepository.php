@@ -1,11 +1,10 @@
 <?php
 
-namespace App\PlayToWin\Modele\Repository;
+namespace App\PlayToWin\Modele\Repository\Single;
 
 use App\PlayToWin\Modele\DataObject\AbstractDataObject;
 use App\PlayToWin\Modele\DataObject\AnalyseVideo;
 use App\PlayToWin\Modele\DataObject\Services;
-use App\PlayToWin\Modele\DataObject\Utilisateur;
 
 class AnalyseVideoRepository extends ServiceRepository {
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\PlayToWin\Modele\Repository;
+namespace App\PlayToWin\Modele\Repository\Single;
 
 use App\PlayToWin\Modele\DataObject\AbstractDataObject;
 use App\PlayToWin\Modele\DataObject\Jeux;
@@ -11,7 +11,7 @@ class JeuxRepository extends AbstractRepository
         return "p_Jeux";
     }
 
-    protected function getNomClePrimaire(): string
+    public function getNomClePrimaire(): string
     {
         return "nomJeu";
     }

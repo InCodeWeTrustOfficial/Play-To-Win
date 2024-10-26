@@ -8,8 +8,8 @@ use App\PlayToWin\Lib\MotDePasse;
 use App\PlayToWin\Lib\VerificationEmail;
 use App\PlayToWin\Modele\DataObject\Coach;
 use App\PlayToWin\Modele\DataObject\Utilisateur;
-use App\PlayToWin\Modele\Repository\CoachRepository;
-use App\PlayToWin\Modele\Repository\UtilisateurRepository;
+use App\PlayToWin\Modele\Repository\Single\CoachRepository;
+use App\PlayToWin\Modele\Repository\Single\UtilisateurRepository;
 
 class ControleurCoach extends ControleurGenerique {
 

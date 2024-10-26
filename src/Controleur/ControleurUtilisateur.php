@@ -5,7 +5,7 @@ use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Lib\MotDePasse;
 use App\PlayToWin\Lib\VerificationEmail;
 use App\PlayToWin\Modele\DataObject\Utilisateur;
-use App\PlayToWin\Modele\Repository\UtilisateurRepository;
+use App\PlayToWin\Modele\Repository\Single\UtilisateurRepository;
 use DateTime;
 
 class ControleurUtilisateur extends ControleurGenerique {

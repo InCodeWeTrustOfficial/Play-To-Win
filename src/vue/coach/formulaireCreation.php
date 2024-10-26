@@ -2,7 +2,7 @@
 /** @var Utilisateur $utilisateur */
 /** @var string $controleur */
 use App\PlayToWin\Modele\DataObject\Utilisateur;
-use App\PlayToWin\Modele\Repository\UtilisateurRepository;
+use App\PlayToWin\Modele\Repository\Single\UtilisateurRepository;
 ?>
 <?php use App\PlayToWin\Configuration\ConfigurationSite;?>
 <form method="<?php if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>" action="controleurFrontal.php">

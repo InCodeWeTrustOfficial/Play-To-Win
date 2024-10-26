@@ -5,7 +5,7 @@ namespace App\PlayToWin\Controleur;
 use App\PlayToWin\Lib\ConnexionUtilisateur;
 use App\PlayToWin\Modele\DataObject\AnalyseVideo;
 use App\PlayToWin\Modele\DataObject\Services;
-use App\PlayToWin\Modele\Repository\AnalyseVideoRepository;
+use App\PlayToWin\Modele\Repository\Single\AnalyseVideoRepository;
 
 class ControleurAnalysevideo extends ControleurService {
 

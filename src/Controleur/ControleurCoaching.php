@@ -6,8 +6,8 @@ use App\PlayToWin\Lib\ConnexionUtilisateur;
 use App\PlayToWin\Modele\DataObject\AnalyseVideo;
 use App\PlayToWin\Modele\DataObject\Coaching;
 use App\PlayToWin\Modele\DataObject\Services;
-use App\PlayToWin\Modele\Repository\AnalyseVideoRepository;
-use App\PlayToWin\Modele\Repository\CoachingRepository;
+use App\PlayToWin\Modele\Repository\Single\AnalyseVideoRepository;
+use App\PlayToWin\Modele\Repository\Single\CoachingRepository;
 
 class ControleurCoaching extends ControleurService {
 
