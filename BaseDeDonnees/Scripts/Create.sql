@@ -51,17 +51,17 @@ CREATE TABLE IF NOT EXISTS p_Disponibilites (
 );
 
 CREATE TABLE IF NOT EXISTS p_Commandes (
-    idCommande VARCHAR(50),
-    dateAchatCommande DATE,
+    idCommande INT AUTO_INCREMENT,
+    dateAchatCommande DATETIME,
     idUtilisateur VARCHAR(32) NOT NULL,
     PRIMARY KEY(idCommande)
 );
 
 CREATE TABLE IF NOT EXISTS p_ExemplaireService (
-    idExemplaire VARCHAR(50),
-    etatService VARCHAR(50),
+    idExemplaire INT AUTO_INCREMENT,
+    etatService VARCHAR(30),
     sujet VARCHAR(256),
-    idCommande VARCHAR(50) NOT NULL,
+    idCommande INT NOT NULL,
     codeService INT NOT NULL,
     quantite INT,
     PRIMARY KEY(idExemplaire)
@@ -88,8 +88,6 @@ CREATE TABLE IF NOT EXISTS p_AnalysesVideo (
     nbJourRendu INT,
     PRIMARY KEY(codeService)
 );
-
-
 
 CREATE TABLE IF NOT EXISTS p_Parler (
     idUtilisateur VARCHAR(32),

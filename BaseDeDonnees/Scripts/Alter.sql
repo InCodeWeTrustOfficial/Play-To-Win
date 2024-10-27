@@ -4,9 +4,9 @@
 ALTER TABLE p_Coachs
 ADD CONSTRAINT fk_Coachs_Utilisateurs FOREIGN KEY (idCoach) REFERENCES p_Utilisateurs(idUtilisateur) ON DELETE CASCADE;
 
--- Table p_Commande
+-- Table p_Commandes
 ALTER TABLE p_Commandes
-ADD CONSTRAINT fk_Commande_Utilisateurs FOREIGN KEY (idUtilisateur) REFERENCES p_Utilisateurs(idUtilisateur) ON DELETE CASCADE;
+ADD CONSTRAINT fk_Commandes_Utilisateurs FOREIGN KEY (idUtilisateur) REFERENCES p_Utilisateurs(idUtilisateur) ON DELETE CASCADE;
 
 -- Table p_Services
 ALTER TABLE p_Services
