@@ -63,19 +63,15 @@ VALUES
 
 INSERT INTO p_Langues (code_alpha, nom) VALUES
 ('EN', 'Anglais'),
-('ZH', 'Chinois'),
-('HI', 'Hindi'),
+('CN', 'Chinois'),
 ('ES', 'Espagnol'),
 ('FR', 'Français'),
 ('AR', 'Arabe'),
-('RU', 'Russe'),
 ('PT', 'Portuguais'),
-('BN', 'Bengali'),
 ('DE', 'Allemand'),
-('JA', 'Japonais'),
-('KO', 'Coreen'),
-('IT', 'Italien'),
-('UR', 'Urdu');
+('JP', 'Japonais'),
+('KR', 'Coreen'),
+('IT', 'Italien');
 
 INSERT INTO p_Utilisateurs (idUtilisateur, nom, prenom, pseudo, email, emailAValider, nonce, dateDeNaissance, mdpHache,estAdmin)
 VALUES ('bnj_rl', 'Turpin', 'Benjamin', 'BNJ', 'tkt@gmail.com', '', '', '2005-08-09',
