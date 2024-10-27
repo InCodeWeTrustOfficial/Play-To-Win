@@ -1,7 +1,4 @@
 <?php
-use App\PlayToWin\Modele\HTTP\Session;
-$panier = Session::getInstance()->lire('panier');
-
 if (empty($panier)): ?>
     <p>Votre panier est vide.</p>
 <?php else: ?>
@@ -10,9 +7,9 @@ if (empty($panier)): ?>
         <tr>
             <th>Produit</th>
             <th>Quantité</th>
-            <th>Prix Unitaire</th>
+            <th>Prix</th>
             <th>Total</th>
-            <th>Actions</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -48,7 +45,7 @@ if (empty($panier)): ?>
         <strong>Total Commande :</strong> <?= number_format($totalGlobal, 2, ',', ' ') ?> €
     </div>
 
-    <form method="post" action="controleurFrontal.php?controleur=commande&action=passerCommande&codeService=<?= htmlspecialchars($produit['id']) ?>">
+    <form method="post" action="controleurFrontal.php?controleur=commande&action=afficherFormulairePanier">
         <input type="submit" value="Passer la commande">
     </form>
 <?php endif; ?>

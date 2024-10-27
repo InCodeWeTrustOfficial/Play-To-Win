@@ -6,7 +6,6 @@ use App\PlayToWin\Lib\ConnexionUtilisateur;
 use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Modele\DataObject\Commande;
 use App\PlayToWin\Modele\HTTP\Session;
-use App\PlayToWin\Modele\Repository\ExemplaireAnalyseRepository;
 use App\PlayToWin\Modele\Repository\CommandeRepository;
 use DateTime;
 
@@ -16,6 +15,11 @@ class ControleurCommande extends ControleurGenerique {
 
     public static function getControleur(): string {
         return self::$controleur;
+    }
+
+    public static function afficherFormulairePanier() {
+        $panier = Session::getInstance()->lire('panier');
+        self::afficherVue('vueGenerale.php', ["titre" => "Liste des services dans passer commande", "cheminCorpsVue" => "service/formulairePanier.php", 'panier' => $panier, 'controleur' => self::$controleur]);
     }
 
     public static function passerCommande(): void {

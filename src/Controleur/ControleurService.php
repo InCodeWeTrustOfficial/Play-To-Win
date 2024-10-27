@@ -4,6 +4,7 @@ namespace App\PlayToWin\Controleur;
 
 use App\PlayToWin\Lib\GestionPanier;
 use App\PlayToWin\Lib\MessageFlash;
+use App\PlayToWin\Modele\HTTP\Session;
 use App\PlayToWin\Modele\Repository\AnalyseVideoRepository;
 use App\PlayToWin\Modele\Repository\CoachingRepository;
 
@@ -11,6 +12,7 @@ abstract class ControleurService extends ControleurGenerique {
 
     protected static string $controleur = 'service';
     abstract static function getControleur(): string;
+    abstract static function creerDepuisFormulaire(): void;
 
     public static function afficherListe() : void {
         $services = array_merge((new AnalyseVideoRepository())->recuperer(), (new CoachingRepository())->recuperer());
@@ -61,7 +63,8 @@ abstract class ControleurService extends ControleurGenerique {
     }
 
     public static function afficherPanier() : void {
-        self::afficherVue('vueGenerale.php',["titre" => "Panier", "cheminCorpsVue" => "service/panier.php", 'controleur'=>self::$controleur]);
+        $panier = Session::getInstance()->lire('panier');
+        self::afficherVue('vueGenerale.php',["titre" => "Panier", "cheminCorpsVue" => "service/panier.php", 'panier' => $panier, 'controleur'=>self::$controleur]);
     }
 
     public static function ajouterAuPanier() : void {

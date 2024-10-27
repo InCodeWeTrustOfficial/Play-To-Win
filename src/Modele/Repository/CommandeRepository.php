@@ -18,7 +18,7 @@ class CommandeRepository extends AbstractRepository{
         return "idCommande";
     }
     protected function getNomsColonnes(): array {
-        return ["idCommande", "dateAchat", "idUtilisateur"];
+        return ["idCommande", "dateAchatCommande", "idUtilisateur"];
     }
 
     protected function formatTableauSQL(AbstractDataObject $commandes): array {

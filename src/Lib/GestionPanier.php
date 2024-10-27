@@ -2,7 +2,7 @@
 
 namespace App\PlayToWin\Lib;
 
-use App\PlayToWin\Controleur\ControleurExemplaireService;
+use App\PlayToWin\Controleur\ControleurExemplaireAnalyse;
 use App\PlayToWin\Modele\HTTP\Session;
 use App\PlayToWin\Modele\Repository\AnalyseVideoRepository;
 use App\PlayToWin\Modele\Repository\CoachingRepository;
@@ -10,34 +10,7 @@ use App\PlayToWin\Modele\Repository\ExemplaireAnalyseRepository;
 
 class GestionPanier {
 
-    public static function AjouterExemplaire(string $idUtilisateur): void {
-        $session = Session::getInstance();
-        $panier = $session->lire('panier');
 
-        $codeService = $_REQUEST['codeService'] ?? null;
-        $quantite = isset($_REQUEST['quantite']) ? (int)$_REQUEST['quantite'] : 1;
-
-        if (!$codeService) {
-            MessageFlash::ajouter("danger", "Code service manquant.");
-            return;
-        }
-
-        $exemplaireRepository = new ExemplaireAnalyseRepository();
-
-        for ($i = 0; $i < $quantite; $i++) {
-            $exemplaire = ControleurExemplaireService::construireDepuisFormulaire([
-                'codeService' => $codeService,
-                'idCommande' => $idCommande,
-                'quantite' => 1
-            ]);
-
-            $exemplaireRepository->ajouter($exemplaire);
-        }
-
-        // Removing the service from the session basket and clearing session if necessary
-        unset($panier[$codeService]);
-        $session->enregistrer('panier', $panier);
-    }
 
     public static function ajouterAuPanier() : void {
         if (!isset($_REQUEST['codeService'])) {
