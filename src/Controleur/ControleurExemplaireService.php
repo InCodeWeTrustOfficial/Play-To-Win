@@ -11,7 +11,7 @@ abstract class ControleurExemplaireService extends ControleurGenerique {
 
     protected static string $controleur = 'exemplaireservice';
     abstract static function getControleur(): string;
-    abstract static function construireDepuisFormulaire(array $tableauDonneesFormulaire): ExemplaireService;
+    abstract static function creerDepuisFormulaire(array $tableauDonneesFormulaire): void;
 
     public static function afficherListe() : void {
 
@@ -36,48 +36,7 @@ abstract class ControleurExemplaireService extends ControleurGenerique {
     public static function valdierCommande() {
         $panier = Session::getInstance()->lire('panier');
         self::afficherVue('vueGenerale.php', ["titre" => "Liste des services dans passer commande", "cheminCorpsVue" => "service/dernierFormulaire.php", 'panier' => $panier, 'controleur' => self::$controleur]);
-        creerDepuisCookie();
-    }
-
-    public static function AjouterExemplaire(array $tableauDonneesFormulaire): void {
-        $session = Session::getInstance();
-        $panier = $session->lire('panier');
-
-        $codeService = $_REQUEST['codeService'] ?? null;
-        $quantite = isset($_REQUEST['quantite']) ? (int)$_REQUEST['quantite'] : 1;
-
-        if (!$codeService) {
-            MessageFlash::ajouter("danger", "Code service manquant.");
-            return;
-        }
-
-        $exemplaireRepository = new ExemplaireAnalyseRepository();
-
-        for ($i = 0; $i < $quantite; $i++) {
-            $exemplaire = ControleurExemplaireAnalyse::construireDepuisFormulaire([
-                'codeService' => $codeService,
-                'idCommande' => $idCommande,
-                'quantite' => 1
-            ]);
-
-            $exemplaireRepository->ajouter($exemplaire);
-        }
-
-        unset($panier[$codeService]);
-        $session->enregistrer('panier', $panier);
-    }
-
-    public static function creerDepuisCookie(): void {
-        try {
-
-            $service = static::construireDepuisFormulaire($_REQUEST);
-
-            (new ExemplaireAnalyseRepository())->ajouter($service);
-
-
-        } catch (\Exception $e) {
-            self::afficherErreur("Une erreur est survenue lors de la création du service : " . $e->getMessage());
-        }
+        static::creerDepuisFormulaire($_REQUEST);
     }
 
 
