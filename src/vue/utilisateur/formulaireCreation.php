@@ -1,4 +1,6 @@
-<?php use App\PlayToWin\Configuration\ConfigurationSite;?>
+<?php use App\PlayToWin\Configuration\ConfigurationSite;
+/** @var Langue[] $langues */
+?>
 <form method="<?php if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>" action="controleurFrontal.php">
     <input type='hidden' name='action' value='creerDepuisFormulaire'>
     <input type='hidden' name='controleur' value="utilisateur">
@@ -36,8 +38,23 @@
             <label class="InputAddOn-item" for="mdp2_id">Vérification du mot de passe&#42;</label>
             <input class="InputAddOn-field" type="password" value="" placeholder="" name="mdp2" id="mdp2_id" required>
         </p>
+        <p class="InputAddOn">
+            <label class="InputAddOn-item" for="lang_id">Sélectionnez votre langue principale (vous pourrez plus tard en avoir plusieurs):</label>
+            <select name="lang" id="lang_id" required>
+                <?php
+                echo '<option value="FR" selected="true">Français</option>';
+                foreach ($langues as $l){
+                    if($l->getCodeAlpha() != "FR"){
+                        echo '<option value="'.$l->getCodeAlpha().'">'.$l->getNom().'</option>';
+                    }
+                }
+                ?>
+            </select>
+        </p>
         <?php
         use App\PlayToWin\Lib\ConnexionUtilisateur;
+        use App\PlayToWin\Modele\DataObject\Langue;
+
         if (ConnexionUtilisateur::estAdministrateur()){
             echo '
             <p class="InputAddOn">

@@ -5,6 +5,8 @@ use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Lib\MotDePasse;
 use App\PlayToWin\Lib\VerificationEmail;
 use App\PlayToWin\Modele\DataObject\Utilisateur;
+use App\PlayToWin\Modele\Repository\Association\ParlerRepository;
+use App\PlayToWin\Modele\Repository\Single\LangueRepository;
 use App\PlayToWin\Modele\Repository\Single\UtilisateurRepository;
 use DateTime;
 
@@ -42,7 +44,7 @@ class ControleurUtilisateur extends ControleurGenerique {
     }
 
     public static function afficherFormulaireCreation() : void{
-        self::afficherVue('vueGenerale.php',["titre" => "Formulaire création utilisateur", "cheminCorpsVue" => 'utilisateur/formulaireCreation.php','controleur'=>self::$controleur]);
+        self::afficherVue('vueGenerale.php',["titre" => "Formulaire création utilisateur", "cheminCorpsVue" => 'utilisateur/formulaireCreation.php','controleur'=>self::$controleur, "langues" => (new LangueRepository())->recuperer()]);
     }
 
     public static function afficherFormulaireMiseAJour() : void{
@@ -119,29 +121,37 @@ class ControleurUtilisateur extends ControleurGenerique {
         self::redirectionVersURL("afficherListe",self::$controleur);
     }
 
-    public static function creerDepuisFormulaire() : void{
-        if($_REQUEST["mdp"] != $_REQUEST["mdp2"]){
-            MessageFlash::ajouter("warning","Mots de passe distincts");
-            self::redirectionVersURL("afficherFormulaireCreation",self::$controleur);
-        } else{
-            if(!filter_var($_REQUEST["email"], FILTER_VALIDATE_EMAIL)){
-                MessageFlash::ajouter("warning","Email incorrect");
-                self::redirectionVersURL("afficherFormulaireCreation",self::$controleur);
+    public static function creerDepuisFormulaire() : void
+    {
+        if (!isset($_REQUEST['id']) || !isset($_REQUEST['nom']) || !isset($_REQUEST['prenom']) || !isset($_REQUEST['pseudo']) || !isset($_REQUEST['dateDeNaissance']) || !isset($_REQUEST['mdp']) || !isset($_REQUEST['mdp2']) || !isset($_REQUEST['lang']) || !isset($_REQUEST['email'])) {
+            MessageFlash::ajouter("danger","Informations manquantes");
+            self::redirectionVersURL();
+        } else {
+            if ($_REQUEST["mdp"] != $_REQUEST["mdp2"]) {
+                MessageFlash::ajouter("warning", "Mots de passe distincts");
+                self::redirectionVersURL("afficherFormulaireCreation", self::$controleur);
             } else {
-                if (!ConnexionUtilisateur::estAdministrateur()) {
-                    unset($_REQUEST["estAdmin"]);
-                    $utilisateur = self::construireDepuisFormulaire($_REQUEST);
-                } else{
-                    $utilisateur = self::construireDepuisFormulaireAdmin($_REQUEST);
-                }
+                if (!filter_var($_REQUEST["email"], FILTER_VALIDATE_EMAIL)) {
+                    MessageFlash::ajouter("warning", "Email incorrect");
+                    self::redirectionVersURL("afficherFormulaireCreation", self::$controleur);
+                } else {
+                    if (!ConnexionUtilisateur::estAdministrateur()) {
+                        unset($_REQUEST["estAdmin"]);
+                        $utilisateur = self::construireDepuisFormulaire($_REQUEST);
+                    } else {
+                        $utilisateur = self::construireDepuisFormulaireAdmin($_REQUEST);
+                    }
 
-                (new UtilisateurRepository)->ajouter($utilisateur);
-                MessageFlash::ajouter("success","Compte créé !");
-                if(!ConnexionUtilisateur::estConnecte()){
-                    ConnexionUtilisateur::connecter($utilisateur->getId());
+
+                    (new UtilisateurRepository)->ajouter($utilisateur);
+                    (new ParlerRepository())->ajouterTuple($_REQUEST['id'],$_REQUEST["lang"]);
+                    MessageFlash::ajouter("success", "Compte créé !");
+                    if (!ConnexionUtilisateur::estConnecte()) {
+                        ConnexionUtilisateur::connecter($utilisateur->getId());
+                    }
+                    $idUrl = rawurlencode($utilisateur->getId());
+                    self::redirectionVersURL("afficherDetail&id=$idUrl", self::$controleur);
                 }
-                $idUrl=rawurlencode($utilisateur->getId());
-                self::redirectionVersURL("afficherDetail&id=$idUrl",self::$controleur);
             }
         }
     }

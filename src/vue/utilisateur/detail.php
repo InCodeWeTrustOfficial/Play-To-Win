@@ -33,8 +33,16 @@ if($langues == null){
     /** @var Langue $l */
     foreach ($langues as $l){
         echo '<p>
-<img src="../'.$l->getDrapeauPath().'" alt="Drapeau" style="width: 40px; height: 26px; object-fit: cover;"> </p>';
+<img src="../'.$l->getDrapeauPath().'" alt="Drapeau" style="width: 40px; height: 26px; object-fit: cover;">';
+        if(ConnexionUtilisateur::estUtilisateur($utilisateur->getId()) || ConnexionUtilisateur::estAdministrateur()){
+            echo '<a href="../web/controleurFrontal.php?controleur=langue&action=supprimerLangue&id=' . $idURL . '&lang='.$l->getCodeAlpha().'">(-)</a>';
+        }
+  echo '</p>';
     }
+}
+if(ConnexionUtilisateur::estUtilisateur($utilisateur->getId()) || ConnexionUtilisateur::estAdministrateur()){
+    echo '<p> Ajouter une nouvelle langue ?';
+    echo '<a href="../web/controleurFrontal.php?controleur=langue&action=afficherFormulaireAjout&id=' . $idURL . '">Cliquez ici</a></p>';
 }
 echo '</p>';
 
