@@ -7,11 +7,12 @@ use App\PlayToWin\Modele\DataObject\Commande;
 use App\PlayToWin\Modele\DataObject\ExemplaireAnalyse;
 use App\PlayToWin\Modele\DataObject\Services;
 use App\PlayToWin\Modele\DataObject\Utilisateur;
+use DateTime;
 
 class CommandeRepository extends AbstractRepository{
 
     protected function getNomTable(): string {
-        return "p_commandes";
+        return "p_Commandes";
     }
     protected function getNomClePrimaire(): string {
         return "idCommande";
@@ -24,7 +25,7 @@ class CommandeRepository extends AbstractRepository{
         /** @var Commande $commandes */
         return array(
             ":idCommandeTag " => $commandes->getIdCommande(),
-            ":dateAchatTag" => $commandes->getDateAchat(),
+            ":dateAchatTag" => $commandes->getDateAchat()->format('Y-m-d H:i:s'),
             ":idUtilisateurTag" => $commandes->getIdUtilisateur(),
         );
     }
@@ -32,7 +33,7 @@ class CommandeRepository extends AbstractRepository{
     public function construireDepuisTableauSQL(array $servicesFormatTableau): Commande {
         return new Commande (
             $servicesFormatTableau["idCommande"],
-            $servicesFormatTableau["dateAchat"],
+            new DateTime($servicesFormatTableau["dateAchat"]),
             $servicesFormatTableau["idUtilisateur"]
         );
     }

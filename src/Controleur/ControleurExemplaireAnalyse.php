@@ -12,24 +12,7 @@ class ControleurExemplaireAnalyse extends ControleurExemplaireService {
     protected static string $controleur = 'exemplaireanalyse';
 
     public static function afficherDetail() : void {
-        if (!isset($_REQUEST['codeService'])) {
-            MessageFlash::ajouter("danger", "Code service manquant.");
-            self::afficherErreur("Code service manquant.");
-        } else {
-            $codeService = $_REQUEST['codeService'];
-            $service = (new AnalyseVideoRepository())->recupererParClePrimaire($codeService);
 
-            if ($service == NULL) {
-                $service = (new CoachingRepository())->recupererParClePrimaire($codeService);
-            }
-
-            if ($service != NULL) {
-                self::afficherVue('vueGenerale.php', ["titre" => "Détail du service", "cheminCorpsVue" => "service/detail" . ucfirst($service->getTypeService()) . ".php", 'service' => $service, 'controleur' => self::$controleur]);
-            } else {
-                MessageFlash::ajouter("danger", "Service introuvable : $codeService.");
-                self::afficherErreur($codeService);
-            }
-        }
     }
 
     public static function construireDepuisFormulaire(array $tableauDonneesFormulaire): ExemplaireAnalyse {

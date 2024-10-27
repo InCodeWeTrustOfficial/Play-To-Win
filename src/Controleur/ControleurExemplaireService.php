@@ -15,39 +15,15 @@ abstract class ControleurExemplaireService extends ControleurGenerique {
     abstract static function construireDepuisFormulaire(array $tableauDonneesFormulaire): ExemplaireService;
 
     public static function afficherListe() : void {
-        $services = array_merge((new ExemplaireAnalyseRepository())->recuperer(), (new CoachingRepository())->recuperer());
-        self::afficherVue('vueGenerale.php', ["titre" => "Liste des exemplaire services", "cheminCorpsVue" => "exemplaireservice/liste.php", 'services' => $services, 'controleur' => self::$controleur]);
+
     }
 
     public static function afficherFormulaireMiseAJour() : void {
-        if (!isset($_REQUEST['codeService'])) {
-            MessageFlash::ajouter("danger", "Erreur, le service n'existe pas !");
-            self::afficherErreur("Erreur, le service n'existe pas !");
-        } else {
-            $codeService = $_REQUEST['codeService'];
-            self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'service/formulaireMiseAJour' . ucfirst(static::getControleur()) . '.php', 'codeService' => $codeService, 'controleur' => self::$controleur]);
-        }
+
     }
 
     public static function afficherDetail() : void {
-        if (!isset($_REQUEST['codeService'])) {
-            MessageFlash::ajouter("danger", "Code service manquant.");
-            self::afficherErreur("Code service manquant.");
-        } else {
-            $codeService = $_REQUEST['codeService'];
-            $service = (new AnalyseVideoRepository())->recupererParClePrimaire($codeService);
 
-            if ($service == NULL) {
-                $service = (new CoachingRepository())->recupererParClePrimaire($codeService);
-            }
-
-            if ($service != NULL) {
-                self::afficherVue('vueGenerale.php', ["titre" => "Détail du service", "cheminCorpsVue" => "service/detail" . ucfirst($service->getTypeService()) . ".php", 'service' => $service, 'controleur' => self::$controleur]);
-            } else {
-                MessageFlash::ajouter("danger", "Service introuvable : $codeService.");
-                self::afficherErreur($codeService);
-            }
-        }
     }
 
     public static function afficherErreur(string $messageErreur = ""): void {
@@ -65,11 +41,6 @@ abstract class ControleurExemplaireService extends ControleurGenerique {
 
             (new ExemplaireAnalyseRepository())->ajouter($service);
 
-            self::afficherVue('vueGenerale.php', [
-                "titre" => "Création service",
-                "cheminCorpsVue" => 'service/ServicesCree.php',
-                'controleur' => self::$controleur
-            ]);
 
         } catch (\Exception $e) {
             self::afficherErreur("Une erreur est survenue lors de la création du service : " . $e->getMessage());

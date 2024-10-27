@@ -1,20 +1,20 @@
 <?php
 
 namespace App\PlayToWin\Modele\DataObject;
-use Cassandra\Date;
+use DateTime;
 
 class Commande extends AbstractDataObject {
 
     private ?int $idCommande;
-    private Date $dateAchat;
+    private DateTime $dateAchat;
     private string $idUtilisateur;
 
     /**
      * @param int|null $idCommande
-     * @param Date $dateAchat
+     * @param DateTime $dateAchat
      * @param string $idUtilisateur
      */
-    public function __construct(?int $idCommande, Date $dateAchat, string $idUtilisateur) {
+    public function __construct(?int $idCommande, DateTime $dateAchat, string $idUtilisateur) {
         $this->idCommande = $idCommande;
         $this->dateAchat = $dateAchat;
         $this->idUtilisateur = $idUtilisateur;
@@ -28,11 +28,11 @@ class Commande extends AbstractDataObject {
         $this->idCommande = $idCommande;
     }
 
-    public function getDateAchat(): Date {
+    public function getDateAchat(): DateTime {
         return $this->dateAchat;
     }
 
-    public function setDateAchat(Date $dateAchat): void {
+    public function setDateAchat(DateTime $dateAchat): void {
         $this->dateAchat = $dateAchat;
     }
 

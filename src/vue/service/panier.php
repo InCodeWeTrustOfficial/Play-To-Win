@@ -48,7 +48,7 @@ if (empty($panier)): ?>
         <strong>Total Commande :</strong> <?= number_format($totalGlobal, 2, ',', ' ') ?> €
     </div>
 
-    <form method="post" action="controleurFrontal.php?controleur=exemplaireservice&action=passerCommande&codeService=<?= htmlspecialchars($produit['id']) ?>">
+    <form method="post" action="controleurFrontal.php?controleur=commande&action=passerCommande&codeService=<?= htmlspecialchars($produit['id']) ?>">
         <input type="submit" value="Passer la commande">
     </form>
 <?php endif; ?>
