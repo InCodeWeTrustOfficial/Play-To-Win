@@ -63,7 +63,6 @@ CREATE TABLE IF NOT EXISTS p_ExemplaireService (
     sujet VARCHAR(256),
     idCommande INT NOT NULL,
     codeService INT NOT NULL,
-    quantite INT,
     PRIMARY KEY(idExemplaire)
 );
 
