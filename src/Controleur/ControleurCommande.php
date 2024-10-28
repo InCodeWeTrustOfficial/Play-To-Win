@@ -11,6 +11,7 @@ use App\PlayToWin\Modele\DataObject\Services;
 use App\PlayToWin\Modele\HTTP\Session;
 use App\PlayToWin\Modele\Repository\CommandeRepository;
 use App\PlayToWin\Modele\Repository\ConnexionBaseDeDonnees;
+use App\PlayToWin\Modele\Repository\ExemplaireServiceRepository;
 use DateTime;
 
 class ControleurCommande extends ControleurGenerique {
@@ -49,42 +50,47 @@ class ControleurCommande extends ControleurGenerique {
 
             $pdoStatement->execute($values);
             $commandeRepository->ajouter($commande);
-
             $idCommande = ConnexionBaseDeDonnees::getPdo()->lastInsertId();
+
+            echo $idCommande . "<br>";
+
             $session = Session::getInstance();
             $panier = $session->lire('panier');
 
             $sujets = $_GET['sujet'] ?? [];
 
-            foreach ($panier as $id => $produit) {
+            foreach ($panier as $codeService => $produit) {
+
                 for ($i = 0; $i < $produit['quantite']; $i++) {
-                    $sujet = $sujets[$id][$i] ?? '';
+                    $sujet = $sujets[$codeService][$i] ?? '';
 
                     if (!empty($sujet)) {
+                        echo "<br>codeService : " . $codeService . "<br>";
+                        echo "sujet : " . $sujet . "<br>";
+                        echo "idCommande : " . $idCommande . "<br>";
+
                         $donnees = [
-                            'codeService' => $id,
+                            'codeService' => $codeService,
                             'sujet' => $sujet,
                             'idCommande' => $idCommande
                         ];
 
-                        ControleurExemplaireService::creerDepuisFormulaire($donnees);
+                        $exemplaireService = ControleurExemplaireService::construireDepuisFormulaire($donnees);
+                        (new ExemplaireServiceRepository())->ajouter($exemplaireService);
+
                     }
                 }
             }
 
-            // Supprimer le panier après une commande réussie
-            $session->supprimer('panier');
-            MessageFlash::ajouter("success", "Commande passée avec succès.");
-            self::redirectionVersURL("afficherListe", self::$controleur);
+//            $session->supprimer('panier');
+//            MessageFlash::ajouter("success", "Commande passée avec succès.");
+//            self::redirectionVersURL("afficherListe", "coach");
 
         } catch (\Exception $e) {
-            // Conserver le panier en cas d'erreur
             MessageFlash::ajouter("danger", "Erreur lors de la commande : " . $e->getMessage());
             self::redirectionVersURL("afficherPanier", self::$controleur);
         }
     }
-
-
 
     /**
      * Construit un objet service en fonction du formulaire rempli par l'utilisateur.

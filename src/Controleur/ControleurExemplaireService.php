@@ -34,7 +34,6 @@ class ControleurExemplaireService extends ControleurGenerique {
 
     public static function creerDepuisFormulaire(): void {
         try {
-
             $exemplaireService = self::construireDepuisFormulaire($_REQUEST);
 
             (new ExemplaireServiceRepository())->ajouter($exemplaireService);
@@ -46,16 +45,18 @@ class ControleurExemplaireService extends ControleurGenerique {
     }
 
     public static function construireDepuisFormulaire(array $tableauDonneesFormulaire): ExemplaireService {
-        $codeService = $tableauDonneesFormulaire['codeService'];
-        $sujet  = $tableauDonneesFormulaire['sujet'];
+        $codeService = $tableauDonneesFormulaire['codeService'] ?? null;
+        $sujet = $tableauDonneesFormulaire['sujet'] ?? '';
+        $idCommande = $tableauDonneesFormulaire['idCommande'] ?? null;
 
-        return new ExemplaireService (
-            null,                            // ID généré automatiquement
-            'achetee',                        // état initial
-            $sujet,                                     // sujet
-            $codeService,                               // Code du service
-            $tableauDonneesFormulaire['idCommande'],    // ID de la commande
+        return new ExemplaireService(
+            null,                     // ID généré automatiquement
+            'achetee',                // état initial
+            $sujet,                   // Sujet en tant que chaîne de caractères
+            $codeService,             // Code du service
+            $idCommande               // ID de la commande
         );
     }
+
 
 }
