@@ -1,6 +1,9 @@
 <?php if (empty($panier)): ?>
     <p>Votre panier est vide.</p>
 <?php else: ?>
+    <form method="get" action="controleurFrontal.php" id="PanierForm">
+        <input type='hidden' name='action' value='passerCommande'>
+        <input type='hidden' name='controleur' id="controleur" value='commande'>
     <table>
         <thead>
         <tr>
@@ -31,7 +34,6 @@
         <strong>Total Commande :</strong> <?= number_format($totalGlobal, 2, ',', ' ') ?> €
     </div>
 
-    <form method="get" action="controleurFrontal.php?controleur=commande&action=passerCommande">
         <input type="submit" value="Passer la commande">
     </form>
 <?php endif; ?>

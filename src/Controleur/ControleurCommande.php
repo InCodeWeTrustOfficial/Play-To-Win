@@ -33,13 +33,13 @@ class ControleurCommande extends ControleurGenerique {
 
     public static function passerCommande(): void {
         try {
-            $session = Session::getInstance();
-            $panier = $session->lire('panier');
-
             $commandeRepository = new CommandeRepository();
             $commande = $commandeRepository->construireDepuisTableauSQL([]);
 
-            $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare("INSERT INTO p_Commandes (idCommande, dateAchatCommande, idUtilisateur) VALUES (:idCommandeTag, :dateAchatCommandeTag, :idUtilisateurTag)");
+            $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare(
+                "INSERT INTO p_Commandes (idCommande, dateAchatCommande, idUtilisateur) 
+             VALUES (:idCommandeTag, :dateAchatCommandeTag, :idUtilisateurTag)"
+            );
 
             $values = [
                 'idCommandeTag' => $commande->getIdCommande(),
@@ -51,13 +51,16 @@ class ControleurCommande extends ControleurGenerique {
             $commandeRepository->ajouter($commande);
 
             $idCommande = ConnexionBaseDeDonnees::getPdo()->lastInsertId();
+            $session = Session::getInstance();
+            $panier = $session->lire('panier');
 
-            $sujets = $_GET['sujet'];
+            $sujets = $_GET['sujet'] ?? [];
+
             foreach ($panier as $id => $produit) {
                 for ($i = 0; $i < $produit['quantite']; $i++) {
                     $sujet = $sujets[$id][$i] ?? '';
 
-                    if (!empty($sujet)) { // Vérifiez que le sujet est bien défini
+                    if (!empty($sujet)) {
                         $donnees = [
                             'codeService' => $id,
                             'sujet' => $sujet,
@@ -69,15 +72,18 @@ class ControleurCommande extends ControleurGenerique {
                 }
             }
 
+            // Supprimer le panier après une commande réussie
             $session->supprimer('panier');
-//            MessageFlash::ajouter("success", "Commande passée avec succès.");
-//            self::redirectionVersURL("afficherListe", self::$controleur);
+            MessageFlash::ajouter("success", "Commande passée avec succès.");
+            self::redirectionVersURL("afficherListe", self::$controleur);
 
         } catch (\Exception $e) {
+            // Conserver le panier en cas d'erreur
             MessageFlash::ajouter("danger", "Erreur lors de la commande : " . $e->getMessage());
             self::redirectionVersURL("afficherPanier", self::$controleur);
         }
     }
+
 
 
     /**
