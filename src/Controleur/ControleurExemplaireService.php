@@ -5,13 +5,11 @@ namespace App\PlayToWin\Controleur;
 use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Modele\DataObject\ExemplaireService;
 use App\PlayToWin\Modele\HTTP\Session;
-use App\PlayToWin\Modele\Repository\ExemplaireAnalyseRepository;
+use App\PlayToWin\Modele\Repository\ExemplaireServiceRepository;
 
-abstract class ControleurExemplaireService extends ControleurGenerique {
+class ControleurExemplaireService extends ControleurGenerique {
 
     protected static string $controleur = 'exemplaireservice';
-    abstract static function getControleur(): string;
-    abstract static function creerDepuisFormulaire(array $tableauDonneesFormulaire): void;
 
     public static function afficherListe() : void {
 
@@ -33,11 +31,33 @@ abstract class ControleurExemplaireService extends ControleurGenerique {
         self::afficherVue('vueGenerale.php', ["titre" => "Problème avec le service", "cheminCorpsVue" => "service/erreur.php", "messageErreur" => $messageErreur, 'controleur' => self::$controleur]);
     }
 
-    public static function valdierCommande() {
-        $panier = Session::getInstance()->lire('panier');
-        self::afficherVue('vueGenerale.php', ["titre" => "Liste des services dans passer commande", "cheminCorpsVue" => "service/dernierFormulaire.php", 'panier' => $panier, 'controleur' => self::$controleur]);
-        static::creerDepuisFormulaire($_REQUEST);
+    public static function creerDepuisFormulaire(): void {
+        try {
+            if (!isset($donnees['codeService'], $donnees['sujet'], $donnees['idCommande'])) {
+                throw new \Exception("Données manquantes pour la création de l'exemplaire");
+            }
+
+            $exemplaireService = self::construireDepuisFormulaire($donnees);
+
+            (new ExemplaireServiceRepository())->ajouter($exemplaireService);
+            echo "Ici";
+
+        } catch (\Exception $e) {
+            self::afficherErreur($e->getMessage());
+        }
     }
 
+    public static function construireDepuisFormulaire(array $tableauDonneesFormulaire): ExemplaireService {
+        $codeService = $tableauDonneesFormulaire['codeService'];
+        $sujet  = $tableauDonneesFormulaire['sujet'];
+
+        return new ExemplaireService (
+            null,                            // ID généré automatiquement
+            'achetee',                        // état initial
+            $sujet,                                     // sujet
+            $codeService,                               // Code du service
+            $tableauDonneesFormulaire['idCommande'],    // ID de la commande
+        );
+    }
 
 }

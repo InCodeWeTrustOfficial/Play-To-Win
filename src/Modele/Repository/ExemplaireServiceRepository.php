@@ -7,7 +7,7 @@ use App\PlayToWin\Modele\DataObject\ExemplaireService;
 use App\PlayToWin\Modele\DataObject\Services;
 use App\PlayToWin\Modele\DataObject\Utilisateur;
 
-abstract class ExemplaireServiceRepository extends AbstractRepository{
+class ExemplaireServiceRepository extends AbstractRepository{
 
     protected function getNomTable(): string {
         return "p_ExemplaireService";
@@ -27,9 +27,16 @@ abstract class ExemplaireServiceRepository extends AbstractRepository{
             ":sujetTag" => $Exservices->getSujet(),
             ":codeServiceTag" => $Exservices->getCodeService(),
             ":idCommandeTag" => $Exservices->getIdCommande(),
-            ":quantiteTag" => $Exservices->getQuantite(),
         );
     }
 
-
+    public function construireDepuisTableauSQL(array $servicesFormatTableau): ExemplaireService {
+        return new ExemplaireService (
+            $servicesFormatTableau["idExemplaire"],
+            $servicesFormatTableau["etatService"],
+            $servicesFormatTableau["sujet"],
+            $servicesFormatTableau["codeService"],
+            $servicesFormatTableau["idCommande"]
+        );
+    }
 }

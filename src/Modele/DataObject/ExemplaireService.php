@@ -2,14 +2,13 @@
 
 namespace App\PlayToWin\Modele\DataObject;
 
-abstract class ExemplaireService extends AbstractDataObject {
+class ExemplaireService extends AbstractDataObject {
 
     private ?int $idExemplaire;
     private string $etatService;
     private string $sujet;
     private string $codeService;
     private string $idCommande;
-    private int $quantite;
 
     /**
      * @param int|null $idExemplaire
@@ -17,15 +16,13 @@ abstract class ExemplaireService extends AbstractDataObject {
      * @param string $sujet
      * @param string $codeService
      * @param string $idCommande
-     * @param int $quantite
      */
-    public function __construct(?int $idExemplaire, string $etatService, string $sujet, string $codeService, string $idCommande, int $quantite) {
+    public function __construct(?int $idExemplaire, string $etatService, string $sujet, string $codeService, string $idCommande) {
         $this->idExemplaire = $idExemplaire;
         $this->etatService = $etatService;
         $this->sujet = $sujet;
         $this->codeService = $codeService;
         $this->idCommande = $idCommande;
-        $this->quantite = $quantite;
     }
 
     public function getIdExemplaire(): ?int {
@@ -75,18 +72,4 @@ abstract class ExemplaireService extends AbstractDataObject {
     {
         $this->idCommande = $idCommande;
     }
-
-    public function getQuantite(): int
-    {
-        return $this->quantite;
-    }
-
-    public function setQuantite(int $quantite): void
-    {
-        $this->quantite = $quantite;
-    }
-
-
-
-
 }

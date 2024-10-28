@@ -2,15 +2,11 @@
 
 namespace App\PlayToWin\Lib;
 
-use App\PlayToWin\Controleur\ControleurExemplaireAnalyse;
 use App\PlayToWin\Modele\HTTP\Session;
 use App\PlayToWin\Modele\Repository\AnalyseVideoRepository;
 use App\PlayToWin\Modele\Repository\CoachingRepository;
-use App\PlayToWin\Modele\Repository\ExemplaireAnalyseRepository;
 
 class GestionPanier {
-
-
 
     public static function ajouterAuPanier() : void {
         if (!isset($_REQUEST['codeService'])) {

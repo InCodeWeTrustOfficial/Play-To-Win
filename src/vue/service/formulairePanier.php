@@ -21,7 +21,7 @@
                     <td><?= htmlspecialchars($produit['nom']) ?></td>
                     <td><?= htmlspecialchars($produit['type']) ?></td>
                     <td>
-                        <textarea name="sujets[<?= htmlspecialchars($produit['id']) ?>][]" placeholder="Ex : entrainement au kickoff" rows="2" cols="20"required></textarea>
+                        <textarea name="sujets[<?= htmlspecialchars($produit['id']) ?>][]" placeholder="Ex : entrainement au kickoff" rows="2" cols="20" required></textarea>
                     </td>
                     <td><?= number_format($produit['prix'], 2, ',', ' ') ?> €</td>
                 </tr>
@@ -34,7 +34,7 @@
         <strong>Total Commande :</strong> <?= number_format($totalGlobal, 2, ',', ' ') ?> €
     </div>
 
-    <form method="post" action="controleurFrontal.php?controleur=exemplaireservice&action=valdierCommande">
+    <form method="post" action="controleurFrontal.php?controleur=commande&action=passerCommande">
         <input type="submit" value="Passer la commande">
     </form>
 <?php endif; ?>
