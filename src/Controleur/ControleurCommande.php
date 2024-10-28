@@ -4,10 +4,13 @@ namespace App\PlayToWin\Controleur;
 
 use App\PlayToWin\Lib\ConnexionUtilisateur;
 use App\PlayToWin\Lib\MessageFlash;
+use App\PlayToWin\Modele\DataObject\AnalyseVideo;
 use App\PlayToWin\Modele\DataObject\Commande;
 use App\PlayToWin\Modele\DataObject\ExemplaireService;
+use App\PlayToWin\Modele\DataObject\Services;
 use App\PlayToWin\Modele\HTTP\Session;
 use App\PlayToWin\Modele\Repository\CommandeRepository;
+use App\PlayToWin\Modele\Repository\ConnexionBaseDeDonnees;
 use DateTime;
 
 class ControleurCommande extends ControleurGenerique {
@@ -33,36 +36,40 @@ class ControleurCommande extends ControleurGenerique {
             $session = Session::getInstance();
             $panier = $session->lire('panier');
 
-
-
             $commandeRepository = new CommandeRepository();
-            $idCommande = $commandeRepository->ajouter($commande);
+            $commande = $commandeRepository->construireDepuisTableauSQL([]);
 
-            echo $idCommande;
+            $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare("INSERT INTO p_Commandes (idCommande, dateAchatCommande, idUtilisateur) VALUES (:idCommandeTag, :dateAchatCommandeTag, :idUtilisateurTag)");
 
-            // Récupérer les sujets du formulaire
-            $sujets = $_POST['sujets'] ?? [];
+            $values = [
+                'idCommandeTag' => $commande->getIdCommande(),
+                'dateAchatCommandeTag' => $commande->getDateAchat()->format('Y-m-d H:i:s'),
+                'idUtilisateurTag' => $commande->getIdUtilisateur()
+            ];
 
-            // Créer les exemplaires de service pour chaque produit
-            foreach ($panier as $codeService => $produit) {
+            $pdoStatement->execute($values);
+            $commandeRepository->ajouter($commande);
+
+            $idCommande = ConnexionBaseDeDonnees::getPdo()->lastInsertId();
+
+            $sujets = $_GET['sujet'];
+            foreach ($panier as $id => $produit) {
                 for ($i = 0; $i < $produit['quantite']; $i++) {
-                    $sujet = $sujets[$codeService][$i] ?? '';
+                    $sujet = $sujets[$id][$i] ?? '';
 
-                    // Préparer les données pour l'exemplaire
-                    $donnees = [
-                        'codeService' => $codeService,
-                        'sujet' => $sujet,
-                        'idCommande' => $idCommande
-                    ];
+                    if (!empty($sujet)) { // Vérifiez que le sujet est bien défini
+                        $donnees = [
+                            'codeService' => $id,
+                            'sujet' => $sujet,
+                            'idCommande' => $idCommande
+                        ];
 
-                    // Créer l'exemplaire via le contrôleur dédié
-                    ControleurExemplaireService::creerDepuisFormulaire($donnees);
+                        ControleurExemplaireService::creerDepuisFormulaire($donnees);
+                    }
                 }
             }
 
-            // Vider le panier après succès
             $session->supprimer('panier');
-
 //            MessageFlash::ajouter("success", "Commande passée avec succès.");
 //            self::redirectionVersURL("afficherListe", self::$controleur);
 
@@ -71,4 +78,15 @@ class ControleurCommande extends ControleurGenerique {
             self::redirectionVersURL("afficherPanier", self::$controleur);
         }
     }
+
+
+    /**
+     * Construit un objet service en fonction du formulaire rempli par l'utilisateur.
+     * @param array $tableauDonneesFormulaire
+     * @return Services|null
+     */
+    private static function construireDepuisFormulaire(): Commande {
+        return (new CommandeRepository())->construireDepuisTableauSQL();
+    }
+
 }

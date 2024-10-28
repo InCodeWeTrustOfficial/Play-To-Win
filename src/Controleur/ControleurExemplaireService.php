@@ -5,6 +5,7 @@ namespace App\PlayToWin\Controleur;
 use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Modele\DataObject\ExemplaireService;
 use App\PlayToWin\Modele\HTTP\Session;
+use App\PlayToWin\Modele\Repository\AnalyseVideoRepository;
 use App\PlayToWin\Modele\Repository\ExemplaireServiceRepository;
 
 class ControleurExemplaireService extends ControleurGenerique {
@@ -33,11 +34,8 @@ class ControleurExemplaireService extends ControleurGenerique {
 
     public static function creerDepuisFormulaire(): void {
         try {
-            if (!isset($donnees['codeService'], $donnees['sujet'], $donnees['idCommande'])) {
-                throw new \Exception("Données manquantes pour la création de l'exemplaire");
-            }
 
-            $exemplaireService = self::construireDepuisFormulaire($donnees);
+            $exemplaireService = self::construireDepuisFormulaire($_REQUEST);
 
             (new ExemplaireServiceRepository())->ajouter($exemplaireService);
             echo "Ici";

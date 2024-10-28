@@ -75,7 +75,14 @@ abstract class AbstractRepository {
 
             $values = $this->formatTableauSQL($objet);
 
+            foreach ($values as $cle => $valeur) {
+                echo $valeur . "<br>";
+            }
+
             $pdoStatement->execute($values);
+
+            echo ConnexionBaseDeDonnees::getPdo()->lastInsertId();
+
         }catch (PDOException $e){
             MessageFlash::ajouter("danger",$e->getMessage());
             $valide = false;
