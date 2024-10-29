@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS p_Langues (
 
 CREATE TABLE IF NOT EXISTS p_Coachs (
     idCoach VARCHAR(32),
-    biographieCoach VARCHAR(50),
+    biographieCoach TEXT,
     PRIMARY KEY(idCoach)
 );
 
