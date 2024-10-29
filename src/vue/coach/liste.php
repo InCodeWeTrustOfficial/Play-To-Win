@@ -17,7 +17,7 @@ echo "<h2>Top coach</h2>";
                          onerror="this.onerror=null; this.src='../ressources/img/defaut_banniere.png';">
                 </div>
 
-                <img src="../ressources/img/jeux/lol.png" alt="Icon" class="coach-icon">
+                <img src="../ressources/img/jeux/League of Legends.png" alt="Icon" class="coach-icon">
 
                 <img src="../<?=$coach->getAvatarPath()?>" alt="Photo de profil" style="width: 70px; height: 70px; object-fit: cover;"
                      onerror="this.onerror=null; this.src='../ressources/img/defaut_pp.png';">

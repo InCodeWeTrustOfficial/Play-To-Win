@@ -1,6 +1,8 @@
 <?php
 /** @var Services $service */
 
+use App\PlayToWin\Modele\DataObject\Services;
+
 $codeServiceHTML = htmlspecialchars($service->getCodeService());
 $nomServiceHTML = htmlspecialchars($service->getNomService());
 $descriptionServiceHTML = htmlspecialchars($service->getDescriptionService());
@@ -13,9 +15,9 @@ echo '<h1 class="service-name">' . $nomServiceHTML . '</h1>';
 
 echo '
     <div class="game-info">
-        <img src="../ressources/img/jeux/lol.png" alt="Icon" class="game-icon">
-        <span class="game-name">' . $service->getNomJeu() . '</span>
-        <span class="service-price">' . $prixHTML . ' €</span>
+        <img src="../ressources/img/jeux/' . htmlspecialchars($service->getNomJeu()) . '.png" alt="Icon" class="game-icon">
+        <span class="game-name">' . htmlspecialchars($service->getNomJeu()) . '</span>
+        <span class="service-price"> ' . $prixHTML . ' € </span>
         <span class="service-price"> ' . $duree . ' min </span>
     </div>
 ';

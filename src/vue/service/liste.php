@@ -12,7 +12,7 @@ echo "<h2>Liste des services proposé</h2>";
 
         <a class="detail-link" href="../web/controleurFrontal.php?controleur=<?php echo $controleur; ?>&action=afficherDetail&codeService=<?php echo $service->getCodeService(); ?>">
             <div class="service-card">
-                <img src="../ressources/img/jeux/lol.png" alt="Icon" class="service-icon">
+                <img src="../ressources/img/jeux/<?php echo $service->getNomJeu(); ?>.png" alt="Icon" class="service-icon">
                 <div class="service-name"><?php echo $service->getNomService(); ?></div>
                 <div class="service-description"><?php echo $service->getDescriptionService(); ?></div>
                 <div class="service-price"><?php echo number_format($service->getPrixService(), 2); ?> €</div>

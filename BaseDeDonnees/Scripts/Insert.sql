@@ -1,6 +1,6 @@
 INSERT INTO p_Jeux (nomJeu) VALUES
-('League of Legends'),
-('Rocket League');
+('League_of_Legends'),
+('Rocket_League');
 
 INSERT INTO p_Classements (idClassement,nomClassement,divisionClassement)
 VALUES
