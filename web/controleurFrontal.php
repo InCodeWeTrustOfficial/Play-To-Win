@@ -44,7 +44,3 @@ foreach (get_class_methods($nomDeClasseControleur) as $possibleAction) {
 if(!$bool){
     ControleurUtilisateur::afficherErreur("Vue inexistante");
 }
-
-
-// http://localhost/tds-php/TD4/Controleur/routeur.php?action=afficherListe
-// l'url a utiliser

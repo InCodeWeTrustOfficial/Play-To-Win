@@ -14,6 +14,16 @@ abstract class ControleurService extends ControleurGenerique {
         self::afficherVue('vueGenerale.php',["titre" => "Liste des services", "cheminCorpsVue" => "service/liste.php", 'services'=>$services, 'controleur'=>self::$controleur]);
     }
 
+    public static function afficherListeAnalyse() : void {
+        $services = (new AnalyseVideoRepository())->recuperer();
+        self::afficherVue('vueGenerale.php',["titre" => "Liste des services", "cheminCorpsVue" => "service/liste.php", 'services'=>$services, 'controleur'=>self::$controleur]);
+    }
+
+    public static function afficherListeCoaching() : void {
+        $services = (new CoachingRepository())->recuperer();
+        self::afficherVue('vueGenerale.php',["titre" => "Liste des services", "cheminCorpsVue" => "service/liste.php", 'services'=>$services, 'controleur'=>self::$controleur]);
+    }
+
     public static function afficherFormulaireMiseAJour() : void{
         if(!isset( $_REQUEST['codeService'])){
             self::afficherErreur("Erreur, le services n'existe pas !");
