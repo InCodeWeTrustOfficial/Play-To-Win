@@ -40,8 +40,9 @@ CREATE TABLE IF NOT EXISTS p_Classements (
     idClassement VARCHAR(50),
     nomClassement VARCHAR(50),
     divisionClassement VARCHAR(50),
-    PRIMARY KEY(idClassement, nomClassement, divisionClassement)
-);
+    PRIMARY KEY(idClassement)
+    );
+
 
 CREATE TABLE IF NOT EXISTS p_Disponibilites (
     idDisponibilite VARCHAR(50),
@@ -100,8 +101,6 @@ CREATE TABLE IF NOT EXISTS p_jouer (
     idUtilisateur VARCHAR(32),
     nomMode VARCHAR(50),
     idClassement VARCHAR(50) NOT NULL,
-    nomClassement VARCHAR(50) NOT NULL,
-    divisionClassement VARCHAR(50) NOT NULL,
     PRIMARY KEY(nomJeu, idUtilisateur, nomMode)
 );
 

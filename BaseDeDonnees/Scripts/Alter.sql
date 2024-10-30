@@ -31,8 +31,8 @@ ALTER TABLE p_jouer
 ADD CONSTRAINT fk_jouer_Jeux FOREIGN KEY (nomJeu) REFERENCES p_Jeux(nomJeu) ON DELETE CASCADE,
 ADD CONSTRAINT fk_jouer_Utilisateurs FOREIGN KEY (idUtilisateur) REFERENCES p_Utilisateurs(idUtilisateur) ON DELETE CASCADE,
 ADD CONSTRAINT fk_jouer_ModesDeJeu FOREIGN KEY (nomMode) REFERENCES p_ModesDeJeu(nomMode) ON DELETE CASCADE,
-ADD CONSTRAINT fk_jouer_Classements FOREIGN KEY (idClassement, nomClassement, divisionClassement)
-    REFERENCES p_Classements(idClassement, nomClassement, divisionClassement) ON DELETE CASCADE;
+ADD CONSTRAINT fk_jouer_Classements FOREIGN KEY (idClassement) REFERENCES p_Classements(idClassement) ON DELETE CASCADE;
+
 
 -- Table p_avoirDisponibiliteCoach
 ALTER TABLE p_avoirDisponibiliteCoach
