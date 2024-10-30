@@ -10,35 +10,35 @@ class ClassementRepository extends AbstractRepository
 {
     protected function getNomTable(): string
     {
-        return "p_Classement";
+        return "p_Classements";
     }
 
-    protected function getNomClePrimaire(): string
+    public function getNomClePrimaire(): string
     {
         return "idClassement";
     }
 
     protected function getNomsColonnes(): array
     {
-        return ["idClassement", "nomClassement","divisionClassement"];
+        return [$this->getNomClePrimaire(), "nomClassement","divisionClassement"];
     }
 
-    protected function formatTableauSQL(AbstractDataObject $l): array
+    protected function formatTableauSQL(AbstractDataObject $objet): array
     {
-        /** @var Classement $c */
+        /** @var Classement $objet */
         return array(
-            ":idClassementTag" => $c->getIdClassement(),
-            ":nomClassementTag" => $c->getNomClassement(),
-            ":divisionClassementTag" => $c->getDivisionClassement()
+            ":idClassementTag" => $objet->getIdClassement(),
+            ":nomClassementTag" => $objet->getNomClassement(),
+            ":divisionClassementTag" => $objet->getDivisionClassement()
         );
     }
 
-    protected function construireDepuisTableauSQL(array $classementTableau): Classement
+    protected function construireDepuisTableauSQL(array $objetFormatTableau): Classement
     {
         return new Classement(
-            $classementTableau['idClassement'],
-            $classementTableau['nomClassement'],
-            $classementTableau['divisionClassement']
+            $objetFormatTableau['idClassement'],
+            $objetFormatTableau['nomClassement'],
+            $objetFormatTableau['divisionClassement']
         );
     }
 }
