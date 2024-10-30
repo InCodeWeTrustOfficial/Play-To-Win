@@ -3,6 +3,7 @@
 namespace App\PlayToWin\Modele\Repository;
 
 use App\PlayToWin\Lib\MessageFlash;
+use App\PlayToWin\Modele\DataObject\AbstractDataObject;
 use PDOException;
 
 abstract class AbstractMain {

@@ -12,7 +12,6 @@ abstract class AbstractRepository extends AbstractMain {
 
     abstract protected function getNomClePrimaire() : string;
     protected abstract function construireDepuisTableauSQL(array $objetFormatTableau) : AbstractDataObject;
-
     protected abstract function formatTableauSQL(AbstractDataObject $objet): array;
 
     public function recuperer(): array {
