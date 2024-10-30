@@ -3,6 +3,7 @@
 namespace App\PlayToWin\Modele\Repository\Association;
 
 use App\PlayToWin\Lib\MessageFlash;
+use App\PlayToWin\Modele\DataObject\AbstractDataObject;
 use App\PlayToWin\Modele\Repository\AbstractMain;
 use App\PlayToWin\Modele\Repository\ConnexionBaseDeDonnees;
 use App\PlayToWin\Modele\Repository\Single\AbstractRepository;
@@ -14,9 +15,20 @@ use PDOException;
 abstract class AbstractAssociationRepository extends AbstractMain {
 
     protected abstract function getNomsClePrimaire(): array;
-    protected function recupererListeParObjetClePrimaire(AbstractRepository $repo, AbstractRepository $repo2, string $cle): ?array {
+    protected abstract function formatTableauSQL(array $objet): array;
+    protected function recupererListeParObjetClePrimaire(AbstractRepository $repo, array $repo2, string $cle): ?array {
 
-        $sql = "select ".$repo2->getNomClePrimaire()." from ".$this->getNomTable()." where ".$repo->getNomClePrimaire()." = :cleTag";
+        /** @var AbstractRepository[] $repo2 */
+
+        $nomsCles = "";
+        for($i = 0; $i < count($repo2); $i++){
+            $nomsCles .= $repo2[$i]->getNomsCle();
+            if($i < count($repo2) - 1){
+                $nomsCles .= ", ";
+            }
+        }
+
+        $sql = "select ".$nomsCles." from ".$this->getNomTable()." where ".$repo->getNomClePrimaire()." = :cleTag";
 
         $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
 
@@ -32,20 +44,25 @@ abstract class AbstractAssociationRepository extends AbstractMain {
             return null;
         } else{
             foreach ($objetsFormatTableau as $objet) {
-                $array[] = $repo2->recupererParClePrimaire($objet[0]);
+                $line = [];
+                foreach ($repo2 as $repo) {
+                    $line[] = $repo->recupererParClePrimaire($objet[0]);
+                }
+                $array[] = $line;
             }
         }
         return $array;
     }
-    public function supprimerTuple(string $cle1, string $cle2):bool{
+    public function supprimerTuple(array $cles):bool{
         $valide = true;
         try{
+            $sup = $this->recupererTags($cles);
 
-            $sql = "delete from ".$this->getNomTable()." where ".$this->getNomsClePrimaire()[0]." = :cle1Tag and ".$this->getNomsClePrimaire()[1]." = :cle2Tag";
+            $sql = "delete from ".$this->getNomTable().$sup;
 
             $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
 
-            $values = array("cle1Tag" => $cle1, "cle2Tag" => $cle2);
+            $values = $this->formatTableauSQL($cles);
 
             $pdoStatement->execute($values);
 
@@ -56,14 +73,14 @@ abstract class AbstractAssociationRepository extends AbstractMain {
         return $valide;
     }
 
-    public function ajouterTuple(string $cle1, string $cle2):bool{
+    public function ajouterTuple(array $cles):bool{
         $valide = true;
         try{
-            $sql = "insert into ".$this->getNomTable()." (".join(',',$this->getNomsColonnes()).") values (:cle1Tag, :cle2Tag)";
+            $sql = "insert into ".$this->getNomTable()." (".join(',',$this->getNomsColonnes()).") VALUES (".join(',',array_keys($this->formatTableauSQL($cles))).")";
 
             $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
 
-            $values = array("cle1Tag" => $cle1, "cle2Tag" => $cle2);
+            $values = $this->formatTableauSQL($cles);
 
             $pdoStatement->execute($values);
 
@@ -74,13 +91,16 @@ abstract class AbstractAssociationRepository extends AbstractMain {
         return $valide;
     }
 
-    public function existeTuple(string $cle1, string $cle2):bool{
+    public function existeTuple(array $cles):bool{
         $existe = true;
-        $sql = "select * from ".$this->getNomTable()." where ".$this->getNomsClePrimaire()[0]." = :cle1Tag and ".$this->getNomsClePrimaire()[1]." = :cle2Tag";
+
+        $sup = $this->recupererTags($cles);
+
+        $sql = "select * from ".$this->getNomTable().$sup;
 
         $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
 
-        $values = array("cle1Tag" => $cle1, "cle2Tag" => $cle2);
+        $values = $this->formatTableauSQL($cles);
 
         $pdoStatement->execute($values);
 
@@ -90,6 +110,18 @@ abstract class AbstractAssociationRepository extends AbstractMain {
             $existe = false;
         }
         return $existe;
+    }
+
+    private function recupererTags(array $cles):string{
+        $sup = " where";
+        for ($i = 0; $i<count($cles); $i++) {
+            $sup.= " ".$this->getNomsClePrimaire()[$i]." = :cle".($i+1)."Tag";
+            if($i < count($cles)-1){
+                $sup.= " and";
+            }
+        }
+        $sup .= ";";
+        return $sup;
     }
     private function autreNomClePrimaire(string $mauvaiseCle) : string{
         $array = $this->getNomsClePrimaire();

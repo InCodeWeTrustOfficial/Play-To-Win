@@ -2,6 +2,7 @@
 
 namespace App\PlayToWin\Modele\Repository\Association;
 
+use App\PlayToWin\Modele\DataObject\AbstractDataObject;
 use App\PlayToWin\Modele\Repository\Single\LangueRepository;
 use App\PlayToWin\Modele\Repository\Single\UtilisateurRepository;
 
@@ -22,10 +23,17 @@ class ParlerRepository extends AbstractAssociationRepository {
         return $this->getNomsClePrimaire();
     }
 
+    protected function formatTableauSQL(array $objet): array
+    {
+        return array("cle1Tag" => $objet[0],"cle2Tag" => $objet[1]);
+    }
+
     public function recupererUtilisateurs(string $cle):?array{
-        return $this->recupererListeParObjetClePrimaire((new LangueRepository()),(new UtilisateurRepository()),$cle);
+        return $this->recupererListeParObjetClePrimaire((new LangueRepository()),array((new UtilisateurRepository())),$cle);
     }
     public function recupererLangues(string $cle):?array{
-        return $this->recupererListeParObjetClePrimaire((new UtilisateurRepository()),(new LangueRepository()),$cle);
+        return $this->recupererListeParObjetClePrimaire((new UtilisateurRepository()),array((new LangueRepository())),$cle);
     }
+
+
 }
