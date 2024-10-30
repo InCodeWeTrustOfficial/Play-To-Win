@@ -6,6 +6,7 @@ use App\PlayToWin\Lib\MessageFlash;
 use PDOException;
 
 abstract class AbstractMain {
+    // test
 
     protected abstract function getNomTable() : string;
     protected abstract function getNomsColonnes() : array;
