@@ -36,7 +36,7 @@ class ControleurLangue extends ControleurGenerique{
                     if (count($languesParlees) <= 1) {
                         MessageFlash::ajouter("warning", "Vous devez parler au moins une langue !");
                     } else {
-                        $parlerRepo->supprimerTuple($_REQUEST["id"], $_REQUEST["lang"]);
+                        $parlerRepo->supprimerTuple(array($_REQUEST["id"], $_REQUEST["lang"]));
                         MessageFlash::ajouter("success","suppression de la langue ".htmlspecialchars($lang->getNom()));
                     }
                     self::redirectionVersURL("afficherDetail&id=" . $utilisateur->getId(), "utilisateur");
@@ -93,11 +93,11 @@ class ControleurLangue extends ControleurGenerique{
                         self::redirectionVersURL();
                     } else {
                         $parlerRepo = new ParlerRepository();
-                        if ($parlerRepo->existeTuple($_REQUEST['id'], $_REQUEST['lang'])) {
+                        if ($parlerRepo->existeTuple(array($_REQUEST['id'], $_REQUEST['lang']))) {
                             MessageFlash::ajouter("warning", "Vous parlez déjà cette langue. Si ce n'est pas le cas contactez un Administrateur.");
                             self::redirectionVersURL("afficherDetail&id=" . $_REQUEST['id'], "utilisateur");
                         } else {
-                            $parlerRepo->ajouterTuple($_REQUEST['id'], $_REQUEST['lang']);
+                            $parlerRepo->ajouterTuple(array($_REQUEST['id'], $_REQUEST['lang']));
                             MessageFlash::ajouter("success", "Vous parlez désormais le " . $lang->getNom());
                             self::redirectionVersURL("afficherDetail&id=" . $_REQUEST['id'], "utilisateur");
                         }
