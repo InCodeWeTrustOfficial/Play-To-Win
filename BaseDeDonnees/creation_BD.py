@@ -102,7 +102,7 @@ def executer_trigger_commande():
             curseur.close()
             connexion.close()
             print("Connexion MySQL fermée.")
-            
+
 if __name__ == "__main__":
     print("\nDrop :")
     executer_script_sql("Scripts/Drop.sql")
