@@ -2,8 +2,10 @@
 /** @var Utilisateur $utilisateur */
 
 use App\PlayToWin\Lib\ConnexionUtilisateur;
+use App\PlayToWin\Modele\DataObject\Jeu;
 use App\PlayToWin\Modele\DataObject\Langue;
 use App\PlayToWin\Modele\DataObject\Utilisateur;
+use App\PlayToWin\Modele\Repository\Association\JouerRepository;
 use App\PlayToWin\Modele\Repository\Association\ParlerRepository;
 use App\PlayToWin\Modele\Repository\Single\CoachRepository;
 
@@ -32,10 +34,9 @@ if($langues == null){
 } else{
     /** @var Langue $l */
     foreach ($langues as $l){
-        echo '<p>
-<img src="../'.$l->getDrapeauPath().'" alt="Drapeau" style="width: 40px; height: 26px; object-fit: cover;">';
+        echo '<p> <img src="../'.$l->getDrapeauPath().'" alt="Drapeau" style="width: 40px; height: 26px; object-fit: cover;">';
         if(ConnexionUtilisateur::estUtilisateur($utilisateur->getId()) || ConnexionUtilisateur::estAdministrateur()){
-            echo '<a href="../web/controleurFrontal.php?controleur=langue&action=supprimerLangue&id=' . $idURL . '&lang='.$l->getCodeAlpha().'">(-)</a>';
+            echo '<a href="../web/controleurFrontal.php?controleur=langue&action=supprimerLangue&id=' . $idURL . '&lang='.$l->getCodeAlpha().'">(-)</a></p>';
         }
   echo '</p>';
     }
@@ -45,6 +46,27 @@ if(ConnexionUtilisateur::estUtilisateur($utilisateur->getId()) || ConnexionUtili
     echo '<a href="../web/controleurFrontal.php?controleur=langue&action=afficherFormulaireAjout&id=' . $idURL . '">Cliquez ici</a></p>';
 }
 echo '</p>';
+
+echo '<p> Jeux joués avec leur mode:';
+$jouer = (new JouerRepository())->recupererModeJeuClassement($utilisateur->getId());
+if($jouer == null){
+    echo 'Aucun jeu :(';
+} else{
+    foreach ($jouer as $ligne){
+        echo "<p>";
+        echo $ligne[0]->getNomJeu();
+        echo $ligne[1]->getNomMode();
+        echo $ligne[2]->getIdClassement();
+        if(ConnexionUtilisateur::estUtilisateur($utilisateur->getId()) || ConnexionUtilisateur::estAdministrateur()){
+            echo '<a href="../web/controleurFrontal.php?controleur=jouer&action=supprimerJouer&id=' . $idURL . '&jeu='.$ligne[0]->getNomJeu().'&mode='.$ligne[1]->getNomMode().'">(-)</a></p>';
+        }
+        echo "</p>";
+    }
+}
+if(ConnexionUtilisateur::estUtilisateur($utilisateur->getId()) || ConnexionUtilisateur::estAdministrateur()){
+    echo '<p> Ajouter un nouveau jeu ?';
+    echo '<a href="../web/controleurFrontal.php?controleur=jouer&action=afficherFormulaireJouer&id=' . $idURL . '">Cliquez ici</a></p>';
+}
 
 echo '<p>id : '. $idHTML .' </p>';
 echo '<p>Nom : '. $nomHTML .' </p>';

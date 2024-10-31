@@ -2,7 +2,8 @@
 
 namespace App\PlayToWin\Controleur;
 
-use App\Covoiturage\Modele\Repository\Single\ClassementRepository;
+use App\PlayToWin\Modele\DataObject\Utilisateur;
+use App\PlayToWin\Modele\Repository\Single\ClassementRepository;
 use App\PlayToWin\Lib\ConnexionUtilisateur;
 use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Modele\DataObject\Classement;
@@ -47,7 +48,7 @@ class ControleurJouer extends ControleurGenerique {
                         MessageFlash::ajouter("warning", "Vous devez jouer au minimum à un jeu !");
                     } else {
                         $jouerRepo->supprimerTuple(array($_REQUEST['jeu'],$_REQUEST["id"], $_REQUEST["mode"]));
-                        MessageFlash::ajouter("success","suppression du jeu ".htmlspecialchars($jeu->getNom())." dans le mode ".htmlspecialchars($mode->getNomMode()));
+                        MessageFlash::ajouter("success","suppression du jeu ".htmlspecialchars($jeu->getNomJeu())." dans le mode ".htmlspecialchars($mode->getNomMode()));
                     }
                     self::redirectionVersURL("afficherDetail&id=" . $utilisateur->getId(), "utilisateur");
                 }
@@ -67,15 +68,19 @@ class ControleurJouer extends ControleurGenerique {
 
                 $jeux = (new JeuRepository())->recuperer();
                 $modes = (new ModeDeJeuRepository())->recuperer();
+                $classements = (new ClassementRepository())->recuperer();
 
                 $jouerJoues = (new JouerRepository())->recupererModeJeuClassement($_REQUEST["id"]);
 
                 $jeuxNonJoues = array();
                 $modesNonJoues = array();
+                $classementsNonJoues = array();
 
                 if($jouerJoues == null){
                     $jeuxNonJoues = $jeux;
                     $modesNonJoues = $modes;
+                    $classementsNonJoues = $classements;
+
                 } else{
                     foreach ($jeux as $j) {
                         if (!in_array($j, $jouerJoues[0])) {
@@ -87,8 +92,13 @@ class ControleurJouer extends ControleurGenerique {
                             $modesNonJoues[] = $m;
                         }
                     }
+                    foreach ($classements as $c) {
+                        if (!in_array($c, $jouerJoues[0])) {
+                            $classementsNonJoues[] = $c;
+                        }
+                    }
                 }
-                self::afficherVue("vueGenerale.php",["titre" => "Ajout d'un jeu","cheminCorpsVue" => "jouer/formulaireJouer.php", "idUser" => $_REQUEST["id"], "jeux" => $jeuxNonJoues, "modes" => $modesNonJoues]);
+                self::afficherVue("vueGenerale.php",["titre" => "Ajout d'un jeu","cheminCorpsVue" => "jouer/formulaireJouer.php", "idUser" => $_REQUEST["id"], "jeux" => $jeuxNonJoues, "modes" => $modesNonJoues, "classements" => $classementsNonJoues]);
             }
         }
     }

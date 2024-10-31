@@ -13,23 +13,24 @@ class JeuRepository extends AbstractRepository
 
     public function getNomClePrimaire(): string
     {
-        return "nomJeu";
+        return "codeJeu";
     }
 
     protected function getNomsColonnes(): array
     {
-        return ["nomJeu"];
+        return array($this->getNomClePrimaire(), "nomjeu");
     }
 
-    protected function formatTableauSQL(AbstractDataObject $j): array
+    protected function formatTableauSQL(AbstractDataObject $objet): array
     {
-        /** @var Jeu $j */
+        /** @var Jeu $objet */
         return array(
-            ":nomJeuTag" => $j->getNomJeu()
+            ":codeJeuTag" => $objet->getCodeJeu(),
+            ":nomJeuTag" => $objet->getNomJeu()
         );
     }
 
-    protected function construireDepuisTableauSQL(array $jeuTableau) : Jeu {
-        return new Jeu($jeuTableau["nomJeu"]);
+    protected function construireDepuisTableauSQL(array $objetFormatTableau) : Jeu {
+        return new Jeu($objetFormatTableau["codeJeu"],$objetFormatTableau["nomJeu"]);
     }
 }

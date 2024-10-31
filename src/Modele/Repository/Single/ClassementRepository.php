@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Covoiturage\Modele\Repository\Single;
+namespace App\PlayToWin\Modele\Repository\Single;
 
-use App\playToWin\Modele\DataObject\Classement;
-use App\PlayToWin\Modele\Repository\Single\AbstractRepository;
+use App\PlayToWin\Modele\DataObject\Classement;
 use App\PlayToWin\Modele\DataObject\AbstractDataObject;
 
 class ClassementRepository extends AbstractRepository

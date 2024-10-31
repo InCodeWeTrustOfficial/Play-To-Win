@@ -25,14 +25,20 @@ class ParlerRepository extends AbstractAssociationRepository {
 
     protected function formatTableauSQL(array $objet): array
     {
-        return array("cle1Tag" => $objet[0],"cle2Tag" => $objet[1]);
+        return array(":cle1Tag" => $objet[0],":cle2Tag" => $objet[1]);
     }
 
     public function recupererUtilisateurs(string $cle):?array{
         return $this->recupererListeParObjetClePrimaire((new LangueRepository()),array((new UtilisateurRepository())),$cle);
     }
+
     public function recupererLangues(string $cle):?array{
-        return $this->recupererListeParObjetClePrimaire((new UtilisateurRepository()),array((new LangueRepository())),$cle);
+        $array = [];
+        $q =  $this->recupererListeParObjetClePrimaire((new UtilisateurRepository()),array((new LangueRepository())),$cle);
+        foreach ($q as $objet){
+            $array[] = $objet[0];
+        }
+        return $array;
     }
 
 

@@ -14,7 +14,7 @@ abstract class AbstractRepository extends AbstractMain {
     protected abstract function construireDepuisTableauSQL(array $objetFormatTableau) : AbstractDataObject;
     protected abstract function formatTableauSQL(AbstractDataObject $objet): array;
 
-    public function recuperer(): array {
+    public function recuperer(): ?array {
         $liste = array();
 
         $pdoStatement = ConnexionBaseDeDonnees::getPdo()->query('select * from ' . $this->getNomTable());
