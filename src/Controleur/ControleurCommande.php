@@ -2,17 +2,13 @@
 
 namespace App\PlayToWin\Controleur;
 
-use App\PlayToWin\Lib\ConnexionUtilisateur;
 use App\PlayToWin\Lib\MessageFlash;
-use App\PlayToWin\Modele\DataObject\AnalyseVideo;
 use App\PlayToWin\Modele\DataObject\Commande;
-use App\PlayToWin\Modele\DataObject\ExemplaireService;
 use App\PlayToWin\Modele\DataObject\Services;
 use App\PlayToWin\Modele\HTTP\Session;
 use App\PlayToWin\Modele\Repository\CommandeRepository;
 use App\PlayToWin\Modele\Repository\ConnexionBaseDeDonnees;
 use App\PlayToWin\Modele\Repository\ExemplaireServiceRepository;
-use DateTime;
 
 class ControleurCommande extends ControleurGenerique {
 
