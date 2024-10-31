@@ -1,9 +1,17 @@
 -- Création des tables sans contraintes de clés étrangères
 
-CREATE TABLE IF NOT EXISTS p_Jeux (
-    nomJeu VARCHAR(50),
-    PRIMARY KEY(nomJeu)
-);
+
+CREATE TABLE IF NOT EXISTS p_Langues (
+    code_alpha VARCHAR(2),
+    nom VARCHAR(50),
+    PRIMARY KEY(code_alpha)
+    );
+
+CREATE TABLE IF NOT EXISTS p_Parler (
+    idUtilisateur VARCHAR(32),
+    code_alpha VARCHAR(2),
+    PRIMARY KEY(idUtilisateur, code_alpha)
+    );
 
 CREATE TABLE IF NOT EXISTS p_Utilisateurs (
     idUtilisateur VARCHAR(32),
@@ -19,17 +27,18 @@ CREATE TABLE IF NOT EXISTS p_Utilisateurs (
     PRIMARY KEY(idUtilisateur)
 );
 
-CREATE TABLE IF NOT EXISTS p_Langues (
-    code_alpha VARCHAR(2),
-    nom VARCHAR(50),
-    PRIMARY KEY(code_alpha)
-);
 
 CREATE TABLE IF NOT EXISTS p_Coachs (
     idCoach VARCHAR(32),
     biographieCoach TEXT,
     PRIMARY KEY(idCoach)
 );
+
+CREATE TABLE IF NOT EXISTS p_Jeux (
+    codeJeu VARCHAR(50),
+    nomJeu VARCHAR(50),
+    PRIMARY KEY(codeJeu)
+    );
 
 CREATE TABLE IF NOT EXISTS p_ModesDeJeu (
     nomMode VARCHAR(50),
@@ -43,6 +52,27 @@ CREATE TABLE IF NOT EXISTS p_Classements (
     PRIMARY KEY(idClassement)
     );
 
+CREATE TABLE IF NOT EXISTS p_seClasser (
+    idClassement VARCHAR(50),
+    codeJeu VARCHAR(50),
+    place INT,
+    PRIMARY KEY (idClassement, codeJeu)
+);
+
+CREATE TABLE IF NOT EXISTS p_avoirMode (
+    nomMode VARCHAR(50),
+    codeJeu VARCHAR(50),
+    PRIMARY KEY (nomMode, codeJeu)
+);
+
+
+CREATE TABLE IF NOT EXISTS p_jouer (
+    codeJeu VARCHAR(50),
+    idUtilisateur VARCHAR(32),
+    nomMode VARCHAR(50),
+    idClassement VARCHAR(50) NOT NULL,
+    PRIMARY KEY(codeJeu, idUtilisateur, nomMode)
+);
 
 CREATE TABLE IF NOT EXISTS p_Disponibilites (
     idDisponibilite VARCHAR(50),
@@ -60,8 +90,8 @@ CREATE TABLE IF NOT EXISTS p_Commandes (
 );
 
 CREATE TABLE IF NOT EXISTS p_ExemplaireService (
-    idExemplaire INT AUTO_INCREMENT,
-    etatService VARCHAR(30),
+    idExemplaire VARCHAR(50),
+    etatService VARCHAR(50),
     sujet VARCHAR(256),
     idCommande INT NOT NULL,
     codeService INT NOT NULL,
@@ -74,7 +104,7 @@ CREATE TABLE IF NOT EXISTS p_Services (
     descriptionService TEXT,
     prixService FLOAT,
     idCoach VARCHAR(32) NOT NULL,
-    nomJeu VARCHAR(50) NOT NULL,
+    codeJeu VARCHAR(50) NOT NULL,
     PRIMARY KEY(codeService)
 );
 
@@ -88,20 +118,6 @@ CREATE TABLE IF NOT EXISTS p_AnalysesVideo (
     codeService INT,
     nbJourRendu INT,
     PRIMARY KEY(codeService)
-);
-
-CREATE TABLE IF NOT EXISTS p_Parler (
-    idUtilisateur VARCHAR(32),
-    code_alpha VARCHAR(2),
-    PRIMARY KEY(idUtilisateur, code_alpha)
-);
-
-CREATE TABLE IF NOT EXISTS p_jouer (
-    nomJeu VARCHAR(50),
-    idUtilisateur VARCHAR(32),
-    nomMode VARCHAR(50),
-    idClassement VARCHAR(50) NOT NULL,
-    PRIMARY KEY(nomJeu, idUtilisateur, nomMode)
 );
 
 CREATE TABLE IF NOT EXISTS p_avoirDisponibiliteCoach (
