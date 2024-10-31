@@ -22,7 +22,7 @@ abstract class AbstractAssociationRepository extends AbstractMain {
 
         $nomsCles = "";
         for($i = 0; $i < count($repo2); $i++){
-            $nomsCles .= $repo2[$i]->getNomsCle();
+            $nomsCles .= $repo2[$i]->getNomClePrimaire();
             if($i < count($repo2) - 1){
                 $nomsCles .= ", ";
             }
@@ -45,8 +45,8 @@ abstract class AbstractAssociationRepository extends AbstractMain {
         } else{
             foreach ($objetsFormatTableau as $objet) {
                 $line = [];
-                foreach ($repo2 as $repo) {
-                    $line[] = $repo->recupererParClePrimaire($objet[0]);
+                for($i = 0; $i < count($repo2);$i++){
+                    $line[] = $repo2[$i]->recupererParClePrimaire($objet[$i]);
                 }
                 $array[] = $line;
             }
@@ -62,7 +62,7 @@ abstract class AbstractAssociationRepository extends AbstractMain {
 
             $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
 
-            $values = $this->formatTableauSQL($cles);
+            $values = $this->formatTableauSQL($cles, false);
 
             $pdoStatement->execute($values);
 
@@ -85,7 +85,7 @@ abstract class AbstractAssociationRepository extends AbstractMain {
             $pdoStatement->execute($values);
 
         }catch(PDOException $e){
-            MessageFlash::ajouter("danger",$e->getMessage());
+            MessageFlash::ajouter("danger",$sql."|".$e->getMessage());
             $valide = false;
         }
         return $valide;
@@ -100,7 +100,7 @@ abstract class AbstractAssociationRepository extends AbstractMain {
 
         $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
 
-        $values = $this->formatTableauSQL($cles);
+        $values = $this->formatTableauSQL($cles, false);
 
         $pdoStatement->execute($values);
 
