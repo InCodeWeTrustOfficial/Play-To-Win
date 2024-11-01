@@ -22,7 +22,7 @@ class CommandeRepository extends AbstractRepository{
     protected function formatTableauSQL(AbstractDataObject $commandes): array {
         /** @var Commande $commandes */
         return array(
-            ":idCommandeTag " => $commandes->getIdCommande(),
+            ":idCommandeTag" => $commandes->getIdCommande(),
             ":dateAchatCommandeTag" => $commandes->getDateAchat()->format('Y-m-d H:i:s'),
             ":idUtilisateurTag" => $commandes->getIdUtilisateur(),
         );
@@ -30,9 +30,7 @@ class CommandeRepository extends AbstractRepository{
 
     public function construireDepuisTableauSQL(array $servicesFormatTableau): Commande {
         return new Commande (
-            null,
-            new DateTime(),
-            ConnexionUtilisateur::getIdUtilisateurConnecte()
+            $servicesFormatTableau[0], $servicesFormatTableau[1], $servicesFormatTableau[2]
         );
     }
 }

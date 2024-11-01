@@ -16,7 +16,7 @@ class ExemplaireServiceRepository extends AbstractRepository{
         return "idExemplaire";
     }
     protected function getNomsColonnes(): array {
-        return ["idExemplaire", "etatService", "sujet", "codeService", "idCommande", "quantite"];
+        return ["idExemplaire", "etatService", "sujet", "codeService", "idCommande"];
     }
 
     protected function formatTableauSQL(AbstractDataObject $Exservices): array {

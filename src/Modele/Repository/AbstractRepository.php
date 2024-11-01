@@ -69,19 +69,9 @@ abstract class AbstractRepository {
         try{
             $sql = "INSERT INTO ".$this->getNomTable()." (".join(',',$this->getNomsColonnes()).") VALUES (".join(',',array_keys($this->formatTableauSQL($objet))).")";
 
-            echo $sql . "<br>";
-
             $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
-
             $values = $this->formatTableauSQL($objet);
-
-            foreach ($values as $cle => $valeur) {
-                echo $valeur . "<br>";
-            }
-
             $pdoStatement->execute($values);
-
-            echo ConnexionBaseDeDonnees::getPdo()->lastInsertId();
 
         }catch (PDOException $e){
             MessageFlash::ajouter("danger",$e->getMessage());

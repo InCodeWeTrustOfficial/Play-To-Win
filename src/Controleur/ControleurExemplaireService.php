@@ -35,9 +35,7 @@ class ControleurExemplaireService extends ControleurGenerique {
     public static function creerDepuisFormulaire(): void {
         try {
             $exemplaireService = self::construireDepuisFormulaire($_REQUEST);
-
             (new ExemplaireServiceRepository())->ajouter($exemplaireService);
-            echo "Ici";
 
         } catch (\Exception $e) {
             self::afficherErreur($e->getMessage());
@@ -49,6 +47,7 @@ class ControleurExemplaireService extends ControleurGenerique {
         $sujet = $tableauDonneesFormulaire['sujet'] ?? '';
         $idCommande = $tableauDonneesFormulaire['idCommande'] ?? null;
 
+        echo $idCommande;
         return new ExemplaireService(
             null,                     // ID généré automatiquement
             'achetee',                // état initial

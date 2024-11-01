@@ -88,8 +88,6 @@ CREATE TABLE IF NOT EXISTS p_AnalysesVideo (
     PRIMARY KEY(codeService)
 );
 
-
-
 CREATE TABLE IF NOT EXISTS p_Parler (
     idUtilisateur VARCHAR(32),
     code_alpha VARCHAR(2),
