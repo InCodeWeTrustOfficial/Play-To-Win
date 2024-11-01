@@ -48,14 +48,18 @@ CREATE TABLE IF NOT EXISTS p_ModesDeJeu (
 CREATE TABLE IF NOT EXISTS p_Classements (
     idClassement VARCHAR(50),
     nomClassement VARCHAR(50),
-    divisionClassement VARCHAR(50),
+    divisionClassement INT,
+    acronyme VARCHAR(10),
     PRIMARY KEY(idClassement)
     );
 
 CREATE TABLE IF NOT EXISTS p_seClasser (
     idClassement VARCHAR(50),
     codeJeu VARCHAR(50),
+    eloMin INT,
+    eloMax INT,
     place INT,
+    cumulElo INT,
     PRIMARY KEY (idClassement, codeJeu)
 );
 

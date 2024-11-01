@@ -7,9 +7,9 @@ def connexion_base_de_donnees():
         connexion = mysql.connector.connect(
             host='webinfo.iutmontp.univ-montp2.fr',
             port=3316,
-            database='turpinb',  
-            user='turpinb',  
-            password='080482285HA'  
+            database='turpinb',
+            user='turpinb',
+            password='080482285HA'
         )
         if connexion.is_connected():
             print("Connexion à MySQL réussie")
@@ -20,9 +20,9 @@ def connexion_base_de_donnees():
 
 def file_to_blob(filename):
 
-    script_dir = os.path.dirname(__file__)  
+    script_dir = os.path.dirname(__file__)
     file_path = os.path.join(script_dir, filename)
-    
+
     if os.path.exists(file_path):
         try:
             with open(file_path, 'rb') as file:
@@ -44,19 +44,19 @@ def executer_script_sql(fichier_sql):
         curseur = connexion.cursor()
         script_dir = os.path.dirname(__file__)
         file_path = os.path.join(script_dir, fichier_sql)
-        
+
         with open(file_path, 'r', encoding='utf-8') as file:
             script = file.read()
-            
+
         instructions = script.strip().split(';')
-        
+
         for instruction in instructions:
-            if instruction.strip():  
+            if instruction.strip():
                 curseur.execute(instruction)
-    
+
         connexion.commit()
         print(fichier_sql + " : exécuté avec succès.")
-        
+
     except Error as e:
         print(f"Erreur lors de l'exécution du script SQL : {e}")
 
@@ -103,6 +103,64 @@ def executer_trigger_commande():
             connexion.close()
             print("Connexion MySQL fermée.")
 
+def executer_trigger():
+    connexion = connexion_base_de_donnees()
+    if connexion is None:
+        print("Impossible de se connecter à la base de données.")
+        return
+
+    try:
+        curseur = connexion.cursor()
+
+        # Définir le trigger comme un seul bloc SQL sans DELIMITER
+        trigger_sql = """
+        CREATE TRIGGER insertionSeClasser
+        BEFORE INSERT ON p_seClasser
+        FOR EACH ROW
+        BEGIN
+            DECLARE v_exist INT DEFAULT 0;
+            DECLARE last_place INT DEFAULT 0;
+            DECLARE last_cumulElo INT DEFAULT 0;
+            DECLARE last_eloMin INT DEFAULT 0;
+            DECLARE last_eloMax INT DEFAULT 0;
+
+            SELECT COUNT(*)
+            INTO v_exist
+            FROM p_seClasser
+            WHERE codeJeu = NEW.codeJeu;
+
+            IF v_exist = 0 THEN
+                SET NEW.place = 1;
+                SET NEW.cumulElo = 0;
+            ELSE
+                SELECT place, cumulElo, eloMin, eloMax
+                INTO last_place, last_cumulElo, last_eloMin, last_eloMax
+                FROM p_seClasser
+                WHERE codeJeu = NEW.codeJeu
+                ORDER BY place DESC
+                LIMIT 1;
+
+                SET NEW.place = last_place + 1;
+                SET NEW.cumulElo = last_cumulElo + (last_eloMax - last_eloMin)+1;
+            END IF;
+        END;
+        """
+
+        # Exécuter le trigger
+        curseur.execute(trigger_sql, multi=True)
+        connexion.commit()
+        print("Trigger exécuté avec succès.")
+
+    except Error as e:
+        print(f"Erreur lors de l'exécution du trigger : {e}")
+
+    finally:
+        if connexion.is_connected():
+            curseur.close()
+            connexion.close()
+            print("Connexion MySQL fermée.")
+
+
 if __name__ == "__main__":
     print("\nDrop :")
     executer_script_sql("Scripts/Drop.sql")
@@ -110,6 +168,8 @@ if __name__ == "__main__":
     executer_script_sql("Scripts/Create.sql")
     print("\nAlter : \n")
     executer_script_sql("Scripts/Alter.sql")
+    print("\nTrigger : \n")
+    executer_trigger()
     print("\nTrigger : \n")
     executer_trigger_commande()
     print("\nInsertion : \n")
