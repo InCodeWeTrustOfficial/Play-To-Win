@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="../ressources/css/navstyles.css">
     <link rel="stylesheet" href="../ressources/css/service.css">
     <link rel="stylesheet" href="../ressources/css/coach.css">
+    <link rel="stylesheet" href="../ressources/css/panier.css">
     <meta charset="UTF-8">
     <title>
         <?php
@@ -18,9 +19,6 @@
 <header>
     <nav>
         <ul>
-            <?php
-
-            ?>
             <li>
                 <a href="controleurFrontal.php?action=afficherListe&controleur=coach">Coaching</a>
             </li>
@@ -42,11 +40,15 @@
                 $ids = ConnexionUtilisateur::getIdUtilisateurConnecte();
                 $idURL = rawurlencode($ids);
                 echo '
-                <li>
-                <a href="controleurFrontal.php?controleur=utilisateur&action=afficherDetail&id='.$idURL.'"><img src="../ressources/img/user.png "></a>
+            <li>
+                <a href="controleurFrontal.php?controleur=utilisateur&panier=&action=afficherDetail&id='.$idURL.'"><img src="../ressources/img/user.png "></a>
             </li>
             <li>
                 <a href="controleurFrontal.php?controleur=utilisateur&action=deconnecter"><img src="../ressources/img/logout.png"></a>
+            </li>
+            
+            <li>
+                <a href="controleurFrontal.php?controleur=service&action=afficherPanier"><img src="../ressources/img/panier.png"></a>
             </li>
             
             <li>

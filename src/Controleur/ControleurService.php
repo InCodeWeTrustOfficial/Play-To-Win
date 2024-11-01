@@ -2,16 +2,21 @@
 
 namespace App\PlayToWin\Controleur;
 
+use App\PlayToWin\Lib\GestionPanier;
+use App\PlayToWin\Lib\MessageFlash;
+use App\PlayToWin\Modele\HTTP\Session;
 use App\PlayToWin\Modele\Repository\Single\AnalyseVideoRepository;
 use App\PlayToWin\Modele\Repository\Single\CoachingRepository;
 
 abstract class ControleurService extends ControleurGenerique {
 
     protected static string $controleur = 'service';
+    abstract static function getControleur(): string;
+    abstract static function creerDepuisFormulaire(): void;
 
     public static function afficherListe() : void {
-        $services = array_merge((new AnalyseVideoRepository())->recuperer(),(new CoachingRepository())->recuperer()) ;
-        self::afficherVue('vueGenerale.php',["titre" => "Liste des services", "cheminCorpsVue" => "service/liste.php", 'services'=>$services, 'controleur'=>self::$controleur]);
+        $services = array_merge((new AnalyseVideoRepository())->recuperer(), (new CoachingRepository())->recuperer());
+        self::afficherVue('vueGenerale.php', ["titre" => "Liste des services", "cheminCorpsVue" => "service/liste.php", 'services' => $services, 'controleur' => self::$controleur]);
     }
 
     public static function afficherListeAnalyse() : void {
@@ -24,46 +29,67 @@ abstract class ControleurService extends ControleurGenerique {
         self::afficherVue('vueGenerale.php',["titre" => "Liste des services", "cheminCorpsVue" => "service/liste.php", 'services'=>$services, 'controleur'=>self::$controleur]);
     }
 
-    public static function afficherFormulaireMiseAJour() : void{
-        if(!isset( $_REQUEST['codeService'])){
-            self::afficherErreur("Erreur, le services n'existe pas !");
-        } else{
+    public static function afficherFormulaireMiseAJour() : void {
+        if (!isset($_REQUEST['codeService'])) {
+            MessageFlash::ajouter("danger", "Erreur, le service n'existe pas !");
+            self::afficherErreur("Erreur, le service n'existe pas !");
+        } else {
             $codeService = $_REQUEST['codeService'];
             self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'service/formulaireMiseAJour' . ucfirst(static::getControleur()) . '.php', 'codeService' => $codeService, 'controleur' => self::$controleur]);
         }
     }
 
     public static function afficherDetail() : void {
-        if(!isset( $_REQUEST['codeService'])){
-            self::afficherErreur("code services manquant");
-        }else{
-
+        if (!isset($_REQUEST['codeService'])) {
+            MessageFlash::ajouter("danger", "Code service manquant.");
+            self::afficherErreur("Code service manquant.");
+        } else {
             $codeService = $_REQUEST['codeService'];
             $service = (new AnalyseVideoRepository())->recupererParClePrimaire($codeService);
 
-            if($service == NULL){
+            if ($service == NULL) {
                 $service = (new CoachingRepository())->recupererParClePrimaire($codeService);
             }
 
-            if($service != NULL) {
-                self::afficherVue('vueGenerale.php',["titre" => "Détail des utilisateurs", "cheminCorpsVue" => "service/detail" . ucfirst($service->getTypeService()) . ".php", 'service'=>$service,'controleur'=>self::$controleur]);
-            } else{
+            if ($service != NULL) {
+                self::afficherVue('vueGenerale.php', ["titre" => "Détail du service", "cheminCorpsVue" => "service/detail" . ucfirst($service->getTypeService()) . ".php", 'service' => $service, 'controleur' => self::$controleur]);
+            } else {
+                MessageFlash::ajouter("danger", "Service introuvable : $codeService.");
                 self::afficherErreur($codeService);
             }
         }
     }
 
+    public static function afficherFormulaireProposerService() : void {
+        self::afficherVue('vueGenerale.php', ["titre" => "Proposition services", "cheminCorpsVue" => 'service/formulaireCreation.php']);
+    }
+
     public static function afficherErreur(string $messageErreur = ""): void {
-        if(!$messageErreur == ""){
-            $messageErreur = ': '.$messageErreur;
+        if (!$messageErreur == "") {
+            $messageErreur = ': ' . $messageErreur;
         }
-        self::afficherVue('vueGenerale.php',["titre" => "Problème avec le services", "cheminCorpsVue" => "service/erreur.php", "messageErreur" => $messageErreur,'controleur'=>self::$controleur]);
+        MessageFlash::ajouter("danger", "Une erreur est survenue : $messageErreur");
+        self::afficherVue('vueGenerale.php', ["titre" => "Problème avec le service", "cheminCorpsVue" => "service/erreur.php", "messageErreur" => $messageErreur, 'controleur' => self::$controleur]);
     }
 
-    public static function afficherFormulaireProposerService() : void{
-        self::afficherVue('vueGenerale.php',["titre" => "Proposition services", "cheminCorpsVue" => 'service/formulaireCreation.php']);
+    public static function afficherPanier() : void {
+        $panier = Session::getInstance()->lire('panier');
+        self::afficherVue('vueGenerale.php',["titre" => "Panier", "cheminCorpsVue" => "service/panier.php", 'panier' => $panier, 'controleur'=>self::$controleur]);
     }
 
-    abstract static function getControleur(): string ;
+    public static function ajouterAuPanier() : void {
+        GestionPanier::ajouterAuPanier();
+        self::redirectionVersURL("afficherListe", self::$controleur);
+    }
+
+    public static function modifierQuantite(): void {
+        GestionPanier::modifierQuantite();
+        self::redirectionVersURL("afficherPanier", self::$controleur);
+    }
+
+    public static function supprimerProduit(): void {
+        GestionPanier::supprimerProduit();
+        self::redirectionVersURL("afficherPanier", self::$controleur);
+    }
 
 }

@@ -55,10 +55,9 @@ abstract class AbstractRepository extends AbstractMain {
             $sql = "INSERT INTO ".$this->getNomTable()." (".join(',',$this->getNomsColonnes()).") VALUES (".join(',',array_keys($this->formatTableauSQL($objet))).")";
 
             $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
-
             $values = $this->formatTableauSQL($objet);
-
             $pdoStatement->execute($values);
+
         }catch (PDOException $e){
             MessageFlash::ajouter("danger",$e->getMessage());
             $valide = false;

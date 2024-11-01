@@ -6,6 +6,7 @@ use App\PlayToWin\Modele\DataObject\Utilisateur;
 echo "<h2>Liste des utilisateurs</h2>";
 /** @var Utilisateur[] $utilisateurs */
 /** @var string $controleur  */
+
 foreach ($utilisateurs as $utilisateur) {
     $idHTML = htmlspecialchars($utilisateur->getId());
     $idURL = rawurlencode($utilisateur->getId());

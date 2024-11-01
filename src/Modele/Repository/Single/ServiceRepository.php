@@ -46,7 +46,6 @@ abstract class ServiceRepository extends AbstractRepository{
     public function ajouter(AbstractDataObject $objet): bool {
         $valide = true;
         try {
-            // Insertion dans la table p_Services
             $sqlService = "INSERT INTO " . $this->getNomTable() . " (" . join(',', $this->getNomsColonnes()) . ") 
                        VALUES (" . join(',', array_keys($this->formatTableauSQL($objet))) . ")";
 
@@ -54,12 +53,8 @@ abstract class ServiceRepository extends AbstractRepository{
             $valuesService = $this->formatTableauSQL($objet);
             $pdoStatementService->execute($valuesService);
 
-            // Récupération de codeService du dernier service inséré
             $codeService = ConnexionBaseDeDonnees::getPdo()->lastInsertId();
-
-            // Insertion dans la table p_AnalysesVideo avec l'ID récupéré
             $valuesAnalyse = $this->formatTableauSQLServices($objet);
-            // Ajout de la valeur du codeService dans les valeurs pour l'analyse
             $valuesAnalyse[":codeServiceTag"] = $codeService;
 
             $sqlAnalyse = "INSERT INTO " . $this->getNomTableService() . " (" . join(',', $this->getNomsColonnesService()) . ") 
@@ -105,7 +100,6 @@ abstract class ServiceRepository extends AbstractRepository{
     }
 
     public function recupererParClePrimaire(string $cle): ?AbstractDataObject {
-        // Requette sql pour récuperer les données
         $sql = "SELECT s." . join(', s.', $this->getNomsColonnes()) . ", p." . join(', p.', $this->getNomsColonnesService()) . " 
             FROM " . $this->getNomTable() . " s 
             JOIN " . $this->getNomTableService() . " p 
@@ -126,7 +120,6 @@ abstract class ServiceRepository extends AbstractRepository{
     public function recuperer(): array {
         $liste = array();
 
-        // Requette sql pour récuperer les données
         $sql = "SELECT s." . join(', s.', $this->getNomsColonnes()) . ", p." . join(', p.', $this->getNomsColonnesService()) . " 
             FROM " . $this->getNomTable() . " s 
             JOIN " . $this->getNomTableService() . " p 

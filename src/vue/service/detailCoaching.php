@@ -35,6 +35,7 @@ echo '<p class="service-description">' . $descriptionServiceHTML . '</p>';
 
 echo '
     <div class="button-container">
+        <a href="../web/controleurFrontal.php?controleur=' . $service->getTypeService() . '&action=ajouterAuPanier&codeService=' . $service->getCodeService() . '" class="btn modify-btn">Ajouter</a>
         <a href="../web/controleurFrontal.php?controleur=' . $service->getTypeService() . '&action=afficherFormulaireMiseAJour&codeService=' . $service->getCodeService() . '" class="btn modify-btn">Modifier</a>
         <a href="../web/controleurFrontal.php?controleur=' . $service->getTypeService() . '&action=supprimer&codeService=' . $service->getCodeService() . '" class="btn delete-btn">Supprimer</a>
     </div>

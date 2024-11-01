@@ -20,36 +20,30 @@ class Session
         }
     }
 
-    public static function getInstance(): Session
-    {
+    public static function getInstance(): Session {
         if (is_null(Session::$instance))
             Session::$instance = new Session();
         self::verifierDerniereActivite();
         return Session::$instance;
     }
 
-    public function contient($nom): bool
-    {
+    public function contient($nom): bool {
         return isset($_SESSION[$nom]);
     }
 
-    public function enregistrer(string $nom, mixed $valeur): void
-    {
+    public function enregistrer(string $nom, mixed $valeur): void {
         $_SESSION[$nom] = $valeur;
     }
 
-    public function lire(string $nom): mixed
-    {
+    public function lire(string $nom): mixed {
         return $_SESSION[$nom] ?? null;
     }
 
-    public function supprimer($nom): void
-    {
+    public function supprimer($nom): void {
         unset($_SESSION[$nom]);
     }
 
-    public function detruire() : void
-    {
+    public function detruire() : void {
         session_unset();     // unset $_SESSION variable for the run-time
         session_destroy();   // destroy session data in storage
         Cookie::supprimer(session_name()); // deletes the session cookie
