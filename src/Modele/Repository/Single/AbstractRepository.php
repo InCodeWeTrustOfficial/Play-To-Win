@@ -10,23 +10,18 @@ use PDOException;
 
 abstract class AbstractRepository extends AbstractMain {
 
+
     abstract protected function getNomClePrimaire() : string;
     protected abstract function construireDepuisTableauSQL(array $objetFormatTableau) : AbstractDataObject;
     protected abstract function formatTableauSQL(AbstractDataObject $objet): array;
 
-    public function recuperer(): ?array {
-        $liste = array();
-
-        $pdoStatement = ConnexionBaseDeDonnees::getPdo()->query('select * from ' . $this->getNomTable());
-
-        foreach ($pdoStatement as $objetFormatTableau) {
-            $liste[] = $this->construireDepuisTableauSQL($objetFormatTableau);
-        }
-
-        return $liste;
+    public function recuperer(): ?array
+    {
+        return parent::recuperer();
     }
 
-    public function recupererParClePrimaire(string $cle): ?AbstractDataObject {
+    public function recupererParClePrimaire(string $cle): ?AbstractDataObject
+    {
 
         $sql = "SELECT * from " . $this->getNomTable() . " WHERE " . $this->getNomClePrimaire() . " = :cleTag";
 
@@ -38,6 +33,7 @@ abstract class AbstractRepository extends AbstractMain {
         $pdoStatement->execute($values);
 
         $objetFormatTableau = $pdoStatement->fetch();
+
 
         if ($objetFormatTableau == null) {
             MessageFlash::ajouter("warning","$sql $cle.");
@@ -51,9 +47,10 @@ abstract class AbstractRepository extends AbstractMain {
             $sql = "INSERT INTO ".$this->getNomTable()." (".join(',',$this->getNomsColonnes()).") VALUES (".join(',',array_keys($this->formatTableauSQL($objet))).")";
 
             $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
-            $values = $this->formatTableauSQL($objet);
-            $pdoStatement->execute($values);
 
+            $values = $this->formatTableauSQL($objet);
+
+            $pdoStatement->execute($values);
         }catch (PDOException $e){
             MessageFlash::ajouter("danger",$e->getMessage());
             $valide = false;

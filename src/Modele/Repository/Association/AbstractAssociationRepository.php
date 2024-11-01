@@ -16,6 +16,23 @@ abstract class AbstractAssociationRepository extends AbstractMain {
 
     protected abstract function getNomsClePrimaire(): array;
     protected abstract function formatTableauSQL(array $objet): array;
+
+    protected function recupererSousListe(array $repo): ?array {
+
+        /** @var AbstractRepository[] $repo */
+
+        $liste = parent::recuperer();
+        $array = array();
+        foreach ($liste as $tuple) {
+            $line = array();
+            for($i = 0; $i< count($repo);$i++){
+                $line[] = $repo[$i]->recupererParClePrimaire($tuple[$i]);
+            }
+            $array[] = $line;
+        }
+        return $array;
+    }
+
     protected function recupererListeParObjetClePrimaire(AbstractRepository $repo, array $repo2, string $cle): ?array {
 
         /** @var AbstractRepository[] $repo2 */

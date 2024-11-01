@@ -19,7 +19,7 @@ class ClassementRepository extends AbstractRepository
 
     protected function getNomsColonnes(): array
     {
-        return [$this->getNomClePrimaire(), "nomClassement","divisionClassement"];
+        return [$this->getNomClePrimaire(), "nomClassement","divisionClassement","acronyme"];
     }
 
     protected function formatTableauSQL(AbstractDataObject $objet): array
@@ -28,7 +28,8 @@ class ClassementRepository extends AbstractRepository
         return array(
             ":idClassementTag" => $objet->getIdClassement(),
             ":nomClassementTag" => $objet->getNomClassement(),
-            ":divisionClassementTag" => $objet->getDivisionClassement()
+            ":divisionClassementTag" => $objet->getDivisionClassement(),
+            ":acronymeTag" => $objet->getAcronyme()
         );
     }
 
@@ -37,7 +38,8 @@ class ClassementRepository extends AbstractRepository
         return new Classement(
             $objetFormatTableau['idClassement'],
             $objetFormatTableau['nomClassement'],
-            $objetFormatTableau['divisionClassement']
+            $objetFormatTableau['divisionClassement'],
+            $objetFormatTableau['acronyme']
         );
     }
 }

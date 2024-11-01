@@ -6,12 +6,14 @@ class Classement extends AbstractDataObject
 {
     private string $idClassement;
     private string $nomClassement;
-    private string $divisionClassement;
+    private int $divisionClassement;
+    private string $acronyme;
 
-    public function __construct(string $idClassement, string $nomClassement, string $divisionClassement){
+    public function __construct(string $idClassement, string $nomClassement, int $divisionClassement, string $acronyme){
         $this->idClassement = $idClassement;
         $this->nomClassement = $nomClassement;
         $this->divisionClassement = $divisionClassement;
+        $this->acronyme = $acronyme;
     }
 
     public function getIdClassement(): string
@@ -21,12 +23,19 @@ class Classement extends AbstractDataObject
 
     public function getNomClassement(): string
     {
-        return $this->nomClassement;
+        $div = "";
+        if(!$this->divisionClassement == 0){
+            $div .= $this->divisionClassement;
+        }
+        return $this->nomClassement.$div;
     }
 
-    public function getDivisionClassement(): string
-    {
+    public function getDivisionClassement():int{
         return $this->divisionClassement;
+    }
+
+    public function getAcronyme(): string{
+        return $this->acronyme;
     }
 
 }

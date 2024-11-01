@@ -35,10 +35,13 @@ class ParlerRepository extends AbstractAssociationRepository {
     public function recupererLangues(string $cle):?array{
         $array = [];
         $q =  $this->recupererListeParObjetClePrimaire((new UtilisateurRepository()),array((new LangueRepository())),$cle);
-        foreach ($q as $objet){
-            $array[] = $objet[0];
+        if ($q != null) {
+            foreach ($q as $objet) {
+                $array[] = $objet[0];
+            }
         }
         return $array;
+
     }
 
 

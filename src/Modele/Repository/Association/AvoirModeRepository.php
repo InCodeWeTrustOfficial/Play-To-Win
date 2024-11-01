@@ -30,4 +30,9 @@ class AvoirModeRepository extends AbstractAssociationRepository {
     {
         return $this->getNomsClePrimaire();
     }
+
+    public function recuperer(): ?array
+    {
+        return parent::recupererSousListe(array((new ModeDeJeuRepository()),(new JeuRepository())));
+    }
 }

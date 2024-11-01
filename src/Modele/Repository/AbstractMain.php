@@ -7,10 +7,21 @@ use App\PlayToWin\Modele\DataObject\AbstractDataObject;
 use PDOException;
 
 abstract class AbstractMain {
-    // test
 
     protected abstract function getNomTable() : string;
     protected abstract function getNomsColonnes() : array;
+
+    protected function recuperer(): ?array {
+        $liste = array();
+
+        $pdoStatement = ConnexionBaseDeDonnees::getPdo()->query('select * from ' . $this->getNomTable());
+
+        foreach ($pdoStatement as $objetFormatTableau) {
+            $objets[] = $this->construireDepuisTableauSQL($objetFormatTableau);
+        }
+
+        return $objets;
+    }
 
     public function supprimer(string $cle) : bool{
         $valide = true;

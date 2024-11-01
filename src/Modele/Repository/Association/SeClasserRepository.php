@@ -2,16 +2,26 @@
 
 namespace App\PlayToWin\Modele\Repository\Association;
 
+use App\PlayToWin\Modele\Repository\Single\ClassementRepository;
+use App\PlayToWin\Modele\Repository\Single\JeuRepository;
+
 class SeClasserRepository extends AbstractAssociationRepository {
 
     protected function getNomsClePrimaire(): array
     {
-        // TODO: Implement getNomsClePrimaire() method.
+        return array((new ClassementRepository())->getNomClePrimaire(),(new JeuRepository())->getNomClePrimaire());
     }
 
     protected function formatTableauSQL(array $objet): array
     {
-        // TODO: Implement formatTableauSQL() method.
+        return array(
+          "cle1Tag" => $objet[0],
+          "cle2Tag" => $objet[1],
+          "cle3Tag" => $objet[2],
+          "cle4Tag" => $objet[3],
+          "cle5Tag" => $objet[4],
+          "cle6Tag" => $objet[5],
+        );
     }
 
     protected function getNomTable(): string
@@ -21,6 +31,11 @@ class SeClasserRepository extends AbstractAssociationRepository {
 
     protected function getNomsColonnes(): array
     {
-        // TODO: Implement getNomsColonnes() method.
+        $cp = $this->getNomsClePrimaire();
+        return array($cp[0], $cp[1],"place","eloMin","eloMax","cumulElo");
+    }
+
+    public function recuperer() : array{
+        return parent::recuperer();
     }
 }
