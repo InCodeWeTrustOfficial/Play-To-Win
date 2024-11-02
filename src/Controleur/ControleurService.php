@@ -98,7 +98,7 @@ abstract class ControleurService extends ControleurGenerique {
 
     public static function ajouterAuPanier() : void {
         GestionPanier::ajouterAuPanier();
-        self::redirectionVersURL("afficherListe", self::$controleur);
+        self::redirectionVersURL("afficherListe", 'coach');
     }
 
     public static function modifierQuantite(): void {

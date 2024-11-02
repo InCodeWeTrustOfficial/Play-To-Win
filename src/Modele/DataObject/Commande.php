@@ -13,7 +13,7 @@ class Commande extends AbstractDataObject {
         string $idCommande,
         DateTime $dateAchat,
         string $idUtilisateur,
-        float $prixTotal = 0.0
+        float $prixTotal
     ) {
         $this->idCommande = $idCommande;
         $this->dateAchat = $dateAchat;

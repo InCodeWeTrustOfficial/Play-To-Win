@@ -1,6 +1,6 @@
 INSERT INTO p_Jeux (nomJeu) VALUES
-('League_of_Legends'),
-('Rocket_League');
+('League of Legends'),
+('Rocket League');
 
 INSERT INTO p_Classements (idClassement,nomClassement,divisionClassement)
 VALUES
@@ -92,21 +92,20 @@ VALUES
 
 INSERT INTO p_Services (nomService, descriptionService, prixService, idCoach, nomJeu)
 VALUES
-    ('Rocket Boost Training', 'Apprenez les techniques avancées de boost pour dominer le terrain.', '35.0', 'bnj_rl', 'Rocket_League'),
-    ('Aerial Control Mastery', 'Améliorez votre maîtrise des frappes aériennes pour une précision optimale.', '40.0', 'bnj_rl', 'Rocket_League'),
-    ('Defensive Strategies', 'Comprenez les meilleures techniques défensives pour protéger votre but.', '30.0', 'Yota002', 'Rocket_League');
-
-
-INSERT INTO p_Services (nomService, descriptionService, prixService, idCoach, nomJeu)
-VALUES
-('League Lane Domination', 'Développez vos compétences en laning pour prendre l avantage en début de partie.', '27.5', 'Yota002', 'League_of_Legends'),
-('Map Awareness Training', 'Apprenez à mieux lire la carte pour une vision stratégique complète.', '32.0', 'Yota002', 'League_of_Legends'),
-('Teamfight Masterclass', 'Optimisez votre rôle dans les combats d équipe pour des victoires décisives.', '37.0', 'Ilya84', 'League_of_Legends');
+    ('Rocket Boost Training', 'Apprenez les techniques avancées de boost pour dominer le terrain.', '35.0', 'bnj_rl', 'Rocket League'),
+    ('Aerial Control Mastery', 'Améliorez votre maîtrise des frappes aériennes pour une précision optimale.', '40.0', 'bnj_rl', 'Rocket League'),
+    ('Defensive Strategies', 'Comprenez les meilleures techniques défensives pour protéger votre but.', '30.0', 'Yota002', 'Rocket League');
 
 INSERT INTO p_Services (nomService, descriptionService, prixService, idCoach, nomJeu)
 VALUES
-    ('Rocket League Game Review', 'Obtenez une analyse approfondie de votre partie pour améliorer votre jeu.', '20.0', 'bnj_rl', 'Rocket_League'),
-    ('LoL Game Review', 'Recevez des conseils basés sur une analyse détaillée de votre partie.', '22.5', 'Victoria02', 'League_of_Legends');
+('League Lane Domination', 'Développez vos compétences en laning pour prendre l avantage en début de partie.', '27.5', 'Yota002', 'League of Legends'),
+('Map Awareness Training', 'Apprenez à mieux lire la carte pour une vision stratégique complète.', '32.0', 'Yota002', 'League of Legends'),
+('Teamfight Masterclass', 'Optimisez votre rôle dans les combats d équipe pour des victoires décisives.', '37.0', 'Ilya84', 'League of Legends');
+
+INSERT INTO p_Services (nomService, descriptionService, prixService, idCoach, nomJeu)
+VALUES
+    ('Rocket League Game Review', 'Obtenez une analyse approfondie de votre partie pour améliorer votre jeu.', '20.0', 'bnj_rl', 'Rocket League'),
+    ('LoL Game Review', 'Recevez des conseils basés sur une analyse détaillée de votre partie.', '22.5', 'Victoria02', 'League of Legends');
 
 INSERT INTO p_Coachings (codeService, duree)
 VALUES

@@ -38,9 +38,13 @@ class ControleurCommande extends ControleurGenerique {
     public static function passerCommande(): void {
         try {
             $commandeRepository = new CommandeRepository();
-            $commande = $commandeRepository->construireDepuisTableauSQL([null,
-                new DateTime(),
-                ConnexionUtilisateur::getIdUtilisateurConnecte()]);
+            $commande = $commandeRepository->construireDepuisTableauSQL([
+                    null,
+                    new DateTime(),
+                    ConnexionUtilisateur::getIdUtilisateurConnecte(),
+                    0.0
+                ]
+            );
 
             $commandeRepository->ajouter($commande);
             $idCommande = ConnexionBaseDeDonnees::getPdo()->lastInsertId();
@@ -49,8 +53,10 @@ class ControleurCommande extends ControleurGenerique {
             $panier = $session->lire('panier');
 
             $sujets = $_GET['sujet'] ?? [];
+            $prixTotal = 0.0;
 
             foreach ($panier as $codeService => $produit) {
+                $prixTotal = $prixTotal + ($produit['prix'] * $produit['quantite']);
                 for ($i = 0; $i < $produit['quantite']; $i++) {
                     $sujet = $sujets[$codeService][$i] ?? '';
                     if (!empty($sujet)) {
@@ -70,7 +76,6 @@ class ControleurCommande extends ControleurGenerique {
             $session->supprimer('panier');
             MessageFlash::ajouter("success", "Commande passée avec succès.");
             self::redirectionVersURL("afficherListe", "coach");
-
         } catch (\Exception $e) {
             MessageFlash::ajouter("danger", "Erreur lors de la commande : " . $e->getMessage());
             self::redirectionVersURL("afficherPanier", self::$controleur);

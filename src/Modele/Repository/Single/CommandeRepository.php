@@ -16,16 +16,7 @@ class CommandeRepository extends AbstractRepository {
         return "idCommande";
     }
     public function getNomsColonnes(): array {
-        return ["idCommande", "dateAchatCommande", "idUtilisateur"];
-    }
-
-    protected function formatTableauSQL(AbstractDataObject $commandes): array {
-        /** @var Commande $commandes */
-        return array(
-            ":idCommandeTag" => $commandes->getIdCommande(),
-            ":dateAchatCommandeTag" => $commandes->getDateAchat()->format('Y-m-d H:i:s'),
-            ":idUtilisateurTag" => $commandes->getIdUtilisateur(),
-        );
+        return ["idCommande", "dateAchatCommande", "idUtilisateur", "prixTotal"];
     }
 
     public function recuperer(): array {
@@ -48,13 +39,22 @@ class CommandeRepository extends AbstractRepository {
         return $objets;
     }
 
-    public function construireDepuisTableauSQL(array $servicesFormatTableau): Commande {
-        $dateAchat = new DateTime($servicesFormatTableau[1]);
+    protected function formatTableauSQL(AbstractDataObject $commandes): array {
+        /** @var Commande $commandes */
+        return array(
+            ":idCommandeTag" => $commandes->getIdCommande(),
+            ":dateAchatCommandeTag" => $commandes->getDateAchat()->format('Y-m-d H:i:s'),
+            ":idUtilisateurTag" => $commandes->getIdUtilisateur(),
+            ":prixTotalTag" => $commandes->getPrixTotal(),
+        );
+    }
 
+    public function construireDepuisTableauSQL(array $servicesFormatTableau): Commande {
         return new Commande(
             $servicesFormatTableau[0], // idCommande
-            $dateAchat,                 // DateTime object
-            $servicesFormatTableau[2]   // idUtilisateur
+            $servicesFormatTableau[1],   // DateAchat
+            $servicesFormatTableau[2],   // idUtilisateur
+            $servicesFormatTableau[3],  // prixTotal
         );
     }
 }
