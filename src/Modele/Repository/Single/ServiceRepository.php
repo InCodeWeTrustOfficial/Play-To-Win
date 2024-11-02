@@ -47,7 +47,7 @@ abstract class ServiceRepository extends AbstractRepository{
         $valide = true;
         try {
             $sqlService = "INSERT INTO " . $this->getNomTable() . " (" . join(',', $this->getNomsColonnes()) . ") 
-                       VALUES (" . join(',', array_keys($this->formatTableauSQL($objet))) . ")";
+ VALUES (" . join(',', array_keys($this->formatTableauSQL($objet))) . ")";
 
             $pdoStatementService = ConnexionBaseDeDonnees::getPdo()->prepare($sqlService);
             $valuesService = $this->formatTableauSQL($objet);

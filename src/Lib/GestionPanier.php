@@ -3,8 +3,8 @@
 namespace App\PlayToWin\Lib;
 
 use App\PlayToWin\Modele\HTTP\Session;
-use App\PlayToWin\Modele\Repository\AnalyseVideoRepository;
-use App\PlayToWin\Modele\Repository\CoachingRepository;
+use App\PlayToWin\Modele\Repository\Single\AnalyseVideoRepository;
+use App\PlayToWin\Modele\Repository\Single\CoachingRepository;
 
 class GestionPanier {
 

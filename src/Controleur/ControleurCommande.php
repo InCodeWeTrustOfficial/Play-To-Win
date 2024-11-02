@@ -7,9 +7,9 @@ use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Modele\DataObject\Commande;
 use App\PlayToWin\Modele\DataObject\Services;
 use App\PlayToWin\Modele\HTTP\Session;
-use App\PlayToWin\Modele\Repository\CommandeRepository;
+use App\PlayToWin\Modele\Repository\Single\CommandeRepository;
 use App\PlayToWin\Modele\Repository\ConnexionBaseDeDonnees;
-use App\PlayToWin\Modele\Repository\ExemplaireServiceRepository;
+use App\PlayToWin\Modele\Repository\Single\ExemplaireServiceRepository;
 use DateTime;
 
 class ControleurCommande extends ControleurGenerique {

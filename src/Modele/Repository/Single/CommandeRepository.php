@@ -1,13 +1,14 @@
 <?php
 
-namespace App\PlayToWin\Modele\Repository;
+namespace App\PlayToWin\Modele\Repository\Single;
 
 use App\PlayToWin\Lib\ConnexionUtilisateur;
 use App\PlayToWin\Modele\DataObject\AbstractDataObject;
 use App\PlayToWin\Modele\DataObject\Commande;
+use App\PlayToWin\Modele\Repository\Single\AbstractRepository;
 use DateTime;
 
-class CommandeRepository extends AbstractRepository{
+class CommandeRepository extends AbstractRepository {
 
     protected function getNomTable(): string {
         return "p_Commandes";

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\PlayToWin\Modele\Repository;
+namespace App\PlayToWin\Modele\Repository\Single;
 
 use App\PlayToWin\Modele\DataObject\AbstractDataObject;
 use App\PlayToWin\Modele\DataObject\ExemplaireService;
