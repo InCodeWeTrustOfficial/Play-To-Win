@@ -1,12 +1,14 @@
 <?php use App\PlayToWin\Configuration\ConfigurationSite;
 use App\PlayToWin\Modele\DataObject\Classement;
+use App\PlayToWin\Modele\DataObject\ClassementJeu;
 use App\PlayToWin\Modele\DataObject\Jeu;
 use App\PlayToWin\Modele\DataObject\ModeDeJeu;
 
 /** @var Jeu[] $jeux */
-/** @var ModeDeJeu[] $modes */
-/** @var Classement[] $classements */
+/** @var array $modesDunJeu */
+/** @var array $classementsPossibles */
 /** @var string $idUser */
+/** @var Jeu $jeu */
 ?>
 <form method="<?php if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>" action="controleurFrontal.php">
     <input type='hidden' name='action' value='ajouterJouer'>
@@ -16,39 +18,31 @@ use App\PlayToWin\Modele\DataObject\ModeDeJeu;
         <legend>Mon formulaire :</legend>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="jeu_id">Sélectionnez votre jeu:</label>
-            <select name="jeu" id="jeu_id" required>
+            <select name="jeu" id="jeu_id" required onchange="this.form.submit()">
                 <?php
-                echo '<option value="rien" selected="true">Jeu...?</option>';
-                foreach ($jeux as $j){
-                    echo '<option value="'.$j->getNomJeu().'">'.$j->getNomJeu().'</option>';
-                }
+                    if ($jeu === null) {
+                        echo '<option value="rien" selected="true">Jeu...?</option>';
+                    }else {
+                        echo '<option value="'.$jeu->getCodeJeu().'" selected="true">'.$jeu->getNomJeu().'</option>';
+                    }
+                    foreach ($jeux as $j) {
+                        if($j != $jeu) {
+                            echo '<option value="' . $j->getCodeJeu() . '">' . $j->getNomJeu() . '</option>';
+                        }
+                    }
                 ?>
             </select>
         </p>
-        <p class="InputAddOn">
-            <label class="InputAddOn-item" for="mode_id">Sélectionnez votre mode:</label>
-            <select name="mode" id="mode_id" required>
-                <?php
-                echo '<option value="rien" selected="true">mode...?</option>';
-                foreach ($modes as $m){
-                    echo '<option value="'.$m->getNomMode().'">'.$m->getNomMode().'</option>';
-                }
-                ?>
-            </select>
-        </p>
-        <p class="InputAddOn">
-            <label class="InputAddOn-item" for="class_id">Sélectionnez votre classement:</label>
-            <select name="class" id="class_id" required>
-                <?php
-                echo '<option value="rien" selected="true">Langue...?</option>';
-                foreach ($classements as $c){
-                    echo '<option value="'.$c->getIdClassement().'">'.$c->getNomClassement().' '.$c->getDivisionClassement().'</option>';
-                }
-                ?>
-            </select>
-        </p>
+        <?php
+        if(isset($_REQUEST['jeu'])){
+            require 'extensionAjout.php';
+        }
+        ?>
         <p>
-            <input type="submit" value="Envoyer" />
+            <input type="submit" value="Valider le jeu" />
         </p>
     </fieldset>
-    </form><?php
+</form>
+<?php
+
+?>

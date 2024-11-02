@@ -2,7 +2,7 @@
 
 namespace App\PlayToWin\Modele\DataObject;
 
-class ClassementJeu {
+class ClassementJeu extends AbstractDataObject {
     private Jeu $jeu;
     private Classement $classement;
     private int $place;
@@ -12,7 +12,7 @@ class ClassementJeu {
 
     private string $classPath;
 
-    public function __construct(Jeu $jeu, Classement $classement, int $place, int $eloMin, int $eloMax, int $cumulElo) {
+    public function __construct(Classement $classement, Jeu $jeu, int $place, int $eloMin, int $eloMax, int $cumulElo) {
         $this->jeu = $jeu;
         $this->classement = $classement;
         $this->place = $place;
@@ -27,6 +27,9 @@ class ClassementJeu {
     public function getJeu(): Jeu
     {
         return $this->jeu;
+    }
+    public function getCodeJeu() : string {
+        return $this->jeu->getCodeJeu();
     }
 
     public function getClassement(): Classement

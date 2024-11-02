@@ -41,8 +41,12 @@ class ParlerRepository extends AbstractAssociationRepository {
             }
         }
         return $array;
-
     }
 
 
+    protected function construireDepuisTableauSQL(array $objetFormatTableau): mixed
+    {
+        return array((new UtilisateurRepository())->recupererParClePrimaire($objetFormatTableau[0]),
+            (new LangueRepository())->recupererParClePrimaire($objetFormatTableau[1]));
+    }
 }

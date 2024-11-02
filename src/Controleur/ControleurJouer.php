@@ -3,6 +3,8 @@
 namespace App\PlayToWin\Controleur;
 
 use App\PlayToWin\Modele\DataObject\Utilisateur;
+use App\PlayToWin\Modele\Repository\Association\AvoirModeRepository;
+use App\PlayToWin\Modele\Repository\Association\SeClasserRepository;
 use App\PlayToWin\Modele\Repository\Single\ClassementRepository;
 use App\PlayToWin\Lib\ConnexionUtilisateur;
 use App\PlayToWin\Lib\MessageFlash;
@@ -44,12 +46,10 @@ class ControleurJouer extends ControleurGenerique {
                     /**  @var array $jeuxJoues */
                     $jouerRepo = new JouerRepository();
                     $jeuxJoues = $jouerRepo->recupererModeJeuClassement($_REQUEST["id"]);
-                    if (count($jeuxJoues) <= 1) {
-                        MessageFlash::ajouter("warning", "Vous devez jouer au minimum à un jeu !");
-                    } else {
-                        $jouerRepo->supprimerTuple(array($_REQUEST['jeu'],$_REQUEST["id"], $_REQUEST["mode"]));
-                        MessageFlash::ajouter("success","suppression du jeu ".htmlspecialchars($jeu->getNomJeu())." dans le mode ".htmlspecialchars($mode->getNomMode()));
-                    }
+
+                    $jouerRepo->supprimerTuple(array($_REQUEST['jeu'],$_REQUEST["id"], $_REQUEST["mode"]));
+                    MessageFlash::ajouter("success","suppression du jeu ".htmlspecialchars($jeu->getNomJeu())." dans le mode ".htmlspecialchars($mode->getNomMode()));
+
                     self::redirectionVersURL("afficherDetail&id=" . $utilisateur->getId(), "utilisateur");
                 }
             }
@@ -66,45 +66,58 @@ class ControleurJouer extends ControleurGenerique {
                 self::redirectionVersURL();
             } else{
 
-                $jeux = (new JeuRepository())->recuperer();
-                $modes = (new ModeDeJeuRepository())->recuperer();
-                $classements = (new ClassementRepository())->recuperer();
+                $modesDunJeu = (new AvoirModeRepository())->recupererMap();
+                // [rl => ["1v1","2v2","3v3"] , lol => ["faille"]]
+                //  str     obj   obj   obj     str      obj
 
-                $jouerJoues = (new JouerRepository())->recupererModeJeuClassement($_REQUEST["id"]);
+                $utilisateurModesJoues = (new JouerRepository())->recupererModeJeuClassement($_REQUEST["id"]);
+                // ["rl","1v1","38"]
+                // ["rl","2v2","37"]
+                //   obj   obj  obj
 
-                $jeuxNonJoues = array();
-                $modesNonJoues = array();
-                $classementsNonJoues = array();
-
-                if($jouerJoues == null){
-                    $jeuxNonJoues = $jeux;
-                    $modesNonJoues = $modes;
-                    $classementsNonJoues = $classements;
-
-                } else{
-                    foreach ($jeux as $j) {
-                        if (!in_array($j, $jouerJoues[0])) {
-                            $jeuxNonJoues[] = $j;
+                if ($utilisateurModesJoues != null) {
+                    foreach ($utilisateurModesJoues as $modesJoue) {
+                        $tab = $modesDunJeu[$modesJoue[0]->getCodeJeu()];
+                        if (($key = array_search($modesJoue[1], $tab)) !== false) {
+                            unset($tab[$key]);
                         }
-                    }
-                    foreach ($modes as $m) {
-                        if (!in_array($m, $jouerJoues[0])) {
-                            $modesNonJoues[] = $m;
-                        }
-                    }
-                    foreach ($classements as $c) {
-                        if (!in_array($c, $jouerJoues[0])) {
-                            $classementsNonJoues[] = $c;
+                        if(count($tab) != 0) {
+                            $modesDunJeu[$modesJoue[0]->getCodeJeu()] = $tab;
+                        } else{
+                            unset($modesDunJeu[$modesJoue[0]->getCodeJeu()]);
                         }
                     }
                 }
-                self::afficherVue("vueGenerale.php",["titre" => "Ajout d'un jeu","cheminCorpsVue" => "jouer/formulaireJouer.php", "idUser" => $_REQUEST["id"], "jeux" => $jeuxNonJoues, "modes" => $modesNonJoues, "classements" => $classementsNonJoues]);
+                // [rl => ["3v3], lol => ["faille"]]
+                //var_dump($modesDunJeu);
+
+                $classementsPossibles = array();
+                $jeux = array();
+
+                foreach(array_keys($modesDunJeu) as $key){
+                    $classementsPossibles[$key] = (new SeClasserRepository())->recupererAvecJeu($key);
+                    $jeux[] = (new JeuRepository())->recupererParClePrimaire($key);
+                }
+                // [rl => [liste des classements], lol => [liste des classements]]
+
+
+                // need : modesDunJeu et classementsPossibles
+                $jeu = null;
+                if(isset($_REQUEST['jeu'])){
+                    $jeu = (new JeuRepository())->recupererParClePrimaire($_REQUEST['jeu']);
+                }
+
+                self::afficherVue("vueGenerale.php",["titre" => "Ajout d'un jeu","cheminCorpsVue" => "jouer/formulaireJouer.php","jeu" => $jeu,"idUser" => $_REQUEST["id"], "jeux" => $jeux,"modesDunJeu" => $modesDunJeu, "classementsPossibles" => $classementsPossibles]);
             }
         }
     }
 
     public static function ajouterJouer():void{
-        if(!isset($_REQUEST["jeu"]) || !isset($_REQUEST["id"]) || !isset($_REQUEST["mode"]) || !isset($_REQUEST['class'])){
+        if (isset($_REQUEST["jeu"]) && $_REQUEST['jeu'] != 'rien' && isset($_REQUEST["id"]) && !isset($_REQUEST['mode']) && !isset($_REQUEST["class"])){
+            $jeuUrl = rawurldecode($_REQUEST["jeu"]);
+            $idUrl = rawurldecode($_REQUEST["id"]);
+            self::redirectionVersURL("afficherFormulaireJouer&id=".$idUrl."&jeu=".$jeuUrl, self::$controleur);
+        } else if(!isset($_REQUEST["jeu"]) || !isset($_REQUEST["id"]) || !isset($_REQUEST["mode"]) || !isset($_REQUEST['class'])){
             MessageFlash::ajouter("danger","Infos manquantes.");
             self::redirectionVersURL();
         } else{
@@ -112,15 +125,17 @@ class ControleurJouer extends ControleurGenerique {
                 MessageFlash::ajouter("danger","Vous n'avez pas les droits de faire ceci !");
                 self::redirectionVersURL();
             } else{
+                $idUrl = rawurldecode($_REQUEST["id"]);
+                $jeuUrl = rawurldecode($_REQUEST["jeu"]);
                 if($_REQUEST['jeu'] == "rien"){
                     MessageFlash::ajouter("info","Sélectionnez un jeu !");
-                    self::redirectionVersURL("afficherFormulaireJouer&id=".$_REQUEST["id"], self::$controleur);
+                    self::redirectionVersURL("afficherFormulaireJouer&id=".$idUrl, self::$controleur);
                 } else if($_REQUEST['mode'] == "rien"){
                     MessageFlash::ajouter("info","Sélectionnez un mode !");
-                    self::redirectionVersURL("afficherFormulaireJouer&id=".$_REQUEST["id"], self::$controleur);
+                    self::redirectionVersURL("afficherFormulaireJouer&id=".$idUrl."&jeu=".$jeuUrl, self::$controleur);
                 } else if($_REQUEST['class'] == "rien"){
                     MessageFlash::ajouter("info","Sélectionnez un classement !");
-                    self::redirectionVersURL("afficherFormulaireJouer&id=".$_REQUEST["id"], self::$controleur);
+                    self::redirectionVersURL("afficherFormulaireJouer&id=".$idUrl."&jeu=".$jeuUrl, self::$controleur);
                 } else {
                     /** @var Jeu $jeu */
                     $jeu = (new JeuRepository())->recupererParClePrimaire($_REQUEST["jeu"]);
@@ -144,7 +159,7 @@ class ControleurJouer extends ControleurGenerique {
                         }
                         $jouerRepo->ajouterTuple(array($_REQUEST['jeu'],$_REQUEST['id'], $_REQUEST['mode'], $_REQUEST['class']));
                         MessageFlash::ajouter("success", "Jeu ajouté !");
-                        self::redirectionVersURL("afficherDetail&id=" . $_REQUEST['id'], "utilisateur");
+                        self::redirectionVersURL("afficherDetail&id=" . $idUrl, "utilisateur");
                     }
                 }
             }

@@ -2,6 +2,8 @@
 
 namespace App\PlayToWin\Modele\Repository\Association;
 
+use App\PlayToWin\Modele\DataObject\Jeu;
+use App\PlayToWin\Modele\DataObject\ModeDeJeu;
 use App\PlayToWin\Modele\Repository\Single\ClassementRepository;
 use App\PlayToWin\Modele\Repository\Single\JeuRepository;
 use App\PlayToWin\Modele\Repository\Single\ModeDeJeuRepository;
@@ -31,7 +33,19 @@ class JouerRepository extends AbstractAssociationRepository {
         return $array;
     }
 
+    public function countModesJeu(string $cle):int{
+        return parent::countParObjectClePrimaire((new JeuRepository()),array(new ModeDeJeuRepository()),$cle);
+    }
+
     public function recupererModeJeuClassement(string $idUtilisateur) : ?array{
         return $this->recupererListeParObjetClePrimaire((new UtilisateurRepository()),array(new JeuRepository(), new ModeDeJeuRepository(), new ClassementRepository()),$idUtilisateur);
+    }
+
+    protected function construireDepuisTableauSQL(array $objetFormatTableau): mixed
+    {
+        return array((new JeuRepository())->recupererParClePrimaire($objetFormatTableau[0]),
+                     (new UtilisateurRepository())->recupererParClePrimaire($objetFormatTableau[1]),
+                     (new ModeDeJeuRepository())->recupererParClePrimaire($objetFormatTableau[2]),
+                     (new ClassementRepository())->recupererParClePrimaire($objetFormatTableau[3]));
     }
 }

@@ -31,8 +31,20 @@ class AvoirModeRepository extends AbstractAssociationRepository {
         return $this->getNomsClePrimaire();
     }
 
-    public function recuperer(): ?array
+    public function recupererMap() : array {
+        $liste = parent::recuperer();
+
+        $rep = array();
+
+        foreach ($liste as $elem) {
+            $rep[$elem[1]->getCodeJeu()][] = $elem[0];
+        }
+        return $rep;
+    }
+
+    protected function construireDepuisTableauSQL(array $objetFormatTableau): mixed
     {
-        return parent::recupererSousListe(array((new ModeDeJeuRepository()),(new JeuRepository())));
+        return array((new ModeDeJeuRepository())->recupererParClePrimaire($objetFormatTableau[0]),
+                     (new JeuRepository())->recupererParClePrimaire($objetFormatTableau[1]));
     }
 }

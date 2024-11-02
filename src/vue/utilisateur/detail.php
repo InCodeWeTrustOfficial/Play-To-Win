@@ -58,7 +58,7 @@ if($jouer == null){
         echo $ligne[1]->getNomMode();
         echo $ligne[2]->getIdClassement();
         if(ConnexionUtilisateur::estUtilisateur($utilisateur->getId()) || ConnexionUtilisateur::estAdministrateur()){
-            echo '<a href="../web/controleurFrontal.php?controleur=jouer&action=supprimerJouer&id=' . $idURL . '&jeu='.$ligne[0]->getNomJeu().'&mode='.$ligne[1]->getNomMode().'">(-)</a></p>';
+            echo '<a href="../web/controleurFrontal.php?controleur=jouer&action=supprimerJouer&id=' . $idURL . '&jeu='.$ligne[0]->getCodeJeu().'&mode='.$ligne[1]->getNomMode().'">(-)</a></p>';
         }
         echo "</p>";
     }

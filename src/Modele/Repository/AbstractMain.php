@@ -10,6 +10,7 @@ abstract class AbstractMain {
 
     protected abstract function getNomTable() : string;
     protected abstract function getNomsColonnes() : array;
+    protected abstract function construireDepuisTableauSQL(array $objetFormatTableau) : mixed;
 
     protected function recuperer(): ?array {
         $liste = array();
