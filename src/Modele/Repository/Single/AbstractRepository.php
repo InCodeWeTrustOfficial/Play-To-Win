@@ -10,7 +10,6 @@ use PDOException;
 
 abstract class AbstractRepository extends AbstractMain {
 
-
     abstract protected function getNomClePrimaire() : string;
     protected abstract function construireDepuisTableauSQL(array $objetFormatTableau) : AbstractDataObject;
 
@@ -41,7 +40,6 @@ abstract class AbstractRepository extends AbstractMain {
         $pdoStatement->execute($values);
 
         $objetFormatTableau = $pdoStatement->fetch();
-
 
         if ($objetFormatTableau == null) {
             MessageFlash::ajouter("warning","$sql $cle.");

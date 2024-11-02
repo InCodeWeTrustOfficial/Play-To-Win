@@ -14,10 +14,29 @@ abstract class ControleurService extends ControleurGenerique {
     abstract static function getControleur(): string;
     abstract static function creerDepuisFormulaire(): void;
 
-    public static function afficherListe() : void {
+    public static function afficherListeTotal() : void {
         $services = array_merge((new AnalyseVideoRepository())->recuperer(), (new CoachingRepository())->recuperer());
         self::afficherVue('vueGenerale.php', ["titre" => "Liste des services", "cheminCorpsVue" => "service/liste.php", 'services' => $services, 'controleur' => self::$controleur]);
     }
+
+    public static function afficherListe() : void {
+        if (isset($_REQUEST['id'])) {
+            $coachId = $_REQUEST['id'];
+            $services = array_merge(
+                (new AnalyseVideoRepository())->recupererParCoach($coachId),
+                (new CoachingRepository())->recupererParCoach($coachId)
+            );
+            self::afficherVue('vueGenerale.php', [
+                "titre" => "Liste des services",
+                "cheminCorpsVue" => "service/liste.php",
+                'services' => $services,
+                'controleur' => self::$controleur
+            ]);
+        } else {
+            MessageFlash::ajouter("danger", "Erreur, le coach n'existe pas !");
+        }
+    }
+
 
     public static function afficherListeAnalyse() : void {
         $services = (new AnalyseVideoRepository())->recuperer();

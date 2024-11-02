@@ -117,6 +117,25 @@ abstract class ServiceRepository extends AbstractRepository{
         return $this->construireDepuisTableauSQL($objetFormatTableau);
     }
 
+    public function recupererParCoach(string $idcoach): array {
+        $sql = "SELECT s." . join(', s.', $this->getNomsColonnes()) . ", p." . join(', p.', $this->getNomsColonnesService()) . " 
+            FROM " . $this->getNomTable() . " s 
+            JOIN " . $this->getNomTableService() . " p 
+            ON p." . $this->getNomClePrimaire() . " = s." . $this->getNomClePrimaire() . " 
+            WHERE s.idCoach = :idCoach";
+
+        $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
+        $pdoStatement->bindParam(':idCoach', $idcoach);
+        $pdoStatement->execute();
+
+        $objets = [];
+        foreach ($pdoStatement as $objetFormatTableau) {
+            $objets[] = $this->construireDepuisTableauSQL($objetFormatTableau);
+        }
+
+        return $objets;
+    }
+
     public function recuperer(): array {
         $liste = array();
 
