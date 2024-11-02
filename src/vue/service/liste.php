@@ -5,7 +5,6 @@ use App\PlayToWin\Modele\DataObject\Services;
 echo "<h2>Liste des services proposés</h2>";
 /** @var Services[] $services */
 /** @var string $controleur  */
-
 ?>
 
 <form action="controleurFrontal.php" method="post">

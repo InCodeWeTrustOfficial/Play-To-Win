@@ -4,20 +4,27 @@ namespace App\PlayToWin\Controleur;
 
 use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Modele\DataObject\ExemplaireService;
-use App\PlayToWin\Modele\HTTP\Session;
-use App\PlayToWin\Modele\Repository\AnalyseVideoRepository;
-use App\PlayToWin\Modele\Repository\ExemplaireServiceRepository;
+use App\PlayToWin\Modele\Repository\Single\AnalyseVideoRepository;
+use App\PlayToWin\Modele\Repository\Single\CoachingRepository;
+use App\PlayToWin\Modele\Repository\Single\ExemplaireServiceRepository;
 
 class ControleurExemplaireService extends ControleurGenerique {
 
     protected static string $controleur = 'exemplaireservice';
 
-    public static function afficherListe() : void {
-
-    }
-
-    public static function afficherFormulaireMiseAJour() : void {
-
+    public static function afficherListe(): void {
+        if (isset($_REQUEST['idcommande'])) {
+            $idCommande = $_REQUEST['idcommande'];
+            $exemplaireservices = (new ExemplaireServiceRepository)->recupererParCommande($idCommande);
+            self::afficherVue('vueGenerale.php', [
+                "titre" => "Liste des exemplaire services de la commande",
+                "cheminCorpsVue" => "exemplaireservice/liste.php",
+                'exemplaireservices' => $exemplaireservices,
+                'controleur' => self::$controleur
+            ]);
+        } else {
+            MessageFlash::ajouter("danger", "Erreur, le coach n'existe pas !");
+        }
     }
 
     public static function afficherDetail() : void {

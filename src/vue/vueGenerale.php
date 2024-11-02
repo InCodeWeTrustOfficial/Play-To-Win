@@ -42,6 +42,9 @@
                 $idURL = rawurlencode($ids);
                 echo '
                 <div class="user-icons">
+                    <a href="controleurFrontal.php?controleur=commande&action=afficherListe" class="login-button">
+                        Commande
+                    </a>
                     <a href="controleurFrontal.php?controleur=service&action=afficherPanier" class="icon-link">
                         <img src="../ressources/img/icone/panier.png">
                     </a>

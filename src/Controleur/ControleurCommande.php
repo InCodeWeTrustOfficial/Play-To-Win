@@ -20,6 +20,11 @@ class ControleurCommande extends ControleurGenerique {
         return self::$controleur;
     }
 
+    public static function afficherListe() : void {
+        $commandes = (new CommandeRepository)->recuperer();
+        self::afficherVue('vueGenerale.php', ["titre" => "Liste des commandes", "cheminCorpsVue" => "commande/liste.php", 'commandes' => $commandes, 'controleur' => self::$controleur]);
+    }
+
     public static function afficherFormulairePanier() {
         $panier = Session::getInstance()->lire('panier');
         self::afficherVue('vueGenerale.php', [

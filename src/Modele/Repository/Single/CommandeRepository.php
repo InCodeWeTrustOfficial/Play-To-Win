@@ -2,21 +2,19 @@
 
 namespace App\PlayToWin\Modele\Repository\Single;
 
-use App\PlayToWin\Lib\ConnexionUtilisateur;
 use App\PlayToWin\Modele\DataObject\AbstractDataObject;
 use App\PlayToWin\Modele\DataObject\Commande;
-use App\PlayToWin\Modele\Repository\Single\AbstractRepository;
 use DateTime;
 
 class CommandeRepository extends AbstractRepository {
 
-    protected function getNomTable(): string {
+    public function getNomTable(): string {
         return "p_Commandes";
     }
-    protected function getNomClePrimaire(): string {
+    public function getNomClePrimaire(): string {
         return "idCommande";
     }
-    protected function getNomsColonnes(): array {
+    public function getNomsColonnes(): array {
         return ["idCommande", "dateAchatCommande", "idUtilisateur"];
     }
 
@@ -30,8 +28,12 @@ class CommandeRepository extends AbstractRepository {
     }
 
     public function construireDepuisTableauSQL(array $servicesFormatTableau): Commande {
-        return new Commande (
-            $servicesFormatTableau[0], $servicesFormatTableau[1], $servicesFormatTableau[2]
+        $dateAchat = new DateTime($servicesFormatTableau[1]);
+
+        return new Commande(
+            $servicesFormatTableau[0], // idCommande
+            $dateAchat,                 // DateTime object
+            $servicesFormatTableau[2]   // idUtilisateur
         );
     }
 }

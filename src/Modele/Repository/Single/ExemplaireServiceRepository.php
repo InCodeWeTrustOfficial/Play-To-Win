@@ -6,6 +6,7 @@ use App\PlayToWin\Modele\DataObject\AbstractDataObject;
 use App\PlayToWin\Modele\DataObject\ExemplaireService;
 use App\PlayToWin\Modele\DataObject\Services;
 use App\PlayToWin\Modele\DataObject\Utilisateur;
+use App\PlayToWin\Modele\Repository\ConnexionBaseDeDonnees;
 
 class ExemplaireServiceRepository extends AbstractRepository{
 
@@ -17,6 +18,23 @@ class ExemplaireServiceRepository extends AbstractRepository{
     }
     protected function getNomsColonnes(): array {
         return ["idExemplaire", "etatService", "sujet", "codeService", "idCommande"];
+    }
+
+    public function recupererParCommande(string $idCommande): array {
+        $sql = "SELECT " . join(',', $this->getNomsColonnes()) .
+            " FROM " . $this->getNomTable() .
+            " WHERE idCommande = :idCommande";
+
+        $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
+        $pdoStatement->bindParam(':idCommande', $idCommande);
+        $pdoStatement->execute();
+
+        $objets = [];
+        foreach ($pdoStatement as $objetFormatTableau) {
+            $objets[] = $this->construireDepuisTableauSQL($objetFormatTableau);
+        }
+
+        return $objets;
     }
 
     protected function formatTableauSQL(AbstractDataObject $Exservices): array {
