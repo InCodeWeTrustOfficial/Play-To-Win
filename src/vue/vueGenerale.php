@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-
     <link rel="stylesheet" href="../ressources/css/nav_bar.css">
     <link rel="stylesheet" href="../ressources/css/background.css">
     <link rel="stylesheet" href="../ressources/css/footer.css">
@@ -9,6 +8,8 @@
     <link rel="stylesheet" href="../ressources/css/service.css">
     <link rel="stylesheet" href="../ressources/css/coach.css">
     <link rel="stylesheet" href="../ressources/css/panier.css">
+    <link rel="stylesheet" href="../ressources/css/commande.css">
+    <link rel="stylesheet" href="../ressources/css/exemplaire.css">
     <meta charset="UTF-8">
     <title>
         <?php

@@ -2,16 +2,31 @@
 
 use App\PlayToWin\Modele\DataObject\Commande;
 
-echo "<h2>Liste des Commande effectuer</h2>";
 /** @var Commande[] $commandes */
 /** @var string $controleur  */
 ?>
 
-<?php foreach ($commandes as $commande): ?>
-    <a  href="../web/controleurFrontal.php?controleur=exemplaireservice&action=afficherListe&idcommande=<?php echo $commande->getIdCommande(); ?>">
-        <div>
-            <?php echo $commande->getIdCommande(); ?>
-            <?php echo $commande->getDateAchat()->format('Y-m-d H:i:s'); ?>
+<div class="commandes-container">
+    <h2 class="commandes-title">Liste des commandes effectuées</h2>
+
+    <?php if (empty($commandes)): ?>
+        <div class="no-commandes">
+            Aucune commande n'a été effectuée pour le moment.
         </div>
-    </a>
-<?php endforeach; ?>
+    <?php else: ?>
+        <?php foreach ($commandes as $commande): ?>
+            <a class="commande-link" href="../web/controleurFrontal.php?controleur=exemplaireservice&action=afficherListe&idcommande=<?= htmlspecialchars($commande->getIdCommande()) ?>">
+                <div class="commande-card">
+                    <div class="commande-info">
+                        <div class="commande-id">
+                            Commande #<?= htmlspecialchars($commande->getIdCommande()) ?>
+                        </div>
+                        <div class="commande-date">
+                            <?= $commande->getDateAchat()->format('d/m/Y à H:i') ?>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        <?php endforeach; ?>
+    <?php endif; ?>
+</div>

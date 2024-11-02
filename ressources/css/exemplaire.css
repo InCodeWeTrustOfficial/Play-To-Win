@@ -1,0 +1,72 @@
+.exemplaireservice-container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+.exemplaireservice-title {
+    color: #2c3e50;
+    font-size: 24px;
+    margin-bottom: 30px;
+    text-align: center;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+}
+
+.exemplaireservice-card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 15px;
+    padding: 20px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.exemplaireservice-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    width: 100%;
+}
+
+.exemplaireservice-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.exemplaireservice-subject {
+    font-weight: bold;
+    color: #2c3e50;
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.exemplaireservice-status {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 15px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.status-en-cours {
+    background-color: #f1c40f;
+    color: #7f6600;
+}
+
+.status-termine {
+    background-color: #2ecc71;
+    color: #1b7a44;
+}
+
+.status-en-attente {
+    background-color: #e74c3c;
+    color: #a93226;
+}
+
+.no-exemplaireservice {
+    text-align: center;
+    color: #7f8c8d;
+    padding: 30px;
+    font-style: italic;
+}
