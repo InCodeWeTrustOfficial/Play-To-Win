@@ -5,56 +5,10 @@ html {
 }
 
 body {
-    margin-left: 20px;
-    margin-right: 20px;
-    padding: 0;
-    height: 100%;
-}
-
-header, footer, main {
-    width: 100%;
-}
-
-nav {
-    position: sticky;
-    top: 0;
-    background-color: white;
-    z-index: 1000;
-}
-
-nav ul {
-    list-style: none;
-    padding-left: 0;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-}
-
-nav ul li {
-    border-color: black;
-    border-width: 1px;
-    border-style: solid;
-}
-
-nav ul li:hover {
-    background-color: #c7cef5;
-}
-
-nav ul li:not(:first-child) {
-    border-left-width: 0;
-}
-
-nav ul li a {
-    text-decoration: none;
-    color: #000000;
-    padding-left: 5px;
-    padding-right: 5px;
-}
-
-footer p {
-    border: 1px solid black;
-    text-align: right;
-    padding-right: 1em;
+    margin: 0;
+    font-family: 'Courier New', Courier, monospace;
+    background: linear-gradient(135deg, #1c1c1c, #0a0a0a);
+    color: #ffffff;
 }
 
 .InputAddOn {
@@ -95,10 +49,4 @@ footer p {
 .InputAddOn-field:last-child,
 .InputAddOn-item:last-child {
     border-radius: 0 2px 2px 0;
-}
-
-.responsive-img {
-    width: 50%;
-    height: 32px;
-    object-fit: cover;
 }

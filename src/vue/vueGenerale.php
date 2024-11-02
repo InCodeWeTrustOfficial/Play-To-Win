@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="../ressources/css/css_minimaliste.css">
+
+    <link rel="stylesheet" href="../ressources/css/nav_bar.css">
+    <link rel="stylesheet" href="../ressources/css/background.css">
+    <link rel="stylesheet" href="../ressources/css/footer.css">
     <link rel="stylesheet" href="../ressources/css/navstyles.css">
     <link rel="stylesheet" href="../ressources/css/service.css">
     <link rel="stylesheet" href="../ressources/css/coach.css">
@@ -10,61 +13,57 @@
     <title>
         <?php
         /** @var string $titre */
-
         use App\PlayToWin\Lib\ConnexionUtilisateur;
-
-        echo $titre; ?></title>
+        echo $titre; ?>
+    </title>
 </head>
 <body>
 <header>
-    <nav>
-        <ul>
-            <li>
-                <a href="controleurFrontal.php?action=afficherListe&controleur=coach">Coaching</a>
-            </li>
-            <li>
-                <a href="controleurFrontal.php?action=afficherListe&controleur=utilisateur">Gestion des utilisateurs</a>
-            </li><li>
-                <a href="controleurFrontal.php?action=afficherFormulairePreference"><img src="../ressources/img/heart.png"></a>
-            </li>
+    <nav class="navbar">
+        <div class="nav-center">
+            <a href="controleurFrontal.php?controleur=coach&action=afficherListe" class="nav-link">
+                <img src="../ressources/img/icone/home.png" alt="Home">
+                Home
+            </a>
+            <a href="controleurFrontal.php?controleur=coach&action=afficherListe" class="nav-link">
+                <img src="../ressources/img/icone/coaching.png" alt="Coaching">
+                Coaching
+            </a>
+        </div>
+        <div class="nav-right">
             <?php
             if (!ConnexionUtilisateur::estConnecte()){
                 echo '
-                <li>
-                <a href="controleurFrontal.php?controleur=utilisateur&action=afficherFormulaireCreation"><img src="../ressources/img/add-user.png"></a>
-            </li><li>
-                <a href="controleurFrontal.php?controleur=utilisateur&action=afficherFormulaireConnexion"><img src="../ressources/img/enter.png"></a>
-            </li>
-                ';
+                <a href="controleurFrontal.php?controleur=utilisateur&action=afficherFormulaireConnexion" class="login-button">
+                    Se connecter
+                </a>';
             } else{
                 $ids = ConnexionUtilisateur::getIdUtilisateurConnecte();
                 $idURL = rawurlencode($ids);
                 echo '
-            <li>
-                <a href="controleurFrontal.php?controleur=utilisateur&panier=&action=afficherDetail&id='.$idURL.'"><img src="../ressources/img/user.png "></a>
-            </li>
-            <li>
-                <a href="controleurFrontal.php?controleur=utilisateur&action=deconnecter"><img src="../ressources/img/logout.png"></a>
-            </li>
-            
-            <li>
-                <a href="controleurFrontal.php?controleur=service&action=afficherPanier"><img src="../ressources/img/panier.png"></a>
-            </li>
-            
-            <li>
-                <a href="controleurFrontal.php?controleur=service&action=afficherListe"><img src="../ressources/img/produit.png"></a>
-            </li>
-                ';
+                <div class="user-icons">
+                    <a href="controleurFrontal.php?controleur=service&action=afficherPanier" class="icon-link">
+                        <img src="../ressources/img/icone/panier.png">
+                    </a>
+                     <a href="controleurFrontal.php?controleur=service&action=afficherListe" class="icon-link">
+                        <img src="../ressources/img/icone/produit.png" alt="Service">
+                    </a>
+                    <a href="controleurFrontal.php?controleur=utilisateur&action=afficherDetail&id='.$idURL.'" class="icon-link">
+                        <img src="../ressources/img/icone/user.png" alt="User">
+                    </a>
+                    <a href="controleurFrontal.php?controleur=utilisateur&action=deconnecter" class="icon-link">
+                        <img src="../ressources/img/icone/logout.png" alt="Logout">
+                    </a>
+                    
+                </div>';
             }
             ?>
-        </ul>
+        </div>
     </nav>
     <div>
         <?php
         /** @var string[][] $messagesFlash */
         foreach($messagesFlash as $type => $messagesFlashPourUnType) {
-            // $type est l'une des valeurs suivantes : "success", "info", "warning", "danger"
-            // $messagesFlashPourUnType est la liste des messages flash d'un type
             foreach ($messagesFlashPourUnType as $messageFlash) {
                 echo <<< HTML
             <div class="alert alert-$type">
@@ -83,10 +82,53 @@
     ?>
 </main>
 <footer>
-    <p>
-        PlayToWin, site de e-commerce
-    </p>
+    <div class="footer-content">
+        <div class="footer-section">
+            <h3>À propos de nous</h3>
+            <ul>
+                <li><a href="#">Qui sommes-nous</a></li>
+                <li><a href="#">Notre équipe</a></li>
+                <li><a href="#">Nos services</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h3>Services</h3>
+            <ul>
+                <li><a href="#">Coaching</a></li>
+                <li><a href="#">Formations</a></li>
+                <li><a href="#">Support</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h3>Contact</h3>
+            <ul>
+                <li><a href="#">Support client</a></li>
+                <li><a href="#">FAQ</a></li>
+                <li><a href="#">Nous contacter</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h3>Suivez-nous</h3>
+            <div class="social-links">
+                <a href="#" class="social-icon">
+                    <img src="../ressources/img/icone/X.png" alt="X">
+                </a>
+                <a href="#" class="social-icon">
+                    <img src="../ressources/img/icone/facebook.png" alt="Facebook">
+                </a>
+                <a href="#" class="social-icon">
+                    <img src="../ressources/img/icone/instagram.png" alt="Instagram">
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>PlayToWin © 2024 - Tous droits réservés</p>
+    </div>
 </footer>
 </body>
 </html>
-

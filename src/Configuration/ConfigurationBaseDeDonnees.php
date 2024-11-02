@@ -3,11 +3,11 @@ namespace App\PlayToWin\Configuration;
 
 class ConfigurationBaseDeDonnees {
     static private array $configurationBaseDeDonnees = array(
-        'nomHote' => 'webinfo.iutmontp.univ-montp2.fr',
+        'nomHote' => 'db',
         'nomBaseDeDonnees' => 'turpinb',
-        'port' => '3316',
-        'login' => 'turpinb',
-        'motDePasse' => '080482285HA',
+        'port' => '3306',
+        'login' => 'root',
+        'motDePasse' => 'notSecureChangeMe',
     );
 
     static public function getId():string{
