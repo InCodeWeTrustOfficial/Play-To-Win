@@ -1,5 +1,4 @@
 <?php
-
 use App\PlayToWin\Modele\DataObject\Commande;
 
 /** @var Commande[] $commandes */
@@ -23,6 +22,9 @@ use App\PlayToWin\Modele\DataObject\Commande;
                         </div>
                         <div class="commande-date">
                             <?= $commande->getDateAchat()->format('d/m/Y à H:i') ?>
+                        </div>
+                        <div class="commande-prix">
+                            Prix total : <?= number_format($commande->getPrixTotal(), 2) ?> €
                         </div>
                     </div>
                 </div>

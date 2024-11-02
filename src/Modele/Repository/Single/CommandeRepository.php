@@ -4,6 +4,7 @@ namespace App\PlayToWin\Modele\Repository\Single;
 
 use App\PlayToWin\Modele\DataObject\AbstractDataObject;
 use App\PlayToWin\Modele\DataObject\Commande;
+use App\PlayToWin\Modele\Repository\ConnexionBaseDeDonnees;
 use DateTime;
 
 class CommandeRepository extends AbstractRepository {
@@ -25,6 +26,26 @@ class CommandeRepository extends AbstractRepository {
             ":dateAchatCommandeTag" => $commandes->getDateAchat()->format('Y-m-d H:i:s'),
             ":idUtilisateurTag" => $commandes->getIdUtilisateur(),
         );
+    }
+
+    public function recuperer(): array {
+        $sql = "SELECT c.idCommande, 
+                   c.dateAchatCommande, 
+                   c.idUtilisateur,
+                   SUM(s.prixService) as prixTotal
+            FROM " . $this->getNomTable() . " c 
+            JOIN p_ExemplaireService es ON c.idCommande = es.idCommande
+            JOIN p_Services s ON es.codeService = s.codeService
+            GROUP BY c.idCommande, c.dateAchatCommande, c.idUtilisateur;";
+
+        $pdoStatement = ConnexionBaseDeDonnees::getPdo()->query($sql);
+
+        $objets = [];
+        foreach ($pdoStatement as $objetFormatTableau) {
+            $objets[] = $this->construireDepuisTableauSQL($objetFormatTableau);
+        }
+
+        return $objets;
     }
 
     public function construireDepuisTableauSQL(array $servicesFormatTableau): Commande {

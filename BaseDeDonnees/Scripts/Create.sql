@@ -54,6 +54,7 @@ CREATE TABLE IF NOT EXISTS p_Commandes (
     idCommande INT AUTO_INCREMENT,
     dateAchatCommande DATETIME,
     idUtilisateur VARCHAR(32) NOT NULL,
+    prixTotal FLOAT,
     PRIMARY KEY(idCommande)
 );
 

@@ -4,8 +4,6 @@ namespace App\PlayToWin\Controleur;
 
 use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Modele\DataObject\ExemplaireService;
-use App\PlayToWin\Modele\Repository\Single\AnalyseVideoRepository;
-use App\PlayToWin\Modele\Repository\Single\CoachingRepository;
 use App\PlayToWin\Modele\Repository\Single\ExemplaireServiceRepository;
 
 class ControleurExemplaireService extends ControleurGenerique {
