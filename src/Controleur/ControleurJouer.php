@@ -56,9 +56,72 @@ class ControleurJouer extends ControleurGenerique {
         }
     }
 
+    public static function afficherModifJouer() :void{
+        if(!isset($_REQUEST["jeu"]) || !isset($_REQUEST["id"]) || !isset($_REQUEST["mode"])){
+            MessageFlash::ajouter("danger","Infos manquantes.");
+            self::redirectionVersURL();
+        }else{
+            if(!(ConnexionUtilisateur::estUtilisateur($_REQUEST['id']) || ConnexionUtilisateur::estAdministrateur())){
+                MessageFlash::ajouter("danger","Vous n'avez pas les droits de faire ceci !");
+                self::redirectionVersURL();
+            } else{
+                /** @var Jeu $jeu */
+                $jeu = (new JeuRepository())->recupererParClePrimaire($_REQUEST["jeu"]);
+                $mode = (new ModeDeJeuRepository())->recupererParClePrimaire($_REQUEST["mode"]);
+
+                if($jeu == null || $mode == null){
+                    MessageFlash::ajouter("warning","Infos non valides");
+                    self::redirectionVersURL();
+                }else{
+                    $classementsPossibles = array();
+                    $classementsPossibles[$jeu->getCodeJeu()] = (new SeClasserRepository())->recupererAvecJeu($jeu->getCodeJeu());
+                    self::afficherVue("vueGenerale.php",["titre" => "modification classement","cheminCorpsVue" => "jouer/formulaireModif.php","jeu"=>$jeu,"mode"=>$mode->getNomMode(),"idUser"=>$_REQUEST['id'],"classementsPossibles" => $classementsPossibles]);
+                }
+            }
+        }
+    }
+
+    public static function modifJouer():void{
+        if(!isset($_REQUEST["jeu"]) || !isset($_REQUEST["id"]) || !isset($_REQUEST["mode"]) || !isset($_REQUEST["class"])){
+            MessageFlash::ajouter("danger","Infos manquantes.");
+            self::redirectionVersURL();
+        }else{
+            if(!(ConnexionUtilisateur::estUtilisateur($_REQUEST['id']) || ConnexionUtilisateur::estAdministrateur())){
+                MessageFlash::ajouter("danger","Vous n'avez pas les droits de faire ceci !");
+                self::redirectionVersURL();
+            } else{
+                /** @var Jeu $jeu */
+                /** @var ModeDeJeu $mode */
+                /** @var Classement $class */
+                $jeu = (new JeuRepository())->recupererParClePrimaire($_REQUEST["jeu"]);
+                $mode = (new ModeDeJeuRepository())->recupererParClePrimaire($_REQUEST["mode"]);
+                $class = (new ClassementRepository())->recupererParClePrimaire($_REQUEST["class"]);
+
+                if($jeu == null || $mode == null || $class == null){
+                    MessageFlash::ajouter("warning","Infos non valides");
+                    self::redirectionVersURL();
+                } else{
+                    $jouerRepo = new JouerRepository();
+
+                    if(!$jouerRepo->existeTuple(array($jeu->getCodeJeu(),$_REQUEST['id'],$mode->getNomMode()))){
+                        MessageFlash::ajouter("warning","Modification impossible");
+                        self::redirectionVersURL();
+                    } else{
+                        $idUrl = rawurldecode($_REQUEST['id']);
+
+                        $jouerRepo->modifJouer( array($jeu->getCodeJeu(),$_REQUEST['id'],$mode->getNomMode()), $class->getIdClassement() );
+
+                        MessageFlash::ajouter("success","classement modifié avec succès !");
+                        self::redirectionVersURL("afficherDetail&id=" . $idUrl, "utilisateur");
+                    }
+                }
+            }
+        }
+    }
+
     public static function afficherFormulaireJouer():void{
         if(!isset($_REQUEST['id'])){
-            MessageFlash::ajouter("danger","Infos manquantes.");
+            MessageFlash::ajouter("warning","Infos manquantes.");
             self::redirectionVersURL();
         } else{
             if(!(ConnexionUtilisateur::estConnecte() && (ConnexionUtilisateur::estUtilisateur($_REQUEST['id']) || ConnexionUtilisateur::estAdministrateur()))){
@@ -112,12 +175,30 @@ class ControleurJouer extends ControleurGenerique {
         }
     }
 
+    public static function actualiserJouer(): void{
+        if(!isset($_REQUEST['id']) || !isset($_REQUEST["jeu"]) || $_REQUEST["jeu"] == "rien"){
+            MessageFlash::ajouter("warning","Infos manquantes.");
+            self::redirectionVersURL();
+        } else{
+            if(!(ConnexionUtilisateur::estUtilisateur($_REQUEST['id']) || ConnexionUtilisateur::estAdministrateur())){
+                MessageFlash::ajouter("danger","Vous n'avez pas les droits de faire ceci !");
+                self::redirectionVersURL();
+            } else{
+                $jeu = (new JeuRepository())->recupererParClePrimaire($_REQUEST["jeu"]);
+                if($jeu == null){
+                    MessageFlash::ajouter("warning","Infos non valides.");
+                    self::redirectionVersURL();
+                } else{
+                    $jeuUrl = rawurldecode($_REQUEST["jeu"]);
+                    $idUrl = rawurldecode($_REQUEST["id"]);
+                    self::redirectionVersURL("afficherFormulaireJouer&id=".$idUrl."&jeu=".$jeuUrl, self::$controleur);
+                }
+            }
+        }
+    }
+
     public static function ajouterJouer():void{
-        if (isset($_REQUEST["jeu"]) && $_REQUEST['jeu'] != 'rien' && isset($_REQUEST["id"]) && !isset($_REQUEST['mode']) && !isset($_REQUEST["class"])){
-            $jeuUrl = rawurldecode($_REQUEST["jeu"]);
-            $idUrl = rawurldecode($_REQUEST["id"]);
-            self::redirectionVersURL("afficherFormulaireJouer&id=".$idUrl."&jeu=".$jeuUrl, self::$controleur);
-        } else if(!isset($_REQUEST["jeu"]) || !isset($_REQUEST["id"]) || !isset($_REQUEST["mode"]) || !isset($_REQUEST['class'])){
+        if (!isset($_REQUEST["jeu"]) || !isset($_REQUEST["id"]) || !isset($_REQUEST["mode"]) || !isset($_REQUEST['class'])){
             MessageFlash::ajouter("danger","Infos manquantes.");
             self::redirectionVersURL();
         } else{
@@ -155,15 +236,15 @@ class ControleurJouer extends ControleurGenerique {
                     } else {
                         $jouerRepo = new jouerRepository();
                         if ($jouerRepo->existeTuple(array($_REQUEST['jeu'], $_REQUEST['id'], $_REQUEST['mode']))) {
-                            $jouerRepo->supprimerTuple(array($_REQUEST['jeu'], $_REQUEST['id'], $_REQUEST['mode']));
+                            MessageFlash::ajouter("warning","Ce que vous souhaitez insérer existe déjà !");
+                        } else{
+                            $jouerRepo->ajouterTuple(array($_REQUEST['jeu'],$_REQUEST['id'], $_REQUEST['mode'], $_REQUEST['class']));
+                            MessageFlash::ajouter("success", "Jeu ajouté !");
                         }
-                        $jouerRepo->ajouterTuple(array($_REQUEST['jeu'],$_REQUEST['id'], $_REQUEST['mode'], $_REQUEST['class']));
-                        MessageFlash::ajouter("success", "Jeu ajouté !");
                         self::redirectionVersURL("afficherDetail&id=" . $idUrl, "utilisateur");
                     }
                 }
             }
         }
     }
-
 }

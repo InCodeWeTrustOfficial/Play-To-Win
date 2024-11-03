@@ -123,7 +123,7 @@ abstract class AbstractAssociationRepository extends AbstractMain {
         return $existe;
     }
 
-    private function recupererTags(array $cles):string{
+    protected function recupererTags(array $cles):string{
         $sup = " where";
         for ($i = 0; $i<count($cles); $i++) {
             $sup.= " ".$this->getNomsClePrimaire()[$i]." = :cle".($i+1)."Tag";

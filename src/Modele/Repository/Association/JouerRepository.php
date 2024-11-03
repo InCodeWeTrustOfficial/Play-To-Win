@@ -2,14 +2,18 @@
 
 namespace App\PlayToWin\Modele\Repository\Association;
 
+use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Modele\DataObject\Jeu;
 use App\PlayToWin\Modele\DataObject\ModeDeJeu;
+use App\PlayToWin\Modele\Repository\ConnexionBaseDeDonnees;
 use App\PlayToWin\Modele\Repository\Single\ClassementRepository;
 use App\PlayToWin\Modele\Repository\Single\JeuRepository;
 use App\PlayToWin\Modele\Repository\Single\ModeDeJeuRepository;
 use App\PlayToWin\Modele\Repository\Single\UtilisateurRepository;
+use PDOException;
 
 class JouerRepository extends AbstractAssociationRepository {
+
 
     protected function getNomsClePrimaire(): array {
         return array((new JeuRepository())->getNomClePrimaire(),(new UtilisateurRepository())->getNomClePrimaire(),(new ModeDeJeuRepository())->getNomClePrimaire(),(new ClassementRepository())->getNomClePrimaire());
@@ -47,5 +51,31 @@ class JouerRepository extends AbstractAssociationRepository {
                      (new UtilisateurRepository())->recupererParClePrimaire($objetFormatTableau[1]),
                      (new ModeDeJeuRepository())->recupererParClePrimaire($objetFormatTableau[2]),
                      (new ClassementRepository())->recupererParClePrimaire($objetFormatTableau[3]));
+    }
+    public function modifJouer(array $keys, string $classement) : bool{
+        $bool = true;
+
+        try {
+
+            $tab = $keys;
+            $tab[] = $classement;
+
+            $recupTag = $this->recupererTags($keys);
+
+            $clesPrim = $this->getNomsClePrimaire();
+
+            $sql = "UPDATE " . $this->getNomTable() . " SET " . $clesPrim[3] . " = :cle4Tag " . $recupTag;
+
+            $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
+
+            $values = $this->formatTableauSQL($tab);
+
+            $pdoStatement->execute($values);
+        } catch(PDOException $e){
+            MessageFlash::ajouter("danger",$e->getMessage());
+            MessageFlash::ajouter("info",$sql);
+            $bool = false;
+        }
+        return $bool;
     }
 }

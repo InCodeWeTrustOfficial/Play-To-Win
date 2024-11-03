@@ -2,11 +2,11 @@
 
 namespace App\PlayToWin\Modele\Repository\Association;
 
-use App\PlayToWin\Modele\DataObject\AbstractDataObject;
 use App\PlayToWin\Modele\Repository\Single\LangueRepository;
 use App\PlayToWin\Modele\Repository\Single\UtilisateurRepository;
 
 class ParlerRepository extends AbstractAssociationRepository {
+
 
     protected function getNomsClePrimaire(): array
     {

@@ -1,8 +1,5 @@
 <?php use App\PlayToWin\Configuration\ConfigurationSite;
-use App\PlayToWin\Modele\DataObject\Classement;
-use App\PlayToWin\Modele\DataObject\ClassementJeu;
 use App\PlayToWin\Modele\DataObject\Jeu;
-use App\PlayToWin\Modele\DataObject\ModeDeJeu;
 
 /** @var Jeu[] $jeux */
 /** @var array $modesDunJeu */
@@ -11,7 +8,7 @@ use App\PlayToWin\Modele\DataObject\ModeDeJeu;
 /** @var Jeu $jeu */
 ?>
 <form method="<?php if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>" action="controleurFrontal.php">
-    <input type='hidden' name='action' value='ajouterJouer'>
+    <input type='hidden' name='action' id='actionField' value='actualiserJouer'>
     <input type='hidden' name='controleur' value="jouer">
     <input type='hidden' name="id" value="<?=$idUser?>">
     <fieldset>
@@ -39,10 +36,8 @@ use App\PlayToWin\Modele\DataObject\ModeDeJeu;
         }
         ?>
         <p>
-            <input type="submit" value="Valider le jeu" />
+            <input type="submit" value="Valider le jeu" onclick="changeActionValue()"/>
         </p>
     </fieldset>
 </form>
-<?php
-
-?>
+<script src="../ressources/scripts/formJouer.js"></script>

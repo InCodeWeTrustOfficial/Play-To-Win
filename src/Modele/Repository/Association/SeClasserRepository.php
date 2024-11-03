@@ -2,6 +2,7 @@
 
 namespace App\PlayToWin\Modele\Repository\Association;
 
+use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Modele\DataObject\AbstractDataObject;
 use App\PlayToWin\Modele\DataObject\ClassementJeu;
 use App\PlayToWin\Modele\Repository\ConnexionBaseDeDonnees;
@@ -9,6 +10,7 @@ use App\PlayToWin\Modele\Repository\Single\ClassementRepository;
 use App\PlayToWin\Modele\Repository\Single\JeuRepository;
 
 class SeClasserRepository extends AbstractAssociationRepository {
+
 
     protected function getNomsClePrimaire(): array
     {
@@ -75,5 +77,27 @@ class SeClasserRepository extends AbstractAssociationRepository {
         }
 
         return $liste;
+    }
+
+    public function recupererDepuisJouer(array $jouer): ?AbstractDataObject {
+
+        $sql = "SELECT ".join(',',$this->getNomsColonnes())." FROM ".$this->getNomTable()." WHERE ".(new ClassementRepository())->getNomClePrimaire()." = :classTag AND ".(new JeuRepository())->getNomClePrimaire(). " = :jeuTag;";
+
+        $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
+
+        $values = array(
+            "jeuTag" => $jouer[0]->getCodeJeu(),
+            "classTag" => $jouer[2]->getIdClassement()
+        );
+
+        $pdoStatement->execute($values);
+
+        $objet = $pdoStatement->fetch();
+
+        if($objet == null) {
+            MessageFlash::ajouter("info",$sql);
+            return null;
+        }
+        return $this->construireDepuisTableauSQL($objet);
     }
 }

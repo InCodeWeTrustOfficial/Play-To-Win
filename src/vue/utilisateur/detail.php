@@ -2,11 +2,13 @@
 /** @var Utilisateur $utilisateur */
 
 use App\PlayToWin\Lib\ConnexionUtilisateur;
+use App\PlayToWin\Modele\DataObject\ClassementJeu;
 use App\PlayToWin\Modele\DataObject\Jeu;
 use App\PlayToWin\Modele\DataObject\Langue;
 use App\PlayToWin\Modele\DataObject\Utilisateur;
 use App\PlayToWin\Modele\Repository\Association\JouerRepository;
 use App\PlayToWin\Modele\Repository\Association\ParlerRepository;
+use App\PlayToWin\Modele\Repository\Association\SeClasserRepository;
 use App\PlayToWin\Modele\Repository\Single\CoachRepository;
 
 $idURL = rawurlencode($utilisateur->getId());
@@ -53,12 +55,16 @@ if($jouer == null){
     echo 'Aucun jeu :(';
 } else{
     foreach ($jouer as $ligne){
+        /** @var ClassementJeu $classJeu */
+        $classJeu = (new SeClasserRepository())->recupererDepuisJouer($ligne);
         echo "<p>";
         echo $ligne[0]->getNomJeu();
         echo $ligne[1]->getNomMode();
-        echo $ligne[2]->getIdClassement();
+        echo $classJeu->getClassement()->getNomClassement();
+        echo '<img src="../'.$classJeu->getClassPath().'" alt="Classement" style="width: 30px; height: 30px; object-fit: cover;">';
         if(ConnexionUtilisateur::estUtilisateur($utilisateur->getId()) || ConnexionUtilisateur::estAdministrateur()){
-            echo '<a href="../web/controleurFrontal.php?controleur=jouer&action=supprimerJouer&id=' . $idURL . '&jeu='.$ligne[0]->getCodeJeu().'&mode='.$ligne[1]->getNomMode().'">(-)</a></p>';
+            echo ' <a href="../web/controleurFrontal.php?controleur=jouer&action=afficherModifJouer&id=' . $idURL . '&jeu='.$ligne[0]->getCodeJeu().'&mode='.$ligne[1]->getNomMode().'"> (Modif) </a>
+            <a href="../web/controleurFrontal.php?controleur=jouer&action=supprimerJouer&id=' . $idURL . '&jeu='.$ligne[0]->getCodeJeu().'&mode='.$ligne[1]->getNomMode().'">(-)</a></p>';
         }
         echo "</p>";
     }

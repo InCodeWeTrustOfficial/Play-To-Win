@@ -47,4 +47,6 @@ class AvoirModeRepository extends AbstractAssociationRepository {
         return array((new ModeDeJeuRepository())->recupererParClePrimaire($objetFormatTableau[0]),
                      (new JeuRepository())->recupererParClePrimaire($objetFormatTableau[1]));
     }
+
+
 }

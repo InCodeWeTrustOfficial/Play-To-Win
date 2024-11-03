@@ -25,7 +25,7 @@ class Classement extends AbstractDataObject
     {
         $div = "";
         if(!$this->divisionClassement == 0){
-            $div .= $this->divisionClassement;
+            $div .= " ".$this->divisionClassement;
         }
         return $this->nomClassement.$div;
     }
