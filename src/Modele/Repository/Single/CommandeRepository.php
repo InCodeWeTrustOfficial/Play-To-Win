@@ -19,26 +19,6 @@ class CommandeRepository extends AbstractRepository {
         return ["idCommande", "dateAchatCommande", "idUtilisateur", "prixTotal"];
     }
 
-    public function recuperer(): array {
-        $sql = "SELECT c.idCommande, 
-                   c.dateAchatCommande, 
-                   c.idUtilisateur,
-                   SUM(s.prixService) as prixTotal
-            FROM " . $this->getNomTable() . " c 
-            JOIN p_ExemplaireService es ON c.idCommande = es.idCommande
-            JOIN p_Services s ON es.codeService = s.codeService
-            GROUP BY c.idCommande, c.dateAchatCommande, c.idUtilisateur;";
-
-        $pdoStatement = ConnexionBaseDeDonnees::getPdo()->query($sql);
-
-        $objets = [];
-        foreach ($pdoStatement as $objetFormatTableau) {
-            $objets[] = $this->construireDepuisTableauSQL($objetFormatTableau);
-        }
-
-        return $objets;
-    }
-
     protected function formatTableauSQL(AbstractDataObject $commandes): array {
         /** @var Commande $commandes */
         return array(
@@ -50,11 +30,15 @@ class CommandeRepository extends AbstractRepository {
     }
 
     public function construireDepuisTableauSQL(array $servicesFormatTableau): Commande {
-        return new Commande(
-            $servicesFormatTableau[0], // idCommande
-            $servicesFormatTableau[1],   // DateAchat
-            $servicesFormatTableau[2],   // idUtilisateur
-            $servicesFormatTableau[3],  // prixTotal
-        );
+        try {
+            return new Commande(
+                $servicesFormatTableau[0],
+                new DateTime(),
+                $servicesFormatTableau[2],
+                $servicesFormatTableau[3]
+            );
+        } catch (Exception $e) {
+            throw new RuntimeException("Erreur lors de la conversion de la date : " . $e->getMessage());
+        }
     }
 }

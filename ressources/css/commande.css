@@ -49,6 +49,11 @@
     font-size: 14px;
 }
 
+.commande-prix {
+    color: #7f8c8d;
+    font-size: 14px;
+}
+
 .no-commandes {
     text-align: center;
     color: #7f8c8d;

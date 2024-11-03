@@ -4,13 +4,13 @@ namespace App\PlayToWin\Modele\DataObject;
 use DateTime;
 
 class Commande extends AbstractDataObject {
-    private string $idCommande;
+    private ?int $idCommande;
     private DateTime $dateAchat;
     private string $idUtilisateur;
     private float $prixTotal;
 
     public function __construct(
-        string $idCommande,
+        ?int $idCommande,
         DateTime $dateAchat,
         string $idUtilisateur,
         float $prixTotal
@@ -21,7 +21,7 @@ class Commande extends AbstractDataObject {
         $this->prixTotal = $prixTotal;
     }
 
-    public function getIdCommande(): string {
+    public function getIdCommande(): ?int {
         return $this->idCommande;
     }
 

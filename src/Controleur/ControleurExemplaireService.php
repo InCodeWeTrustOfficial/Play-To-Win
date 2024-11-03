@@ -25,10 +25,6 @@ class ControleurExemplaireService extends ControleurGenerique {
         }
     }
 
-    public static function afficherDetail() : void {
-
-    }
-
     public static function afficherErreur(string $messageErreur = ""): void {
         if (!$messageErreur == "") {
             $messageErreur = ': ' . $messageErreur;

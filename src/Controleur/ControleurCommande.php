@@ -40,7 +40,7 @@ class ControleurCommande extends ControleurGenerique {
             $commandeRepository = new CommandeRepository();
             $commande = $commandeRepository->construireDepuisTableauSQL([
                     null,
-                    new DateTime(),
+                    null,
                     ConnexionUtilisateur::getIdUtilisateurConnecte(),
                     0.0
                 ]
