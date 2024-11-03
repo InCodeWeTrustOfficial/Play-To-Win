@@ -20,7 +20,7 @@ abstract class ServiceRepository extends AbstractRepository{
         return "codeService	";
     }
     protected function getNomsColonnes(): array {
-        return ["codeService", "nomService", "descriptionService", "prixService", "idCoach","nomJeu"];
+        return ["codeService", "nomService", "descriptionService", "prixService", "idCoach","codeJeu"];
     }
 
     public function supprimer(string $cle) : bool{

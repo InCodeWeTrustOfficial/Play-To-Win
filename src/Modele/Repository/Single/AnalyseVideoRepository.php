@@ -15,7 +15,7 @@ class AnalyseVideoRepository extends ServiceRepository {
             $servicesFormatTableau["descriptionService"],
             $servicesFormatTableau["prixService"],
             $servicesFormatTableau["idCoach"],
-            $servicesFormatTableau["nomJeu"],
+            $servicesFormatTableau["codeJeu"],
             $servicesFormatTableau["nbJourRendu"]
         );
     }

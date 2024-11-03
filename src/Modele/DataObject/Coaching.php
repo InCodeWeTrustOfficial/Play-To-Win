@@ -16,7 +16,7 @@ class Coaching extends Services {
      * @param string $descriptionService
      * @param float $prixService
      * @param string $coach
-     * @param string $nomJeu
+     * @param string $codeJeu
      * @param int $duree
      */
     public function __construct(
@@ -25,7 +25,7 @@ class Coaching extends Services {
         string $descriptionService,
         float $prixService,
         string $coach,
-        string $nomJeu,
+        string $codeJeu,
         int $duree
     ) {
         parent::__construct(
@@ -34,7 +34,7 @@ class Coaching extends Services {
             $descriptionService,
             $prixService,
             $coach,
-            $nomJeu
+            $codeJeu
         );
         $this->duree = $duree;
     }

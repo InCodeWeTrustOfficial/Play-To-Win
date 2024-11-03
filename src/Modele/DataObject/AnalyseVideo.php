@@ -12,7 +12,7 @@ class AnalyseVideo extends Services {
         string $descriptionService,
         float $prixService,
         string $coach,
-        string $nomJeu,
+        string $codeJeu,
         int $nbJourRendu
     ) {
         parent::__construct(
@@ -21,7 +21,7 @@ class AnalyseVideo extends Services {
             $descriptionService, // descriptionService
             $prixService,        // prixService
             $coach,              // coach
-            $nomJeu              // nomJeu
+            $codeJeu              // nomJeu
         );
         $this->nbJourRendu = $nbJourRendu;
     }

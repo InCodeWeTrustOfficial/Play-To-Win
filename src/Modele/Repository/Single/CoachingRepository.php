@@ -14,7 +14,7 @@ class CoachingRepository extends ServiceRepository {
             $servicesFormatTableau["descriptionService"],
             $servicesFormatTableau["prixService"],
             $servicesFormatTableau["idCoach"],
-            $servicesFormatTableau["nomJeu"],
+            $servicesFormatTableau["codeJeu"],
             $servicesFormatTableau["duree"]
         );
     }
