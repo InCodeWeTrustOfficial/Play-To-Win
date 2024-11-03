@@ -94,8 +94,8 @@ CREATE TABLE IF NOT EXISTS p_Commandes (
 );
 
 CREATE TABLE IF NOT EXISTS p_ExemplaireService (
-    idExemplaire VARCHAR(50),
-    etatService VARCHAR(50),
+    idExemplaire INT AUTO_INCREMENT,
+    etatService VARCHAR(30),
     sujet VARCHAR(256),
     idCommande INT NOT NULL,
     codeService INT NOT NULL,
