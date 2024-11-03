@@ -34,7 +34,7 @@ class ControleurAnalysevideo extends ControleurService {
 
         $service->setNomService($_REQUEST['nom_services']);
         $service->setDescriptionService($_REQUEST['description']);
-        $service->setNomJeu($_REQUEST['jeu']);
+        $service->setCodeJeu($_REQUEST['jeu']);
         $service->setPrixService((float) $_REQUEST['prix']);
         $service->setNbJourRendu((int) $_REQUEST['nbJourRendu']);
 
@@ -80,7 +80,7 @@ class ControleurAnalysevideo extends ControleurService {
 
         $nomService = $tableauDonneesFormulaire['nom_services'];
         $descriptionService = $tableauDonneesFormulaire['description'];
-        $nomJeu = $tableauDonneesFormulaire['jeu'];
+        $codeJeu = $tableauDonneesFormulaire['jeu'];
         $prix = $tableauDonneesFormulaire['prix'];
         $coach = ConnexionUtilisateur::getIdUtilisateurConnecte();
         $nbJourRendu = $tableauDonneesFormulaire['nbJourRendu'];
@@ -91,7 +91,7 @@ class ControleurAnalysevideo extends ControleurService {
             $descriptionService,
             $prix,
             $coach,
-            $nomJeu,
+            $codeJeu,
             $nbJourRendu
         );
     }

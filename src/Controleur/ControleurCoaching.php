@@ -36,7 +36,7 @@ class ControleurCoaching extends ControleurService {
 
         $service->setNomService($_REQUEST['nom_services']);
         $service->setDescriptionService($_REQUEST['description']);
-        $service->setNomJeu($_REQUEST['jeu']);
+        $service->setCodeJeu($_REQUEST['jeu']);
         $service->setPrixService((float) $_REQUEST['prix']);
         $service->setDuree((int) $_REQUEST['duree']);
 
@@ -82,7 +82,7 @@ class ControleurCoaching extends ControleurService {
 
         $nomService = $tableauDonneesFormulaire['nom_services'];
         $descriptionService = $tableauDonneesFormulaire['description'];
-        $nomJeu = $tableauDonneesFormulaire['jeu'];
+        $codeJeu = $tableauDonneesFormulaire['jeu'];
         $prix = $tableauDonneesFormulaire['prix'];
         $coach = ConnexionUtilisateur::getIdUtilisateurConnecte();
         $duree = $tableauDonneesFormulaire['duree'];
@@ -93,7 +93,7 @@ class ControleurCoaching extends ControleurService {
             $descriptionService,
             $prix,
             $coach,
-            $nomJeu,
+            $codeJeu,
             $duree
         );
     }

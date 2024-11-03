@@ -6,7 +6,7 @@ def connexion_base_de_donnees():
     try:
         connexion = mysql.connector.connect(
             host='webinfo.iutmontp.univ-montp2.fr',
-            port=3316,
+            port='3316',
             database='turpinb',
             user='turpinb',
             password='080482285HA'

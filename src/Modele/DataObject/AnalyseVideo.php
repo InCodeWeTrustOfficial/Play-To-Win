@@ -21,7 +21,7 @@ class AnalyseVideo extends Services {
             $descriptionService, // descriptionService
             $prixService,        // prixService
             $coach,              // coach
-            $codeJeu              // nomJeu
+            $codeJeu              // codeJeu
         );
         $this->nbJourRendu = $nbJourRendu;
     }

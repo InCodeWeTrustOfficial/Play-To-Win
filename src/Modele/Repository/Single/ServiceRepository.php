@@ -162,7 +162,7 @@ abstract class ServiceRepository extends AbstractRepository{
             ":descriptionServiceTag" => $services->getDescriptionService(),
             ":prixServiceTag" => $services->getPrixService(),
             ":idUtilisateurTag" => $services->getCoach(),
-            ":nomJeuTag" => $services->getNomJeu(),
+            ":codeJeuTag" => $services->getCodeJeu(),
         );
     }
 

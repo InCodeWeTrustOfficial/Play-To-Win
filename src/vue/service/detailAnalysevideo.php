@@ -15,8 +15,8 @@ echo '<h1 class="service-name">' . $nomServiceHTML . '</h1>';
 
 echo '
     <div class="game-info">
-        <img src="../ressources/img/jeux/' . htmlspecialchars($service->getNomJeu()) . '.png" alt="Icon" class="game-icon">
-        <span class="game-name">' . htmlspecialchars($service->getNomJeu()) . '</span>
+        <img src="../ressources/img/jeux/' . htmlspecialchars($service->getCodeJeu()) . '.png" alt="Icon" class="game-icon">
+        <span class="game-name">' . htmlspecialchars($service->getCodeJeu()) . '</span>
         <span class="service-price">' . $prixHTML . ' €</span>
         <span class="service-price"> ' . $nbJourAvantRendu . ' Jour</span>
     </div>
@@ -42,4 +42,3 @@ echo '
         <a href="../web/controleurFrontal.php?controleur=' . $service->getTypeService() . '&action=supprimer&codeService=' . $service->getCodeService() . '" class="btn delete-btn">Supprimer</a>
     </div>
 ';
-?>

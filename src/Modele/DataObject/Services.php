@@ -77,11 +77,11 @@ abstract class Services extends AbstractDataObject {
         $this->idCoach = $coach;
     }
 
-    public function getNomJeu(): string {
+    public function getCodeJeu(): string {
         return $this->codeJeu;
     }
 
-    public function setcodeJeu(string $codeJeu): void {
+    public function setCodeJeu(string $codeJeu): void {
         $this->codeJeu = $codeJeu;
     }
 }
