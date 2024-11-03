@@ -137,6 +137,6 @@ CREATE TABLE IF NOT EXISTS p_avoirReserve (
 
 CREATE TABLE IF NOT EXISTS p_avoirDisponibiliteService (
     idDisponibilite VARCHAR(50),
-    idExemplaire VARCHAR(50),
+    idExemplaire INT,
     PRIMARY KEY(idDisponibilite, idExemplaire)
 );
