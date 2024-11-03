@@ -33,12 +33,12 @@
         </div>
         <div class="nav-right">
             <?php
-            if (!ConnexionUtilisateur::estConnecte()){
+            if (!ConnexionUtilisateur::estConnecte()) {
                 echo '
                 <a href="controleurFrontal.php?controleur=utilisateur&action=afficherFormulaireConnexion" class="login-button">
                     Se connecter
                 </a>';
-            } else{
+            } else {
                 $ids = ConnexionUtilisateur::getIdUtilisateurConnecte();
                 $idURL = rawurlencode($ids);
                 echo '
@@ -47,18 +47,28 @@
                         Commande
                     </a>
                     <a href="controleurFrontal.php?controleur=service&action=afficherPanier" class="icon-link">
-                        <img src="../ressources/img/icone/panier.png">
-                    </a>
-                     <a href="controleurFrontal.php?controleur=service&action=afficherListe" class="icon-link">
-                        <img src="../ressources/img/icone/produit.png" alt="Service">
-                    </a>
+                        <img src="../ressources/img/icone/panier.png" alt="Panier">
+                    </a>';
+
+                if (!ConnexionUtilisateur::estAdministrateur()) {
+                    echo '
+                        <a href="controleurFrontal.php?controleur=service&action=afficherListe&id='.$idURL.'" class="icon-link">
+                            <img src="../ressources/img/icone/produit.png" alt="Service">
+                        </a>';
+                } else {
+                    echo '
+                        <a href="controleurFrontal.php?controleur=service&action=afficherListeTotal" class="icon-link">
+                            <img src="../ressources/img/icone/produit.png" alt="Service">
+                        </a>';
+                }
+
+                echo '
                     <a href="controleurFrontal.php?controleur=utilisateur&action=afficherDetail&id='.$idURL.'" class="icon-link">
                         <img src="../ressources/img/icone/user.png" alt="User">
                     </a>
                     <a href="controleurFrontal.php?controleur=utilisateur&action=deconnecter" class="icon-link">
                         <img src="../ressources/img/icone/logout.png" alt="Logout">
                     </a>
-                    
                 </div>';
             }
             ?>
