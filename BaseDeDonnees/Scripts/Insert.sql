@@ -137,6 +137,13 @@ VALUES
     ('Ilya84', 'Walenstein', 'Ilya', 'Lilya', 'lilya@gmail.com', '', '', '2005-06-02',
         '$2y$10$ClZFPF3y4hhWXpsyw1uVnufRydQrPB8tJnkTSWKC.ywVhOuhugY2u', '0');
 
+INSERT INTO p_jouer (codeJeu, idUtilisateur, nomMode, idClassement)
+VALUES
+    ('rl','bnj_rl','2v2','38'),
+    ('lol','Yota002', 'Faille de l''invocateur','31'),
+    ('lol','Victoria02','Faille de l''invocateur','19'),
+    ('lol','Ilya84','Faille de l''invocateur','15');
+
 INSERT INTO p_Coachs (idCoach, biographieCoach)
 VALUES
     ('bnj_rl', 'Coach passionné de Rocket League avec plus de 5 ans d expérience dans l accompagnement de joueurs de tous niveaux. Spécialiste des stratégies de boost et des frappes aériennes, il aide ses élèves à maîtriser les compétences essentielles pour dominer le terrain. Fort de son expertise en défense et en contrôle, il propose des techniques précises pour améliorer chaque aspect du jeu.'),

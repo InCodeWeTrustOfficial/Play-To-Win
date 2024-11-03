@@ -45,6 +45,17 @@ class JouerRepository extends AbstractAssociationRepository {
         return $this->recupererListeParObjetClePrimaire((new UtilisateurRepository()),array(new JeuRepository(), new ModeDeJeuRepository(), new ClassementRepository()),$idUtilisateur);
     }
 
+    public function recupererJeux(string $idUtilisateur) : ?array{
+        $tab = $this->recupererModeJeuClassement($idUtilisateur);
+        $jeux = array();
+        foreach($tab as $mjc){
+            if(!in_array($mjc[0],$jeux)){
+                $jeux[] = $mjc[0];
+            }
+        }
+        return $jeux;
+    }
+
     protected function construireDepuisTableauSQL(array $objetFormatTableau): mixed
     {
         return array((new JeuRepository())->recupererParClePrimaire($objetFormatTableau[0]),

@@ -1,6 +1,8 @@
 <?php
 
 use App\PlayToWin\Modele\DataObject\Coach;
+use App\PlayToWin\Modele\DataObject\Jeu;
+use App\PlayToWin\Modele\Repository\Association\JouerRepository;
 
 echo "<h2>Top coach</h2>";
 /** @var Coach[] $coachs */
@@ -16,9 +18,15 @@ echo "<h2>Top coach</h2>";
                     <img src="../<?=$coach->getBannierePath()?>" alt="Banner" class="banner-image"
                          onerror="this.onerror=null; this.src='../ressources/img/defaut_banniere.png';">
                 </div>
+                <?php
 
-                <img src="../ressources/img/jeux/League of Legends.png" alt="Icon" class="coach-icon">
+                $jeux = (new JouerRepository())->recupererJeux($coach->getId());
+                /** @var Jeu $jeu */
 
+                foreach ($jeux as $jeu) {
+                    echo '<img src="../ressources/img/jeux/'.$jeu->getCodeJeu().'.png" alt="Icon" class="coach-icon">';
+                }
+                ?>
                 <img src="../<?=$coach->getAvatarPath()?>" alt="Photo de profil" style="width: 70px; height: 70px; object-fit: cover;"
                      onerror="this.onerror=null; this.src='../ressources/img/defaut_pp.png';">
 
