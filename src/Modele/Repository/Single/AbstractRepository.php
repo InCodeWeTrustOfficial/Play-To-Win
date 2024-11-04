@@ -21,10 +21,10 @@ abstract class AbstractRepository extends AbstractMain {
         $pdoStatement = ConnexionBaseDeDonnees::getPdo()->query('select * from ' . $this->getNomTable());
 
         foreach ($pdoStatement as $objetFormatTableau) {
-            $objets[] = $this->construireDepuisTableauSQL($objetFormatTableau);
+            $liste[] = $this->construireDepuisTableauSQL($objetFormatTableau);
         }
 
-        return $objets;
+        return $liste;
     }
 
     public function recupererParClePrimaire(string $cle): ?AbstractDataObject {
