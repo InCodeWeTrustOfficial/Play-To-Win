@@ -66,6 +66,42 @@ def executer_script_sql(fichier_sql):
             connexion.close()
             print("Connexion MySQL fermée.")
 
+def executer_trigger_commande():
+    connexion = connexion_base_de_donnees()
+    if connexion is None:
+        print("Impossible de se connecter à la base de données.")
+        return
+
+    try:
+        curseur = connexion.cursor()
+
+        trigger_sql = """
+        CREATE OR REPLACE TRIGGER tr_aft_ins_ExemplaireServices
+        AFTER INSERT ON p_ExemplaireService
+        FOR EACH ROW
+        BEGIN
+        UPDATE p_Commandes c
+        SET c.prixTotal = COALESCE(c.prixTotal, 0) + (
+            SELECT s.prixService
+            FROM p_Services s
+            WHERE s.codeService = NEW.codeService
+        )
+        WHERE c.idCommande = NEW.idCommande;
+        END;
+        """
+
+        curseur.execute(trigger_sql, multi=True)
+        connexion.commit()
+        print("Trigger exécuté avec succès.")
+
+    except Error as e:
+        print(f"Erreur lors de l'exécution du trigger : {e}")
+
+    finally:
+        if connexion.is_connected():
+            curseur.close()
+            connexion.close()
+            print("Connexion MySQL fermée.")
             
 if __name__ == "__main__":
     print("\nDrop :")
@@ -74,5 +110,7 @@ if __name__ == "__main__":
     executer_script_sql("Scripts/Create.sql")
     print("\nAlter : \n")
     executer_script_sql("Scripts/Alter.sql")
+    print("\nTrigger : \n")
+    executer_trigger_commande()
     print("\nInsertion : \n")
     executer_script_sql("Scripts/Insert.sql")
