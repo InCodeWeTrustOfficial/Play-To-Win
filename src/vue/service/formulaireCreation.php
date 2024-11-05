@@ -17,8 +17,8 @@
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="jeu_id">Jeu</label>
             <select class="InputAddOn-field" name="jeu" id="jeu_id" required>
-                <option value="Rocket League">Rocket League</option>
-                <option value="League of Legends">League of Legends</option>
+                <option value="rl">Rocket League</option>
+                <option value="lol">League of Legends</option>
             </select>
         </p>
 
