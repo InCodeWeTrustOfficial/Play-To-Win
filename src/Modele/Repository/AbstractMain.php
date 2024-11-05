@@ -13,7 +13,7 @@ abstract class AbstractMain {
     protected abstract function construireDepuisTableauSQL(array $objetFormatTableau) : mixed;
 
     protected function recuperer(): ?array {
-        $liste = array();
+        $objets = array();
 
         $pdoStatement = ConnexionBaseDeDonnees::getPdo()->query('select * from ' . $this->getNomTable());
 
