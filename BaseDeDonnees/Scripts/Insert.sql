@@ -137,6 +137,14 @@ VALUES
     ('Ilya84', 'Walenstein', 'Ilya', 'Lilya', 'lilya@gmail.com', '', '', '2005-06-02',
         '$2y$10$ClZFPF3y4hhWXpsyw1uVnufRydQrPB8tJnkTSWKC.ywVhOuhugY2u', '0');
 
+INSERT INTO p_Parler (idUtilisateur, code_alpha)
+VALUES
+    ('bnj_rl','FR'),
+    ('Yota002','FR'),
+    ('Victoria02','DE'),
+    ('Victoria02','IT'),
+    ('Ilya84','KR');
+
 INSERT INTO p_jouer (codeJeu, idUtilisateur, nomMode, idClassement)
 VALUES
     ('rl','bnj_rl','2v2','38'),
