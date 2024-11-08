@@ -1,6 +1,8 @@
-<?php
-if (empty($panier)): ?>
-    <p>Votre panier est vide.</p>
+<?php if (empty($panier)): ?>
+    <div class="empty-cart-message">
+        <p><strong>Votre panier est vide.</strong></p>
+        <p>Ajoutez des produits à votre panier pour passer commande.</p>
+    </div>
 <?php else: ?>
     <table>
         <thead>

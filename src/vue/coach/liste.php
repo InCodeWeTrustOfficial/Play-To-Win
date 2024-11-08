@@ -18,19 +18,21 @@ echo "<h2>Top coach</h2>";
                     <img src="../<?=$coach->getBannierePath()?>" alt="Banner" class="banner-image"
                          onerror="this.onerror=null; this.src='../ressources/img/defaut_banniere.png';">
                 </div>
-                <?php
 
+                <?php
                 $jeux = (new JouerRepository())->recupererJeux($coach->getId());
                 /** @var Jeu $jeu */
-
                 foreach ($jeux as $jeu) {
                     echo '<img src="../ressources/img/jeux/'.$jeu->getCodeJeu().'.png" alt="Icon" class="coach-icon">';
                 }
                 ?>
-                <img src="../<?=$coach->getAvatarPath()?>" alt="Photo de profil" style="width: 70px; height: 70px; object-fit: cover;"
-                     onerror="this.onerror=null; this.src='../ressources/img/defaut_pp.png';">
 
-                <div class="coach-name"><?php echo $coach->getPseudo(); ?></div>
+                <div class="profile-header">
+                    <img src="../<?=$coach->getAvatarPath()?>" alt="Photo de profil"
+                         onerror="this.onerror=null; this.src='../ressources/img/defaut_pp.png';">
+                    <div class="coach-name"><?php echo $coach->getPseudo(); ?></div>
+                </div>
+
                 <hr>
                 <div class="coach-description"><?php echo $coach->getBiographie(); ?></div>
 

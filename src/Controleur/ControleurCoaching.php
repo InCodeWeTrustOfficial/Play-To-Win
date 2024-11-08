@@ -3,6 +3,7 @@
 namespace App\PlayToWin\Controleur;
 
 use App\PlayToWin\Lib\ConnexionUtilisateur;
+use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Modele\DataObject\AnalyseVideo;
 use App\PlayToWin\Modele\DataObject\Coaching;
 use App\PlayToWin\Modele\DataObject\Services;
@@ -62,11 +63,8 @@ class ControleurCoaching extends ControleurService {
 
             (new CoachingRepository())->ajouter($service);
 
-            self::afficherVue('vueGenerale.php', [
-                "titre" => "Création service",
-                "cheminCorpsVue" => 'service/ServicesCree.php',
-                'controleur' => self::$controleur
-            ]);
+            MessageFlash::ajouter("success", "Service ajouter");
+            self::redirectionVersURL("afficherPanier", self::$controleur);
 
         } catch (\Exception $e) {
             self::afficherErreur("Une erreur est survenue lors de la création du service : " . $e->getMessage());

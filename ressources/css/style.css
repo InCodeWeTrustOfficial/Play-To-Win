@@ -87,6 +87,14 @@ body {
     border-radius: 15px 15px 0 0;
 }
 
+.pp-img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+}
+
 .coach-icon {
     width: 30px;
     position: absolute;

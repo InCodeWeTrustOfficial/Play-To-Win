@@ -16,7 +16,11 @@ abstract class ControleurService extends ControleurGenerique {
 
     public static function afficherListeTotal() : void {
         $services = array_merge((new AnalyseVideoRepository())->recuperer(), (new CoachingRepository())->recuperer());
-        self::afficherVue('vueGenerale.php', ["titre" => "Liste des services", "cheminCorpsVue" => "service/liste.php", 'services' => $services, 'controleur' => self::$controleur]);
+        self::afficherVue('vueGenerale.php', [
+            "titre" => "Liste des services",
+            "cheminCorpsVue" => "service/liste.php",
+            'services' => $services,
+            'controleur' => self::$controleur]);
     }
 
     public static function afficherListe() : void {
@@ -30,6 +34,7 @@ abstract class ControleurService extends ControleurGenerique {
                 "titre" => "Liste des services",
                 "cheminCorpsVue" => "service/liste.php",
                 'services' => $services,
+                'id' => $coachId,
                 'controleur' => self::$controleur
             ]);
         } else {
@@ -37,15 +42,34 @@ abstract class ControleurService extends ControleurGenerique {
         }
     }
 
-
     public static function afficherListeAnalyse() : void {
-        $services = (new AnalyseVideoRepository())->recuperer();
-        self::afficherVue('vueGenerale.php',["titre" => "Liste des services", "cheminCorpsVue" => "service/liste.php", 'services'=>$services, 'controleur'=>self::$controleur]);
+        if (isset($_REQUEST['id'])) {
+            $coachId = $_REQUEST['id'];
+            $services = (new AnalyseVideoRepository())->recuperer();
+            self::afficherVue('vueGenerale.php',[
+                "titre" => "Liste des services",
+                "cheminCorpsVue" => "service/liste.php",
+                'services'=>$services,
+                'id'=>$coachId,
+                'controleur'=>self::$controleur]);
+        } else {
+            MessageFlash::ajouter("danger", "Erreur, le coach n'existe pas !");
+        }
     }
 
     public static function afficherListeCoaching() : void {
-        $services = (new CoachingRepository())->recuperer();
-        self::afficherVue('vueGenerale.php',["titre" => "Liste des services", "cheminCorpsVue" => "service/liste.php", 'services'=>$services, 'controleur'=>self::$controleur]);
+        if (isset($_REQUEST['id'])) {
+            $coachId = $_REQUEST['id'];
+            $services = (new CoachingRepository())->recuperer();
+            self::afficherVue('vueGenerale.php',[
+                "titre" => "Liste des services",
+                "cheminCorpsVue" => "service/liste.php",
+                'services'=>$services,
+                'id'=>$coachId,
+                'controleur'=>self::$controleur]);
+        } else {
+            MessageFlash::ajouter("danger", "Erreur, le coach n'existe pas !");
+        }
     }
 
     public static function afficherFormulaireMiseAJour() : void {
@@ -54,7 +78,11 @@ abstract class ControleurService extends ControleurGenerique {
             self::afficherErreur("Erreur, le service n'existe pas !");
         } else {
             $codeService = $_REQUEST['codeService'];
-            self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'service/formulaireMiseAJour' . ucfirst(static::getControleur()) . '.php', 'codeService' => $codeService, 'controleur' => self::$controleur]);
+            self::afficherVue('vueGenerale.php', [
+                "titre" => "Formulaire de MAJ",
+                "cheminCorpsVue" => 'service/formulaireMiseAJour' . ucfirst(static::getControleur()) . '.php',
+                'codeService' => $codeService,
+                'controleur' => self::$controleur]);
         }
     }
 
@@ -94,6 +122,7 @@ abstract class ControleurService extends ControleurGenerique {
     public static function afficherPanier() : void {
         $panier = Session::getInstance()->lire('panier');
         self::afficherVue('vueGenerale.php',["titre" => "Panier", "cheminCorpsVue" => "service/panier.php", 'panier' => $panier, 'controleur'=>self::$controleur]);
+
     }
 
     public static function ajouterAuPanier() : void {

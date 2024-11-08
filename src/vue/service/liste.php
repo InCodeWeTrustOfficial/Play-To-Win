@@ -5,15 +5,17 @@ use App\PlayToWin\Modele\DataObject\Services;
 echo "<h2>Liste des services proposés</h2>";
 /** @var Services[] $services */
 /** @var string $controleur  */
+/** @var string $id  */
 ?>
 
-<form action="controleurFrontal.php" method="post">
+<form action="controleurFrontal.php" method="get">
     <input type='hidden' name='action' id="action" value='afficherListe'>
     <input type='hidden' name='controleur' value='service'>
+    <input type='hidden' name='id' value='<?php $id ?>'>
 
     <label for="service">Sélectionnez un service :</label>
-    <select id="service" name="service" onchange="updateAction()">
-        <option value="">Tous</option>
+    <select id="service_type_field" name="service_type_field" onchange="updateAction()">
+        <option value="tous">Tous</option>
         <option value="coaching">Coaching</option>
         <option value="analyse_video">Analyse vidéo</option>
     </select>
@@ -27,7 +29,14 @@ echo "<h2>Liste des services proposés</h2>";
                 <img src="../ressources/img/jeux/<?=$service->getCodeJeu()?>.png" alt="Icon" class="service-icon">
                 <div class="service-name"><?php echo $service->getNomService(); ?></div>
                 <div class="service-description"><?php echo $service->getDescriptionService(); ?></div>
-                <div class="service-price"><?php echo number_format($service->getPrixService(), 2); ?> €</div>
+                <div class="service-price">
+                    <?php if ($service->getPrixService() > 0):
+                        echo number_format($service->getPrixService(), 2); ?> €
+                    <?php else:
+                        echo "gratuit";
+                    endif;
+                    ?>
+                </div>
                 <div class="service-price"><?php echo $service->getTypeService(); ?></div>
             </div>
         </a>
@@ -41,14 +50,14 @@ echo "<h2>Liste des services proposés</h2>";
 
 <script>
     function updateAction() {
-        const serviceSelect = document.getElementById("service");
+        const serviceSelect = document.getElementById("service_type_field");
         const actionInput = document.getElementById("action");
 
         if (serviceSelect.value === "coaching") {
             actionInput.value = "afficherListeCoaching";
         } else if (serviceSelect.value === "analyse_video") {
             actionInput.value = "afficherListeAnalyse";
-        } else {
+        } else if (serviceSelect.value === "tous") {
             actionInput.value = "afficherListe";
         }
     }

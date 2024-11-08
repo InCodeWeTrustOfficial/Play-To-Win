@@ -131,7 +131,7 @@
                     <img src="../ressources/img/icone/X.png" alt="X">
                 </a>
                 <a href="#" class="social-icon">
-                    <img src="../ressources/img/icone/facebook.png" alt="Facebook">
+                    <img src="../ressources/img/icone/discord.png" alt="Discord">
                 </a>
                 <a href="#" class="social-icon">
                     <img src="../ressources/img/icone/instagram.png" alt="Instagram">
