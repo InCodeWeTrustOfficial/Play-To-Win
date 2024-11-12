@@ -1,3 +1,4 @@
+
 INSERT INTO p_Jeux (codeJeu,nomJeu) VALUES
 ('lol','League of Legends'),
 ('rl','Rocket League');
@@ -129,13 +130,33 @@ INSERT INTO p_Langues (code_alpha, nom) VALUES
 INSERT INTO p_Utilisateurs (idUtilisateur, nom, prenom, pseudo, email, emailAValider, nonce, dateDeNaissance, mdpHache,estAdmin)
 VALUES
     ('bnj_rl', 'Turpin', 'Benjamin', 'BNJ', 'tkt@gmail.com', '', '', '2005-08-09',
-        '$2y$10$ClZFPF3y4hhWXpsyw1uVnufRydQrPB8tJnkTSWKC.ywVhOuhugY2u', '1'),
+     '$2y$10$ClZFPF3y4hhWXpsyw1uVnufRydQrPB8tJnkTSWKC.ywVhOuhugY2u', '1'),
     ('Yota002', 'Michaux', 'Alexis', 'Yota002', 'Yota002@gmail.com', '', '', '2005-04-02',
-        '$2y$10$ClZFPF3y4hhWXpsyw1uVnufRydQrPB8tJnkTSWKC.ywVhOuhugY2u', '1'),
+     '$2y$10$ClZFPF3y4hhWXpsyw1uVnufRydQrPB8tJnkTSWKC.ywVhOuhugY2u', '1'),
     ('Victoria02', 'Walenstein', 'Victoria', 'Viki02', 'viki02@gmail.com', '', '', '2005-05-02',
-        '$2y$10$ClZFPF3y4hhWXpsyw1uVnufRydQrPB8tJnkTSWKC.ywVhOuhugY2u', '0'),
+     '$2y$10$ClZFPF3y4hhWXpsyw1uVnufRydQrPB8tJnkTSWKC.ywVhOuhugY2u', '0'),
     ('Ilya84', 'Walenstein', 'Ilya', 'Lilya', 'lilya@gmail.com', '', '', '2005-06-02',
-        '$2y$10$ClZFPF3y4hhWXpsyw1uVnufRydQrPB8tJnkTSWKC.ywVhOuhugY2u', '0');
+     '$2y$10$ClZFPF3y4hhWXpsyw1uVnufRydQrPB8tJnkTSWKC.ywVhOuhugY2u', '0'),
+    ('Eve69', 'Lisandra', 'Evelyn', 'Eve', 'eve@gmail.com', '', '', '2005-06-02',
+     '$2y$10$ClZFPF3y4hhWXpsyw1uVnufRydQrPB8tJnkTSWKC.ywVhOuhugY2u', '0'),
+    ('Sami45', 'Nox', 'Samira', 'Samirax', 'samirax@gmail.com', '', '', '2005-06-02',
+     '$2y$10$ClZFPF3y4hhWXpsyw1uVnufRydQrPB8tJnkTSWKC.ywVhOuhugY2u', '0'),
+    ('Sera91', 'Pilto', 'Seraphine', 'Sera', 'sera@gmail.com', '', '', '2005-06-02',
+     '$2y$10$ClZFPF3y4hhWXpsyw1uVnufRydQrPB8tJnkTSWKC.ywVhOuhugY2u', '0'),
+    ('Neko', 'coucou', 'Neeko', 'NeekoNeeko', 'neko@gmail.com', '', '', '2005-06-02',
+     '$2y$10$ClZFPF3y4hhWXpsyw1uVnufRydQrPB8tJnkTSWKC.ywVhOuhugY2u', '0');
+
+INSERT INTO p_Coachs (idCoach, biographieCoach)
+VALUES
+    ('bnj_rl', 'Coach passionné de Rocket League avec plus de 5 ans d expérience dans'),
+    ('Yota002', 'Expert de League of Legends avec un style axé sur l optimisation '),
+    ('Ilya84', 'Coach League of Legends attentif et motivé, spécialisé dans '),
+    ('Victoria02', 'Coach avec une passion pour le détail et la perfection, '),
+    ('Eve69', 'Coach passionné de Rocket League avec plus de 5 ans d expérience dans'),
+    ('Sami45', 'Expert de League of Legends avec un style axé sur l optimisation '),
+    ('Sera91', 'Coach League of Legends attentif et motivé, spécialisé dans '),
+    ('Neko', 'Coach avec une passion pour le détail et la perfection, ')
+;
 
 INSERT INTO p_Parler (idUtilisateur, code_alpha)
 VALUES
@@ -143,29 +164,29 @@ VALUES
     ('Yota002','FR'),
     ('Victoria02','DE'),
     ('Victoria02','IT'),
-    ('Ilya84','KR');
+    ('Ilya84', 'KR'),
+    ('Eve69', 'JP'),
+    ('Sami45', 'FR'),
+    ('Sera91', 'EN'),
+    ('Neko', 'JP')
+    ;
 
 INSERT INTO p_jouer (codeJeu, idUtilisateur, nomMode, idClassement)
 VALUES
     ('rl','bnj_rl','2v2','38'),
     ('lol','Yota002', 'Faille de l''invocateur','31'),
     ('lol','Victoria02','Faille de l''invocateur','19'),
-    ('lol','Ilya84','Faille de l''invocateur','15');
-
-INSERT INTO p_Coachs (idCoach, biographieCoach)
-VALUES
-    ('bnj_rl', 'Coach passionné de Rocket League avec plus de 5 ans d expérience dans l accompagnement de joueurs de tous niveaux. Spécialiste des stratégies de boost et des frappes aériennes, il aide ses élèves à maîtriser les compétences essentielles pour dominer le terrain. Fort de son expertise en défense et en contrôle, il propose des techniques précises pour améliorer chaque aspect du jeu.'),
-    ('Yota002', 'Expert de League of Legends avec un style axé sur l optimisation de la prise de décision et la gestion des phases de laning. Avec plus de 1000 heures de coaching et de jeu compétitif, il accompagne les joueurs pour améliorer leur vision stratégique et leur prise de décision lors des combats d équipe. Son approche est méthodique et adaptée aux besoins de chaque élève, ce qui permet de progresser rapidement.'),
-    ('Ilya84', 'Coach League of Legends attentif et motivé, spécialisé dans l analyse de parties et l optimisation du positionnement en jeu. Ilya aide les joueurs à perfectionner leur capacité à lire la carte et à réagir aux mouvements de l équipe adverse. Il met un point d honneur à développer la confiance et l autonomie de ses élèves, avec une pédagogie basée sur l expérience et les situations de jeu réelles.'),
-    ('Victoria02', 'Coach avec une passion pour le détail et la perfection, spécialisée dans l analyse vidéo pour Rocket League et League of Legends. Elle aide les joueurs à comprendre les points d amélioration spécifiques grâce à des retours détaillés et des conseils adaptés. Sa pédagogie bienveillante et ses connaissances approfondies lui permettent d aider efficacement les joueurs débutants et intermédiaires à atteindre leurs objectifs.');
-
+    ('lol','Ilya84','Faille de l''invocateur','15'),
+    ('lol','Eve69', 'Faille de l''invocateur','15'),
+    ('lol','Sami45', 'Faille de l''invocateur','15'),
+    ('lol','Sera91', 'Faille de l''invocateur','15'),
+    ('lol','Neko', 'Faille de l''invocateur','15' );
 
 INSERT INTO p_Services (nomService, descriptionService, prixService, idCoach, codeJeu)
 VALUES
     ('Rocket Boost Training', 'Apprenez les techniques avancées de boost pour dominer le terrain.', '35.0', 'bnj_rl', 'rl'),
     ('Aerial Control Mastery', 'Améliorez votre maîtrise des frappes aériennes pour une précision optimale.', '40.0', 'bnj_rl', 'rl'),
     ('Defensive Strategies', 'Comprenez les meilleures techniques défensives pour protéger votre but.', '30.0', 'Yota002', 'rl');
-
 
 INSERT INTO p_Services (nomService, descriptionService, prixService, idCoach, codeJeu)
 VALUES
