@@ -11,7 +11,7 @@ echo "<h2>Liste des services proposés</h2>";
 <form action="controleurFrontal.php" method="get">
     <input type='hidden' name='action' id="action" value='afficherListe'>
     <input type='hidden' name='controleur' value='service'>
-    <input type='hidden' name='id' value='<?php $id ?>'>
+    <input type='hidden' name='id' value='<?php echo htmlspecialchars($id); ?>'>
 
     <label for="service">Sélectionnez un service :</label>
     <select id="service_type_field" name="service_type_field" onchange="updateAction()">
@@ -44,21 +44,7 @@ echo "<h2>Liste des services proposés</h2>";
 </div>
 
 <br>
+
 <div class="btn">
     <a href="../web/controleurFrontal.php?controleur=service&action=afficherFormulaireProposerService" class="btn new-service-btn">Nouveau</a>
 </div>
-
-<script>
-    function updateAction() {
-        const serviceSelect = document.getElementById("service_type_field");
-        const actionInput = document.getElementById("action");
-
-        if (serviceSelect.value === "coaching") {
-            actionInput.value = "afficherListeCoaching";
-        } else if (serviceSelect.value === "analyse_video") {
-            actionInput.value = "afficherListeAnalyse";
-        } else if (serviceSelect.value === "tous") {
-            actionInput.value = "afficherListe";
-        }
-    }
-</script>
