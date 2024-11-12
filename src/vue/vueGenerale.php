@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../ressources/css/panier.css">
     <link rel="stylesheet" href="../ressources/css/commande.css">
     <link rel="stylesheet" href="../ressources/css/exemplaire.css">
+    <script src="../ressources/scripts/service.js" defer></script>
     <meta charset="UTF-8">
     <title>
         <?php

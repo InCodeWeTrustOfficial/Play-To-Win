@@ -43,33 +43,41 @@ abstract class ControleurService extends ControleurGenerique {
     }
 
     public static function afficherListeAnalyse() : void {
-        if (isset($_REQUEST['id'])) {
-            $coachId = $_REQUEST['id'];
-            $services = (new AnalyseVideoRepository())->recuperer();
-            self::afficherVue('vueGenerale.php',[
-                "titre" => "Liste des services",
-                "cheminCorpsVue" => "service/liste.php",
-                'services'=>$services,
-                'id'=>$coachId,
-                'controleur'=>self::$controleur]);
-        } else {
-            MessageFlash::ajouter("danger", "Erreur, le coach n'existe pas !");
+        if (!isset($_REQUEST['id']) || empty($_REQUEST['id'])) {
+            MessageFlash::ajouter("danger", "Erreur: ID du coach manquant ou vide!");
+            self::redirectionVersURL("afficherListe", "coach");
+            return;
         }
+
+        $coachId = htmlspecialchars($_REQUEST['id']);
+        $services = (new AnalyseVideoRepository())->recupererParCoach($coachId);
+
+        self::afficherVue('vueGenerale.php',[
+            "titre" => "Liste des services",
+            "cheminCorpsVue" => "service/liste.php",
+            'services' => $services,
+            'id' => $coachId,
+            'controleur' => self::$controleur
+        ]);
     }
 
     public static function afficherListeCoaching() : void {
-        if (isset($_REQUEST['id'])) {
-            $coachId = $_REQUEST['id'];
-            $services = (new CoachingRepository())->recuperer();
-            self::afficherVue('vueGenerale.php',[
-                "titre" => "Liste des services",
-                "cheminCorpsVue" => "service/liste.php",
-                'services'=>$services,
-                'id'=>$coachId,
-                'controleur'=>self::$controleur]);
-        } else {
-            MessageFlash::ajouter("danger", "Erreur, le coach n'existe pas !");
+        if (!isset($_REQUEST['id']) || empty($_REQUEST['id'])) {
+            MessageFlash::ajouter("danger", "Erreur: ID du coach manquant ou vide!");
+            self::redirectionVersURL("afficherListe", "coach");
+            return;
         }
+
+        $coachId = htmlspecialchars($_REQUEST['id']);
+        $services = (new CoachingRepository())->recupererParCoach($coachId);
+
+        self::afficherVue('vueGenerale.php',[
+            "titre" => "Liste des services",
+            "cheminCorpsVue" => "service/liste.php",
+            'services' => $services,
+            'id' => $coachId,
+            'controleur' => self::$controleur
+        ]);
     }
 
     public static function afficherFormulaireMiseAJour() : void {
@@ -122,7 +130,6 @@ abstract class ControleurService extends ControleurGenerique {
     public static function afficherPanier() : void {
         $panier = Session::getInstance()->lire('panier');
         self::afficherVue('vueGenerale.php',["titre" => "Panier", "cheminCorpsVue" => "service/panier.php", 'panier' => $panier, 'controleur'=>self::$controleur]);
-
     }
 
     public static function ajouterAuPanier() : void {
