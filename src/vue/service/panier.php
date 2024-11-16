@@ -1,6 +1,6 @@
 <?php if (empty($panier)): ?>
     <div class="empty-cart-message">
-        <p><strong>Votre panier est vide.</strong></p>
+        <p>Votre panier est vide.</p>
         <p>Ajoutez des produits à votre panier pour passer commande.</p>
     </div>
 <?php else: ?>
@@ -22,7 +22,7 @@
             $totalGlobal += $sousTotal;
             ?>
             <tr>
-                <td><?= htmlspecialchars($produit['nom']) ?></td>
+                <td>  <?= htmlspecialchars($produit['nom']) ?>  </td>
                 <td>
                     <form method="post" action="controleurFrontal.php?controleur=service&action=modifierQuantite&codeService=<?= htmlspecialchars($produit['id']) ?>">
                         <input type="hidden" name="id" value="<?= htmlspecialchars($produit['id']) ?>">
@@ -30,8 +30,8 @@
                         <input type="submit" value="Modifier">
                     </form>
                 </td>
-                <td><?= number_format($produit['prix'], 2, ',', ' ') ?> €</td>
-                <td><?= number_format($sousTotal, 2, ',', ' ') ?> €</td>
+                <td> <?= number_format($produit['prix'], 2, ',', ' ') ?> €  </td>
+                <td> <?= number_format($sousTotal, 2, ',', ' ') ?> €  </td>
                 <td>
                     <form method="post" action="controleurFrontal.php?controleur=service&action=supprimerProduit&codeService=<?= htmlspecialchars($produit['id']) ?>">
                         <input type="hidden" name="id" value="<?= htmlspecialchars($produit['id']) ?>">

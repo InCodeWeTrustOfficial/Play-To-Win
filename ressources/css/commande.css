@@ -1,20 +1,24 @@
 .commandes-container {
     max-width: 800px;
     margin: 20px auto;
-    padding: 0 20px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10%;
+    font-weight: bold;
 }
 
 .commandes-title {
-    color: #2c3e50;
+    color: #000000;
     font-size: 24px;
     margin-bottom: 30px;
     text-align: center;
     border-bottom: 2px solid #3498db;
     padding-bottom: 10px;
+    font-weight: bold;
 }
 
 .commande-card {
-    background-color: #ffffff;
+    background-color: #8f8f8f;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 15px;
@@ -24,6 +28,7 @@
     justify-content: space-between;
     align-items: center;
     text-decoration: none;
+    font-weight: bold;
 }
 
 .commande-link {
@@ -31,6 +36,7 @@
     color: inherit;
     display: block;
     width: 100%;
+    font-weight: bold;
 }
 
 .commande-card:hover {
@@ -45,18 +51,21 @@
 }
 
 .commande-date {
-    color: #7f8c8d;
+    color: #000000;
     font-size: 14px;
+    font-weight: bold;
 }
 
 .commande-prix {
-    color: #7f8c8d;
+    color: #000000;
     font-size: 14px;
+    font-weight: bold;
 }
 
 .no-commandes {
     text-align: center;
-    color: #7f8c8d;
+    color: #000000;
     padding: 30px;
     font-style: italic;
+    font-weight: bold;
 }

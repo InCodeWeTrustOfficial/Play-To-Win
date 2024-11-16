@@ -5,26 +5,26 @@
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
+    font-weight: bold;
 }
 
 thead {
     background-color: #000000;
     color: #ffffff;
+    font-weight: bold;
 }
 
 th, td {
     padding: 12px;
     text-align: left;
     border-bottom: 1px solid #ddd;
-}
-
-tbody tr:hover {
-    background-color: #f1f1f1;
+    font-weight: bold;
 }
 
 input[type="number"] {
@@ -32,6 +32,7 @@ input[type="number"] {
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    font-weight: bold;
 }
 
 input[type="submit"] {
@@ -43,6 +44,7 @@ input[type="submit"] {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s;
+    font-weight: bold;
 }
 
 input[type="submit"]:hover {
@@ -52,6 +54,7 @@ input[type="submit"]:hover {
 .button-container {
     text-align: center;
     margin-top: 20px;
+    font-weight: bold;
 }
 
 .total {
@@ -60,6 +63,7 @@ input[type="submit"]:hover {
     margin-top: 20px;
     padding: 10px;
     background-color: #e9ecef;
+    color: #0a0a0a;
     border: 1px solid #ced4da;
 }
 
@@ -72,9 +76,11 @@ input[type="submit"]:hover {
     margin-top: 20px;
     border: 1px solid #f5c6cb;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
 }
 
 .empty-cart-message p {
     margin: 10px 0;
     font-size: 1.2em;
+    font-weight: bold;
 }
