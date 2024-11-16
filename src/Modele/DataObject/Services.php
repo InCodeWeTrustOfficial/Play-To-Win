@@ -2,6 +2,9 @@
 
 namespace App\PlayToWin\Modele\DataObject;
 
+use App\PlayToWin\Modele\Repository\Single\AnalyseVideoRepository;
+use App\PlayToWin\Modele\Repository\Single\JeuRepository;
+
 abstract class Services extends AbstractDataObject {
 
     private ?int $codeService;
@@ -83,5 +86,10 @@ abstract class Services extends AbstractDataObject {
 
     public function setCodeJeu(string $codeJeu): void {
         $this->codeJeu = $codeJeu;
+    }
+
+    public function getNomJeu(): ?string {
+        $jeu = (new JeuRepository())->recupererParClePrimaire($this->codeJeu);
+        return $jeu ? $jeu->getNomJeu() : null;
     }
 }

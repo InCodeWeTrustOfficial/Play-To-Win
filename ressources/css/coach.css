@@ -72,13 +72,3 @@
     color: #bebebe;
     font-weight: bold;
 }
-
-.detail-link {
-    text-decoration: none;
-    color: blue;
-    font-weight: bold;
-}
-
-.detail-link:hover {
-    color: darkblue;
-}
