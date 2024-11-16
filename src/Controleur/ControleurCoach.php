@@ -172,19 +172,30 @@ class ControleurCoach extends ControleurGenerique {
                     if (!(!empty($_FILES[$id]) && is_uploaded_file($_FILES[$id]['tmp_name']))) {
                         MessageFlash::ajouter("warning", "Problème avec le fichier.");
                         self::redirectionVersURL();
-                    } else {
+                    }else {
                         $allowed_ext = array("jpg", "png");
                         $explosion = explode(".", $_FILES[$id]['name']);
-                        if(!in_array(end($explosion), $allowed_ext)){
+                        $file_ext = end($explosion);
+
+                        if(!in_array($file_ext, $allowed_ext)){
                             MessageFlash::ajouter("warning","Les fichiers autorisés sont en .png et .jpg");
                             self::redirectionVersURL("afficherFormulaireBanniere&id=$idUrl", self::$controleur);
                         } else{
-                            $pic_path = __DIR__ ."/../../ressources/img/uploads/coach/bannieres/$idUrl.".end($explosion);
+                            $pic_path = __DIR__ ."/../../ressources/img/uploads/coach/bannieres/$idUrl.".$file_ext;
+
+                            $other_ext = ($file_ext === "jpg") ? "png" : "jpg";
+                            $other_pic_path = __DIR__ . "/../../ressources/img/uploads/coach/bannieres/$idUrl." . $other_ext;
+
+                            if (file_exists($other_pic_path)) {
+                                unlink($other_pic_path);
+                            }
+
                             if (!move_uploaded_file($_FILES[$id]['tmp_name'], $pic_path)) {
+                                MessageFlash::ajouter("info",$pic_path);
                                 MessageFlash::ajouter("danger", "Problème d'export d'image, peut-être un problème venant de votre fichier.");
                                 self::redirectionVersURL();
                             } else {
-                                MessageFlash::ajouter("success", "Changement de votre bannière!");
+                                MessageFlash::ajouter("success", "Changement de votre bannière de coach!");
                                 self::redirectionVersURL("afficherDetail&id=$idUrl", self::$controleur);
                             }
                         }
