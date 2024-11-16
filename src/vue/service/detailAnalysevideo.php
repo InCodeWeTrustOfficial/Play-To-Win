@@ -2,6 +2,7 @@
 /** @var Services $service */
 
 use App\PlayToWin\Modele\DataObject\Services;
+use App\PlayToWin\Lib\ConnexionUtilisateur;
 
 $codeServiceHTML = htmlspecialchars($service->getCodeService());
 $nomServiceHTML = htmlspecialchars($service->getNomService());
@@ -33,12 +34,18 @@ echo '
 
 echo '<p class="service-description">' . $descriptionServiceHTML . '</p>';
 
-echo '
-    <div class="button-container">
-        <a href="../web/controleurFrontal.php?controleur=' . $service->getTypeService() . '&action=ajouterAuPanier&codeService=' . $service->getCodeService() . '" class="btn modify-btn">Ajouter</a>
-        
+$boutons = '<div class="button-container">';
+$boutons .= '<a href="../web/controleurFrontal.php?controleur=' . $service->getTypeService() . '&action=ajouterAuPanier&codeService=' . $service->getCodeService() . '" class="btn modify-btn">Ajouter</a>';
+
+if (ConnexionUtilisateur::estConnecte() &&
+    (ConnexionUtilisateur::estAdministrateur() ||
+        ConnexionUtilisateur::getIdUtilisateurConnecte() === $service->getCoach())) {
+
+    $boutons .= '
         <a href="../web/controleurFrontal.php?controleur=' . $service->getTypeService() . '&action=afficherFormulaireMiseAJour&codeService=' . $service->getCodeService() . '" class="btn modify-btn">Modifier</a>
-        
         <a href="../web/controleurFrontal.php?controleur=' . $service->getTypeService() . '&action=supprimer&codeService=' . $service->getCodeService() . '" class="btn delete-btn">Supprimer</a>
-    </div>
-';
+    ';
+}
+
+$boutons .= '</div>';
+echo $boutons;

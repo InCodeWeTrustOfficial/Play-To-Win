@@ -34,7 +34,8 @@ class GestionPanier {
                     'id' => $service->getCodeService(),
                     'nom' => $service->getNomService(),
                     'prix' => $service->getPrixService(),
-                    'quantite' => 1
+                    'quantite' => 1,
+                    'typeService' => $service->getTypeService()
                 ];
                 MessageFlash::ajouter("success", "Service ajouté au panier !");
             }
