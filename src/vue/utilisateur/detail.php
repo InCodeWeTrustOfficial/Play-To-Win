@@ -3,7 +3,6 @@
 
 use App\PlayToWin\Lib\ConnexionUtilisateur;
 use App\PlayToWin\Modele\DataObject\ClassementJeu;
-use App\PlayToWin\Modele\DataObject\Jeu;
 use App\PlayToWin\Modele\DataObject\Langue;
 use App\PlayToWin\Modele\DataObject\Utilisateur;
 use App\PlayToWin\Modele\Repository\Association\JouerRepository;
@@ -17,18 +16,49 @@ $idHTML = htmlspecialchars($utilisateur->getId());
 $nomHTML = htmlspecialchars($utilisateur->getNom());
 $prenomHTML = htmlspecialchars($utilisateur->getPrenom());
 $pseudoHTML = htmlspecialchars($utilisateur->getPseudo());
-
-if($utilisateur->getEmail() != ""){
-    $emailHTML = htmlspecialchars($utilisateur->getEmail());
-} else {
-    $emailHTML = "Vous devez valider l'email suivante : ".htmlspecialchars($utilisateur->getEmailAValider());
-}
 $dateNaissanceHTML = htmlspecialchars($utilisateur->getDateNaissance()->format("d/m/Y"));
-if($utilisateur->isAdmin()){
-    echo "Administrateur !";
-}
+$emailHTML = htmlspecialchars($utilisateur->getEmail());
 $avatarHTML = htmlspecialchars($utilisateur->getAvatarPath());
 
+$aValideEmail = $utilisateur->getEmail() !== "";
+$estAdmin = ConnexionUtilisateur::estAdministrateur();
+$estBonUtilisateur = $estAdmin || (ConnexionUtilisateur::estConnecte() && ConnexionUtilisateur::estUtilisateur($utilisateur->getId()));
+$estCoach = (new CoachRepository())->estCoach($utilisateur->getId());
+?>
+
+<div class="utilisateurDetail-conteneur">
+
+    <div class="user-email <?php if ($aValideEmail) echo 'cache'?>">
+        <h2><?php echo "Vous devez valider l'email suivante : ".htmlspecialchars($utilisateur->getEmailAValider());?></h2>
+    </div>
+
+    <div class="user-main-conteneur <?php if (!$aValideEmail) echo 'cache'?> <?php if ($estAdmin) echo 'admin'?>">
+        <div class ="avatar-conteneur">
+            <img class="ppUser" src="../<?=$utilisateur->getAvatarPath()?>" alt="Photo de profil"
+                 onerror="this.onerror=null; this.src='../ressources/img/defaut_pp.png';">
+            <div class="modifAvatar <?php if (!$estBonUtilisateur) echo 'cache';?>">
+                <a href="../web/controleurFrontal.php?controleur=utilisateur&action=afficherFormulaireAvatar&id=<?=$idURL?>"></a>
+            </div>
+        </div>
+
+        <div class="infos-generales">
+            <p>id : <?=$idHTML?></p>
+            <p>Nom : <?=$nomHTML?></p>
+            <p>Prenom : <?=$prenomHTML?></p>
+            <p>Pseudo : <?=$pseudoHTML?></p>
+            <p>Email : <?=$emailHTML?></p>
+            <p>Date de naissance : <?=$dateNaissanceHTML?></p>
+        </div>
+    </div>
+
+    <div class="devCoach">
+        <a <?php if (!$estCoach) echo 'class="cache"'?> href = "../web/controleurFrontal.php?controleur=coach&action=afficherDetail&id=<?=$idURL?>">Voir la page coach</a>
+        <a <?php if (!(!$estCoach || !$estBonUtilisateur)) echo 'class="cache";'?> href = "../web/controleurFrontal.php?controleur=coach&action=afficherFormulaireCreation&id=' . $idURL . '"> je souhaite devenir coach...</a>
+    </div>
+
+</div>
+
+<?php
 echo '<p>Langues parlées: ';
 $langues = (new ParlerRepository())->recupererLangues($utilisateur->getId());
 if($langues == null){
@@ -73,34 +103,13 @@ if(ConnexionUtilisateur::estUtilisateur($utilisateur->getId()) || ConnexionUtili
     echo '<p> Ajouter un nouveau jeu ?';
     echo '<a href="../web/controleurFrontal.php?controleur=jouer&action=afficherFormulaireJouer&id=' . $idURL . '">Cliquez ici</a></p>';
 }
-
-echo '<p>id : '. $idHTML .' </p>';
-echo '<p>Nom : '. $nomHTML .' </p>';
-echo '<p>Prenom : '. $prenomHTML .' </p>';
-echo '<p>Pseudo : '. $pseudoHTML .' </p>';
-echo '<p>Email : '. $emailHTML .' </p>';
-echo '<p>Date de naissance : '. $dateNaissanceHTML .' </p>';
 echo '<p>
 <img src="../'.$utilisateur->getAvatarPath().'" alt="Photo de profil" style="width: 70px; height: 70px; object-fit: cover;" 
      onerror="this.onerror=null; this.src=\'../ressources/img/defaut_pp.png\';">
 </p>';
-if( (new CoachRepository())->estCoach($utilisateur->getId())){
-    echo 'Utilisateur coach !';
-    echo '<a href = "../web/controleurFrontal.php?controleur=coach&action=afficherDetail&id='.$idURL.'"> Voir sa page de coach </a>';
-} else{
-    if(ConnexionUtilisateur::estUtilisateur($utilisateur->getId()) || ConnexionUtilisateur::estAdministrateur()) {
-        echo 'Devenir coach ?
-          <a href = "../web/controleurFrontal.php?controleur=coach&action=afficherFormulaireCreation&id=' . $idURL . '"> je souhaite devenir coach... </a>
-          ';
-    }
-}
+
 
 if (ConnexionUtilisateur::estUtilisateur($utilisateur->getId()) || ConnexionUtilisateur::estAdministrateur()) {
-
-    echo '<p>
-          <a href = "../web/controleurFrontal.php?controleur=utilisateur&action=afficherFormulaireAvatar&id=' . $idURL . '">Envie de changer de pp?</a>
-</p>';
-
     echo '<p>
     <a href = "../web/controleurFrontal.php?controleur=utilisateur&action=afficherFormulaireMiseAJour&id=' . $idURL . '"> (ModifICI) </a>';
     echo '<a href = "../web/controleurFrontal.php?controleur=utilisateur&action=supprimer&id=' . $idURL . '"> (-)</a>

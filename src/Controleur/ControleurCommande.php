@@ -66,7 +66,7 @@ class ControleurCommande extends ControleurGenerique {
                             'idCommande' => $idCommande
                         ];
 
-                        $exemplaireService = ControleurExemplaireService::construireDepuisFormulaire($donnees);
+                        $exemplaireService = ControleurExemplaireservice::construireDepuisFormulaire($donnees);
                         (new ExemplaireServiceRepository())->ajouter($exemplaireService);
 
                     }
