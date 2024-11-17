@@ -23,7 +23,7 @@ class Jeu extends AbstractDataObject
     }
 
     public function getPathLogo(): string{
-        return self::$pathLogo.$this->nomJeu.".png";
+        return self::$pathLogo.$this->codeJeu.".png";
     }
 
 }
