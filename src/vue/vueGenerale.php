@@ -32,6 +32,16 @@
                 <img src="../ressources/img/icone/coaching.png" alt="Coaching">
                 Coaching
             </a>
+            <?php
+            $estAdmin = ConnexionUtilisateur::estAdministrateur();
+            if($estAdmin){
+                echo '
+                <a href="controleurFrontal.php?controleur=utilisateur&action=afficherListe" class="nav-link">
+                    Administrateur
+                </a>
+                ';
+            }
+            ?>
         </div>
         <div class="nav-right">
             <?php
