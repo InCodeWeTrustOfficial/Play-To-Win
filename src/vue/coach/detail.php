@@ -49,14 +49,12 @@ $bonUtilisateur = ConnexionUtilisateur::estUtilisateur($coach->getId()) || Conne
             <p class="bio"><?=$biographieHTML?></p>
             <p class="contact"><?=$emailHTML?></p>
         </div>
-        <a class="envoyerLienService" href="../web/controleurFrontal.php?controleur=service&action=afficherListe&id=<?php echo $coach->getId(); ?>">Voir les services de <?=$pseudoHTML?></a>
+        <a class="buttonCoach" href="../web/controleurFrontal.php?controleur=service&action=afficherListe&id=<?php echo $coach->getId(); ?>">Voir les services de <?=$pseudoHTML?></a>
+        <?php
+        if ($bonUtilisateur) {
+            echo '<a class="buttonCoach" id="desinc" href = "../web/controleurFrontal.php?controleur=coach&action=supprimer&id=' . $idURL . '">Se désinscrire de la liste des coachs !</a>';
+        }
+        ?>
     </div>
 
-<?php
-if ($bonUtilisateur) {
-    echo '<p>
-          <a href = "../web/controleurFrontal.php?controleur=coach&action=afficherFormulaireBanniere&id=' . $idURL . '">Envie de changer de bannière?</a>
-</p>';
-    echo '<p><a href = "../web/controleurFrontal.php?controleur=coach&action=supprimer&id=' . $idURL . '">Se désinscrire de la liste des coachs !</a></p>';
-}
 
