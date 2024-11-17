@@ -6,11 +6,11 @@ use App\PlayToWin\Modele\DataObject\Commande;
 ?>
 
 <div class="commandes-container">
-    <h2 class="commandes-title">Liste des commandes effectuées</h2>
+    <h2 class="commandes-title">Liste des commandes passées</h2>
 
     <?php if (empty($commandes)): ?>
         <div class="no-commandes">
-            Aucune commande n'a été effectuée pour le moment.
+            Aucune commande n'a été passées pour le moment.
         </div>
     <?php else: ?>
         <?php foreach ($commandes as $commande): ?>
