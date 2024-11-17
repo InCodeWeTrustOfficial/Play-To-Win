@@ -22,7 +22,7 @@ echo "<h2>Découvre les coachs qui pourraient te correspondre :</h2>";
     <select name="lang" id="lang_id">
         <?php
         if(!isset($_REQUEST['lang']) || $_REQUEST['lang'] === "rien"){
-            echo '<option value="rien" selected="true">Langue...?</option>';
+            echo '<option value="rien" selected="selected">Langue...?</option>';
         } else{
             /** @var Langue $langue */
             $langue = (new LangueRepository())->recupererParClePrimaire($_REQUEST['lang']);
@@ -43,7 +43,7 @@ echo "<h2>Découvre les coachs qui pourraient te correspondre :</h2>";
         <?php
 
         if(!isset($_REQUEST['jeu']) || $_REQUEST['jeu'] === "rien"){
-            echo '<option value="rien" selected="true">Jeu...?</option>';
+            echo '<option value="rien" selected="selected">Jeu...?</option>';
         } else{
             /** @var Jeu $jeu */
             $jeu = (new JeuRepository())->recupererParClePrimaire($_REQUEST['jeu']);
@@ -61,7 +61,7 @@ echo "<h2>Découvre les coachs qui pourraient te correspondre :</h2>";
         }
         ?>
     </select>
-    <input type="submit" value="Envoyer" />
+    <input type="submit" value="Envoyer">
 </form>
 
 <div class="coach-container">
