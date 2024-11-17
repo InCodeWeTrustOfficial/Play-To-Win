@@ -27,7 +27,7 @@ if(isset($_REQUEST['controleur'])){
     if(PreferenceControleur::existe()){
         $controleur = PreferenceControleur::lire();
     } else{
-        $controleur = 'utilisateur';
+        $controleur = 'jeux';
     }
 }
 
