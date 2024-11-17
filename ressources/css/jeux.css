@@ -56,3 +56,11 @@ h2 > #coaching{
 img.jeux{
     width: 130px;
 }
+
+.jeu-carte{
+    transition: transform 0.2s;
+}
+
+.jeu-carte:hover {
+    transform: scale(1.2);
+}
