@@ -6,7 +6,7 @@ use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Modele\DataObject\ExemplaireService;
 use App\PlayToWin\Modele\Repository\Single\ExemplaireServiceRepository;
 
-class ControleurExemplaireService extends ControleurGenerique {
+class ControleurExemplaireservice extends ControleurGenerique {
 
     protected static string $controleur = 'exemplaireservice';
 
