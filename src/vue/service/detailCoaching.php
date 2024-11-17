@@ -23,7 +23,7 @@ echo '
 ';
 echo '
     <div class="coach-info">
-        <a href="../web/controleurFrontal.php?controleur=utilisateur&action=afficherDetail&id=' . $coachURL . '" class="detail-link">
+        <a href="../web/controleurFrontal.php?controleur=coach&action=afficherDetail&id=' . $coachURL . '" class="detail-link">
             <h3 class="coach-name">' . $coachHTML . '</h3>
         </a>
         <hr class="separator">
