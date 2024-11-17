@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../ressources/css/panier.css">
     <link rel="stylesheet" href="../ressources/css/commande.css">
     <link rel="stylesheet" href="../ressources/css/exemplaire.css">
+    <link rel="stylesheet" href="../ressources/css/jeux.css">
     <script src="../ressources/scripts/service.js" defer></script>
     <meta charset="UTF-8">
     <title>
@@ -23,7 +24,7 @@
 <header>
     <nav class="navbar">
         <div class="nav-center">
-            <a href="controleurFrontal.php?controleur=coach&action=afficherListe" class="nav-link">
+            <a href="controleurFrontal.php" class="nav-link">
                 <img src="../ressources/img/icone/home.png" alt="Home">
                 Home
             </a>
