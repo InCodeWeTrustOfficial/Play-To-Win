@@ -1,0 +1,58 @@
+div.contenu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px;
+    padding:5px;
+
+}
+
+div.contenu > div.texte{
+    padding:10px;
+}
+
+div.texte > h2{
+    font-weight: bold;
+    text-align: center;
+    font-size: 3rem;
+}
+
+h2 > #coaching{
+    color: #3498db;
+}
+
+.texte > p {
+    text-indent: 20px;
+    font-size: 1.8rem;
+}
+
+.conteneur-jeux{
+    display: flex;
+}
+
+.jeu-carte a{
+    margin:20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding:4px;
+}
+
+.jeu-carte a{
+    text-decoration: none;
+    color:white;
+}
+
+.jeu-carte a:link p{
+    color:white;
+}
+
+.jeu-carte p{
+    font-size: 1.4rem;
+    font-style: italic;
+}
+
+img.jeux{
+    width: 130px;
+}
