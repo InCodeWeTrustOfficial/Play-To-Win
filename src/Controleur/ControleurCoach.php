@@ -10,6 +10,7 @@ use App\PlayToWin\Modele\DataObject\Coach;
 use App\PlayToWin\Modele\DataObject\Jeu;
 use App\PlayToWin\Modele\DataObject\Utilisateur;
 use App\PlayToWin\Modele\Repository\Association\JouerRepository;
+use App\PlayToWin\Modele\Repository\Association\ParlerRepository;
 use App\PlayToWin\Modele\Repository\Single\CoachRepository;
 use App\PlayToWin\Modele\Repository\Single\JeuRepository;
 use App\PlayToWin\Modele\Repository\Single\UtilisateurRepository;
@@ -19,7 +20,7 @@ class ControleurCoach extends ControleurGenerique {
     private static string $controleur = "coach";
 
     public static function afficherListe() : void {
-        if(!isset($_REQUEST['jeu'])){
+        if(!isset($_REQUEST['jeu']) || $_REQUEST['jeu'] === 'rien'){
             $utilisateurs = (new CoachRepository())->recuperer();
         } else{
             /** @var Jeu $jeu */
@@ -39,6 +40,17 @@ class ControleurCoach extends ControleurGenerique {
                 }
             }
         }
+        if(isset($_REQUEST['lang']) && $_REQUEST['lang'] !== 'rien'){
+            /** @var Coach $utilisateur */
+            $users = [];
+            foreach($utilisateurs as $utilisateur){
+                if((new ParlerRepository())->existeTuple([$utilisateur->getId(),$_REQUEST['lang']])){
+                    $users[] = $utilisateur;
+                }
+            }
+            $utilisateurs = $users;
+        }
+
         self::afficherVue('vueGenerale.php',["titre" => "Liste des utilisateurs", "cheminCorpsVue" => "coach/liste.php", 'coachs'=>$utilisateurs, 'controleur'=>self::$controleur]);
     }
     

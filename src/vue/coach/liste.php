@@ -1,16 +1,68 @@
 <?php
 
+use App\PlayToWin\Configuration\ConfigurationSite;
 use App\PlayToWin\Modele\DataObject\Coach;
 use App\PlayToWin\Modele\DataObject\Jeu;
 use App\PlayToWin\Modele\DataObject\Langue;
 use App\PlayToWin\Modele\Repository\Association\JouerRepository;
 use App\PlayToWin\Modele\Repository\Association\ParlerRepository;
+use App\PlayToWin\Modele\Repository\Single\JeuRepository;
+use App\PlayToWin\Modele\Repository\Single\LangueRepository;
 
 echo '<div class="conteneur-coach">';
 echo "<h2>Découvre les coachs qui pourraient te correspondre :</h2>";
 /** @var Coach[] $coachs */
 /** @var string $controleur  */
 ?>
+
+<form method="<?php if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>" action="controleurFrontal.php">
+    <input type='hidden' name='action' value='afficherListe'>
+    <input type='hidden' name='controleur' value="coach">
+
+    <select name="lang" id="lang_id">
+        <?php
+        if(!isset($_REQUEST['lang']) || $_REQUEST['lang'] === "rien"){
+            echo '<option value="rien" selected="true">Langue...?</option>';
+        } else{
+            /** @var Langue $langue */
+            $langue = (new LangueRepository())->recupererParClePrimaire($_REQUEST['lang']);
+            echo '<option value="'.$langue->getCodeAlpha().'" selected="true">'.$langue->getNom().'</option>';
+            echo '<option value="rien">aucune</option>';
+        }
+        $langues = (new LangueRepository())->recuperer();
+
+        foreach ($langues as $l) {
+            /** @var Langue $l */
+            if(!(isset($_REQUEST['lang']) && $l->getCodeAlpha() === $_REQUEST['lang'])){
+                echo '<option value="' . $l->getCodeAlpha().'">' . $l->getNom() . '</option>';
+            }
+        }
+        ?>
+    </select>
+    <select name="jeu" id="jeu_id">
+        <?php
+
+        if(!isset($_REQUEST['jeu']) || $_REQUEST['jeu'] === "rien"){
+            echo '<option value="rien" selected="true">Jeu...?</option>';
+        } else{
+            /** @var Jeu $jeu */
+            $jeu = (new JeuRepository())->recupererParClePrimaire($_REQUEST['jeu']);
+            echo '<option value="'.$jeu->getCodeJeu().'" selected="true">'.$jeu->getNomJeu().'</option>';
+            echo '<option value="rien">aucun</option>';
+        }
+
+        $jeux = (new JeuRepository())->recuperer();
+
+        foreach ($jeux as $j) {
+            /** @var Jeu $j */
+            if (!(isset($_REQUEST['jeu']) && $j->getCodeJeu() === $_REQUEST['jeu'])) {
+                echo '<option value="' . $j->getCodeJeu() . '">' . $j->getNomJeu() . '</option>';
+            }
+        }
+        ?>
+    </select>
+    <input type="submit" value="Envoyer" />
+</form>
 
 <div class="coach-container">
     <?php foreach ($coachs as $coach): ?>
