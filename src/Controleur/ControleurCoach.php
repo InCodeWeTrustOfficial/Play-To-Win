@@ -7,8 +7,11 @@ use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Lib\MotDePasse;
 use App\PlayToWin\Lib\VerificationEmail;
 use App\PlayToWin\Modele\DataObject\Coach;
+use App\PlayToWin\Modele\DataObject\Jeu;
 use App\PlayToWin\Modele\DataObject\Utilisateur;
+use App\PlayToWin\Modele\Repository\Association\JouerRepository;
 use App\PlayToWin\Modele\Repository\Single\CoachRepository;
+use App\PlayToWin\Modele\Repository\Single\JeuRepository;
 use App\PlayToWin\Modele\Repository\Single\UtilisateurRepository;
 
 class ControleurCoach extends ControleurGenerique {
@@ -16,7 +19,26 @@ class ControleurCoach extends ControleurGenerique {
     private static string $controleur = "coach";
 
     public static function afficherListe() : void {
-        $utilisateurs = (new CoachRepository())->recuperer();
+        if(!isset($_REQUEST['jeu'])){
+            $utilisateurs = (new CoachRepository())->recuperer();
+        } else{
+            /** @var Jeu $jeu */
+            $jeu = (new JeuRepository())->recupererParClePrimaire($_REQUEST['jeu']);
+            if($jeu === null){
+
+                $utilisateurs = (new CoachRepository())->recuperer();
+            } else{
+                $utilisateurs = array();
+                $tabs = (new JouerRepository())->recupererJoueursAvecJeu($jeu->getCodeJeu());
+                /** @var Utilisateur $tab */
+                foreach($tabs as $tab){
+                    if ((new CoachRepository())->estCoach($tab->getId())){
+                        $coach = (new CoachRepository())->recupererParClePrimaire($tab->getId());
+                        $utilisateurs[] = $coach;
+                    }
+                }
+            }
+        }
         self::afficherVue('vueGenerale.php',["titre" => "Liste des utilisateurs", "cheminCorpsVue" => "coach/liste.php", 'coachs'=>$utilisateurs, 'controleur'=>self::$controleur]);
     }
     
