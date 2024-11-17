@@ -66,7 +66,7 @@ echo "<h2>Découvre les coachs qui pourraient te correspondre :</h2>";
 
 <div class="coach-container">
     <?php foreach ($coachs as $coach): ?>
-        <a class="detail-link" href="../web/controleurFrontal.php?controleur=service&action=afficherListe&id=<?php echo $coach->getId(); ?>">
+        <a class="detail-link" href="../web/controleurFrontal.php?controleur=coach&action=afficherDetail&id=<?php echo $coach->getId(); ?>">
             <div class="coach-card">
 
                 <div class="coach-banner">

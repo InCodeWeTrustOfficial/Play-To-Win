@@ -11,6 +11,8 @@ use App\PlayToWin\Modele\DataObject\Jeu;
 use App\PlayToWin\Modele\DataObject\Utilisateur;
 use App\PlayToWin\Modele\Repository\Association\JouerRepository;
 use App\PlayToWin\Modele\Repository\Association\ParlerRepository;
+use App\PlayToWin\Modele\Repository\Single\AnalyseVideoRepository;
+use App\PlayToWin\Modele\Repository\Single\CoachingRepository;
 use App\PlayToWin\Modele\Repository\Single\CoachRepository;
 use App\PlayToWin\Modele\Repository\Single\JeuRepository;
 use App\PlayToWin\Modele\Repository\Single\UtilisateurRepository;

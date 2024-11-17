@@ -4,41 +4,59 @@
 
 use App\PlayToWin\Lib\ConnexionUtilisateur;
 use App\PlayToWin\Modele\DataObject\Coach;
+use App\PlayToWin\Modele\DataObject\Langue;
+use App\PlayToWin\Modele\Repository\Association\ParlerRepository;
 
 $idURL = rawurlencode($coach->getId());
-
 $idHTML = htmlspecialchars($coach->getId());
 $nomHTML = htmlspecialchars($coach->getNom());
 $prenomHTML = htmlspecialchars($coach->getPrenom());
 $pseudoHTML = htmlspecialchars($coach->getPseudo());
 $emailHTML = htmlspecialchars($coach->getEmail());
 $biographieHTML = htmlspecialchars($coach->getBiographie());
-
 $dateNaissanceHTML = htmlspecialchars($coach->getDateNaissance()->format("d/m/Y"));
-
 $avatarHTML = htmlspecialchars($coach->getAvatarPath());
 
-echo '<p>
-<img src="../'.$coach->getBannierePath().'" alt="Bannière" style="width: 1546px; height: 423px; object-fit: cover;" 
-     onerror="this.onerror=null; this.src=\'../ressources/img/defaut_banniere.png\';">
-</p>';
+$bonUtilisateur = ConnexionUtilisateur::estUtilisateur($coach->getId()) || ConnexionUtilisateur::estAdministrateur();
+?>
 
-echo '<p>id du coach : '. $idHTML .' </p>';
-echo '<p>Nom du coach: '. $nomHTML .' </p>';
-echo '<p>Prenom du coach: '. $prenomHTML .' </p>';
-echo '<p>Pseudo du coach: '. $pseudoHTML .' </p>';
-echo '<p>Email pour contacter le coach: '. $emailHTML .' </p>';
-echo '<p>Date de naissance du coach: '. $dateNaissanceHTML .' </p>';
-echo '<p>Avatar du coach: '. $avatarHTML .' </p>';
-echo '<p>Biographie du coach: '.$biographieHTML.'</p>';
-echo '<a href = "../web/controleurFrontal.php?controleur=utilisateur&action=afficherDetail&id='.$idURL.'">Voir page Joueur</a>';
+    <div class="conteneur-listecoach">
+        <div class="conteneur-listeinfo">
+            <div class="coach-langs">
+                <?php
+                $langues = (new ParlerRepository())->recupererLangues($coach->getId());
+                /** @var Langue $l */
+                foreach ($langues as $l) {
+                    echo '<img class="lang" src="../'.$l->getDrapeauPath().'" alt="'.$l->getCodeAlpha().'">';
+                }
+                ?>
+            </div>
+            <div class="banniereCustom">
+                <?php if($bonUtilisateur) echo '<a class="changementBann" href = "../web/controleurFrontal.php?controleur=coach&action=afficherFormulaireBanniere&id=' . $idURL . '"></a>';?>
+                <img class="bann" src="../<?= $coach->getBannierePath() ?>" alt="Bannière"
+                 onerror="this.onerror=null; this.src='../ressources/img/defaut_banniere.png';">
 
-if (ConnexionUtilisateur::estUtilisateur($coach->getId()) || ConnexionUtilisateur::estAdministrateur()) {
+            </div>
+            <img class="ppcoach" src="../<?=$avatarHTML?>" alt="Photo de profil"
+                 onerror="this.onerror=null; this.src='../ressources/img/defaut_pp.png';">
+            <div class="noms">
+                <h3><?= $pseudoHTML ?></h3>
+                <h4><?= $idHTML ?></h4>
+                <?php
+                if($bonUtilisateur){echo '<a href = "../web/controleurFrontal.php?controleur=coach&action=afficherFormulaireMiseAJour&id=' . $idURL . '">M</a>';}
+                ?>
+            </div>
+            <p class="bio"><?=$biographieHTML?></p>
+            <p class="contact"><?=$emailHTML?></p>
+        </div>
+        <a class="envoyerLienService" href="../web/controleurFrontal.php?controleur=service&action=afficherListe&id=<?php echo $coach->getId(); ?>">Voir les services de <?=$pseudoHTML?></a>
+    </div>
+
+<?php
+if ($bonUtilisateur) {
     echo '<p>
           <a href = "../web/controleurFrontal.php?controleur=coach&action=afficherFormulaireBanniere&id=' . $idURL . '">Envie de changer de bannière?</a>
 </p>';
-
-    echo '<p><a href = "../web/controleurFrontal.php?controleur=coach&action=afficherFormulaireMiseAJour&id=' . $idURL . '">Modifier formulaire coach ici</a></p>';
     echo '<p><a href = "../web/controleurFrontal.php?controleur=coach&action=supprimer&id=' . $idURL . '">Se désinscrire de la liste des coachs !</a></p>';
 }
 
