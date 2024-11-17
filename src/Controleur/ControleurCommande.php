@@ -21,7 +21,7 @@ class ControleurCommande extends ControleurGenerique {
     }
 
     public static function afficherListe() : void {
-        $commandes = (new CommandeRepository)->recuperer();
+        $commandes = (new CommandeRepository)->recupererParCleEtrangere(ConnexionUtilisateur::getIdUtilisateurConnecte());
         self::afficherVue('vueGenerale.php', ["titre" => "Liste des commandes", "cheminCorpsVue" => "commande/liste.php", 'commandes' => $commandes, 'controleur' => self::$controleur]);
     }
 

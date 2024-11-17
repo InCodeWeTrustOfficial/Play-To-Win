@@ -29,6 +29,23 @@ class CommandeRepository extends AbstractRepository {
         );
     }
 
+    public function recupererParCleEtrangere($idUtilisateur): ?array {
+        $sql = "SELECT " . join(',', $this->getNomsColonnes()) .
+            " FROM " . $this->getNomTable() .
+            " WHERE idUtilisateur = :idUtilisateur";
+
+        $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
+        $pdoStatement->bindParam(':idUtilisateur', $idUtilisateur);
+        $pdoStatement->execute();
+
+        $objets = [];
+        foreach ($pdoStatement as $objetFormatTableau) {
+            $objets[] = $this->construireDepuisTableauSQL($objetFormatTableau);
+        }
+
+        return $objets;
+    }
+
     public function construireDepuisTableauSQL(array $servicesFormatTableau): Commande {
         try {
             return new Commande(
