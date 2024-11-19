@@ -13,7 +13,7 @@ echo "<h2>Liste des services proposés</h2>";
     <input type='hidden' name='controleur' value='service'>
     <input type='hidden' name='id' value='<?php echo htmlspecialchars($id); ?>'>
 
-    <label for="service">Sélectionnez un service :</label>
+    <label id="service">Sélectionnez un service :</label>
     <select id="service_type_field" name="service_type_field" onchange="updateAction()">
         <option value="tous">Tous</option>
         <option value="coaching">Coaching</option>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
     <link rel="stylesheet" href="../ressources/css/nav_bar.css">
     <link rel="stylesheet" href="../ressources/css/background.css">
@@ -63,17 +63,11 @@
                         <img src="../ressources/img/icone/panier.png" alt="Panier">
                     </a>';
 
-                if (!ConnexionUtilisateur::estAdministrateur()) {
-                    echo '
-                        <a href="controleurFrontal.php?controleur=service&action=afficherListe&id='.$idURL.'" class="icon-link">
-                            <img src="../ressources/img/icone/produit.png" alt="Service">
-                        </a>';
-                } else {
-                    echo '
-                        <a href="controleurFrontal.php?controleur=service&action=afficherListeTotal" class="icon-link">
-                            <img src="../ressources/img/icone/produit.png" alt="Service">
-                        </a>';
-                }
+
+                echo '
+                    <a href="controleurFrontal.php?controleur=service&action=afficherListe&id='.$idURL.'" class="icon-link">
+                        <img src="../ressources/img/icone/produit.png" alt="Service">
+                    </a>';
 
                 echo '
                     <a href="controleurFrontal.php?controleur=utilisateur&action=afficherDetail&id='.$idURL.'" class="icon-link">
