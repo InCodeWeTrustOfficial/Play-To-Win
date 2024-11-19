@@ -40,7 +40,7 @@ abstract class Services extends AbstractDataObject {
         $this->codeJeu = $codeJeu;
     }
 
-    public function getCodeService(): ?int {
+    public function getId(): ?int {
         return $this->codeService;
     }
 

@@ -44,7 +44,10 @@ class ControleurUtilisateur extends ControleurGenerique {
     }
 
     public static function afficherFormulaireCreation() : void{
-        self::afficherVue('vueGenerale.php',["titre" => "Formulaire création utilisateur", "cheminCorpsVue" => 'utilisateur/formulaireCreation.php','controleur'=>self::$controleur, "langues" => (new LangueRepository())->recuperer()]);
+        self::afficherVue('vueGenerale.php',["titre" => "Formulaire création utilisateur",
+            "cheminCorpsVue" => 'utilisateur/formulaireCreation.php',
+            'controleur'=>self::$controleur,
+            "langues" => (new LangueRepository())->recuperer()]);
     }
 
     public static function afficherFormulaireMiseAJour() : void{

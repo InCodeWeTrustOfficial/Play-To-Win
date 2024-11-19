@@ -37,9 +37,14 @@
             $estAdmin = ConnexionUtilisateur::estAdministrateur();
             if($estAdmin){
                 echo '
-                <a href="controleurFrontal.php?controleur=utilisateur&action=afficherListe" class="nav-link">
-                    Administrateur
-                </a>
+                <div class="dropdown">
+                    <a href="#" class="nav-link dropdown-toggle">Administrateur</a>
+                    <div class="dropdown-menu">
+                        <a href="controleurFrontal.php?controleur=administrateur&action=afficherListeServices" class="dropdown-item">Services</a>
+                        <a href="controleurFrontal.php?controleur=administrateur&action=afficherListeCoachs" class="dropdown-item">Coachs</a>
+                        <a href="controleurFrontal.php?controleur=administrateur&action=afficherListeUtilisateurs" class="dropdown-item">Utilisateurs</a>
+                    </div>
+                </div>
                 ';
             }
             ?>
@@ -62,7 +67,6 @@
                     <a href="controleurFrontal.php?controleur=service&action=afficherPanier" class="icon-link">
                         <img src="../ressources/img/icone/panier.png" alt="Panier">
                     </a>';
-
 
                 echo '
                     <a href="controleurFrontal.php?controleur=service&action=afficherListe&id='.$idURL.'" class="icon-link">
@@ -110,15 +114,6 @@
                 <li><a href="#">Qui sommes-nous</a></li>
                 <li><a href="#">Notre équipe</a></li>
                 <li><a href="#">Nos services</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-section">
-            <h3>Services</h3>
-            <ul>
-                <li><a href="#">Coaching</a></li>
-                <li><a href="#">Formations</a></li>
-                <li><a href="#">Support</a></li>
             </ul>
         </div>
 

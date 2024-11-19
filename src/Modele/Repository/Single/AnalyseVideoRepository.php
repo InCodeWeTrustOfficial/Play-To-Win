@@ -35,7 +35,7 @@ class AnalyseVideoRepository extends ServiceRepository {
     function formatTableauSQLServices(AbstractDataObject $services) {
         /** @var AnalyseVideo $services */
         return array(
-            ":codeServiceTag" => $services->getCodeService(),
+            ":codeServiceTag" => $services->getId(),
             ":nbJourRenduTag" => $services->getNbJourRendu()
         );
     }

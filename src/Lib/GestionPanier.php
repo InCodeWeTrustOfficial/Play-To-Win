@@ -31,7 +31,7 @@ class GestionPanier {
                 MessageFlash::ajouter("info", "La quantité du service a été augmentée.");
             } else {
                 $panier[$codeService] = [
-                    'id' => $service->getCodeService(),
+                    'id' => $service->getId(),
                     'nom' => $service->getNomService(),
                     'prix' => $service->getPrixService(),
                     'quantite' => 1,

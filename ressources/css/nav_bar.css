@@ -29,6 +29,7 @@
     gap: 8px;
     padding: 4px 8px;
     transition: color 0.3s ease;
+    font-weight: bold;
 }
 
 .nav-link:hover {
@@ -84,4 +85,48 @@
 
 .icon-link:hover {
     background-color: #444444;
+}
+
+.navbar .dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.navbar .dropdown-toggle {
+    cursor: pointer;
+    padding: 10px 15px;
+    text-decoration: none;
+    background-color: transparent;
+    border: none;
+    transition: color 0.3s ease;
+}
+
+.navbar .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+    border-radius: 4px;
+    z-index: 1000;
+    min-width: 150px;
+}
+
+.navbar .dropdown-menu .dropdown-item {
+    padding: 10px 15px;
+    color: black;
+    text-decoration: none;
+    display: block;
+    font-size: 14px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+.navbar .dropdown-menu .dropdown-item:hover {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.navbar .dropdown:hover .dropdown-menu {
+    display: block;
 }

@@ -157,7 +157,7 @@ abstract class ServiceRepository extends AbstractRepository{
     protected function formatTableauSQL(AbstractDataObject $services): array {
         /** @var Services $services */
         return array(
-            ":codeServiceTag" => $services->getCodeService(),
+            ":codeServiceTag" => $services->getId(),
             ":nomServiceTag" => $services->getNomService(),
             ":descriptionServiceTag" => $services->getDescriptionService(),
             ":prixServiceTag" => $services->getPrixService(),

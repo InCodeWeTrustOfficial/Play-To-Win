@@ -14,15 +14,6 @@ abstract class ControleurService extends ControleurGenerique {
     abstract static function getControleur(): string;
     abstract static function creerDepuisFormulaire(): void;
 
-    public static function afficherListeTotal() : void {
-        $services = array_merge((new AnalyseVideoRepository())->recuperer(), (new CoachingRepository())->recuperer());
-        self::afficherVue('vueGenerale.php', [
-            "titre" => "Liste des services",
-            "cheminCorpsVue" => "service/liste.php",
-            'services' => $services,
-            'controleur' => self::$controleur]);
-    }
-
     public static function afficherListe() : void {
         if (isset($_REQUEST['id'])) {
             $coachId = $_REQUEST['id'];
