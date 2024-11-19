@@ -13,28 +13,28 @@ $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($id);
         <legend>Formulaire de modification :</legend>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="id_id">id</label>
-            <input class="InputAddOn-field" value="<?= $id ?>" readonly ="readonly" type="text" name="id" id="id_id" required/>
+            <input class="InputAddOn-field" value="<?= $id ?>" readonly ="readonly" type="text" name="id" id="id_id" required>
 
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="nom_id">Nom</label>
-            <input class="InputAddOn-field" type="text"  placeholder="<?= $utilisateur->getNom()?>" name="nom" id="nom_id" required/>
+            <input class="InputAddOn-field" type="text"  placeholder="<?= $utilisateur->getNom()?>" name="nom" id="nom_id" required>
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="prenom_id">Prenom</label>
-            <input class="InputAddOn-field" type="text"  placeholder="<?= $utilisateur->getPrenom()?>" name="prenom" id="prenom_id" required/>
+            <input class="InputAddOn-field" type="text"  placeholder="<?= $utilisateur->getPrenom()?>" name="prenom" id="prenom_id" required>
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="pseudo_id">Pseudo</label>
-            <input class="InputAddOn-field" type="text"  placeholder="<?= $utilisateur->getPseudo()?>" name="pseudo" id="pseudo_id" required/>
+            <input class="InputAddOn-field" type="text"  placeholder="<?= $utilisateur->getPseudo()?>" name="pseudo" id="pseudo_id" required>
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="email_id">Email</label>
-            <input class="InputAddOn-field" type="text"  value="<?= $utilisateur->getEmail()?>" name="email" id="email_id" required/>
+            <input class="InputAddOn-field" type="text"  value="<?= $utilisateur->getEmail()?>" name="email" id="email_id" required>
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="date_id">Date de naissance</label>
-            <input class="InputAddOn-field" type="date" placeholder="<?= date_format($utilisateur->getDateNaissance(),"d-m-Y")?>" name="date" id="date_id"  required/>
+            <input class="InputAddOn-field" type="date" name="date" id="date_id"  required>
         </p>
 
         <p class="InputAddOn">
@@ -60,14 +60,14 @@ $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($id);
             <label class="InputAddOn-item" for="estAdmin_id">Administrateur</label>
             <input class="InputAddOn-field" type="checkbox" name="estAdmin" id="estAdmin_id"';
         if ($utilisateur->isAdmin()) {
-            echo "checked";
+            echo " checked";
         } echo '>
         </p>
         ';}
         ?>
 
         <p>
-            <input type="submit" value="Envoyer" />
+            <input type="submit" value="Envoyer">
         </p>
     </fieldset>
 </form>

@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="../ressources/css/nav_bar.css">
     <link rel="stylesheet" href="../ressources/css/background.css">
     <link rel="stylesheet" href="../ressources/css/footer.css">
+    <link rel="stylesheet" href="../ressources/css/formulaires.css">
     <link rel="stylesheet" href="../ressources/css/navstyles.css">
     <link rel="stylesheet" href="../ressources/css/service.css">
     <link rel="stylesheet" href="../ressources/css/coach.css">
