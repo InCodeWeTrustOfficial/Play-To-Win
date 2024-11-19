@@ -26,7 +26,7 @@ echo "<h2>Découvre les coachs qui pourraient te correspondre :</h2>";
         } else{
             /** @var Langue $langue */
             $langue = (new LangueRepository())->recupererParClePrimaire($_REQUEST['lang']);
-            echo '<option value="'.$langue->getCodeAlpha().'" selected="true">'.$langue->getNom().'</option>';
+            echo '<option value="'.$langue->getCodeAlpha().'" selected="selected">'.$langue->getNom().'</option>';
             echo '<option value="rien">aucune</option>';
         }
         $langues = (new LangueRepository())->recuperer();
@@ -47,7 +47,7 @@ echo "<h2>Découvre les coachs qui pourraient te correspondre :</h2>";
         } else{
             /** @var Jeu $jeu */
             $jeu = (new JeuRepository())->recupererParClePrimaire($_REQUEST['jeu']);
-            echo '<option value="'.$jeu->getCodeJeu().'" selected="true">'.$jeu->getNomJeu().'</option>';
+            echo '<option value="'.$jeu->getCodeJeu().'" selected="selected">'.$jeu->getNomJeu().'</option>';
             echo '<option value="rien">aucun</option>';
         }
 

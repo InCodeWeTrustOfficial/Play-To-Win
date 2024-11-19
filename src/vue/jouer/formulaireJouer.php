@@ -18,9 +18,9 @@ use App\PlayToWin\Modele\DataObject\Jeu;
             <select name="jeu" id="jeu_id" required onchange="this.form.submit()">
                 <?php
                     if ($jeu === null) {
-                        echo '<option value="rien" selected="true">Jeu...?</option>';
+                        echo '<option value="rien" selected="selected">Jeu...?</option>';
                     }else {
-                        echo '<option value="'.$jeu->getCodeJeu().'" selected="true">'.$jeu->getNomJeu().'</option>';
+                        echo '<option value="'.$jeu->getCodeJeu().'" selected="selected">'.$jeu->getNomJeu().'</option>';
                     }
                     foreach ($jeux as $j) {
                         if($j != $jeu) {

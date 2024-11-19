@@ -11,7 +11,7 @@ use App\PlayToWin\Lib\PreferenceControleur;
         <input type="radio" id="trajetId" name="controleur_defaut" value="trajet" <?php if(PreferenceControleur::existe()){if(PreferenceControleur::lire() == "trajet"){echo "checked";}} ?>>
         <label for="trajetId">Trajet</label>
         <p>
-            <input type="submit" value="Envoyer" />
+            <input type="submit" value="Envoyer">
         </p>
     </fieldset>
 </form>

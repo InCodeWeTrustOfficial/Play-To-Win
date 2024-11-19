@@ -8,19 +8,19 @@
         <legend>Mon formulaire :</legend>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="id_id">id</label>
-            <input class="InputAddOn-field" type="text" placeholder="bnj_rl" name="id" id="id_id" required/>
+            <input class="InputAddOn-field" type="text" placeholder="bnj_rl" name="id" id="id_id" required>
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="nom_id">Nom</label>
-            <input class="InputAddOn-field" type="text"  placeholder="turpin" name="nom" id="nom_id" required/>
+            <input class="InputAddOn-field" type="text"  placeholder="turpin" name="nom" id="nom_id" required>
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="prenom_id">Prenom</label>
-            <input class="InputAddOn-field" type="text"  placeholder="benjamin" name="prenom" id="prenom_id" required/>
+            <input class="InputAddOn-field" type="text"  placeholder="benjamin" name="prenom" id="prenom_id" required>
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="pseudo_id">Pseudo</label>
-            <input class="InputAddOn-field" type="text"  placeholder="BNJ" name="pseudo" id="prenom_id" required/>
+            <input class="InputAddOn-field" type="text"  placeholder="BNJ" name="pseudo" id="prenom_id" required>
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="email_id">Email&#42;</label>
@@ -28,7 +28,7 @@
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="date_id">Date de naissance</label>
-            <input class="InputAddOn-field" type="date" placeholder="JJ/MM/AAAA" name="dateDeNaissance" id="date_id"  required/>
+            <input class="InputAddOn-field" type="date" placeholder="JJ/MM/AAAA" name="dateDeNaissance" id="date_id"  required>
         </>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="mdp_id">Mot de passe&#42;</label>
@@ -42,7 +42,7 @@
             <label class="InputAddOn-item" for="lang_id">Sélectionnez votre langue principale (vous pourrez plus tard en avoir plusieurs):</label>
             <select name="lang" id="lang_id" required>
                 <?php
-                echo '<option value="FR" selected="true">Français</option>';
+                echo '<option value="FR" selected="selected">Français</option>';
                 foreach ($langues as $l){
                     if($l->getCodeAlpha() != "FR"){
                         echo '<option value="'.$l->getCodeAlpha().'">'.$l->getNom().'</option>';
@@ -64,7 +64,7 @@
         }
         ?>
         <p>
-            <input type="submit" value="Envoyer" />
+            <input type="submit" value="Envoyer">
         </p>
     </fieldset>
 </form>

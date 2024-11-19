@@ -14,7 +14,7 @@ use App\PlayToWin\Modele\DataObject\Jeu;
     <select name="mode" id="mode_id" required>
         <?php
 
-        echo '<option value="rien" selected="true">Mode...?</option>';
+        echo '<option value="rien" selected="selected">Mode...?</option>';
 
         $md = $modesDunJeu[$jeu->getCodeJeu()];
 

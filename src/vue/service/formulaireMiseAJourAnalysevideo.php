@@ -16,7 +16,7 @@ $service = (new AnalyseVideoRepository())->recupererParClePrimaire($codeService)
 
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="nom_services_id">Nom du service</label>
-            <input class="InputAddOn-field" type="text" placeholder="<?= $service->getNomService() ?>" name="nom_services" id="nom_services_id" required/>
+            <input class="InputAddOn-field" type="text" placeholder="<?= $service->getNomService() ?>" name="nom_services" id="nom_services_id" required>
         </p>
 
         <p class="InputAddOn">
@@ -34,16 +34,16 @@ $service = (new AnalyseVideoRepository())->recupererParClePrimaire($codeService)
 
         <p class="InputAddOn" id="nbJourRendu_champ">
             <label class="InputAddOn-item" for="nbJourRendu_id">Nombre de jours avant le rendu</label>
-            <input class="InputAddOn-field" type="number" name="nbJourRendu" id="nbJourRendu_id" placeholder="<?= $service->getNbJourRendu() ?>" min="1" required/>
+            <input class="InputAddOn-field" type="number" name="nbJourRendu" id="nbJourRendu_id" placeholder="<?= $service->getNbJourRendu() ?>" min="1" required>
         </p>
 
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="prix_id">Prix</label>
-            <input class="InputAddOn-field" type="number" placeholder="<?= $service->getPrixService() ?>" name="prix" id="prix_id" required/>
+            <input class="InputAddOn-field" type="number" placeholder="<?= $service->getPrixService() ?>" name="prix" id="prix_id" required>
         </p>
 
         <p>
-            <input type="submit" value="Envoyer" />
+            <input type="submit" value="Envoyer">
         </p>
     </fieldset>
 </form>

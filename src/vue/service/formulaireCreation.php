@@ -6,7 +6,7 @@
 
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="nom_services_id">Nom du service</label>
-            <input class="InputAddOn-field" type="text" placeholder="Ex : Coaching personnalisé" name="nom_services" id="nom_services_id" required/>
+            <input class="InputAddOn-field" type="text" placeholder="Ex : Coaching personnalisé" name="nom_services" id="nom_services_id" required>
         </p>
 
         <p class="InputAddOn">
@@ -32,21 +32,21 @@
 
         <p class="InputAddOn" id="date_champ" style="display:none;">
             <label class="InputAddOn-item" for="duree_id">Duree du coaching</label>
-            <input class="InputAddOn-field" type="number" name="duree" id="duree_id" placeholder="Ex : 30 min" min="0" step="15" />
+            <input class="InputAddOn-field" type="number" name="duree" id="duree_id" placeholder="Ex : 30 min" min="0" step="15">
         </p>
 
         <p class="InputAddOn" id="nbJourRendu_champ" style="display:block;">
             <label class="InputAddOn-item" for="nbJourRendu_id">Nombre de jours avant le rendu</label>
-            <input class="InputAddOn-field" type="number" name="nbJourRendu" id="nbJourRendu_id" placeholder="Ex : 5" min="1" />
+            <input class="InputAddOn-field" type="number" name="nbJourRendu" id="nbJourRendu_id" placeholder="Ex : 5" min="1">
         </p>
 
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="prix_id">Prix</label>
-            <input class="InputAddOn-field" type="number" placeholder="Ex : 20" name="prix" id="prix_id" required/>
+            <input class="InputAddOn-field" type="number" placeholder="Ex : 20" name="prix" id="prix_id" required>
         </p>
 
         <p>
-            <input type="submit" value="Envoyer" />
+            <input type="submit" value="Envoyer">
         </p>
     </fieldset>
 </form>

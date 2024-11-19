@@ -14,7 +14,7 @@ use App\PlayToWin\Modele\DataObject\Langue;
             <label class="InputAddOn-item" for="lang_id">Sélectionnez votre langue principale (vous pourrez plus tard en avoir plusieurs):</label>
             <select name="lang" id="lang_id" required>
                 <?php
-                echo '<option value="rien" selected="true">Langue...?</option>';
+                echo '<option value="rien" selected="selected">Langue...?</option>';
                 foreach ($langues as $l){
                     echo '<option value="'.$l->getCodeAlpha().'">'.$l->getNom().'</option>';
                 }
@@ -22,7 +22,7 @@ use App\PlayToWin\Modele\DataObject\Langue;
             </select>
         </p>
         <p>
-            <input type="submit" value="Envoyer" />
+            <input type="submit" value="Envoyer">
         </p>
     </fieldset>
 </form>

@@ -20,14 +20,14 @@ $coach = (new CoachRepository())->recupererParClePrimaire($id);
 
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="ban_id">Entrez votre nouvelle bannière:</label>
-            <input class="InputAddOn-field" type="file" name="<?=$id?>" id="ban_id" required/>
+            <input class="InputAddOn-field" type="file" name="<?=$id?>" id="ban_id" required>
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="mdp_id">Mot de passe&#42;</label>
             <input class="InputAddOn-field" type="password" value="" placeholder="" name="mdp" id="mdp_id" required>
         </p>
         <p>
-            <input type="submit" value="Envoyer" />
+            <input type="submit" value="Envoyer">
         </p>
     </fieldset>
 </form>

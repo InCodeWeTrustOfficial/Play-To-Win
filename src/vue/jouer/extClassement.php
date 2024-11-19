@@ -11,7 +11,7 @@ use App\PlayToWin\Modele\DataObject\Jeu;
     <select name="class" id="class_id" required>
         <?php
 
-        echo '<option value="rien" selected="true">Classement...?</option>';
+        echo '<option value="rien" selected="selected">Classement...?</option>';
 
         $class = $classementsPossibles[$jeu->getCodeJeu()];
 
