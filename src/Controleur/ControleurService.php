@@ -72,11 +72,11 @@ abstract class ControleurService extends ControleurGenerique {
     }
 
     public static function afficherFormulaireMiseAJour() : void {
-        if (!isset($_REQUEST['codeService'])) {
+        if (!isset($_REQUEST['id'])) {
             MessageFlash::ajouter("danger", "Erreur, le service n'existe pas !");
             self::afficherErreur("Erreur, le service n'existe pas !");
         } else {
-            $codeService = $_REQUEST['codeService'];
+            $codeService = $_REQUEST['id'];
             self::afficherVue('vueGenerale.php', [
                 "titre" => "Formulaire de MAJ",
                 "cheminCorpsVue" => 'service/formulaireMiseAJour' . ucfirst(static::getControleur()) . '.php',
@@ -86,11 +86,11 @@ abstract class ControleurService extends ControleurGenerique {
     }
 
     public static function afficherDetail() : void {
-        if (!isset($_REQUEST['codeService'])) {
+        if (!isset($_REQUEST['id'])) {
             MessageFlash::ajouter("danger", "Code service manquant.");
             self::afficherErreur("Code service manquant.");
         } else {
-            $codeService = $_REQUEST['codeService'];
+            $codeService = $_REQUEST['id'];
             $service = (new AnalyseVideoRepository())->recupererParClePrimaire($codeService);
 
             if ($service == NULL) {
@@ -106,7 +106,7 @@ abstract class ControleurService extends ControleurGenerique {
         }
     }
 
-    public static function afficherFormulaireProposerService() : void {
+    public static function afficherFormulaireCreation() : void {
         self::afficherVue('vueGenerale.php', ["titre" => "Proposition services", "cheminCorpsVue" => 'service/formulaireCreation.php']);
     }
 

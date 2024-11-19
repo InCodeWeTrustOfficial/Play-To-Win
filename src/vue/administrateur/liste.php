@@ -13,9 +13,7 @@ foreach ($objets as $objet) {
     $idURL = rawurlencode($objet->getId());
 
 echo "$objetType de login : ";
-
 echo '<p>
-
 <a href = "../web/controleurFrontal.php?controleur=' . $objetType . '&action=afficherDetail&id=' . $idURL . '">' . $idHTML . '</a>';
     if (ConnexionUtilisateur::estAdministrateur()) {
         echo ' <a href = "../web/controleurFrontal.php?controleur=' . $objetType . '&action=afficherFormulaireMiseAJour&id=' . $idURL . '"> (ModifICI) </a>
@@ -24,5 +22,8 @@ echo '<p>
     echo '</p>';
 }
 
-echo '<br><h3>Lien pour créer : <a href = "../web/controleurFrontal.php?controleur=' . $objetType . '&action=afficherFormulaireCreation"> Ici</a></h3>';
-
+if($objetType == "coach"){
+    echo '<br><h3>Lien pour créer : <a href = "../web/controleurFrontal.php?controleur=utilisateur&action=afficherFormulaireCreation">Ici</a> </h3>';
+} else {
+    echo '<br><h3>Lien pour créer : <a href = "../web/controleurFrontal.php?controleur=' . $objetType . '&action=afficherFormulaireCreation">Ici</a> </h3>';
+}

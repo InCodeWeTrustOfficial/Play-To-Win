@@ -24,7 +24,7 @@ echo "<h2>Liste des services proposés</h2>";
 
 <div class="service-container">
     <?php foreach ($services as $service): ?>
-        <a class="detail-link" href="../web/controleurFrontal.php?controleur=<?php echo $controleur; ?>&action=afficherDetail&codeService=<?php echo $service->getId(); ?>">
+        <a class="detail-link" href="../web/controleurFrontal.php?controleur=<?php echo $controleur; ?>&action=afficherDetail&id=<?php echo $service->getId(); ?>">
             <div class="service-card">
                 <img src="../ressources/img/jeux/<?=$service->getCodeJeu()?>.png" alt="Icon" class="service-icon">
                 <div class="service-name"><?php echo $service->getNomService(); ?></div>
@@ -46,5 +46,5 @@ echo "<h2>Liste des services proposés</h2>";
 <br>
 
 <div class="btn">
-    <a href="../web/controleurFrontal.php?controleur=service&action=afficherFormulaireProposerService" class="btn new-service-btn">Nouveau</a>
+    <a href="../web/controleurFrontal.php?controleur=service&action=afficherFormulaireCreation" class="btn new-service-btn">Nouveau</a>
 </div>

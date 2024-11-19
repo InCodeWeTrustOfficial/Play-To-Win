@@ -26,8 +26,8 @@ class ControleurAdministrateur extends ControleurGenerique {
         $utilisateurs = (new UtilisateurRepository())->recuperer();
         $objetType = "utilisateur";
         self::afficherVue('vueGenerale.php', ["titre" => "Liste des utilisateurs",
-            "cheminCorpsVue" => "utilisateur/liste.php",
-            'utilisateurs' => $utilisateurs,
+            "cheminCorpsVue" => "administrateur/liste.php",
+            'objets' => $utilisateurs,
             'objetType' => $objetType,
             'controleur' => self::$controleur]);
     }
