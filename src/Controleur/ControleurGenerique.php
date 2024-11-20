@@ -35,4 +35,19 @@ abstract class ControleurGenerique {
         header($msg.$url);
         exit();
     }
+
+    protected static function existePasRequest(array $args, string $message, string $url = null, string $controleur = null):bool{
+        $verif = false;
+        foreach ($args as $arg){
+            if($_REQUEST[$arg] === null){
+                $verif = true;
+                break;
+            }
+        }
+        if($verif){
+            MessageFlash::ajouter("danger",$message);
+            static::redirectionVersURL($url,$controleur);
+        }
+        return $verif;
+    }
 }
