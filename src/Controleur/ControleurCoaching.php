@@ -22,6 +22,10 @@ class ControleurCoaching extends ControleurService {
         parent::mettreAJourUtil((new CoachingRepository()));
     }
 
+    function afficherFormulaireMiseAJour() {
+        parent::afficherFormulaireMiseAJourUtil((new CoachingRepository()));
+    }
+
     /**
      * Permet a l'utilisateur de proposer un services (coaching / analyse vidéo)
      * @return void

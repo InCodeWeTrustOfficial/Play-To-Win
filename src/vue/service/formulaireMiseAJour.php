@@ -1,12 +1,13 @@
 <?php
 /** @var int $codeService */
-
+/** @var ServiceRepository $repo */
 use App\PlayToWin\Modele\Repository\Single\AnalyseVideoRepository;
 use App\PlayToWin\Modele\Repository\Single\ServiceRepository;
 
-$service = (new AnalyseVideoRepository())->recupererParClePrimaire($codeService);
+$service = $repo->recupererParClePrimaire($codeService);
 
 ?>
+
 <form method="get" action="controleurFrontal.php">
     <input type='hidden' name='action' value='mettreAJour'>
     <input type='hidden' name='controleur' value='<?= $service->getTypeService() ?>'>

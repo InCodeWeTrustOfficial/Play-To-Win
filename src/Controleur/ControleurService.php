@@ -16,9 +16,9 @@ abstract class ControleurService extends ControleurGenerique {
     abstract function supprimer();
     abstract function mettreAJour();
     abstract function construireDepuisFormulaire(array $tableauDonneesFormulaire): Services;
-    static function getControleur(): string {
-        return self::$controleur;
-    }
+    abstract public function afficherFormulaireMiseAJour();
+
+    static function getControleur(): string {return static::$controleur;}
 
     public static function afficherListe() : void {
         if (isset($_REQUEST['id'])) {
@@ -77,7 +77,7 @@ abstract class ControleurService extends ControleurGenerique {
         ]);
     }
 
-    public static function afficherFormulaireMiseAJour() : void {
+    public static function afficherFormulaireMiseAJourUtil(ServiceRepository $repo) : void {
         if (!isset($_REQUEST['id'])) {
             MessageFlash::ajouter("danger", "Erreur, le service n'existe pas !");
             self::afficherErreur("Erreur, le service n'existe pas !");
@@ -87,6 +87,7 @@ abstract class ControleurService extends ControleurGenerique {
                 "titre" => "Formulaire de MAJ",
                 "cheminCorpsVue" => 'service/formulaireMiseAJour.php',
                 'codeService' => $codeService,
+                'serviceRepo' => $repo,
                 'controleur' => static::$controleur]);
         }
     }
