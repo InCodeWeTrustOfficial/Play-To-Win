@@ -32,6 +32,7 @@ class ControleurAnalysevideo extends ControleurService {
     public static function afficherFormulaireMiseAJour() {
         parent::afficherFormulaireMiseAJourUtil(new AnalyseVideoRepository());
     }
+
     /**
      * Construit un objet service en fonction du formulaire rempli par l'utilisateur.
      * @param array $tableauDonneesFormulaire
