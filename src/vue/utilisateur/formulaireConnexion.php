@@ -6,7 +6,10 @@
         <legend>Connexion :</legend>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="id_id">id</label>
-            <input class="InputAddOn-field" type="text" placeholder="leblancj" name="id" id="id_id" required>
+            <input class="InputAddOn-field" type="text" placeholder="leblancj" name="id" id="id_id"
+                   pattern="^[a-zA-Z0-9_]+$"
+                   maxlength="32"
+                   required>
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="mdp_id">Mot de passe&#42;</label>

@@ -18,19 +18,19 @@ $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($id);
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="nom_id">Nom</label>
-            <input class="InputAddOn-field" type="text"  placeholder="<?= $utilisateur->getNom()?>" name="nom" id="nom_id" required>
+            <input class="InputAddOn-field" type="text"  placeholder="<?= $utilisateur->getNom()?>" name="nom" id="nom_id" maxlength="32" required>
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="prenom_id">Prenom</label>
-            <input class="InputAddOn-field" type="text"  placeholder="<?= $utilisateur->getPrenom()?>" name="prenom" id="prenom_id" required>
+            <input class="InputAddOn-field" type="text"  placeholder="<?= $utilisateur->getPrenom()?>" name="prenom" id="prenom_id" maxlength="32" required>
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="pseudo_id">Pseudo</label>
-            <input class="InputAddOn-field" type="text"  placeholder="<?= $utilisateur->getPseudo()?>" name="pseudo" id="pseudo_id" required>
+            <input class="InputAddOn-field" type="text"  placeholder="<?= $utilisateur->getPseudo()?>" name="pseudo" id="pseudo_id" maxlength="32" required>
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="email_id">Email</label>
-            <input class="InputAddOn-field" type="text"  value="<?= $utilisateur->getEmail()?>" name="email" id="email_id" required>
+            <input class="InputAddOn-field" type="text"  value="<?= $utilisateur->getEmail()?>" name="email" id="email_id" maxlength="256" required>
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="date_id">Date de naissance</label>
