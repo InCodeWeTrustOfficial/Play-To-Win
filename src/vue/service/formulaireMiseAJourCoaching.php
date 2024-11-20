@@ -8,7 +8,7 @@ $exemplaireservice = (new CoachingRepository())->recupererParClePrimaire($codeSe
 ?>
 <form method="get" action="controleurFrontal.php">
     <input type='hidden' name='action' value='mettreAJour'>
-    <input type='hidden' name='controleur' value='<?= $exemplaireservice->getTypeService() ?>'>
+    <input type='hidden' name='controleur' value='<?= $exemplaireservice->getControleur() ?>'>
     <input type='hidden' name='id' value='<?= $codeService ?>'>
     <fieldset>
         <legend>Modifier le Coaching :</legend>

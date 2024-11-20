@@ -4,7 +4,7 @@ namespace App\PlayToWin\Modele\DataObject;
 
 class Coaching extends Services {
 
-    public function getTypeService(): string {
+    public function getControleur(): string {
         return "coaching";
     }
 

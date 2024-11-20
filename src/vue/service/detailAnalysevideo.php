@@ -35,15 +35,15 @@ echo '
 echo '<p class="service-description">' . $descriptionServiceHTML . '</p>';
 
 $boutons = '<div class="button-container">';
-$boutons .= '<a href="../web/controleurFrontal.php?controleur=' . $service->getTypeService() . '&action=ajouterAuPanier&id=' . $service->getId() . '" class="btn modify-btn">Ajouter</a>';
+$boutons .= '<a href="../web/controleurFrontal.php?controleur=' . $service->getControleur() . '&action=ajouterAuPanier&id=' . $service->getId() . '" class="btn modify-btn">Ajouter</a>';
 
 if (ConnexionUtilisateur::estConnecte() &&
     (ConnexionUtilisateur::estAdministrateur() ||
         ConnexionUtilisateur::getIdUtilisateurConnecte() === $service->getCoach())) {
 
     $boutons .= '
-        <a href="../web/controleurFrontal.php?controleur=' . $service->getTypeService() . '&action=afficherFormulaireMiseAJour&id=' . $service->getId() . '" class="btn modify-btn">Modifier</a>
-        <a href="../web/controleurFrontal.php?controleur=' . $service->getTypeService() . '&action=supprimer&id=' . $service->getId() . '" class="btn delete-btn">Supprimer</a>
+        <a href="../web/controleurFrontal.php?controleur=' . $service->getControleur() . '&action=afficherFormulaireMiseAJour&id=' . $service->getId() . '" class="btn modify-btn">Modifier</a>
+        <a href="../web/controleurFrontal.php?controleur=' . $service->getControleur() . '&action=supprimer&id=' . $service->getId() . '" class="btn delete-btn">Supprimer</a>
     ';
 }
 

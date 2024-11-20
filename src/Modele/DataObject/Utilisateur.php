@@ -133,5 +133,9 @@ class Utilisateur extends AbstractDataObject {
         }
         return $this::$pathAvatar.$this->idUtilisateur.$ext;
     }
+    public function getControleur(): string {
+        return "utilisateur";
+    }
+
 }
 ?>

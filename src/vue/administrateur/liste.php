@@ -6,24 +6,23 @@ use App\PlayToWin\Modele\DataObject\Utilisateur;
 
 /** @var AbstractDataObject[] $objets */
 /** @var string $controleur  */
-/** @var string $objetType  */
 
 foreach ($objets as $objet) {
     $idHTML = htmlspecialchars($objet->getId());
     $idURL = rawurlencode($objet->getId());
 
-echo "$objetType de login : ";
+echo "$controleur de login : ";
 echo '<p>
-<a href = "../web/controleurFrontal.php?controleur=' . $objetType . '&action=afficherDetail&id=' . $idURL . '">' . $idHTML . '</a>';
+<a href = "../web/controleurFrontal.php?controleur=' . $controleur . '&action=afficherDetail&id=' . $idURL . '">' . $idHTML . '</a>';
     if (ConnexionUtilisateur::estAdministrateur()) {
-        echo ' <a href = "../web/controleurFrontal.php?controleur=' . $objetType . '&action=afficherFormulaireMiseAJour&id=' . $idURL . '"> (ModifICI) </a>
-        <a href = "../web/controleurFrontal.php?controleur=' . $objetType . '&action=supprimer&id=' . $idURL . '"> (-)</a>';
+        echo ' <a href = "../web/controleurFrontal.php?controleur=' . $objet->getControleur()  . '&action=afficherFormulaireMiseAJour&id=' . $idURL . '"> (ModifICI) </a>
+        <a href = "../web/controleurFrontal.php?controleur=' . $controleur . '&action=supprimer&id=' . $idURL . '"> (-)</a>';
     }
     echo '</p>';
 }
 
-if($objetType == "coach"){
+if($controleur == "coach"){
     echo '<br><h3>Lien pour créer : <a href = "../web/controleurFrontal.php?controleur=utilisateur&action=afficherFormulaireCreation">Ici</a> </h3>';
 } else {
-    echo '<br><h3>Lien pour créer : <a href = "../web/controleurFrontal.php?controleur=' . $objetType . '&action=afficherFormulaireCreation">Ici</a> </h3>';
+    echo '<br><h3>Lien pour créer : <a href = "../web/controleurFrontal.php?controleur=' . $controleur . '&action=afficherFormulaireCreation">Ici</a> </h3>';
 }

@@ -16,7 +16,7 @@ abstract class ControleurService extends ControleurGenerique {
     abstract function supprimer();
     abstract function mettreAJour();
     abstract function construireDepuisFormulaire(array $tableauDonneesFormulaire): Services;
-    abstract public function afficherFormulaireMiseAJour();
+    abstract public static function afficherFormulaireMiseAJour();
 
     static function getControleur(): string {return static::$controleur;}
 
@@ -113,7 +113,7 @@ abstract class ControleurService extends ControleurGenerique {
             if ($service != NULL) {
                 self::afficherVue('vueGenerale.php', [
                     "titre" => "Détail du service",
-                    "cheminCorpsVue" => "service/detail" . ucfirst($service->getTypeService()) . ".php",
+                    "cheminCorpsVue" => "service/detail" . ucfirst($service->getControleur()) . ".php",
                     'service' => $service,
                     'controleur' => self::$controleur]);
             } else {
@@ -163,7 +163,7 @@ abstract class ControleurService extends ControleurGenerique {
             "titre" => "Service mis à jour",
             "cheminCorpsVue" => 'service/serviceMisAJour.php',
             'services' => $services,
-            'controleur' => 'analyseVideo'
+            'controleur' => $service->getControleur()
         ]);
     }
     
@@ -191,7 +191,9 @@ abstract class ControleurService extends ControleurGenerique {
 
     public static function afficherPanier() : void {
         $panier = Session::getInstance()->lire('panier');
-        self::afficherVue('vueGenerale.php',["titre" => "Panier", "cheminCorpsVue" => "service/panier.php", 'panier' => $panier, 'controleur'=>self::$controleur]);
+        self::afficherVue('vueGenerale.php',["titre" => "Panier", "cheminCorpsVue" => "service/panier.php",
+            'panier' => $panier,
+            'controleur'=> static::$controleur]);
     }
 
     public static function ajouterAuPanier() : void {

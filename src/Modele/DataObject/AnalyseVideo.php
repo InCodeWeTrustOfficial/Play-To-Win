@@ -34,7 +34,7 @@ class AnalyseVideo extends Services {
         $this->nbJourRendu = $nbJourRendu;
     }
 
-    public function getTypeService(): string {
+    public function getControleur(): string {
         return "analysevideo";
     }
 

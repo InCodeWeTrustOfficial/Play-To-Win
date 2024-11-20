@@ -7,6 +7,7 @@ use App\PlayToWin\Lib\MotDePasse;
 use App\PlayToWin\Lib\VerificationEmail;
 use App\PlayToWin\Modele\DataObject\Coach;
 use App\PlayToWin\Modele\DataObject\Jeu;
+use App\PlayToWin\Modele\DataObject\Services;
 use App\PlayToWin\Modele\DataObject\Utilisateur;
 use App\PlayToWin\Modele\Repository\Association\JouerRepository;
 use App\PlayToWin\Modele\Repository\Association\ParlerRepository;
@@ -24,35 +25,29 @@ class ControleurAdministrateur extends ControleurGenerique {
 
     public static function afficherListeUtilisateurs(): void {
         $utilisateurs = (new UtilisateurRepository())->recuperer();
-        $objetType = "utilisateur";
         self::afficherVue('vueGenerale.php', ["titre" => "Liste des utilisateurs",
             "cheminCorpsVue" => "administrateur/liste.php",
             'objets' => $utilisateurs,
-            'objetType' => $objetType,
-            'controleur' => self::$controleur]);
+            'controleur' => "utilisateur",]);
     }
 
     public static function afficherListeServices(): void {
         $services = array_merge((new AnalyseVideoRepository())->recuperer(), (new CoachingRepository())->recuperer());
 
-        $objetType = "service";
         self::afficherVue('vueGenerale.php', [
             "titre" => "Liste des services",
             "cheminCorpsVue" => "administrateur/liste.php",
             'objets' => $services,
-            'objetType' => $objetType,
-            'controleur' => self::$controleur]);
+            'controleur' => "service"]);
     }
 
     public static function afficherListeAnalyse() : void {
         $services = (new AnalyseVideoRepository())->recuperer();
 
-        $objetType = "analysevideo";
         self::afficherVue('vueGenerale.php',[
             "titre" => "Liste des services",
             "cheminCorpsVue" => "administrateur/liste.php",
             'objets' => $services,
-            'objetType' => $objetType,
             'controleur' => self::$controleur
         ]);
     }
@@ -60,18 +55,15 @@ class ControleurAdministrateur extends ControleurGenerique {
     public static function afficherListeCoaching() : void {
         $services = (new CoachingRepository())->recuperer();
 
-        $objetType = "coaching";
         self::afficherVue('vueGenerale.php',[
             "titre" => "Liste des services",
             "cheminCorpsVue" => "administrateur/liste.php",
             'objets' => $services,
-            'objetType' => $objetType,
             'controleur' => self::$controleur
         ]);
     }
 
     public static function afficherListeCoachs(): void {
-        $objetType = "coach";
         if(!isset($_REQUEST['jeu']) || $_REQUEST['jeu'] === 'rien'){
             $utilisateurs = (new CoachRepository())->recuperer();
         } else{
@@ -106,8 +98,7 @@ class ControleurAdministrateur extends ControleurGenerique {
         self::afficherVue('vueGenerale.php',["titre" => "Liste des utilisateurs",
             "cheminCorpsVue" => "administrateur/liste.php",
             'objets'=>$utilisateurs,
-            'objetType' => $objetType,
-            'controleur'=>self::$controleur]);
+            'controleur'=>"coach"]);
     }
 
 }

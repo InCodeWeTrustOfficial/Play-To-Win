@@ -14,7 +14,7 @@ abstract class Services extends AbstractDataObject {
     private string $idCoach;
     private string $codeJeu;
 
-    abstract public function getTypeService(): ?string;
+    abstract public function getControleur(): ?string;
     abstract public function setAttributsEnfant(array $attribsEnfant);
     abstract public function getAttributsEnfants(): array;
 

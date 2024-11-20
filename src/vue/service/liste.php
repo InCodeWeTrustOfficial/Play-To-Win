@@ -37,7 +37,7 @@ echo "<h2>Liste des services proposés</h2>";
                     endif;
                     ?>
                 </div>
-                <div class="service-price"><?php echo $service->getTypeService(); ?></div>
+                <div class="service-price"><?php echo $service->getControleur(); ?></div>
             </div>
         </a>
     <?php endforeach; ?>
