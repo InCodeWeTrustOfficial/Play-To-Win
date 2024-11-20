@@ -37,4 +37,14 @@ class AnalyseVideo extends Services {
     public function getTypeService(): string {
         return "analysevideo";
     }
+
+    public function setAttributsEnfant(array $attribsEnfant): void {
+        if (isset($attribsEnfant['nbJourRendu'])) {
+            $this->setNbJourRendu((int)$attribsEnfant['nbJourRendu']);
+        }
+    }
+
+    public function getAttributsEnfants(): array {
+        return ["nbJourRendu"];
+    }
 }

@@ -46,4 +46,14 @@ class Coaching extends Services {
     public function setDuree(int $duree): void {
         $this->duree = $duree;
     }
+
+    public function setAttributsEnfant(array $attribsEnfant): void {
+        if (isset($attribsEnfant['duree'])) {
+            $this->setDuree((int)$attribsEnfant['duree']);
+        }
+    }
+
+    public function getAttributsEnfants(): array {
+        return ["duree"];
+    }
 }

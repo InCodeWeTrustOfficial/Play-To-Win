@@ -2,10 +2,8 @@
 
 namespace App\PlayToWin\Controleur;
 
-use App\PlayToWin\Lib\ConnexionUtilisateur;
 use App\PlayToWin\Lib\GestionPanier;
 use App\PlayToWin\Lib\MessageFlash;
-use App\PlayToWin\Modele\DataObject\Coaching;
 use App\PlayToWin\Modele\DataObject\Services;
 use App\PlayToWin\Modele\HTTP\Session;
 use App\PlayToWin\Modele\Repository\Single\AnalyseVideoRepository;
@@ -15,6 +13,9 @@ use App\PlayToWin\Modele\Repository\Single\ServiceRepository;
 abstract class ControleurService extends ControleurGenerique {
 
     protected static string $controleur = 'service';
+    abstract function supprimer();
+    abstract function mettreAJour();
+    abstract function construireDepuisFormulaire(array $tableauDonneesFormulaire): Services;
     static function getControleur(): string {
         return self::$controleur;
     }
@@ -84,10 +85,16 @@ abstract class ControleurService extends ControleurGenerique {
             $codeService = $_REQUEST['id'];
             self::afficherVue('vueGenerale.php', [
                 "titre" => "Formulaire de MAJ",
-                "cheminCorpsVue" => 'service/formulaireMiseAJour' . ucfirst(static::getControleur()) . '.php',
+                "cheminCorpsVue" => 'service/formulaireMiseAJour.php',
                 'codeService' => $codeService,
-                'controleur' => self::$controleur]);
+                'controleur' => static::$controleur]);
         }
+    }
+
+    public static function afficherFormulaireCreation() : void {
+        self::afficherVue('vueGenerale.php', [
+            "titre" => "Proposition services",
+            "cheminCorpsVue" => 'service/formulaireCreation.php']);
     }
 
     public static function afficherDetail() : void {
@@ -103,7 +110,11 @@ abstract class ControleurService extends ControleurGenerique {
             }
 
             if ($service != NULL) {
-                self::afficherVue('vueGenerale.php', ["titre" => "Détail du service", "cheminCorpsVue" => "service/detail" . ucfirst($service->getTypeService()) . ".php", 'service' => $service, 'controleur' => self::$controleur]);
+                self::afficherVue('vueGenerale.php', [
+                    "titre" => "Détail du service",
+                    "cheminCorpsVue" => "service/detail" . ucfirst($service->getTypeService()) . ".php",
+                    'service' => $service,
+                    'controleur' => self::$controleur]);
             } else {
                 MessageFlash::ajouter("danger", "Service introuvable : $codeService.");
                 self::afficherErreur($codeService);
@@ -111,7 +122,7 @@ abstract class ControleurService extends ControleurGenerique {
         }
     }
 
-    protected static function supprimer(ServiceRepository $repo) : void {
+    protected static function supprimerUtils(ServiceRepository $repo) : void {
         if (!isset($_REQUEST['id'])) {
             self::afficherErreur("codeService inexistant !");
         } else {
@@ -126,10 +137,10 @@ abstract class ControleurService extends ControleurGenerique {
         }
     }
 
-    public static function mettreAJour(ServiceRepository $repo): void {
+    protected static function mettreAJourUtil(ServiceRepository $repo): void {
 
         $codeService = $_REQUEST['id'];
-        $service = $repo->recupererParClePrimaire($codeService);
+        $service = (new $repo)->recupererParClePrimaire($codeService);
 
         if ($service === null) {
             self::afficherErreur("Service non trouvé !");
@@ -140,11 +151,12 @@ abstract class ControleurService extends ControleurGenerique {
         $service->setDescriptionService($_REQUEST['description']);
         $service->setCodeJeu($_REQUEST['jeu']);
         $service->setPrixService((float) $_REQUEST['prix']);
-        $service->setDuree((int) $_REQUEST['duree']);
+        $service->setAttributsEnfant($_REQUEST[$service->getAttributsEnfants()]);
+
 
         $repo->mettreAJour($service);
 
-        $services = (new CoachingRepository())->recuperer();
+        $services = (new $repo)->recuperer();
 
         self::afficherVue('vueGenerale.php', [
             "titre" => "Service mis à jour",
@@ -153,16 +165,12 @@ abstract class ControleurService extends ControleurGenerique {
             'controleur' => 'analyseVideo'
         ]);
     }
-
-    /**
-     * Permet a l'utilisateur de proposer un services (coaching / analyse vidéo)
-     * @return void
-     */
-    public static function creerDepuisFormulaire(): void {
+    
+    protected static function creerDepuisFormulaireUtil(ServiceRepository $repo): void {
         try {
-            $service = self::construireDepuisFormulaire($_REQUEST);
+            $service = static::construireDepuisFormulaire($_REQUEST);
 
-            (new CoachingRepository())->ajouter($service);
+            (new $repo())->ajouter($service);
 
             MessageFlash::ajouter("success", "Service ajouter");
             self::redirectionVersURL("afficherPanier", self::$controleur);
@@ -170,35 +178,6 @@ abstract class ControleurService extends ControleurGenerique {
         } catch (\Exception $e) {
             self::afficherErreur("Une erreur est survenue lors de la création du service : " . $e->getMessage());
         }
-    }
-
-    /**
-     * Construit un objet service en fonction du formulaire rempli par l'utilisateur.
-     * @param array $tableauDonneesFormulaire
-     * @return Services|null
-     */
-    private static function construireDepuisFormulaire(array $tableauDonneesFormulaire): Services {
-
-        $nomService = $tableauDonneesFormulaire['nom_services'];
-        $descriptionService = $tableauDonneesFormulaire['description'];
-        $codeJeu = $tableauDonneesFormulaire['jeu'];
-        $prix = $tableauDonneesFormulaire['prix'];
-        $coach = ConnexionUtilisateur::getIdUtilisateurConnecte();
-        $duree = $tableauDonneesFormulaire['duree'];
-
-        return new Coaching (
-            null,
-            $nomService,
-            $descriptionService,
-            $prix,
-            $coach,
-            $codeJeu,
-            $duree
-        );
-    }
-
-    public static function afficherFormulaireCreation() : void {
-        self::afficherVue('vueGenerale.php', ["titre" => "Proposition services", "cheminCorpsVue" => 'service/formulaireCreation.php']);
     }
 
     public static function afficherErreur(string $messageErreur = ""): void {
