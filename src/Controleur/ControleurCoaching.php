@@ -15,13 +15,7 @@ class ControleurCoaching extends ControleurService {
     protected static string $controleur = "coaching";
 
     public static function supprimer() : void {
-        if (!isset($_REQUEST['codeService'])) {
-            self::afficherErreur("codeService inexistant !");
-        } else {
-            (new CoachingRepository())->supprimer($_REQUEST['codeService']);
-            $services = (new CoachingRepository())->recuperer();
-            self::afficherVue('vueGenerale.php', ["titre" => "Suppression analyse video", "cheminCorpsVue" => 'service/serviceSupprime.php','services' => $services, 'codeService' => $_REQUEST['codeService'], 'controleur' => self::$controleur]);
-        }
+        parent::supprimer((new CoachingRepository()));
     }
 
     public static function mettreAJour(): void {
