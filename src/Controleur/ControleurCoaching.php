@@ -22,8 +22,8 @@ class ControleurCoaching extends ControleurService {
         parent::mettreAJourUtil((new CoachingRepository()));
     }
 
-    function afficherFormulaireMiseAJour() {
-        parent::afficherFormulaireMiseAJourUtil((new CoachingRepository()));
+    public static function afficherFormulaireMiseAJour() {
+        parent::afficherFormulaireMiseAJourUtil(new CoachingRepository());
     }
 
     /**

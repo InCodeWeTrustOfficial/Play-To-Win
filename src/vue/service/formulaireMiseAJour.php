@@ -1,17 +1,15 @@
 <?php
-/** @var int $codeService */
+/** @var int $id */
 /** @var ServiceRepository $repo */
-use App\PlayToWin\Modele\Repository\Single\AnalyseVideoRepository;
-use App\PlayToWin\Modele\Repository\Single\ServiceRepository;
-
-$service = $repo->recupererParClePrimaire($codeService);
+/** @var String $controleur */
+/** @var Services $service */
 
 ?>
 
 <form method="get" action="controleurFrontal.php">
     <input type='hidden' name='action' value='mettreAJour'>
     <input type='hidden' name='controleur' value='<?= $service->getControleur() ?>'>
-    <input type='hidden' name='id' value='<?= $codeService ?>'>
+    <input type='hidden' name='id' value='<?= $id ?>'>
     <fieldset>
         <legend>Modifier l'analyse Vidéo :</legend>
 
@@ -33,10 +31,7 @@ $service = $repo->recupererParClePrimaire($codeService);
             </select>
         </p>
 
-        <p class="InputAddOn" id="nbJourRendu_champ">
-            <label class="InputAddOn-item" for="nbJourRendu_id">Nombre de jours avant le rendu</label>
-            <input class="InputAddOn-field" type="number" name="nbJourRendu" id="nbJourRendu_id" placeholder="<?= $service->getNbJourRendu() ?>" min="1" required/>
-        </p>
+        <?php require 'formulaireMiseAJour' . ucfirst($controleur) . '.php' ?>
 
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="prix_id">Prix</label>

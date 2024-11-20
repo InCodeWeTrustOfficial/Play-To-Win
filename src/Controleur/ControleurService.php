@@ -83,10 +83,14 @@ abstract class ControleurService extends ControleurGenerique {
             self::afficherErreur("Erreur, le service n'existe pas !");
         } else {
             $codeService = $_REQUEST['id'];
+
+            $service = $repo->recupererParClePrimaire($codeService);
+
             self::afficherVue('vueGenerale.php', [
                 "titre" => "Formulaire de MAJ",
                 "cheminCorpsVue" => 'service/formulaireMiseAJour.php',
-                'codeService' => $codeService,
+                'id' => $codeService,
+                'service' => $service,
                 'serviceRepo' => $repo,
                 'controleur' => static::$controleur]);
         }
