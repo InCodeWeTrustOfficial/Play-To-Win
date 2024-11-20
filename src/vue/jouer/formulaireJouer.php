@@ -15,7 +15,7 @@ use App\PlayToWin\Modele\DataObject\Jeu;
         <legend>Mon formulaire :</legend>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="jeu_id">Sélectionnez votre jeu:</label>
-            <select name="jeu" id="jeu_id" required onchange="this.form.submit()">
+            <select name="jeu" id="jeu_id" onchange="this.form.submit()">
                 <?php
                     if ($jeu === null) {
                         echo '<option value="rien" selected="selected">Jeu...?</option>';
@@ -36,7 +36,7 @@ use App\PlayToWin\Modele\DataObject\Jeu;
         }
         ?>
         <p>
-            <input type="submit" value="Valider le jeu" onclick="changeActionValue()"/>
+            <input type="submit" value="Valider le jeu" onclick="changeActionValue()">
         </p>
     </fieldset>
 </form>

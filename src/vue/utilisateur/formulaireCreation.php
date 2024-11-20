@@ -36,11 +36,11 @@
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="mdp_id">Mot de passe&#42;</label>
-            <input class="InputAddOn-field" type="password" value="" placeholder="" name="mdp" id="mdp_id" required>
+            <input class="InputAddOn-field" type="password" value="" placeholder="" name="mdp" id="mdp_id" maxlength="128" required>
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="mdp2_id">Vérification du mot de passe&#42;</label>
-            <input class="InputAddOn-field" type="password" value="" placeholder="" name="mdp2" id="mdp2_id" required>
+            <input class="InputAddOn-field" type="password" value="" placeholder="" name="mdp2" id="mdp2_id" maxlength="128" required>
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="lang_id">Sélectionnez votre langue principale</label>

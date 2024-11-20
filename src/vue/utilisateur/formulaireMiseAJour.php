@@ -39,16 +39,16 @@ $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($id);
 
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="amdp_id">Ancien mot de passe&#42;</label>
-            <input class="InputAddOn-field" type="password" value="" placeholder="" name="amdp" id="amdp_id" required>
+            <input class="InputAddOn-field" type="password" value="" placeholder="" name="amdp" id="amdp_id" maxlength="128" required>
         </p>
 
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="mdp_id">Nouveau Mot de passe&#42;</label>
-            <input class="InputAddOn-field" type="password" value="" placeholder="" name="mdp" id="mdp_id" required>
+            <input class="InputAddOn-field" type="password" value="" placeholder="" name="mdp" id="mdp_id" maxlength="128" required>
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="mdp2_id">Vérification du nouveau mot de passe&#42;</label>
-            <input class="InputAddOn-field" type="password" value="" placeholder="" name="mdp2" id="mdp2_id" required>
+            <input class="InputAddOn-field" type="password" value="" placeholder="" name="mdp2" id="mdp2_id" maxlength="128" required>
         </p>
 
         <?php

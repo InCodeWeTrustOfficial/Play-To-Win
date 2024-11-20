@@ -8,7 +8,7 @@ use App\PlayToWin\Modele\DataObject\Jeu;
 
 <p class="InputAddOn">
     <label class="InputAddOn-item" for="class_id">Classement</label>
-    <select name="class" id="class_id" required>
+    <select name="class" id="class_id">
         <?php
 
         echo '<option value="rien" selected="selected">Classement...?</option>';

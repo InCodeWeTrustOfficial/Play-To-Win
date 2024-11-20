@@ -11,7 +11,7 @@ use App\PlayToWin\Modele\DataObject\Jeu;
 ?>
 <p class="InputAddOn">
     <label class="InputAddOn-item" for="mode_id">Mode</label>
-    <select name="mode" id="mode_id" required>
+    <select name="mode" id="mode_id">
         <?php
 
         echo '<option value="rien" selected="selected">Mode...?</option>';

@@ -127,6 +127,18 @@ class ControleurUtilisateur extends ControleurGenerique {
             MessageFlash::ajouter("danger","Informations manquantes");
             self::redirectionVersURL();
         } else {
+            $id = $_REQUEST['id'];
+            $nom = $_REQUEST['nom'];
+            $prenom = $_REQUEST['prenom'];
+            $pseudo = $_REQUEST['pseudo'];
+            $email = $_REQUEST['email'];
+
+            if(strlen($id) > 32 || strlen($nom) > 32 || strlen($prenom) > 32 || strlen($pseudo) > 32 || strlen($email) > 256){
+                MessageFlash::ajouter("danger","Les données sont invalides");
+                self::redirectionVersURL("afficherListe",self::$controleur);
+                return;
+            }
+
             if ($_REQUEST["mdp"] != $_REQUEST["mdp2"]) {
                 MessageFlash::ajouter("warning", "Mots de passe distincts");
                 self::redirectionVersURL("afficherFormulaireCreation", self::$controleur);
@@ -181,6 +193,19 @@ class ControleurUtilisateur extends ControleurGenerique {
             MessageFlash::ajouter("danger","Informations non complètes.");
             self::redirectionVersURL("afficherFormulaireMiseAJour",self::$controleur);
         } else {
+
+            $id = $_REQUEST['id'];
+            $nom = $_REQUEST['nom'];
+            $prenom = $_REQUEST['prenom'];
+            $pseudo = $_REQUEST['pseudo'];
+            $email = $_REQUEST['email'];
+
+            if(strlen($id) > 32 || strlen($nom) > 32 || strlen($prenom) > 32 || strlen($pseudo) > 32 || strlen($email) > 256){
+                MessageFlash::ajouter("danger","Les données sont invalides");
+                self::redirectionVersURL("afficherListe",self::$controleur);
+                return;
+            }
+
             /** @var Utilisateur $utilPossible */
             $utilPossible = (new UtilisateurRepository())->recupererParClePrimaire($_REQUEST['id']);
             if($utilPossible == null || ($utilPossible->getId() != ConnexionUtilisateur::getIdUtilisateurConnecte() && !ConnexionUtilisateur::estAdministrateur())){
