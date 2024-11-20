@@ -22,6 +22,9 @@ class VerificationEmail
         $lienValidationEmail = "$URLAbsolue?action=validerEmail&controleur=utilisateur&id=$idURL&nonce=$nonceURL";
         $corpsEmailHTML = "<a href=\"$lienValidationEmail\">Validation</a>";
 
+        // http://localhost/s3-projetweb/web/controleurFrontal.php?action=validerEmail&controleur=utilisateur&id=IDAINSERER&nonce=NONCEACOPIERCOLLER
+        //http://localhost/s3-projetweb/web/controleurFrontal.php?action=validerEmail&controleur=utilisateur&id=<h1>Hack&nonce=X6WQBd6FtxK1/tPfHXTeL9
+
         // Temporairement avant d'envoyer un vrai mail
         echo "Simulation d'envoi d'un mail<br> Destinataire : $destinataire<br> Sujet : $sujet<br> Corps : <br>$corpsEmailHTML";
 

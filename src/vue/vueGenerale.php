@@ -51,7 +51,11 @@
                 echo '
                 <a href="controleurFrontal.php?controleur=utilisateur&action=afficherFormulaireConnexion" class="login-button">
                     Se connecter
-                </a>';
+                </a>
+                <a href="controleurFrontal.php?controleur=utilisateur&action=afficherFormulaireCreation" class="login-button">
+                    Créer un compte
+                </a>
+                ';
             } else {
                 $ids = ConnexionUtilisateur::getIdUtilisateurConnecte();
                 $idURL = rawurlencode($ids);

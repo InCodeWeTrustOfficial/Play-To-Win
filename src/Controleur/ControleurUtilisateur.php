@@ -161,10 +161,13 @@ class ControleurUtilisateur extends ControleurGenerique {
             MessageFlash::ajouter("danger", "Login non valide.");
             self::redirectionVersURL();
         } else {
-            if (!ConnexionUtilisateur::estAdministrateur()) {
+            if (!ConnexionUtilisateur::estAdministrateur() && !ConnexionUtilisateur::estUtilisateur(ConnexionUtilisateur::getIdUtilisateurConnecte())) {
                 MessageFlash::ajouter("danger","Vous n'êtes pas le bon utilisateur.");
                 self::redirectionVersURL();
             } else {
+                if(ConnexionUtilisateur::estUtilisateur(ConnexionUtilisateur::getIdUtilisateurConnecte())){
+                    ConnexionUtilisateur::deconnecter();
+                }
                 (new UtilisateurRepository())->supprimer($_REQUEST['id']);
                 $idHtml = htmlspecialchars($_REQUEST['id']);
                 MessageFlash::ajouter("success", "Compte $idHtml supprimé !");
