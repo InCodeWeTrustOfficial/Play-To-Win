@@ -144,7 +144,7 @@ class ControleurUtilisateur extends ControleurGenerique {
 
 
                     (new UtilisateurRepository)->ajouter($utilisateur);
-                    (new ParlerRepository())->ajouterTuple($_REQUEST['id'],$_REQUEST["lang"]);
+                    (new ParlerRepository())->ajouterTuple(array($_REQUEST['id'],$_REQUEST["lang"]));
                     MessageFlash::ajouter("success", "Compte créé !");
                     if (!ConnexionUtilisateur::estConnecte()) {
                         ConnexionUtilisateur::connecter($utilisateur->getId());
