@@ -46,5 +46,9 @@ class ConnexionUtilisateur
             return false;
         }
     }
+
+    public static function estBonUtilisateur(string $id) : bool{
+        return (ConnexionUtilisateur::estAdministrateur() || ConnexionUtilisateur::estUtilisateur($id));
+    }
 }
 
