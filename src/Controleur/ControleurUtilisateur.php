@@ -25,7 +25,7 @@ class ControleurUtilisateur extends ControleurGenerique {
 
         $id = $_REQUEST['id'];
         $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($id);
-        if ($utilisateur != NULL) {
+        if ($utilisateur !== NULL) {
             self::afficherVue('vueGenerale.php', ["titre" => "Détail des utilisateurs", "cheminCorpsVue" => "utilisateur/detail.php", 'utilisateur' => $utilisateur, 'controleur' => self::$controleur]);
         } else {
             $idHTML = htmlspecialchars($id);
@@ -50,16 +50,14 @@ class ControleurUtilisateur extends ControleurGenerique {
 
         if (self::existePasRequest(["id"], "Login non valide.")) return;
 
-        if (!ConnexionUtilisateur::estUtilisateur($_REQUEST['id']) && !ConnexionUtilisateur::estAdministrateur()) {
-            MessageFlash::ajouter("danger", "Formulaire restreint à l'utilisateur connecté.");
-            self::redirectionVersURL("afficherListe", self::$controleur);
-        } else {
-            $id = $_REQUEST['id'];
-            if (!ConnexionUtilisateur::estAdministrateur()) {
-                $id = ConnexionUtilisateur::getIdUtilisateurConnecte();
-            }
-            self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'utilisateur/formulaireMiseAJour.php', 'id' => $id, 'controleur' => self::$controleur]);
+        $id = $_REQUEST['id'];
+        if (self::nestPasBonUtilisateur($id,"afficherListe", self::$controleur)) return;
+
+        if (!ConnexionUtilisateur::estAdministrateur()) {
+            $id = ConnexionUtilisateur::getIdUtilisateurConnecte();
         }
+        self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'utilisateur/formulaireMiseAJour.php', 'id' => $id, 'controleur' => self::$controleur]);
+
 
     }
 
@@ -67,16 +65,13 @@ class ControleurUtilisateur extends ControleurGenerique {
 
         if (self::existePasRequest(["id"], "Login non valide.")) return;
 
-        if (!ConnexionUtilisateur::estUtilisateur($_REQUEST['id']) && !ConnexionUtilisateur::estAdministrateur()) {
-            MessageFlash::ajouter("danger", "Formulaire restreint à l'utilisateur connecté.");
-            self::redirectionVersURL("afficherListe", self::$controleur);
-        } else {
-            $id = $_REQUEST['id'];
-            if (!ConnexionUtilisateur::estAdministrateur()) {
-                $id = ConnexionUtilisateur::getIdUtilisateurConnecte();
-            }
-            self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'utilisateur/formulaireAvatar.php', 'id' => $id]);
+        $id = $_REQUEST['id'];
+        if (self::nestPasBonUtilisateur($id,"afficherListe", self::$controleur)) return;
+
+        if (!ConnexionUtilisateur::estAdministrateur()) {
+            $id = ConnexionUtilisateur::getIdUtilisateurConnecte();
         }
+        self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'utilisateur/formulaireAvatar.php', 'id' => $id]);
 
     }
 
@@ -166,18 +161,17 @@ class ControleurUtilisateur extends ControleurGenerique {
 
         if (self::existePasRequest(["id"], "Login non valide.")) return;
 
-        if (!ConnexionUtilisateur::estAdministrateur() && !ConnexionUtilisateur::estUtilisateur(ConnexionUtilisateur::getIdUtilisateurConnecte())) {
-            MessageFlash::ajouter("danger", "Vous n'êtes pas le bon utilisateur.");
-            self::redirectionVersURL();
-        } else {
-            if (ConnexionUtilisateur::estUtilisateur(ConnexionUtilisateur::getIdUtilisateurConnecte())) {
-                ConnexionUtilisateur::deconnecter();
-            }
-            (new UtilisateurRepository())->supprimer($_REQUEST['id']);
-            $idHtml = htmlspecialchars($_REQUEST['id']);
-            MessageFlash::ajouter("success", "Compte $idHtml supprimé !");
-            self::redirectionVersURL("afficherListe", self::$controleur);
+        $id = $_REQUEST["id"];
+        if (self::nestPasBonUtilisateur($id)) return;
+
+        if (ConnexionUtilisateur::estUtilisateur(ConnexionUtilisateur::getIdUtilisateurConnecte())) {
+            ConnexionUtilisateur::deconnecter();
         }
+        (new UtilisateurRepository())->supprimer($_REQUEST['id']);
+        $idHtml = htmlspecialchars($id);
+        MessageFlash::ajouter("success", "Compte $idHtml supprimé !");
+        self::redirectionVersURL("afficherListe", self::$controleur);
+
     }
 
     public static function mettreAJour() : void{
@@ -185,6 +179,8 @@ class ControleurUtilisateur extends ControleurGenerique {
         if (self::existePasRequest(["id", "nom", "prenom", "pseudo", "date", "amdp", "mdp", "mdp2"], "Informations non complètes.")) return;
 
         $id = $_REQUEST['id'];
+        if (self::nestPasBonUtilisateur($id)) return;
+
         $nom = $_REQUEST['nom'];
         $prenom = $_REQUEST['prenom'];
         $pseudo = $_REQUEST['pseudo'];
@@ -246,58 +242,54 @@ class ControleurUtilisateur extends ControleurGenerique {
 
         if (self::existePasRequest(["id", "mdp"], "Informations non complètes.")) return;
 
-        if (!ConnexionUtilisateur::estAdministrateur() && !ConnexionUtilisateur::estUtilisateur($_REQUEST['id'])) {
-            MessageFlash::ajouter("danger", "Utilisateur non valide.");
-            self::redirectionVersURL();
+        $id = $_REQUEST['id'];
+        if (self::nestPasBonUtilisateur($id,"afficherListe", self::$controleur)) return;
+
+        $idUrl = rawurlencode($id);
+        /** @var Utilisateur $utilisateur */
+        $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($id);
+        if (!ConnexionUtilisateur::estAdministrateur() && !MotDePasse::verifier($_REQUEST['mdp'], $utilisateur->getMdpHache())) {
+            MessageFlash::ajouter("warning", "Mot de passe incorrect !");
+            self::redirectionVersURL("afficherFormulaireAvatar&id=$idUrl", self::$controleur);
         } else {
-            $id = $_REQUEST['id'];
-            $idUrl = rawurlencode($id);
-            /** @var Utilisateur $utilisateur */
-            $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($id);
-            if (!ConnexionUtilisateur::estAdministrateur() && !MotDePasse::verifier($_REQUEST['mdp'], $utilisateur->getMdpHache())) {
-                MessageFlash::ajouter("warning", "Mot de passe incorrect !");
-                self::redirectionVersURL("afficherFormulaireAvatar&id=$idUrl", self::$controleur);
+            if (!(!empty($_FILES[$id]) && is_uploaded_file($_FILES[$id]['tmp_name']))) {
+                MessageFlash::ajouter("warning", "Problème avec le fichier.");
+                self::redirectionVersURL();
             } else {
-                if (!(!empty($_FILES[$id]) && is_uploaded_file($_FILES[$id]['tmp_name']))) {
-                    MessageFlash::ajouter("warning", "Problème avec le fichier.");
-                    self::redirectionVersURL();
+                $allowed_ext = array("jpg", "png");
+                $explosion = explode(".", $_FILES[$id]['name']);
+                $file_ext = end($explosion);
+
+                if (!in_array($file_ext, $allowed_ext)) {
+                    MessageFlash::ajouter("warning", "Les fichiers autorisés sont en .png et .jpg");
+                    self::redirectionVersURL("afficherFormulaireAvatar&id=$idUrl", self::$controleur);
                 } else {
-                    $allowed_ext = array("jpg", "png");
-                    $explosion = explode(".", $_FILES[$id]['name']);
-                    $file_ext = end($explosion);
+                    $pic_path = __DIR__ . "/../../ressources/img/uploads/pp_utilisateurs/$idUrl." . $file_ext;
 
-                    if (!in_array($file_ext, $allowed_ext)) {
-                        MessageFlash::ajouter("warning", "Les fichiers autorisés sont en .png et .jpg");
-                        self::redirectionVersURL("afficherFormulaireAvatar&id=$idUrl", self::$controleur);
+                    $other_ext = ($file_ext === "jpg") ? "png" : "jpg";
+                    $other_pic_path = __DIR__ . "/../../ressources/img/uploads/pp_utilisateurs/$idUrl." . $other_ext;
+
+                    if (file_exists($other_pic_path)) {
+                        unlink($other_pic_path);
+                    }
+
+                    if (!move_uploaded_file($_FILES[$id]['tmp_name'], $pic_path)) {
+                        MessageFlash::ajouter("info", $pic_path);
+                        MessageFlash::ajouter("danger", "Problème d'export d'image, peut-être un problème venant de votre fichier.");
+                        self::redirectionVersURL();
                     } else {
-                        $pic_path = __DIR__ . "/../../ressources/img/uploads/pp_utilisateurs/$idUrl." . $file_ext;
-
-                        $other_ext = ($file_ext === "jpg") ? "png" : "jpg";
-                        $other_pic_path = __DIR__ . "/../../ressources/img/uploads/pp_utilisateurs/$idUrl." . $other_ext;
-
-                        if (file_exists($other_pic_path)) {
-                            unlink($other_pic_path);
-                        }
-
-                        if (!move_uploaded_file($_FILES[$id]['tmp_name'], $pic_path)) {
-                            MessageFlash::ajouter("info", $pic_path);
-                            MessageFlash::ajouter("danger", "Problème d'export d'image, peut-être un problème venant de votre fichier.");
-                            self::redirectionVersURL();
-                        } else {
-                            MessageFlash::ajouter("success", "Changement de votre photo de profil!");
-                            self::redirectionVersURL("afficherDetail&id=$idUrl", self::$controleur);
-                        }
+                        MessageFlash::ajouter("success", "Changement de votre photo de profil!");
+                        self::redirectionVersURL("afficherDetail&id=$idUrl", self::$controleur);
                     }
                 }
             }
-
         }
+
     }
 
     public static function validerEmail(): void {
 
         if (self::existePasRequest(["id", "nonce"], "Ce lien est malheureusement invalide.")) return;
-
 
         if (!VerificationEmail::traiterEmailValidation($_REQUEST['id'], $_REQUEST['nonce'])) {
             MessageFlash::ajouter("warning", "Lien non valide!");

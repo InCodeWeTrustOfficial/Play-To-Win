@@ -3,6 +3,7 @@
 namespace App\PlayToWin\Controleur;
 
 use App\PlayToWin\Configuration\ConfigurationSite;
+use App\PlayToWin\Lib\ConnexionUtilisateur;
 use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Lib\PreferenceControleur;
 
@@ -48,6 +49,17 @@ abstract class ControleurGenerique {
             MessageFlash::ajouter("danger",$message);
             static::redirectionVersURL($url,$controleur);
         }
+        return $verif;
+    }
+
+    protected static function nestPasBonUtilisateur(string $id,string $url = null, string $controleur = null) : bool{
+        $verif = !(ConnexionUtilisateur::estAdministrateur() || ConnexionUtilisateur::estUtilisateur($id));
+
+        if(!$verif){
+            MessageFlash::ajouter("danger","Vous n'avez pas les permissions nécessaires");
+            static::redirectionVersURL($url, $controleur);
+        }
+
         return $verif;
     }
 }

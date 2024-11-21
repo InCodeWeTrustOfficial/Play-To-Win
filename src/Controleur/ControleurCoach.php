@@ -76,62 +76,62 @@ class ControleurCoach extends ControleurGenerique {
 
         if (self::existePasRequest(["id"], "Aucun utilisateur.")) return;
 
-        if ((new CoachRepository())->estCoach($_REQUEST['id'])) {
-            $idHtml = htmlspecialchars($_REQUEST['id']);
+        $id = $_REQUEST["id"];
+        if (self::nestPasBonUtilisateur($id)) return;
+
+        if ((new CoachRepository())->estCoach($id)) {
+            $idHtml = htmlspecialchars($id);
             MessageFlash::ajouter("info", "Le coach $idHtml est déjà inscrit !");
         } else {
             /** @var Utilisateur $utilisateur */
-            $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($_REQUEST['id']);
-            if ($utilisateur == null) {
-                MessageFlash::ajouter("danger", "L'utilisateur n'existe pas.");
-            } else {
-                if (!(ConnexionUtilisateur::estConnecte() && (ConnexionUtilisateur::estUtilisateur($_REQUEST['id']) || ConnexionUtilisateur::estAdministrateur()))) {
-                    MessageFlash::ajouter("danger", "Vous n'avez pas la permission de faire ceci.");
-                    self::redirectionVersURL();
-                } else {
-                    if (ConnexionUtilisateur::estUtilisateur($_REQUEST['id']) && !VerificationEmail::aValideEmail($utilisateur) && !ConnexionUtilisateur::estAdministrateur()) {
-                        MessageFlash::ajouter("info", "Un coach doit avoir validé son mail.");
-                        self::redirectionVersURL("afficherDetail", "utilisateur");
-                    } else {
-                        self::afficherVue("vueGenerale.php", ["titre" => "Formulaire création coach", "cheminCorpsVue" => "coach/formulaireCreation.php", "utilisateur" => $utilisateur, "controleur" => self::$controleur]);
-                    }
-                }
-            }
-        }
+            $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($id);
 
+            if (!VerificationEmail::aValideEmail($utilisateur) && !ConnexionUtilisateur::estAdministrateur()) {
+                MessageFlash::ajouter("info", "Un coach doit avoir validé son mail.");
+                self::redirectionVersURL("afficherDetail", "utilisateur");
+            } else {
+                self::afficherVue("vueGenerale.php", ["titre" => "Formulaire création coach", "cheminCorpsVue" => "coach/formulaireCreation.php", "utilisateur" => $utilisateur, "controleur" => self::$controleur]);
+            }
+
+        }
     }
 
     public static function afficherFormulaireMiseAJour():void{
 
         if (self::existePasRequest(["id"], "Login inexistant.")) return;
 
-        if (!(ConnexionUtilisateur::estAdministrateur() || ConnexionUtilisateur::estUtilisateur($_REQUEST['id']))) {
-            MessageFlash::ajouter("danger", "Vous n'êtes pas le bon utilisateur.");
-        } else {
-            $coach = (new CoachRepository())->recupererParClePrimaire($_REQUEST['id']);
-            self::afficherVue("vueGenerale.php", ["titre" => "Mise a jour du coach", "cheminCorpsVue" => "coach/formulaireMiseAJour.php", "coach" => $coach]);
-        }
+        $id = $_REQUEST["id"];
+        if (self::nestPasBonUtilisateur($id)) return;
 
+        $coachRepo = new CoachRepository();
+
+        if (!$coachRepo->estCoach($id)) {
+            $idUrl = rawurlencode($id);
+            MessageFlash::ajouter("warning", "Vous n'êtes pas coach !");
+            self::redirectionVersURL("afficherFormulaireCreation&id=" . $idUrl, self::$controleur);
+        } else {
+            $coach = (new CoachRepository())->recupererParClePrimaire($id);
+            self::afficherVue("vueGenerale.php", ["titre" => "Mise à jour du coach", "cheminCorpsVue" => "coach/formulaireMiseAJour.php", "coach" => $coach]);
+        }
     }
     public static function afficherFormulaireBanniere() : void{
 
         if (self::existePasRequest(["id"], "Login non valide.")) return;
 
-        if (!ConnexionUtilisateur::estUtilisateur($_REQUEST['id']) && !ConnexionUtilisateur::estAdministrateur()) {
-            MessageFlash::ajouter("danger", "Formulaire restreint à l'utilisateur connecté.");
-            self::redirectionVersURL("afficherListe", self::$controleur);
+        $id = $_REQUEST["id"];
+        if (self::nestPasBonUtilisateur($id)) return;
+
+        if (!(new CoachRepository())->estCoach($id)) {
+            $idUrl = rawurlencode($id);
+            MessageFlash::ajouter("danger", "Vous n'êtes pas coach !");
+            self::redirectionVersURL("afficherFormulaireCreation&id=" . $idUrl, self::$controleur);
         } else {
-            $id = $_REQUEST['id'];
-            if (!(new CoachRepository())->estCoach($id)) {
-                MessageFlash::ajouter("danger", "Il faut logiquement être coach...");
-                self::redirectionVersURL();
-            } else {
-                if (!ConnexionUtilisateur::estAdministrateur()) {
-                    $id = ConnexionUtilisateur::getIdUtilisateurConnecte();
-                }
-                self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'coach/formulaireBanniere.php', 'id' => $id]);
+            if (!ConnexionUtilisateur::estAdministrateur()) {
+                $id = ConnexionUtilisateur::getIdUtilisateurConnecte();
             }
+            self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'coach/formulaireBanniere.php', 'id' => $id]);
         }
+
 
     }
 
@@ -139,19 +139,19 @@ class ControleurCoach extends ControleurGenerique {
 
         if (self::existePasRequest(["id", "pseudo", "biographie", "mdp"], "Il manque des informations.")) return;
 
+        $id = $_REQUEST["id"];
+        if (self::nestPasBonUtilisateur($id)) return;
+
         /** @var Utilisateur $utilisateur */
-        $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire(ConnexionUtilisateur::getIdUtilisateurConnecte());
-        $idUrl = rawurlencode($_REQUEST['id']);
+        $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($id);
+        $idUrl = rawurlencode($id);
         if (!ConnexionUtilisateur::estAdministrateur() && !MotDePasse::verifier($_REQUEST['mdp'], $utilisateur->getMdpHache())) {
             MessageFlash::ajouter("warning", "Mot de passe incorect");
             self::redirectionVersURL("afficherFormulaireCreation&id=$idUrl", self::$controleur);
         } else {
             $coach = self::construireDepuisFormulaire($_REQUEST);
             (new CoachRepository())->ajouter($coach);
-            $msg = "Vous êtes dorénavant enregistré en tant que coach";
-            if (ConnexionUtilisateur::estAdministrateur()) {
-                $msg = "Enregistrement du nouveau coach";
-            }
+            $msg = (ConnexionUtilisateur::estAdministrateur())?"Enregistrement du nouveau coach":"Vous êtes dorénavant enregistré en tant que coach";
             MessageFlash::ajouter("success", $msg);
             self::redirectionVersURL("afficherDetail&id=$idUrl", self::$controleur);
         }
@@ -162,37 +162,39 @@ class ControleurCoach extends ControleurGenerique {
 
         if (self::existePasRequest(["id", "biographie", "mdp"], "Il manque des informations.")) return;
 
-        if (!(ConnexionUtilisateur::estAdministrateur() || ConnexionUtilisateur::estUtilisateur($_REQUEST['id']))) {
-            MessageFlash::ajouter("danger", "Vous n'êtes pas le bon utilisateur.");
-            self::redirectionVersURL();
+        $id = $_REQUEST["id"];
+        if (self::nestPasBonUtilisateur($id)) return;
+
+        /** @var Coach $coach */
+        $coach = (new CoachRepository())->recupererParClePrimaire($id);
+        $idUrl = rawurlencode($id);
+        if (ConnexionUtilisateur::estUtilisateur($id) && !MotDePasse::verifier($_REQUEST['mdp'], $coach->getMdpHache())) {
+            MessageFlash::ajouter("warning", "Mot de passe incorrect.");
+            self::redirectionVersURL("afficherFormulaireMiseAJour&id=$idUrl", self::$controleur);
         } else {
-            /** @var Coach $coach */
-            $coach = (new CoachRepository())->recupererParClePrimaire($_REQUEST['id']);
-            $idUrl = rawurlencode($_REQUEST['id']);
-            if (ConnexionUtilisateur::estUtilisateur($_REQUEST['id']) && !MotDePasse::verifier($_REQUEST['mdp'], $coach->getMdpHache())) {
-                MessageFlash::ajouter("warning", "Mot de passe incorrect.");
-                self::redirectionVersURL("afficherFormulaireMiseAJour&id=$idUrl", self::$controleur);
-            } else {
-                $coach->setBiographie($_REQUEST['biographie']);
-                (new CoachRepository())->mettreAJour($coach);
-                MessageFlash::ajouter("success", "Informations mises à jour !");
-                self::redirectionVersURL("afficherDetail&id=$idUrl", self::$controleur);
-            }
+            $coach->setBiographie($_REQUEST['biographie']);
+            (new CoachRepository())->mettreAJour($coach);
+            MessageFlash::ajouter("success", "Informations mises à jour !");
+            self::redirectionVersURL("afficherDetail&id=$idUrl", self::$controleur);
         }
+
     }
 
     public static function mettreAJourBanniere():void{
 
         if(self::existePasRequest(["id","mdp"], "Informations non complètes.")) return;
 
-        if (!ConnexionUtilisateur::estAdministrateur() && !ConnexionUtilisateur::estUtilisateur($_REQUEST['id']) && !(new CoachRepository())->estCoach($_REQUEST['id'])) {
-            MessageFlash::ajouter("danger", "Utilisateur non valide.");
-            self::redirectionVersURL();
+        $id = $_REQUEST["id"];
+        if (self::nestPasBonUtilisateur($id)) return;
+        $idUrl = rawurlencode($id);
+
+        $coachRepo = new CoachRepository();
+        if (!$coachRepo->estCoach($id)) {
+            MessageFlash::ajouter("danger", "Vous n'êtes pas coach !");
+            self::redirectionVersURL("afficherFormulaireCreation&id=" . $idUrl, self::$controleur);
         } else {
-            $id = $_REQUEST['id'];
-            $idUrl = rawurlencode($id);
             /** @var Coach $coach */
-            $coach = (new CoachRepository())->recupererParClePrimaire($id);
+            $coach = $coachRepo->recupererParClePrimaire($id);
             if (!ConnexionUtilisateur::estAdministrateur() && !MotDePasse::verifier($_REQUEST['mdp'], $coach->getMdpHache())) {
                 MessageFlash::ajouter("warning", "Mot de passe incorrect !");
                 self::redirectionVersURL("afficherFormulaireBanniere&id=$idUrl", self::$controleur);
@@ -236,15 +238,16 @@ class ControleurCoach extends ControleurGenerique {
 
         if (self::existePasRequest(["id"], "Login non valide.")) return;
 
-        if (!ConnexionUtilisateur::estAdministrateur() && !ConnexionUtilisateur::estUtilisateur($_REQUEST['id'])) {
-            MessageFlash::ajouter("danger", "Vous n'êtes pas le bon utilisateur.");
-            self::redirectionVersURL();
-        } else {
-            (new CoachRepository())->supprimer($_REQUEST['id']);
-            $idHtml = htmlspecialchars($_REQUEST['id']);
-            MessageFlash::ajouter("success", "Compte $idHtml désinscrit des coachs !");
-            self::redirectionVersURL("afficherListe", "utilisateur");
-        }
+        $id = $_REQUEST["id"];
+        if (self::nestPasBonUtilisateur($id)) return;
+
+        $idHtml = htmlspecialchars($id);
+        $idUrl = rawurlencode($id);
+
+        (new CoachRepository())->supprimer($id);
+        MessageFlash::ajouter("success", "$idHtml désinscrit des coachs !");
+        self::redirectionVersURL("afficherDetail&id=.$idUrl", "utilisateur");
+
 
     }
 
