@@ -235,9 +235,6 @@ Coach page perso
 .noms h4:before{
     content : "@";
 }
-.noms a{
-
-}
 
 .bio{
     text-indent: 50px;
