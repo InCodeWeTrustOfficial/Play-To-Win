@@ -61,7 +61,7 @@ abstract class ControleurService extends ControleurGenerique {
     public static function afficherListeCoaching() : void {
         if (!isset($_REQUEST['id']) || empty($_REQUEST['id'])) {
             MessageFlash::ajouter("danger", "Erreur: ID du coach manquant ou vide!");
-            self::redirectionVersURL("afficherListe", "coach");
+            static::redirectionVersURL("afficherListe", "coach");
             return;
         }
 
@@ -178,7 +178,7 @@ abstract class ControleurService extends ControleurGenerique {
             (new $repo())->ajouter($service);
 
             MessageFlash::ajouter("success", "Service ajouter");
-            self::redirectionVersURL("afficherPanier", self::$controleur);
+            static::redirectionVersURL("afficherPanier", self::$controleur);
 
         } catch (\Exception $e) {
             self::afficherErreur("Une erreur est survenue lors de la création du service : " . $e->getMessage());
@@ -202,17 +202,17 @@ abstract class ControleurService extends ControleurGenerique {
 
     public static function ajouterAuPanier() : void {
         GestionPanier::ajouterAuPanier();
-        self::redirectionVersURL("afficherListe", 'coach');
+        static::redirectionVersURL("afficherListe", 'coach');
     }
 
     public static function modifierQuantite(): void {
         GestionPanier::modifierQuantite();
-        self::redirectionVersURL("afficherPanier", self::$controleur);
+        static::redirectionVersURL("afficherPanier", self::$controleur);
     }
 
     public static function supprimerProduit(): void {
         GestionPanier::supprimerProduit();
-        self::redirectionVersURL("afficherPanier", self::$controleur);
+        static::redirectionVersURL("afficherPanier", self::$controleur);
     }
 
 }
