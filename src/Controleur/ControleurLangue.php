@@ -92,7 +92,7 @@ class ControleurLangue extends ControleurGenerique{
                     self::redirectionVersURL("afficherDetail&id=" . $idUrl, "utilisateur");
                 } else {
                     $parlerRepo->ajouterTuple(array($id, $_REQUEST['lang']));
-                    MessageFlash::ajouter("success", "Vous parlez désormais le " . $lang->getNom());
+                    MessageFlash::ajouter("success", "Vous parlez désormais le " . htmlspecialchars($lang->getNom()));
                     self::redirectionVersURL("afficherDetail&id=" . $idUrl, "utilisateur");
                 }
             }

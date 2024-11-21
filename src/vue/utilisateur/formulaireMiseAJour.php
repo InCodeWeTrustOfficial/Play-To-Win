@@ -13,24 +13,24 @@ $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($id);
         <legend>Formulaire de modification :</legend>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="id_id">id</label>
-            <input class="InputAddOn-field" value="<?= $id ?>" readonly ="readonly" type="text" name="id" id="id_id" required>
+            <input class="InputAddOn-field" value="<?= htmlspecialchars($id) ?>" readonly ="readonly" type="text" name="id" id="id_id" required>
 
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="nom_id">Nom</label>
-            <input class="InputAddOn-field" type="text"  placeholder="<?= $utilisateur->getNom()?>" name="nom" id="nom_id" maxlength="32" required>
+            <input class="InputAddOn-field" type="text"  placeholder="<?= htmlspecialchars($utilisateur->getNom())?>" name="nom" id="nom_id" maxlength="32" required>
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="prenom_id">Prenom</label>
-            <input class="InputAddOn-field" type="text"  placeholder="<?= $utilisateur->getPrenom()?>" name="prenom" id="prenom_id" maxlength="32" required>
+            <input class="InputAddOn-field" type="text"  placeholder="<?= htmlspecialchars($utilisateur->getPrenom())?>" name="prenom" id="prenom_id" maxlength="32" required>
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="pseudo_id">Pseudo</label>
-            <input class="InputAddOn-field" type="text"  placeholder="<?= $utilisateur->getPseudo()?>" name="pseudo" id="pseudo_id" maxlength="32" required>
+            <input class="InputAddOn-field" type="text"  placeholder="<?= htmlspecialchars($utilisateur->getPseudo())?>" name="pseudo" id="pseudo_id" maxlength="32" required>
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="email_id">Email</label>
-            <input class="InputAddOn-field" type="text"  value="<?= $utilisateur->getEmail()?>" name="email" id="email_id" maxlength="256" required>
+            <input class="InputAddOn-field" type="text"  value="<?= htmlspecialchars($utilisateur->getEmail())?>" name="email" id="email_id" maxlength="256" required>
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="date_id">Date de naissance</label>

@@ -17,7 +17,7 @@ use App\PlayToWin\Modele\DataObject\Jeu;
 
         foreach ($class as $cl) {
             /** @var ClassementJeu $cl */
-            echo '<option value="' . $cl->getClassement()->getIdClassement() . '">' . $cl->getClassement()->getNomClassement() . '</option>';
+            echo '<option value="' . $cl->getClassement()->getIdClassement() . '">' . htmlspecialchars($cl->getClassement()->getNomClassement()) . '</option>';
         }
         ?>
     </select>

@@ -46,7 +46,7 @@ abstract class ControleurGenerique {
             }
         }
         if($verif){
-            MessageFlash::ajouter("danger",$message);
+            MessageFlash::ajouter("danger",htmlspecialchars($message));
             static::redirectionVersURL($url,$controleur);
         }
         return $verif;

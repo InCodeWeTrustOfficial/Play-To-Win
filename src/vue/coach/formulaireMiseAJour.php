@@ -14,11 +14,11 @@ use App\PlayToWin\Modele\Repository\Single\UtilisateurRepository;
         <legend>Formulaire de modification de coach :</legend>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="id_id">id</label>
-            <input class="InputAddOn-field" value="<?=$coach->getId()?>" readonly ="readonly" type="text" name="id" id="id_id" required>
+            <input class="InputAddOn-field" value="<?=htmlspecialchars(rawurlencode($coach->getId()))?>" readonly ="readonly" type="text" name="id" id="id_id" required>
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="biographie_id">Biographie</label>
-            <input class="InputAddOn-field" type="text" placeholder="<?= $coach->getBiographie() ?>" name="biographie" id="biographie_id" required>
+            <input class="InputAddOn-field" type="text" placeholder="<?= htmlspecialchars($coach->getBiographie()) ?>" name="biographie" id="biographie_id" required>
         </p>
 
         <p class="InputAddOn">

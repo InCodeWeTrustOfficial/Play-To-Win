@@ -88,13 +88,15 @@ $estCoach = (new CoachRepository())->estCoach($utilisateur->getId());
                 foreach ($jouer as $ligne){
                     /** @var ClassementJeu $classJeu */
                     $classJeu = (new SeClasserRepository())->recupererDepuisJouer($ligne);
+                    $modeHTML = htmlspecialchars($ligne[1]->getNomMode());
+                    $modeURL = rawurlencode($ligne[1]->getNomMode());
                     echo '<p class="ligne-jeu">
-                                    <small>'.$ligne[1]->getNomMode().'</small>
-                                    <img src="../'.$ligne[0]->getPathLogo().'" alt="'.$ligne[0]->getNomJeu().'">
+                                    <small>'.$modeHTML.'</small>
+                                    <img src="../'.$ligne[0]->getPathLogo().'" alt="'.htmlspecialchars($ligne[0]->getNomJeu()).'">
                                     <img class="classement" src="../'.$classJeu->getClassPath().'" alt="Classement">';
                     if($estBonUtilisateur){
-                        echo '<a href="../web/controleurFrontal.php?controleur=jouer&action=afficherModifJouer&id=' . $idURL . '&jeu='.$ligne[0]->getCodeJeu().'&mode='.$ligne[1]->getNomMode().'"> (Modif) </a>
-                                <a href="../web/controleurFrontal.php?controleur=jouer&action=supprimerJouer&id=' . $idURL . '&jeu='.$ligne[0]->getCodeJeu().'&mode='.$ligne[1]->getNomMode().'">X</a>';
+                        echo '<a href="../web/controleurFrontal.php?controleur=jouer&action=afficherModifJouer&id=' . $idURL . '&jeu='.$ligne[0]->getCodeJeu().'&mode='.$modeURL.'"> (Modif) </a>
+                                <a href="../web/controleurFrontal.php?controleur=jouer&action=supprimerJouer&id=' . $idURL . '&jeu='.$ligne[0]->getCodeJeu().'&mode='.$modeURL.'">X</a>';
                     }
                     echo "</p>";
                 }
@@ -116,10 +118,10 @@ $estCoach = (new CoachRepository())->estCoach($utilisateur->getId());
     <?php endif; ?>
     <div class="devCoach">
         <?php if($estCoach):?>
-        <a href = "../web/controleurFrontal.php?controleur=coach&action=afficherDetail&id=<?=$idURL?>">Voir la page coach</a>
+        <a href = "../web/controleurFrontal.php?controleur=coach&action=afficherDetail&id=<?=$idURL?>">voir la page coach</a>
         <?php endif;?>
         <?php if(!($estCoach || !$estBonUtilisateur)):?>
-        <a href = "../web/controleurFrontal.php?controleur=coach&action=afficherFormulaireCreation&id=<?=$idURL?>"> je souhaite devenir coach...</a>
+        <a href = "../web/controleurFrontal.php?controleur=coach&action=afficherFormulaireCreation&id=<?=$idURL?>">je souhaite devenir coach...</a>
         <?php endif;?>
     </div>
 </div>

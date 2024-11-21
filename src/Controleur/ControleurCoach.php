@@ -152,7 +152,7 @@ class ControleurCoach extends ControleurGenerique {
             $coach = self::construireDepuisFormulaire($_REQUEST);
             (new CoachRepository())->ajouter($coach);
             $msg = (ConnexionUtilisateur::estAdministrateur())?"Enregistrement du nouveau coach":"Vous êtes dorénavant enregistré en tant que coach";
-            MessageFlash::ajouter("success", $msg);
+            MessageFlash::ajouter("success", htmlspecialchars($msg));
             self::redirectionVersURL("afficherDetail&id=$idUrl", self::$controleur);
         }
 
@@ -221,7 +221,6 @@ class ControleurCoach extends ControleurGenerique {
                         }
 
                         if (!move_uploaded_file($_FILES[$id]['tmp_name'], $pic_path)) {
-                            MessageFlash::ajouter("info", $pic_path);
                             MessageFlash::ajouter("danger", "Problème d'export d'image, peut-être un problème venant de votre fichier.");
                             self::redirectionVersURL();
                         } else {

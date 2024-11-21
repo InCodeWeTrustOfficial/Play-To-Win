@@ -95,7 +95,7 @@ class SeClasserRepository extends AbstractAssociationRepository {
         $objet = $pdoStatement->fetch();
 
         if($objet == null) {
-            MessageFlash::ajouter("info",$sql);
+            //MessageFlash::ajouter("info",$sql);
             return null;
         }
         return $this->construireDepuisTableauSQL($objet);

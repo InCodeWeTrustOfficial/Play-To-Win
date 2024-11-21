@@ -49,7 +49,7 @@
                 echo '<option value="FR" selected="selected">Français</option>';
                 foreach ($langues as $l){
                     if($l->getCodeAlpha() != "FR"){
-                        echo '<option value="'.$l->getCodeAlpha().'">'.$l->getNom().'</option>';
+                        echo '<option value="'.$l->getCodeAlpha().'">'.htmlspecialchars($l->getNom()).'</option>';
                     }
                 }
                 ?>

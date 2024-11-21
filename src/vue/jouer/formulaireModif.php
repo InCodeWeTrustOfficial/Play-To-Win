@@ -9,14 +9,14 @@ use App\PlayToWin\Modele\DataObject\Jeu;
 <form method="<?php if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>" action="controleurFrontal.php">
     <input type='hidden' name='action' value='modifJouer'>
     <input type='hidden' name='controleur' value="jouer">
-    <input type='hidden' name="id" value="<?=$idUser?>">
+    <input type='hidden' name="id" value="<?=rawurlencode($idUser)?>">
     <input type = 'hidden' name="jeu" value="<?=$jeu->getCodeJeu()?>">
     <input type = 'hidden' name="mode" value="<?=$mode?>">
     <fieldset>
         <legend>Modification:</legend>
         <p class="InputAddOn">
-            Jeu : <?= $jeu->getNomJeu()?>
-            Mode : <?= $mode?>
+            Jeu : <?= htmlspecialchars($jeu->getNomJeu())?>
+            Mode : <?=htmlspecialchars($mode)?>
         </p>
         <?php
         require_once 'extClassement.php';

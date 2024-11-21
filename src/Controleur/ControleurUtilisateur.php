@@ -277,7 +277,6 @@ class ControleurUtilisateur extends ControleurGenerique {
                     }
 
                     if (!move_uploaded_file($_FILES[$id]['tmp_name'], $pic_path)) {
-                        MessageFlash::ajouter("info", $pic_path);
                         MessageFlash::ajouter("danger", "Problème d'export d'image, peut-être un problème venant de votre fichier.");
                         self::redirectionVersURL();
                     } else {

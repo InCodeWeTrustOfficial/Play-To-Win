@@ -36,7 +36,7 @@ abstract class AbstractRepository extends AbstractMain {
 
 
         if ($objetFormatTableau == null) {
-            MessageFlash::ajouter("warning","$sql $cle.");
+            //MessageFlash::ajouter("warning","$sql $cle.");
             return null;
         }
         return $this->construireDepuisTableauSQL($objetFormatTableau);
@@ -52,7 +52,7 @@ abstract class AbstractRepository extends AbstractMain {
 
             $pdoStatement->execute($values);
         }catch (PDOException $e){
-            MessageFlash::ajouter("danger",$e->getMessage());
+            //MessageFlash::ajouter("danger",$e->getMessage());
             $valide = false;
         }
         return $valide;
@@ -81,7 +81,7 @@ abstract class AbstractRepository extends AbstractMain {
             $values = $this -> formatTableauSQL($objet);
             $pdoStatement->execute($values);
         }catch (PDOException $e){
-            MessageFlash::ajouter("danger",$e->getMessage());
+            //MessageFlash::ajouter("danger",$e->getMessage());
             $valide = false;
         }
         return $valide;

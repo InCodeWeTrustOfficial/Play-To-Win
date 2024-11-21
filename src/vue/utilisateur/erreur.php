@@ -1,3 +1,3 @@
 <?php
 /** @var String $messageErreur */
-echo "message : $messageErreur";
+echo "message : ". htmlspecialchars($messageErreur);

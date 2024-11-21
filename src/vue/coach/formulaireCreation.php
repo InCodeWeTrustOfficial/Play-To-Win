@@ -12,11 +12,11 @@ use App\PlayToWin\Modele\Repository\Single\UtilisateurRepository;
         <legend>Formulaire d'inscription de coach :</legend>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="id_id">id</label>
-            <input class="InputAddOn-field" value="<?= $utilisateur->getId() ?>" readonly ="readonly" type="text" name="id" id="id_id" required>
+            <input class="InputAddOn-field" value="<?= htmlspecialchars(rawurlencode($utilisateur->getId())) ?>" readonly ="readonly" type="text" name="id" id="id_id" required>
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="pseudo_id">Pseudo</label>
-            <input class="InputAddOn-field" type="text" readonly="readonly" value="<?= $utilisateur->getPseudo()?>" name="pseudo" id="pseudo_id" required>
+            <input class="InputAddOn-field" type="text" readonly="readonly" value="<?= htmlspecialchars($utilisateur->getPseudo())?>" name="pseudo" id="pseudo_id" required>
         </p>
 
         <p class="InputAddOn">

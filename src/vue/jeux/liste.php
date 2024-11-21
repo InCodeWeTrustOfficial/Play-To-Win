@@ -17,7 +17,7 @@
         foreach ($jeux as $jeu) {
             echo '<div class="jeu-carte">';
             echo '<a href="../web/controleurFrontal.php?controleur=coach&action=afficherListe&jeu='.rawurlencode($jeu->getCodeJeu()).'"><img class="jeux" src="../' . $jeu->getPathLogo() . '" alt="icon">';
-            echo '<p>' . $jeu->getNomJeu() . '</p></a>';
+            echo '<p>' .htmlspecialchars($jeu->getNomJeu()) . '</p></a>';
             echo '</div>';
         }
         ?>
