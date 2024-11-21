@@ -32,4 +32,8 @@ class Coach extends Utilisateur {
         }
         return $this::$pathBannieres.$this->getId().$ext;
     }
+
+    public function getControleur(): string {
+        return "coach";
+    }
 }

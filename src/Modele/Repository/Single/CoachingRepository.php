@@ -34,7 +34,7 @@ class CoachingRepository extends ServiceRepository {
     function formatTableauSQLServices(AbstractDataObject $services) {
         /** @var Coaching $services */
         return array(
-            ":codeServiceTag" => $services->getCodeService(),
+            ":codeServiceTag" => $services->getId(),
             ":dureeTag" => $services->getDuree()
         );
     }

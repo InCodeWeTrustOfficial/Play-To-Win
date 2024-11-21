@@ -9,13 +9,12 @@ use App\PlayToWin\Modele\Repository\Single\CoachingRepository;
 class GestionPanier {
 
     public static function ajouterAuPanier() : void {
-        if (!isset($_REQUEST['codeService'])) {
+        if (!isset($_REQUEST['id'])) {
             MessageFlash::ajouter("danger", "Code du service manquant.");
-            self::redirectionVersURL("afficherListe", self::$controleur);
             return;
         }
 
-        $codeService = $_REQUEST['codeService'];
+        $codeService = $_REQUEST['id'];
         $service = (new AnalyseVideoRepository())->recupererParClePrimaire($codeService);
 
         if ($service == null) {
@@ -31,11 +30,11 @@ class GestionPanier {
                 MessageFlash::ajouter("info", "La quantité du service a été augmentée.");
             } else {
                 $panier[$codeService] = [
-                    'id' => $service->getCodeService(),
+                    'id' => $service->getId(),
                     'nom' => $service->getNomService(),
                     'prix' => $service->getPrixService(),
                     'quantite' => 1,
-                    'typeService' => $service->getTypeService()
+                    'typeService' => $service->getControleur()
                 ];
                 MessageFlash::ajouter("success", "Service ajouté au panier !");
             }
@@ -47,13 +46,12 @@ class GestionPanier {
     }
 
     public static function modifierQuantite(): void {
-        if (!isset($_REQUEST['codeService']) || !isset($_REQUEST['quantite'])) {
+        if (!isset($_REQUEST['id']) || !isset($_REQUEST['quantite'])) {
             MessageFlash::ajouter("danger", "Code du service ou quantité manquant.");
-            self::redirectionVersURL("afficherPanier", self::$controleur);
             return;
         }
 
-        $codeService = $_REQUEST['codeService'];
+        $codeService = $_REQUEST['id'];
         $quantite = (int)$_REQUEST['quantite'];
 
         $session = Session::getInstance();
@@ -75,13 +73,12 @@ class GestionPanier {
     }
 
     public static function supprimerProduit(): void {
-        if (!isset($_REQUEST['codeService'])) {
+        if (!isset($_REQUEST['id'])) {
             MessageFlash::ajouter("danger", "Code du service manquant.");
-            self::redirectionVersURL("afficherPanier", self::$controleur);
             return;
         }
 
-        $codeService = $_REQUEST['codeService'];
+        $codeService = $_REQUEST['id'];
         $session = Session::getInstance();
         $panier = $session->lire('panier');
 

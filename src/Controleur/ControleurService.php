@@ -4,24 +4,21 @@ namespace App\PlayToWin\Controleur;
 
 use App\PlayToWin\Lib\GestionPanier;
 use App\PlayToWin\Lib\MessageFlash;
+use App\PlayToWin\Modele\DataObject\Services;
 use App\PlayToWin\Modele\HTTP\Session;
 use App\PlayToWin\Modele\Repository\Single\AnalyseVideoRepository;
 use App\PlayToWin\Modele\Repository\Single\CoachingRepository;
+use App\PlayToWin\Modele\Repository\Single\ServiceRepository;
 
 abstract class ControleurService extends ControleurGenerique {
 
     protected static string $controleur = 'service';
-    abstract static function getControleur(): string;
-    abstract static function creerDepuisFormulaire(): void;
+    abstract function supprimer();
+    abstract function mettreAJour();
+    abstract function construireDepuisFormulaire(array $tableauDonneesFormulaire): Services;
+    abstract public static function afficherFormulaireMiseAJour();
 
-    public static function afficherListeTotal() : void {
-        $services = array_merge((new AnalyseVideoRepository())->recuperer(), (new CoachingRepository())->recuperer());
-        self::afficherVue('vueGenerale.php', [
-            "titre" => "Liste des services",
-            "cheminCorpsVue" => "service/liste.php",
-            'services' => $services,
-            'controleur' => self::$controleur]);
-    }
+    static function getControleur(): string {return static::$controleur;}
 
     public static function afficherListe() : void {
         if (isset($_REQUEST['id'])) {
@@ -64,7 +61,7 @@ abstract class ControleurService extends ControleurGenerique {
     public static function afficherListeCoaching() : void {
         if (!isset($_REQUEST['id']) || empty($_REQUEST['id'])) {
             MessageFlash::ajouter("danger", "Erreur: ID du coach manquant ou vide!");
-            self::redirectionVersURL("afficherListe", "coach");
+            static::redirectionVersURL("afficherListe", "coach");
             return;
         }
 
@@ -80,26 +77,37 @@ abstract class ControleurService extends ControleurGenerique {
         ]);
     }
 
-    public static function afficherFormulaireMiseAJour() : void {
-        if (!isset($_REQUEST['codeService'])) {
+    public static function afficherFormulaireMiseAJourUtil(ServiceRepository $repo) : void {
+        if (!isset($_REQUEST['id'])) {
             MessageFlash::ajouter("danger", "Erreur, le service n'existe pas !");
             self::afficherErreur("Erreur, le service n'existe pas !");
         } else {
-            $codeService = $_REQUEST['codeService'];
+            $codeService = $_REQUEST['id'];
+
+            $service = $repo->recupererParClePrimaire($codeService);
+
             self::afficherVue('vueGenerale.php', [
                 "titre" => "Formulaire de MAJ",
-                "cheminCorpsVue" => 'service/formulaireMiseAJour' . ucfirst(static::getControleur()) . '.php',
-                'codeService' => $codeService,
-                'controleur' => self::$controleur]);
+                "cheminCorpsVue" => 'service/formulaireMiseAJour.php',
+                'id' => $codeService,
+                'service' => $service,
+                'serviceRepo' => $repo,
+                'controleur' => static::$controleur]);
         }
     }
 
+    public static function afficherFormulaireCreation() : void {
+        self::afficherVue('vueGenerale.php', [
+            "titre" => "Proposition services",
+            "cheminCorpsVue" => 'service/formulaireCreation.php']);
+    }
+
     public static function afficherDetail() : void {
-        if (!isset($_REQUEST['codeService'])) {
+        if (!isset($_REQUEST['id'])) {
             MessageFlash::ajouter("danger", "Code service manquant.");
             self::afficherErreur("Code service manquant.");
         } else {
-            $codeService = $_REQUEST['codeService'];
+            $codeService = $_REQUEST['id'];
             $service = (new AnalyseVideoRepository())->recupererParClePrimaire($codeService);
 
             if ($service == NULL) {
@@ -107,7 +115,11 @@ abstract class ControleurService extends ControleurGenerique {
             }
 
             if ($service != NULL) {
-                self::afficherVue('vueGenerale.php', ["titre" => "Détail du service", "cheminCorpsVue" => "service/detail" . ucfirst($service->getTypeService()) . ".php", 'service' => $service, 'controleur' => self::$controleur]);
+                self::afficherVue('vueGenerale.php', [
+                    "titre" => "Détail du service",
+                    "cheminCorpsVue" => "service/detail" . ucfirst($service->getControleur()) . ".php",
+                    'service' => $service,
+                    'controleur' => self::$controleur]);
             } else {
                 MessageFlash::ajouter("danger", "Service introuvable : $codeService.");
                 self::afficherErreur($codeService);
@@ -115,8 +127,62 @@ abstract class ControleurService extends ControleurGenerique {
         }
     }
 
-    public static function afficherFormulaireProposerService() : void {
-        self::afficherVue('vueGenerale.php', ["titre" => "Proposition services", "cheminCorpsVue" => 'service/formulaireCreation.php']);
+    protected static function supprimerUtils(ServiceRepository $repo) : void {
+        if (!isset($_REQUEST['id'])) {
+            self::afficherErreur("codeService inexistant !");
+        } else {
+            $repo->supprimer($_REQUEST['id']);
+            $services = $repo->recuperer();
+            self::afficherVue('vueGenerale.php', [
+                "titre" => "Suppression ". $repo->getNomTableService(),
+                "cheminCorpsVue" => 'service/serviceSupprime.php',
+                'services' => $services,
+                'codeService' => $_REQUEST['codeService'],
+                'controleur' => static::getControleur()]);
+        }
+    }
+
+    protected static function mettreAJourUtil(ServiceRepository $repo): void {
+
+        $codeService = $_REQUEST['id'];
+        $service = (new $repo)->recupererParClePrimaire($codeService);
+
+        if ($service === null) {
+            self::afficherErreur("Service non trouvé !");
+            return;
+        }
+
+        $service->setNomService($_REQUEST['nom_services']);
+        $service->setDescriptionService($_REQUEST['description']);
+        $service->setCodeJeu($_REQUEST['jeu']);
+        $service->setPrixService((float) $_REQUEST['prix']);
+        $service->setAttributsEnfant($_REQUEST[$service->getAttributsEnfants()]);
+
+
+        $repo->mettreAJour($service);
+
+        $services = (new $repo)->recuperer();
+
+        self::afficherVue('vueGenerale.php', [
+            "titre" => "Service mis à jour",
+            "cheminCorpsVue" => 'service/serviceMisAJour.php',
+            'services' => $services,
+            'controleur' => $service->getControleur()
+        ]);
+    }
+    
+    protected static function creerDepuisFormulaireUtil(ServiceRepository $repo): void {
+        try {
+            $service = static::construireDepuisFormulaire($_REQUEST);
+
+            (new $repo())->ajouter($service);
+
+            MessageFlash::ajouter("success", "Service ajouter");
+            static::redirectionVersURL("afficherPanier", self::$controleur);
+
+        } catch (\Exception $e) {
+            self::afficherErreur("Une erreur est survenue lors de la création du service : " . $e->getMessage());
+        }
     }
 
     public static function afficherErreur(string $messageErreur = ""): void {
@@ -129,22 +195,24 @@ abstract class ControleurService extends ControleurGenerique {
 
     public static function afficherPanier() : void {
         $panier = Session::getInstance()->lire('panier');
-        self::afficherVue('vueGenerale.php',["titre" => "Panier", "cheminCorpsVue" => "service/panier.php", 'panier' => $panier, 'controleur'=>self::$controleur]);
+        self::afficherVue('vueGenerale.php',["titre" => "Panier", "cheminCorpsVue" => "service/panier.php",
+            'panier' => $panier,
+            'controleur'=> static::$controleur]);
     }
 
     public static function ajouterAuPanier() : void {
         GestionPanier::ajouterAuPanier();
-        self::redirectionVersURL("afficherListe", 'coach');
+        static::redirectionVersURL("afficherListe", 'coach');
     }
 
     public static function modifierQuantite(): void {
         GestionPanier::modifierQuantite();
-        self::redirectionVersURL("afficherPanier", self::$controleur);
+        static::redirectionVersURL("afficherPanier", self::$controleur);
     }
 
     public static function supprimerProduit(): void {
         GestionPanier::supprimerProduit();
-        self::redirectionVersURL("afficherPanier", self::$controleur);
+        static::redirectionVersURL("afficherPanier", self::$controleur);
     }
 
 }

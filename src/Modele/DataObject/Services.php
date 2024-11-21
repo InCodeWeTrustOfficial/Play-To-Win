@@ -14,7 +14,9 @@ abstract class Services extends AbstractDataObject {
     private string $idCoach;
     private string $codeJeu;
 
-    abstract public function getTypeService(): ?string;
+    abstract public function getControleur(): ?string;
+    abstract public function setAttributsEnfant(array $attribsEnfant);
+    abstract public function getAttributsEnfants(): array;
 
     /**
      * @param int $codeService
@@ -40,7 +42,7 @@ abstract class Services extends AbstractDataObject {
         $this->codeJeu = $codeJeu;
     }
 
-    public function getCodeService(): ?int {
+    public function getId(): ?int {
         return $this->codeService;
     }
 

@@ -14,61 +14,24 @@ class ControleurCoaching extends ControleurService {
 
     protected static string $controleur = "coaching";
 
-    public static function supprimer() : void {
-        if (!isset($_REQUEST['codeService'])) {
-            self::afficherErreur("codeService inexistant !");
-        } else {
-            (new CoachingRepository())->supprimer($_REQUEST['codeService']);
-            $services = (new CoachingRepository())->recuperer();
-            self::afficherVue('vueGenerale.php', ["titre" => "Suppression analyse video", "cheminCorpsVue" => 'service/serviceSupprime.php','services' => $services, 'codeService' => $_REQUEST['codeService'], 'controleur' => self::$controleur]);
-        }
+    public function supprimer() : void {
+        parent::supprimerUtils((new CoachingRepository()));
     }
 
-    public static function mettreAJour(): void {
+    public function mettreAJour(): void {
+        parent::mettreAJourUtil((new CoachingRepository()));
+    }
 
-        $codeService = $_REQUEST['codeService'];
-        $repository = new CoachingRepository();
-        $service = $repository->recupererParClePrimaire($codeService);
-
-        if ($service === null) {
-            self::afficherErreur("Service non trouvé !");
-            return;
-        }
-
-        $service->setNomService($_REQUEST['nom_services']);
-        $service->setDescriptionService($_REQUEST['description']);
-        $service->setCodeJeu($_REQUEST['jeu']);
-        $service->setPrixService((float) $_REQUEST['prix']);
-        $service->setDuree((int) $_REQUEST['duree']);
-
-        $repository->mettreAJour($service);
-
-        $services = (new CoachingRepository())->recuperer();
-
-        self::afficherVue('vueGenerale.php', [
-            "titre" => "Service mis à jour",
-            "cheminCorpsVue" => 'service/serviceMisAJour.php',
-            'services' => $services,
-            'controleur' => 'analyseVideo'
-        ]);
+    public static function afficherFormulaireMiseAJour() {
+        parent::afficherFormulaireMiseAJourUtil(new CoachingRepository());
     }
 
     /**
      * Permet a l'utilisateur de proposer un services (coaching / analyse vidéo)
      * @return void
      */
-    public static function creerDepuisFormulaire(): void {
-        try {
-            $service = self::construireDepuisFormulaire($_REQUEST);
-
-            (new CoachingRepository())->ajouter($service);
-
-            MessageFlash::ajouter("success", "Service ajouter");
-            self::redirectionVersURL("afficherPanier", self::$controleur);
-
-        } catch (\Exception $e) {
-            self::afficherErreur("Une erreur est survenue lors de la création du service : " . $e->getMessage());
-        }
+    public function creerDepuisFormulaire(): void {
+        parent::creerDepuisFormulaireUtil(new CoachingRepository());
     }
 
     /**
@@ -76,7 +39,7 @@ class ControleurCoaching extends ControleurService {
      * @param array $tableauDonneesFormulaire
      * @return Services|null
      */
-    private static function construireDepuisFormulaire(array $tableauDonneesFormulaire): Services {
+    public function construireDepuisFormulaire(array $tableauDonneesFormulaire): Services {
 
         $nomService = $tableauDonneesFormulaire['nom_services'];
         $descriptionService = $tableauDonneesFormulaire['description'];
