@@ -27,6 +27,7 @@ abstract class ControleurService extends ControleurGenerique {
                 (new AnalyseVideoRepository())->recupererParCoach($coachId),
                 (new CoachingRepository())->recupererParCoach($coachId)
             );
+
             self::afficherVue('vueGenerale.php', [
                 "titre" => "Liste des services",
                 "cheminCorpsVue" => "service/liste.php",
