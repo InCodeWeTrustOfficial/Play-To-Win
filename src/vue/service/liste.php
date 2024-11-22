@@ -11,7 +11,7 @@ echo "<h2>Liste des services proposés</h2>";
 <form action="controleurFrontal.php" method="get">
     <input type='hidden' name='action' id="action" value='afficherListe'>
     <input type='hidden' name='controleur' value='service'>
-    <input type='hidden' name='id' value='<?php echo htmlspecialchars($id); ?>'>
+    <input type='hidden' name='id' value='<?php echo rawurlencode($id); ?>'>
 
     <label id="service">Sélectionnez un service :</label>
     <select id="service_type_field" name="service_type_field" onchange="updateAction()">
@@ -26,9 +26,9 @@ echo "<h2>Liste des services proposés</h2>";
     <?php foreach ($services as $service): ?>
         <a class="detail-link" href="../web/controleurFrontal.php?controleur=<?php echo $controleur; ?>&action=afficherDetail&id=<?php echo $service->getId(); ?>">
             <div class="service-card">
-                <img src="../ressources/img/jeux/<?=$service->getCodeJeu()?>.png" alt="Icon" class="service-icon">
-                <div class="service-name"><?php echo $service->getNomService(); ?></div>
-                <div class="service-description"><?php echo $service->getDescriptionService(); ?></div>
+                <img src="../ressources/img/jeux/<?= rawurlencode($service->getCodeJeu())?>.png" alt="Icon" class="service-icon">
+                <div class="service-name"><?php echo htmlspecialchars($service->getNomService()); ?></div>
+                <div class="service-description"><?php echo htmlspecialchars($service->getDescriptionService()); ?></div>
                 <div class="service-price">
                     <?php if ($service->getPrixService() > 0):
                         echo number_format($service->getPrixService(), 2); ?> €

@@ -33,8 +33,8 @@
                 <td> <?= number_format($produit['prix'], 2, ',', ' ') ?> €  </td>
                 <td> <?= number_format($sousTotal, 2, ',', ' ') ?> €  </td>
                 <td>
-                    <form method="post" action="controleurFrontal.php?controleur=service&action=supprimerProduit&codeService=<?= htmlspecialchars($produit['id']) ?>">
-                        <input type="hidden" name="id" value="<?= htmlspecialchars($produit['id']) ?>">
+                    <form method="post" action="controleurFrontal.php?controleur=service&action=supprimerProduit&codeService=<?= rawurlencode($produit['id']) ?>">
+                        <input type="hidden" name="id" value="<?= rawurlencode($produit['id']) ?>">
                         <input type="submit" value="Supprimer">
                     </form>
                 </td>

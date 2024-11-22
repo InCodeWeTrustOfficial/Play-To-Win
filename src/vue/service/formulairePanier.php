@@ -26,7 +26,7 @@
                     <tr>
                         <td><?= htmlspecialchars($produit['nom']) ?></td>
                         <td><?= htmlspecialchars($typeService) ?></td>
-                        <td><input type="text" id="sujet" name="sujet[<?= htmlspecialchars($produit['id']) ?>][]" placeholder="Ex : entrainement au kickoff" required></td>
+                        <td><input type="text" id="sujet" name="sujet[<?= rawurlencode($produit['id']) ?>][]" placeholder="Ex : entrainement au kickoff" required></td>
                         <td><?= number_format($produit['prix'], 2, ',', ' ') ?> €</td>
                     </tr>
                 <?php endfor; ?>
