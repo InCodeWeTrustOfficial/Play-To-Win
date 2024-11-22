@@ -39,9 +39,7 @@ class AnalyseVideo extends Services {
     }
 
     public function setAttributsEnfant(array $attribsEnfant): void {
-        if (isset($attribsEnfant['nbJourRendu'])) {
-            $this->setNbJourRendu((int)$attribsEnfant['nbJourRendu']);
-        }
+        $this->setNbJourRendu($attribsEnfant['nbJourRendu']);
     }
 
     public function getAttributsEnfants(): array {

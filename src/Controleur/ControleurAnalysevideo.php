@@ -13,18 +13,14 @@ class ControleurAnalysevideo extends ControleurService {
 
     protected static string $controleur = "analysevideo";
 
-    public function supprimer() : void {
+    public static function supprimer() : void {
         parent::supprimerUtils((new AnalyseVideoRepository()));
     }
 
-    public function mettreAJour(): void {
+    public static function mettreAJour(): void {
         parent::mettreAJourUtil((new AnalyseVideoRepository()));
     }
 
-    /**
-     * Permet a l'utilisateur de proposer un services analyse vidéo
-     * @return void
-     */
     public function creerDepuisFormulaire(): void {
         parent::creerDepuisFormulaireUtil(new AnalyseVideoRepository());
     }
@@ -33,13 +29,7 @@ class ControleurAnalysevideo extends ControleurService {
         parent::afficherFormulaireMiseAJourUtil(new AnalyseVideoRepository());
     }
 
-    /**
-     * Construit un objet service en fonction du formulaire rempli par l'utilisateur.
-     * @param array $tableauDonneesFormulaire
-     * @return Services|null
-     */
-    public function construireDepuisFormulaire(array $tableauDonneesFormulaire): Services {
-
+    public static function construireDepuisFormulaire(array $tableauDonneesFormulaire): Services {
         $nomService = $tableauDonneesFormulaire['nom_services'];
         $descriptionService = $tableauDonneesFormulaire['description'];
         $codeJeu = $tableauDonneesFormulaire['jeu'];

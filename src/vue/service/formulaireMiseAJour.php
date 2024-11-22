@@ -3,13 +3,13 @@
 /** @var ServiceRepository $repo */
 /** @var String $controleur */
 /** @var Services $service */
-
 ?>
 
 <form method="get" action="controleurFrontal.php">
     <input type='hidden' name='action' value='mettreAJour'>
     <input type='hidden' name='controleur' value='<?= $service->getControleur() ?>'>
     <input type='hidden' name='id' value='<?= $id ?>'>
+    <input type="hidden" name="idCoach" value='<?= $service->getCoach() ?>'>
     <fieldset>
         <legend>Modifier l'analyse Vidéo :</legend>
 

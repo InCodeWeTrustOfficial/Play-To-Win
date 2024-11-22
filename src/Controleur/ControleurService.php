@@ -13,9 +13,9 @@ use App\PlayToWin\Modele\Repository\Single\ServiceRepository;
 abstract class ControleurService extends ControleurGenerique {
 
     protected static string $controleur = 'service';
-    abstract function supprimer();
-    abstract function mettreAJour();
-    abstract function construireDepuisFormulaire(array $tableauDonneesFormulaire): Services;
+    abstract static function supprimer();
+    abstract static function mettreAJour();
+    abstract static function construireDepuisFormulaire(array $tableauDonneesFormulaire): Services;
     abstract public static function afficherFormulaireMiseAJour();
 
     static function getControleur(): string {return static::$controleur;}
@@ -144,7 +144,6 @@ abstract class ControleurService extends ControleurGenerique {
     }
 
     protected static function mettreAJourUtil(ServiceRepository $repo): void {
-
         $codeService = $_REQUEST['id'];
         $service = (new $repo)->recupererParClePrimaire($codeService);
 
@@ -157,19 +156,23 @@ abstract class ControleurService extends ControleurGenerique {
         $service->setDescriptionService($_REQUEST['description']);
         $service->setCodeJeu($_REQUEST['jeu']);
         $service->setPrixService((float) $_REQUEST['prix']);
-        $service->setAttributsEnfant($_REQUEST[$service->getAttributsEnfants()]);
 
+        $attributsEnfants = $service->getAttributsEnfants();
+        $enfantData = [];
+        foreach ($attributsEnfants as $attr) {
+            if (isset($_REQUEST[$attr])) {
+                $enfantData[$attr] = $_REQUEST[$attr];
+            }
+        }
+        $service->setAttributsEnfant($enfantData);
 
-        $repo->mettreAJour($service);
+        (new $repo)->mettreAJour($service);
 
-        $services = (new $repo)->recuperer();
+        $idUrl = rawurlencode($_REQUEST['idCoach']);
 
-        self::afficherVue('vueGenerale.php', [
-            "titre" => "Service mis à jour",
-            "cheminCorpsVue" => 'service/serviceMisAJour.php',
-            'services' => $services,
-            'controleur' => $service->getControleur()
-        ]);
+        MessageFlash::ajouter("success","Service mis à jour");
+        self::redirectionVersURL("afficherListe&id=" . $idUrl ,self::$controleur);
+
     }
     
     protected static function creerDepuisFormulaireUtil(ServiceRepository $repo): void {

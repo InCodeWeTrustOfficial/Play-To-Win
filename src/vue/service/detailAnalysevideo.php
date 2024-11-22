@@ -42,8 +42,8 @@ if (ConnexionUtilisateur::estConnecte() &&
         ConnexionUtilisateur::getIdUtilisateurConnecte() === $service->getCoach())) {
 
     $boutons .= '
-        <a href="../web/controleurFrontal.php?controleur=' . $service->getControleur() . '&action=afficherFormulaireMiseAJour&id=' . $service->getId() . '" class="btn modify-btn">Modifier</a>
-        <a href="../web/controleurFrontal.php?controleur=' . $service->getControleur() . '&action=supprimer&id=' . $service->getId() . '" class="btn delete-btn">Supprimer</a>
+        <a href="../web/controleurFrontal.php?controleur=' . $service->getControleur() . '&action=afficherFormulaireMiseAJour&id=' . $service->getId() . ' &idCoach=' . $coachURL .'" class="btn modify-btn">Modifier</a>
+        <a href="../web/controleurFrontal.php?controleur=' . $service->getControleur() . '&action=supprimer&id=' . $service->getId() . '&idCoach=' . $coachURL .'" class="btn delete-btn">Supprimer</a>
     ';
 }
 

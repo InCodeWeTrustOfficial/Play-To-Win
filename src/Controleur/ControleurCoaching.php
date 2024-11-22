@@ -14,11 +14,11 @@ class ControleurCoaching extends ControleurService {
 
     protected static string $controleur = "coaching";
 
-    public function supprimer() : void {
+    public static function supprimer() : void {
         parent::supprimerUtils((new CoachingRepository()));
     }
 
-    public function mettreAJour(): void {
+    public static function mettreAJour(): void {
         parent::mettreAJourUtil((new CoachingRepository()));
     }
 
@@ -39,7 +39,7 @@ class ControleurCoaching extends ControleurService {
      * @param array $tableauDonneesFormulaire
      * @return Services|null
      */
-    public function construireDepuisFormulaire(array $tableauDonneesFormulaire): Services {
+    public static function construireDepuisFormulaire(array $tableauDonneesFormulaire): Services {
 
         $nomService = $tableauDonneesFormulaire['nom_services'];
         $descriptionService = $tableauDonneesFormulaire['description'];
