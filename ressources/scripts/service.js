@@ -22,13 +22,17 @@ function toggleFields() {
 
 function updateAction() {
     const serviceSelect = document.getElementById("service_type_field");
+    const controleurInput = document.getElementById("controleur");
     const actionInput = document.getElementById("action");
 
     if (serviceSelect.value === "coaching") {
-        actionInput.value = "afficherListeCoaching";
+        actionInput.value = "afficherSelfListe";
+        controleurInput.value = "coaching";
     } else if (serviceSelect.value === "analyse_video") {
-        actionInput.value = "afficherListeAnalyse";
+        actionInput.value = "afficherSelfListe";
+        controleurInput.value = "analysevideo";
     } else if (serviceSelect.value === "tous") {
         actionInput.value = "afficherListe";
+        controleurInput.value = "service";
     }
 }

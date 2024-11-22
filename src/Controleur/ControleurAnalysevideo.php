@@ -33,6 +33,10 @@ class ControleurAnalysevideo extends ControleurService {
         parent::afficherDetailUtil((new AnalyseVideoRepository()));
     }
 
+    public static function afficherSelfListe() {
+        parent::afficherSelfListeUtil((new AnalyseVideoRepository()));
+    }
+
     public static function construireDepuisFormulaire(array $tableauDonneesFormulaire): Service {
         $nomService = $tableauDonneesFormulaire['nom_services'];
         $descriptionService = $tableauDonneesFormulaire['description'];

@@ -19,6 +19,7 @@ abstract class ControleurService extends ControleurGenerique {
     abstract static function construireDepuisFormulaire(array $tableauDonneesFormulaire): Service;
     abstract public static function afficherFormulaireMiseAJour();
     abstract public static function afficherDetail();
+    abstract public static function afficherSelfListe();
 
     static function getControleur(): string {return static::$controleur;}
 
@@ -42,7 +43,7 @@ abstract class ControleurService extends ControleurGenerique {
         }
     }
 
-    public static function afficherListeAnalyse() : void {
+    public static function afficherSelfListeUtil(ServiceRepository $repo) : void {
         if (!isset($_REQUEST['id']) || empty($_REQUEST['id'])) {
             MessageFlash::ajouter("danger", "Erreur: ID du coach manquant ou vide!");
             self::redirectionVersURL("afficherListe", "coach");
@@ -50,33 +51,14 @@ abstract class ControleurService extends ControleurGenerique {
         }
 
         $coachId = htmlspecialchars($_REQUEST['id']);
-        $services = (new AnalyseVideoRepository())->recupererParCoach($coachId);
+        $services = (new $repo())->recupererParCoach($coachId);
 
         self::afficherVue('vueGenerale.php',[
             "titre" => "Liste des services",
             "cheminCorpsVue" => "service/liste.php",
             'services' => $services,
             'id' => $coachId,
-            'controleur' => self::$controleur
-        ]);
-    }
-
-    public static function afficherListeCoaching() : void {
-        if (!isset($_REQUEST['id']) || empty($_REQUEST['id'])) {
-            MessageFlash::ajouter("danger", "Erreur: ID du coach manquant ou vide!");
-            static::redirectionVersURL("afficherListe", "coach");
-            return;
-        }
-
-        $coachId = htmlspecialchars($_REQUEST['id']);
-        $services = (new CoachingRepository())->recupererParCoach($coachId);
-
-        self::afficherVue('vueGenerale.php',[
-            "titre" => "Liste des services",
-            "cheminCorpsVue" => "service/liste.php",
-            'services' => $services,
-            'id' => $coachId,
-            'controleur' => self::$controleur
+            'controleur' => static::$controleur
         ]);
     }
 
@@ -113,7 +95,6 @@ abstract class ControleurService extends ControleurGenerique {
     public static function afficherDetailUtil(ServiceRepository $repo) : void {
         if (!isset($_REQUEST['id'])) {
             MessageFlash::ajouter("danger", "Code service manquant.");
-            self::afficherErreur("Code service manquant.");
         } else {
             $codeService = $_REQUEST['id'];
             $service = (new $repo())->recupererParClePrimaire($codeService);
@@ -127,7 +108,7 @@ abstract class ControleurService extends ControleurGenerique {
                 ]);
             } else {
                 MessageFlash::ajouter("danger", "Service introuvable : ".htmlspecialchars($codeService).".");
-                self::afficherErreur("Code service manquant.");
+
             }
         }
     }

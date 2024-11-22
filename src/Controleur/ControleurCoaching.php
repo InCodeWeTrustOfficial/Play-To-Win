@@ -27,7 +27,11 @@ class ControleurCoaching extends ControleurService {
     }
 
     public static function afficherDetail() {
-        parent::afficherDetailUtil((new AnalyseVideoRepository()));
+        parent::afficherDetailUtil((new CoachingRepository()));
+    }
+
+    public static function afficherSelfListe() {
+        parent::afficherSelfListeUtil((new CoachingRepository()));
     }
 
     public function creerDepuisFormulaire(): void {
@@ -35,7 +39,6 @@ class ControleurCoaching extends ControleurService {
     }
 
     public static function construireDepuisFormulaire(array $tableauDonneesFormulaire): Service {
-
         $nomService = $tableauDonneesFormulaire['nom_services'];
         $descriptionService = $tableauDonneesFormulaire['description'];
         $codeJeu = $tableauDonneesFormulaire['jeu'];

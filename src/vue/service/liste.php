@@ -9,7 +9,7 @@ echo "<h2>Liste des services proposés</h2>";
 
 <form action="controleurFrontal.php" method="get">
     <input type='hidden' name='action' id="action" value='afficherListe'>
-    <input type='hidden' name='controleur' value='service'>
+    <input type='hidden' name='controleur' id="controleur" value='service'>
     <input type='hidden' name='id' value='<?php echo rawurlencode($id); ?>'>
 
     <label id="service">Sélectionnez un service :</label>
