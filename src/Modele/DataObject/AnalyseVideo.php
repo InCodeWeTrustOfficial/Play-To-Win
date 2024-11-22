@@ -2,7 +2,7 @@
 
 namespace App\PlayToWin\Modele\DataObject;
 
-class AnalyseVideo extends Services {
+class AnalyseVideo extends Service {
 
     private int $nbJourRendu;
 

@@ -1,7 +1,7 @@
 <?php
-/** @var Services $service */
+/** @var Service $service */
 
-use App\PlayToWin\Modele\DataObject\Services;
+use App\PlayToWin\Modele\DataObject\Service;
 use App\PlayToWin\Lib\ConnexionUtilisateur;
 
 $codeServiceHTML = htmlspecialchars($service->getId());

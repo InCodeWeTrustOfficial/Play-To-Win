@@ -41,7 +41,7 @@
                 <div class="dropdown">
                     <a href="#" class="nav-link dropdown-toggle">Administrateur</a>
                     <div class="dropdown-menu">
-                        <a href="controleurFrontal.php?controleur=administrateur&action=afficherListeServices" class="dropdown-item">Services</a>
+                        <a href="controleurFrontal.php?controleur=administrateur&action=afficherListeServices" class="dropdown-item">Service</a>
                         <a href="controleurFrontal.php?controleur=administrateur&action=afficherListeCoachs" class="dropdown-item">Coachs</a>
                         <a href="controleurFrontal.php?controleur=administrateur&action=afficherListeUtilisateurs" class="dropdown-item">Utilisateurs</a>
                     </div>

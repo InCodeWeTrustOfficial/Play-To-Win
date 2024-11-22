@@ -4,11 +4,11 @@ namespace App\PlayToWin\Modele\Repository\Single;
 
 use App\PlayToWin\Modele\DataObject\AbstractDataObject;
 use App\PlayToWin\Modele\DataObject\AnalyseVideo;
-use App\PlayToWin\Modele\DataObject\Services;
+use App\PlayToWin\Modele\DataObject\Service;
 
 class AnalyseVideoRepository extends ServiceRepository {
 
-    public function construireDepuisTableauSQL(array $servicesFormatTableau): Services {
+    public function construireDepuisTableauSQL(array $servicesFormatTableau): Service {
         return new AnalyseVideo(
             $servicesFormatTableau["codeService"],
             $servicesFormatTableau["nomService"],
