@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="../ressources/css/exemplaire.css">
     <link rel="stylesheet" href="../ressources/css/jeux.css">
     <link rel="stylesheet" href="../ressources/css/utilisateur.css">
+    <link rel="stylesheet" href="../ressources/css/admin.css">
     <script src="../ressources/scripts/service.js" defer></script>
     <meta charset="UTF-8">
     <title>

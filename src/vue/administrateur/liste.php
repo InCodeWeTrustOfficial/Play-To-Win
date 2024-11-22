@@ -1,28 +1,62 @@
 <?php
-
 use App\PlayToWin\Lib\ConnexionUtilisateur;
 use App\PlayToWin\Modele\DataObject\AbstractDataObject;
-use App\PlayToWin\Modele\DataObject\Utilisateur;
 
 /** @var AbstractDataObject[] $objets */
-/** @var string $controleur  */
+/** @var string $controleur */
+?>
 
-foreach ($objets as $objet) {
-    $idHTML = htmlspecialchars($objet->getId());
-    $idURL = rawurlencode($objet->getId());
+<div class="admin-container">
+    <div class="admin-list">
+        <div class="admin-list-header">
+            <h2>Liste des <?= htmlspecialchars(ucfirst($controleur)) ?>s</h2>
+        </div>
 
-echo "$controleur de login : ";
-echo '<p>
-<a href = "../web/controleurFrontal.php?controleur=' . $controleur . '&action=afficherDetail&id=' . $idURL . '">' . $idHTML . '</a>';
-    if (ConnexionUtilisateur::estAdministrateur()) {
-        echo ' <a href = "../web/controleurFrontal.php?controleur=' . $objet->getControleur()  . '&action=afficherFormulaireMiseAJour&id=' . $idURL . '"> (ModifICI) </a>
-        <a href = "../web/controleurFrontal.php?controleur=' . $controleur . '&action=supprimer&id=' . $idURL . '"> (-)</a>';
-    }
-    echo '</p>';
-}
+        <table class="admin-table">
+            <thead>
+            <tr>
+                <th>Identifiant</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <?php foreach ($objets as $objet):
+                $idHTML = htmlspecialchars($objet->getId());
+                $idURL = rawurlencode($objet->getId());
+                ?>
+                <tr>
+                    <td>
+                        <a class="admin-list-id" href="../web/controleurFrontal.php?controleur=<?= $controleur ?>&action=afficherDetail&id=<?= $idURL ?>">
+                            <?= $idHTML ?>
+                        </a>
+                    </td>
+                    <td class="admin-actions">
+                        <?php if (ConnexionUtilisateur::estAdministrateur()): ?>
+                            <a href="../web/controleurFrontal.php?controleur=<?= $objet->getControleur() ?>&action=afficherFormulaireMiseAJour&id=<?= $idURL ?>"
+                               class="admin-btn admin-btn-edit">
+                                Modifier
+                            </a>
+                            <a href="../web/controleurFrontal.php?controleur=<?= $controleur ?>&action=supprimer&id=<?= $idURL ?>"
+                               class="admin-btn admin-btn-delete">
+                                Supprimer
+                            </a>
+                        <?php endif; ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 
-if($controleur == "coach"){
-    echo '<br><h3>Lien pour créer : <a href = "../web/controleurFrontal.php?controleur=utilisateur&action=afficherFormulaireCreation">Ici</a> </h3>';
-} else {
-    echo '<br><h3>Lien pour créer : <a href = "../web/controleurFrontal.php?controleur=' . $controleur . '&action=afficherFormulaireCreation">Ici</a> </h3>';
-}
+    <div class="admin-create-section">
+        <?php if($controleur == "coach"): ?>
+            <a href="../web/controleurFrontal.php?controleur=utilisateur&action=afficherFormulaireCreation" class="admin-create-btn">
+                Créer un nouvel utilisateur
+            </a>
+        <?php else: ?>
+            <a href="../web/controleurFrontal.php?controleur=<?= $controleur ?>&action=afficherFormulaireCreation" class="admin-create-btn">
+                Créer un nouveau <?= htmlspecialchars(ucfirst($controleur)) ?>
+            </a>
+        <?php endif; ?>
+    </div>
+</div>
