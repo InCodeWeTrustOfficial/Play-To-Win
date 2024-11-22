@@ -198,6 +198,7 @@ Coach page perso
     margin-left: 20px;
 
     width: 150px;
+    height: 150px;
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid white;
