@@ -29,6 +29,10 @@ class ControleurAnalysevideo extends ControleurService {
         parent::afficherFormulaireMiseAJourUtil(new AnalyseVideoRepository());
     }
 
+    public static function afficherDetail() {
+        parent::afficherDetailUtil((new AnalyseVideoRepository()));
+    }
+
     public static function construireDepuisFormulaire(array $tableauDonneesFormulaire): Service {
         $nomService = $tableauDonneesFormulaire['nom_services'];
         $descriptionService = $tableauDonneesFormulaire['description'];
@@ -51,5 +55,4 @@ class ControleurAnalysevideo extends ControleurService {
     public static function getControleur(): string {
         return self::$controleur;
     }
-
 }

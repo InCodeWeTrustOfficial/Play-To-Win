@@ -1,6 +1,6 @@
 <?php
 
-/** @var int $service */
+/** @var Service $service */
 
 ?>
 

@@ -18,6 +18,7 @@ abstract class ControleurService extends ControleurGenerique {
     abstract static function mettreAJour();
     abstract static function construireDepuisFormulaire(array $tableauDonneesFormulaire): Service;
     abstract public static function afficherFormulaireMiseAJour();
+    abstract public static function afficherDetail();
 
     static function getControleur(): string {return static::$controleur;}
 
@@ -109,27 +110,24 @@ abstract class ControleurService extends ControleurGenerique {
             "cheminCorpsVue" => 'service/formulaireCreation.php']);
     }
 
-    public static function afficherDetail() : void {
+    public static function afficherDetailUtil(ServiceRepository $repo) : void {
         if (!isset($_REQUEST['id'])) {
             MessageFlash::ajouter("danger", "Code service manquant.");
             self::afficherErreur("Code service manquant.");
         } else {
             $codeService = $_REQUEST['id'];
-            $service = (new AnalyseVideoRepository())->recupererParClePrimaire($codeService);
-
-            if ($service == NULL) {
-                $service = (new CoachingRepository())->recupererParClePrimaire($codeService);
-            }
+            $service = (new $repo())->recupererParClePrimaire($codeService);
 
             if ($service != NULL) {
                 self::afficherVue('vueGenerale.php', [
                     "titre" => "Détail du service",
-                    "cheminCorpsVue" => "service/detail" . ucfirst($service->getControleur()) . ".php",
+                    "cheminCorpsVue" => "service/detailService.php",
                     'service' => $service,
-                    'controleur' => self::$controleur]);
+                    'controleur' => static::$controleur
+                ]);
             } else {
                 MessageFlash::ajouter("danger", "Service introuvable : ".htmlspecialchars($codeService).".");
-                self::afficherErreur($codeService);
+                self::afficherErreur("Code service manquant.");
             }
         }
     }

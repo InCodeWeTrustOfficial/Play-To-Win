@@ -26,19 +26,14 @@ class ControleurCoaching extends ControleurService {
         parent::afficherFormulaireMiseAJourUtil(new CoachingRepository());
     }
 
-    /**
-     * Permet a l'utilisateur de proposer un services (coaching / analyse vidéo)
-     * @return void
-     */
+    public static function afficherDetail() {
+        parent::afficherDetailUtil((new AnalyseVideoRepository()));
+    }
+
     public function creerDepuisFormulaire(): void {
         parent::creerDepuisFormulaireUtil(new CoachingRepository());
     }
 
-    /**
-     * Construit un objet service en fonction du formulaire rempli par l'utilisateur.
-     * @param array $tableauDonneesFormulaire
-     * @return Service|null
-     */
     public static function construireDepuisFormulaire(array $tableauDonneesFormulaire): Service {
 
         $nomService = $tableauDonneesFormulaire['nom_services'];
