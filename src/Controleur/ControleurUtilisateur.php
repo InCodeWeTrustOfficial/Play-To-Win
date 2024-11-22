@@ -113,7 +113,7 @@ class ControleurUtilisateur extends ControleurGenerique {
     public static function deconnecter(): void{
         ConnexionUtilisateur::deconnecter();
         MessageFlash::ajouter("success","Déconnexion !");
-        self::redirectionVersURL("afficherListe",self::$controleur);
+        self::redirectionVersURL("afficherListe","coach");
     }
 
     public static function creerDepuisFormulaire() : void {
