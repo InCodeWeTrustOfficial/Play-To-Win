@@ -16,7 +16,7 @@ use App\PlayToWin\Modele\DataObject\Langue;
                 <?php
                 echo '<option value="rien" selected="selected">Langue...?</option>';
                 foreach ($langues as $l){
-                    echo '<option value="'.$l->getCodeAlpha().'">'.$l->getNom().'</option>';
+                    echo '<option value="'.$l->getCodeAlpha().'">'.htmlspecialchars($l->getNom()).'</option>';
                 }
                 ?>
             </select>

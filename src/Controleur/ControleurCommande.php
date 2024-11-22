@@ -77,7 +77,7 @@ class ControleurCommande extends ControleurGenerique {
             MessageFlash::ajouter("success", "Commande passée avec succès.");
             self::redirectionVersURL("afficherListe", "coach");
         } catch (\Exception $e) {
-            MessageFlash::ajouter("danger", "Erreur lors de la commande : " . $e->getMessage());
+            MessageFlash::ajouter("danger", "Erreur lors de la commande : " . htmlspecialchars($e->getMessage()));
             self::redirectionVersURL("afficherPanier", self::$controleur);
         }
     }

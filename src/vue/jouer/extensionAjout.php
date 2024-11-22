@@ -19,7 +19,7 @@ use App\PlayToWin\Modele\DataObject\Jeu;
         $md = $modesDunJeu[$jeu->getCodeJeu()];
 
         foreach ($md as $mode) {
-            echo '<option value="' . $mode->getNomMode() . '">' . $mode->getNomMode() . '</option>';
+            echo '<option value="' . $mode->getNomMode() . '">' . htmlspecialchars($mode->getNomMode()) . '</option>';
         }
         ?>
     </select>

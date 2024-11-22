@@ -36,7 +36,7 @@ abstract class AbstractMain {
             $pdoStatement->execute($values);
 
         }catch(PDOException $e){
-            MessageFlash::ajouter("danger", $e->getMessage());
+            //MessageFlash::ajouter("danger", $e->getMessage());
             $valide = false;
         }
         return $valide;

@@ -31,17 +31,22 @@ $estCoach = (new CoachRepository())->estCoach($utilisateur->getId());
 
 <div class="utilisateurDetail-conteneur">
 
-    <div class="user-email <?php if ($aValideEmail) echo 'cache'?>">
+    <?php if(!$aValideEmail): ?>
+    <div class="user-email">
         <h2><?php echo "Vous devez valider l'email suivante : ".htmlspecialchars($utilisateur->getEmailAValider());?></h2>
     </div>
+    <?php endif; ?>
 
-    <div class="user-main-conteneur <?php if (!$aValideEmail) echo 'cache'?> <?php if ($estAdmin) echo 'admin'?>">
+    <?php if($aValideEmail): ?>
+    <div class="user-main-conteneur <?php if ($estAdmin) echo 'admin'?>">
         <div class ="avatar-conteneur">
             <img class="ppUser" src="../<?=$utilisateur->getAvatarPath()?>" alt="Photo de profil"
                  onerror="this.onerror=null; this.src='../ressources/img/defaut_pp.png';">
-            <div class="modifAvatar <?php if (!$estBonUtilisateur) echo 'cache';?>">
+            <?php if($estBonUtilisateur):?>
+            <div class="modifAvatar">
                 <a href="../web/controleurFrontal.php?controleur=utilisateur&action=afficherFormulaireAvatar&id=<?=$idURL?>"></a>
             </div>
+            <?php endif;?>
         </div>
 
         <div class="infos-generales">
@@ -69,7 +74,9 @@ $estCoach = (new CoachRepository())->estCoach($utilisateur->getId());
                         }
                     }
                     ?>
-                    <a <?php if (!$estBonUtilisateur) echo 'class="cache"'?> href="../web/controleurFrontal.php?controleur=langue&action=afficherFormulaireAjout&id=<?=$idURL?>">Nouvelle langue ?</a>
+                    <?php if($estBonUtilisateur):?>
+                    <a href="../web/controleurFrontal.php?controleur=langue&action=afficherFormulaireAjout&id=<?=$idURL?>">Nouvelle langue ?</a>
+                    <?php endif;?>
                 </div>
             </div>
         </div>
@@ -81,19 +88,23 @@ $estCoach = (new CoachRepository())->estCoach($utilisateur->getId());
                 foreach ($jouer as $ligne){
                     /** @var ClassementJeu $classJeu */
                     $classJeu = (new SeClasserRepository())->recupererDepuisJouer($ligne);
+                    $modeHTML = htmlspecialchars($ligne[1]->getNomMode());
+                    $modeURL = rawurlencode($ligne[1]->getNomMode());
                     echo '<p class="ligne-jeu">
-                                    <small>'.$ligne[1]->getNomMode().'</small>
-                                    <img src="../'.$ligne[0]->getPathLogo().'" alt="'.$ligne[0]->getNomJeu().'">
+                                    <small>'.$modeHTML.'</small>
+                                    <img src="../'.$ligne[0]->getPathLogo().'" alt="'.htmlspecialchars($ligne[0]->getNomJeu()).'">
                                     <img class="classement" src="../'.$classJeu->getClassPath().'" alt="Classement">';
                     if($estBonUtilisateur){
-                        echo '<a href="../web/controleurFrontal.php?controleur=jouer&action=afficherModifJouer&id=' . $idURL . '&jeu='.$ligne[0]->getCodeJeu().'&mode='.$ligne[1]->getNomMode().'"> (Modif) </a>
-                                <a href="../web/controleurFrontal.php?controleur=jouer&action=supprimerJouer&id=' . $idURL . '&jeu='.$ligne[0]->getCodeJeu().'&mode='.$ligne[1]->getNomMode().'">X</a>';
+                        echo '<a href="../web/controleurFrontal.php?controleur=jouer&action=afficherModifJouer&id=' . $idURL . '&jeu='.$ligne[0]->getCodeJeu().'&mode='.$modeURL.'"> (Modif) </a>
+                                <a href="../web/controleurFrontal.php?controleur=jouer&action=supprimerJouer&id=' . $idURL . '&jeu='.$ligne[0]->getCodeJeu().'&mode='.$modeURL.'">X</a>';
                     }
                     echo "</p>";
                 }
             }
             ?>
-            <a <?php if (!$estBonUtilisateur) echo 'class="cache"'?> href="../web/controleurFrontal.php?controleur=jouer&action=afficherFormulaireJouer&id=<?=$idURL?>">Nouveau jeu?</a>
+            <?php if($estBonUtilisateur):?>
+            <a href="../web/controleurFrontal.php?controleur=jouer&action=afficherFormulaireJouer&id=<?=$idURL?>">Nouveau jeu?</a>
+            <?php endif; ?>
         </div>
         <?php
         if($estBonUtilisateur){
@@ -104,8 +115,13 @@ $estCoach = (new CoachRepository())->estCoach($utilisateur->getId());
         }
         ?>
     </div>
+    <?php endif; ?>
     <div class="devCoach">
-        <a <?php if (!$estCoach) echo 'class="cache"'?> href = "../web/controleurFrontal.php?controleur=coach&action=afficherDetail&id=<?=$idURL?>">Voir la page coach</a>
-        <a <?php if ($estCoach || !$estBonUtilisateur) echo 'class="cache"'?> href = "../web/controleurFrontal.php?controleur=coach&action=afficherFormulaireCreation&id=<?=$idURL?>"> je souhaite devenir coach...</a>
+        <?php if($estCoach):?>
+        <a href = "../web/controleurFrontal.php?controleur=coach&action=afficherDetail&id=<?=$idURL?>">voir la page coach</a>
+        <?php endif;?>
+        <?php if(!($estCoach || !$estBonUtilisateur)):?>
+        <a href = "../web/controleurFrontal.php?controleur=coach&action=afficherFormulaireCreation&id=<?=$idURL?>">je souhaite devenir coach...</a>
+        <?php endif;?>
     </div>
 </div>

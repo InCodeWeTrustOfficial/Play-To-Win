@@ -20,11 +20,11 @@ use App\PlayToWin\Modele\DataObject\Jeu;
                     if ($jeu === null) {
                         echo '<option value="rien" selected="selected">Jeu...?</option>';
                     }else {
-                        echo '<option value="'.$jeu->getCodeJeu().'" selected="selected">'.$jeu->getNomJeu().'</option>';
+                        echo '<option value="'.$jeu->getCodeJeu().'" selected="selected">'.htmlspecialchars($jeu->getNomJeu()).'</option>';
                     }
                     foreach ($jeux as $j) {
                         if($j != $jeu) {
-                            echo '<option value="' . $j->getCodeJeu() . '">' . $j->getNomJeu() . '</option>';
+                            echo '<option value="' . $j->getCodeJeu() . '">' . htmlspecialchars($j->getNomJeu()) . '</option>';
                         }
                     }
                 ?>

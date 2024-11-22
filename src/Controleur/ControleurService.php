@@ -122,7 +122,7 @@ abstract class ControleurService extends ControleurGenerique {
                     'service' => $service,
                     'controleur' => self::$controleur]);
             } else {
-                MessageFlash::ajouter("danger", "Service introuvable : $codeService.");
+                MessageFlash::ajouter("danger", "Service introuvable : ".htmlspecialchars($codeService).".");
                 self::afficherErreur($codeService);
             }
         }
@@ -181,7 +181,7 @@ abstract class ControleurService extends ControleurGenerique {
 
             (new $repo())->ajouter($service);
 
-            MessageFlash::ajouter("success", "Service ajouter");
+            MessageFlash::ajouter("success", "Service ajouté");
             static::redirectionVersURL("afficherPanier", self::$controleur);
 
         } catch (\Exception $e) {
@@ -193,7 +193,7 @@ abstract class ControleurService extends ControleurGenerique {
         if (!$messageErreur == "") {
             $messageErreur = ': ' . $messageErreur;
         }
-        MessageFlash::ajouter("danger", "Une erreur est survenue : $messageErreur");
+        MessageFlash::ajouter("danger", "Une erreur est survenue : ".htmlspecialchars($messageErreur));
         self::afficherVue('vueGenerale.php', ["titre" => "Problème avec le service", "cheminCorpsVue" => "service/erreur.php", "messageErreur" => $messageErreur, 'controleur' => self::$controleur]);
     }
 

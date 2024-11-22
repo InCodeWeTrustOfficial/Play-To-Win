@@ -2,6 +2,7 @@
 
 namespace App\PlayToWin\Modele\DataObject;
 
+use App\PlayToWin\Lib\LogistiqueImage;
 use App\PlayToWin\Lib\MessageFlash;
 use DateTime;
 
@@ -21,16 +22,15 @@ class Coach extends Utilisateur {
     {
         $this->biographie = $biographie;
     }
-    public function getBannierePath(): string
-    {
-        $ext = "";
-        if(file_exists(__DIR__ ."/../../../".$this::$pathBannieres.$this->getId().".png")){
-            $ext = ".png";
-        } else if (file_exists(__DIR__ ."/../../../".$this::$pathBannieres.$this->getId().".jpg")){
-            $ext = ".jpg";
-        } else{
-        }
-        return $this::$pathBannieres.$this->getId().$ext;
+
+    public function getPathBannieresBrut(): string{
+        return self::$pathBannieres;
+    }
+
+    public function getBannierePath(): string {
+
+        return (new LogistiqueImage(self::$pathBannieres))->getCheminComplet($this->getId());
+
     }
 
     public function getControleur(): string {

@@ -29,7 +29,7 @@ class ControleurExemplaireservice extends ControleurGenerique {
         if (!$messageErreur == "") {
             $messageErreur = ': ' . $messageErreur;
         }
-        MessageFlash::ajouter("danger", "Une erreur est survenue : $messageErreur");
+        MessageFlash::ajouter("danger", "Une erreur est survenue : ".htmlspecialchars($messageErreur));
         self::afficherVue('vueGenerale.php', ["titre" => "Problème avec le service", "cheminCorpsVue" => "service/erreur.php", "messageErreur" => $messageErreur, 'controleur' => self::$controleur]);
     }
 

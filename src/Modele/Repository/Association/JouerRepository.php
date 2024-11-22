@@ -92,8 +92,8 @@ class JouerRepository extends AbstractAssociationRepository {
 
             $pdoStatement->execute($values);
         } catch(PDOException $e){
-            MessageFlash::ajouter("danger",$e->getMessage());
-            MessageFlash::ajouter("info",$sql);
+            //MessageFlash::ajouter("danger",$e->getMessage());
+            //MessageFlash::ajouter("info",$sql);
             $bool = false;
         }
         return $bool;

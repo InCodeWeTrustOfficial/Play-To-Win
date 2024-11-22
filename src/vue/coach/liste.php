@@ -26,7 +26,7 @@ echo "<h2>Découvre les coachs qui pourraient te correspondre :</h2>";
         } else{
             /** @var Langue $langue */
             $langue = (new LangueRepository())->recupererParClePrimaire($_REQUEST['lang']);
-            echo '<option value="'.$langue->getCodeAlpha().'" selected="selected">'.$langue->getNom().'</option>';
+            echo '<option value="'.$langue->getCodeAlpha().'" selected="selected">'.htmlspecialchars($langue->getNom()).'</option>';
             echo '<option value="rien">aucune</option>';
         }
         $langues = (new LangueRepository())->recuperer();
@@ -34,7 +34,7 @@ echo "<h2>Découvre les coachs qui pourraient te correspondre :</h2>";
         foreach ($langues as $l) {
             /** @var Langue $l */
             if(!(isset($_REQUEST['lang']) && $l->getCodeAlpha() === $_REQUEST['lang'])){
-                echo '<option value="' . $l->getCodeAlpha().'">' . $l->getNom() . '</option>';
+                echo '<option value="' . $l->getCodeAlpha().'">' .htmlspecialchars($l->getNom()) . '</option>';
             }
         }
         ?>
@@ -47,7 +47,7 @@ echo "<h2>Découvre les coachs qui pourraient te correspondre :</h2>";
         } else{
             /** @var Jeu $jeu */
             $jeu = (new JeuRepository())->recupererParClePrimaire($_REQUEST['jeu']);
-            echo '<option value="'.$jeu->getCodeJeu().'" selected="selected">'.$jeu->getNomJeu().'</option>';
+            echo '<option value="'.$jeu->getCodeJeu().'" selected="selected">'.htmlspecialchars($jeu->getNomJeu()).'</option>';
             echo '<option value="rien">aucun</option>';
         }
 
@@ -56,7 +56,7 @@ echo "<h2>Découvre les coachs qui pourraient te correspondre :</h2>";
         foreach ($jeux as $j) {
             /** @var Jeu $j */
             if (!(isset($_REQUEST['jeu']) && $j->getCodeJeu() === $_REQUEST['jeu'])) {
-                echo '<option value="' . $j->getCodeJeu() . '">' . $j->getNomJeu() . '</option>';
+                echo '<option value="' . $j->getCodeJeu() . '">' .htmlspecialchars($j->getNomJeu()) . '</option>';
             }
         }
         ?>
@@ -66,7 +66,7 @@ echo "<h2>Découvre les coachs qui pourraient te correspondre :</h2>";
 
 <div class="coach-container">
     <?php foreach ($coachs as $coach): ?>
-        <a class="detail-link" href="../web/controleurFrontal.php?controleur=coach&action=afficherDetail&id=<?php echo $coach->getId(); ?>">
+        <a class="detail-link" href="../web/controleurFrontal.php?controleur=coach&action=afficherDetail&id=<?php echo rawurlencode($coach->getId()); ?>">
             <div class="coach-card">
 
                 <div class="coach-banner">
@@ -91,8 +91,8 @@ echo "<h2>Découvre les coachs qui pourraient te correspondre :</h2>";
                          onerror="this.onerror=null; this.src='../ressources/img/defaut_pp.png';">
 
                         <div class="coach-info-texte">
-                            <div class="coach-name"><?php echo $coach->getPseudo(); ?></div>
-                            <div class="coach-id"><?php echo $coach->getId(); ?></div>
+                            <div class="coach-name"><?php echo htmlspecialchars($coach->getPseudo()); ?></div>
+                            <div class="coach-id"><?php echo htmlspecialchars($coach->getId()); ?></div>
                         </div>
                     </div>
                     <div class="coach-langs">
@@ -100,14 +100,14 @@ echo "<h2>Découvre les coachs qui pourraient te correspondre :</h2>";
                         $langues = (new ParlerRepository())->recupererLangues($coach->getId());
                         /** @var Langue $l */
                         foreach ($langues as $l) {
-                            echo '<img class="lang" src="../'.$l->getDrapeauPath().'" alt="'.$l->getCodeAlpha().'">';
+                            echo '<img class="lang" src="../'.$l->getDrapeauPath().'" alt="'.htmlspecialchars($l->getCodeAlpha()).'">';
                         }
                         ?>
                     </div>
                 </div>
 
                 <hr>
-                <div class="coach-description"><p><?php echo $coach->getBiographie(); ?></p></div>
+                <div class="coach-description"><p><?php echo htmlspecialchars($coach->getBiographie()); ?></p></div>
 
             </div>
         </a>

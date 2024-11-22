@@ -27,7 +27,7 @@ $bonUtilisateur = ConnexionUtilisateur::estUtilisateur($coach->getId()) || Conne
                 $langues = (new ParlerRepository())->recupererLangues($coach->getId());
                 /** @var Langue $l */
                 foreach ($langues as $l) {
-                    echo '<img class="lang" src="../'.$l->getDrapeauPath().'" alt="'.$l->getCodeAlpha().'">';
+                    echo '<img class="lang" src="../'.$l->getDrapeauPath().'" alt="'. htmlspecialchars($l->getCodeAlpha()).'">';
                 }
                 ?>
             </div>
@@ -49,7 +49,7 @@ $bonUtilisateur = ConnexionUtilisateur::estUtilisateur($coach->getId()) || Conne
             <p class="bio"><?=$biographieHTML?></p>
             <p class="contact"><?=$emailHTML?></p>
         </div>
-        <a class="buttonCoach" href="../web/controleurFrontal.php?controleur=service&action=afficherListe&id=<?php echo $coach->getId(); ?>">Voir les services de <?=$pseudoHTML?></a>
+        <a class="buttonCoach" href="../web/controleurFrontal.php?controleur=service&action=afficherListe&id=<?php echo $idURL ?>">Consulter les services de <?=$pseudoHTML?></a>
         <?php
         if ($bonUtilisateur) {
             echo '<a class="buttonCoach" id="desinc" href = "../web/controleurFrontal.php?controleur=coach&action=supprimer&id=' . $idURL . '">Se désinscrire de la liste des coachs !</a>';

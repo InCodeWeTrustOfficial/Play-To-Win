@@ -78,7 +78,7 @@ abstract class AbstractAssociationRepository extends AbstractMain {
             $pdoStatement->execute($values);
 
         }catch(PDOException $e){
-            MessageFlash::ajouter("danger",$e->getMessage());
+            //MessageFlash::ajouter("danger",$e->getMessage());
             $valide = false;
         }
         return $valide;
@@ -96,7 +96,7 @@ abstract class AbstractAssociationRepository extends AbstractMain {
             $pdoStatement->execute($values);
 
         }catch(PDOException $e){
-            MessageFlash::ajouter("danger",$sql."|".$e->getMessage());
+            //MessageFlash::ajouter("danger",$sql."|".$e->getMessage());
             $valide = false;
         }
         return $valide;
