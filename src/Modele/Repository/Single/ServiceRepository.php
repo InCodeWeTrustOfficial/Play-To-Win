@@ -3,7 +3,7 @@
 namespace App\PlayToWin\Modele\Repository\Single;
 
 use App\PlayToWin\Modele\DataObject\AbstractDataObject;
-use App\PlayToWin\Modele\DataObject\Services;
+use App\PlayToWin\Modele\DataObject\Service;
 use App\PlayToWin\Modele\DataObject\Utilisateur;
 use App\PlayToWin\Modele\Repository\ConnexionBaseDeDonnees;
 use PDOException;
@@ -70,35 +70,6 @@ abstract class ServiceRepository extends AbstractRepository{
         return $valide;
     }
 
-    public function mettreAJour(AbstractDataObject $objet):bool {
-        $valide = true;
-        try{
-            $nomCol = $this->getNomsColonnes();
-            unset($nomCol[0]);
-            $nomTag = array_keys($this->formatTableauSQL($objet));
-            unset($nomTag[0]);
-
-            $args = "";
-
-            for($i = 1; $i<=count($nomCol);$i++){
-                $args = $args . $nomCol[$i] .' = ' . $nomTag[$i];
-                if($i != count($nomCol)){
-                    $args = $args . ',';
-                }
-            }
-
-            $sql = "UPDATE ".$this->getNomTable()." SET ".$args." WHERE ".$this->getNomClePrimaire()." = ".array_keys($this->formatTableauSQL($objet))[0];
-
-            $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
-
-            $values = $this -> formatTableauSQL($objet);
-            $pdoStatement->execute($values);
-        }catch (PDOException){
-            $valide = false;
-        }
-        return $valide;
-    }
-
     public function recupererParClePrimaire(string $cle): ?AbstractDataObject {
         $sql = "SELECT s." . join(', s.', $this->getNomsColonnes()) . ", p." . join(', p.', $this->getNomsColonnesService()) . " 
             FROM " . $this->getNomTable() . " s 
@@ -155,7 +126,7 @@ abstract class ServiceRepository extends AbstractRepository{
     }
 
     protected function formatTableauSQL(AbstractDataObject $services): array {
-        /** @var Services $services */
+        /** @var Service $services */
         return array(
             ":codeServiceTag" => $services->getId(),
             ":nomServiceTag" => $services->getNomService(),

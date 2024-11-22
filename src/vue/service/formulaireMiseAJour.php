@@ -3,6 +3,8 @@
 /** @var ServiceRepository $repo */
 /** @var String $controleur */
 /** @var Services $service */
+/** @var Jeu $jeu */
+/** @var Jeu[] $jeux */
 ?>
 
 <form method="get" action="controleurFrontal.php">
@@ -24,10 +26,20 @@
         </p>
 
         <p class="InputAddOn">
-            <label class="InputAddOn-item" for="jeu_id">Jeu</label>
-            <select class="InputAddOn-field" name="jeu" id="jeu_id" required>
-                <option value="Rocket League" <?= $service->getNomJeu() === 'Rocket League' ? 'selected' : '' ?>>Rocket League</option>
-                <option value="League of Legends" <?= $service->getNomJeu() === 'League of Legends' ? 'selected' : '' ?>>League of Legends</option>
+            <label class="InputAddOn-item" for="codeJeu">Jeu</label>
+            <select class="InputAddOn-field" name="jeu" id="codeJeu">
+                <?php
+                if ($jeu === null) {
+                    echo '<option value="rien" selected="selected">Jeu...?</option>';
+                }else {
+                    echo '<option value="'.$jeu->getCodeJeu().'" selected="selected">'.$jeu->getNomJeu().'</option>';
+                }
+                foreach ($jeux as $j) {
+                    if($j != $jeu) {
+                        echo '<option value="' . $j->getCodeJeu() . '">' . $j->getNomJeu() . '</option>';
+                    }
+                }
+                ?>
             </select>
         </p>
 

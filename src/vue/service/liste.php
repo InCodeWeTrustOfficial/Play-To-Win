@@ -1,9 +1,9 @@
 <?php
 
-use App\PlayToWin\Modele\DataObject\Services;
+use App\PlayToWin\Modele\DataObject\Service;
 
 echo "<h2>Liste des services proposés</h2>";
-/** @var Services[] $services */
+/** @var Service[] $services */
 /** @var string $controleur  */
 /** @var string $id  */
 ?>

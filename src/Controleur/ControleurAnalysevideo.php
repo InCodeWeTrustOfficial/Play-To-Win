@@ -5,7 +5,7 @@ namespace App\PlayToWin\Controleur;
 use App\PlayToWin\Lib\ConnexionUtilisateur;
 use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Modele\DataObject\AnalyseVideo;
-use App\PlayToWin\Modele\DataObject\Services;
+use App\PlayToWin\Modele\DataObject\Service;
 use App\PlayToWin\Modele\Repository\Single\AnalyseVideoRepository;
 use App\PlayToWin\Modele\Repository\Single\CoachingRepository;
 
@@ -29,7 +29,7 @@ class ControleurAnalysevideo extends ControleurService {
         parent::afficherFormulaireMiseAJourUtil(new AnalyseVideoRepository());
     }
 
-    public static function construireDepuisFormulaire(array $tableauDonneesFormulaire): Services {
+    public static function construireDepuisFormulaire(array $tableauDonneesFormulaire): Service {
         $nomService = $tableauDonneesFormulaire['nom_services'];
         $descriptionService = $tableauDonneesFormulaire['description'];
         $codeJeu = $tableauDonneesFormulaire['jeu'];

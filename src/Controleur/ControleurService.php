@@ -4,10 +4,11 @@ namespace App\PlayToWin\Controleur;
 
 use App\PlayToWin\Lib\GestionPanier;
 use App\PlayToWin\Lib\MessageFlash;
-use App\PlayToWin\Modele\DataObject\Services;
+use App\PlayToWin\Modele\DataObject\Service;
 use App\PlayToWin\Modele\HTTP\Session;
 use App\PlayToWin\Modele\Repository\Single\AnalyseVideoRepository;
 use App\PlayToWin\Modele\Repository\Single\CoachingRepository;
+use App\PlayToWin\Modele\Repository\Single\JeuRepository;
 use App\PlayToWin\Modele\Repository\Single\ServiceRepository;
 
 abstract class ControleurService extends ControleurGenerique {
@@ -15,7 +16,7 @@ abstract class ControleurService extends ControleurGenerique {
     protected static string $controleur = 'service';
     abstract static function supprimer();
     abstract static function mettreAJour();
-    abstract static function construireDepuisFormulaire(array $tableauDonneesFormulaire): Services;
+    abstract static function construireDepuisFormulaire(array $tableauDonneesFormulaire): Service;
     abstract public static function afficherFormulaireMiseAJour();
 
     static function getControleur(): string {return static::$controleur;}
@@ -85,7 +86,10 @@ abstract class ControleurService extends ControleurGenerique {
         } else {
             $codeService = $_REQUEST['id'];
 
+            /** @var Service $service */
             $service = $repo->recupererParClePrimaire($codeService);
+            $jeu =   (new JeuRepository())->recupererParClePrimaire($service->getCodeJeu());
+            $jeux = (new JeuRepository())->recuperer();
 
             self::afficherVue('vueGenerale.php', [
                 "titre" => "Formulaire de MAJ",
@@ -93,6 +97,8 @@ abstract class ControleurService extends ControleurGenerique {
                 'id' => $codeService,
                 'service' => $service,
                 'serviceRepo' => $repo,
+                'jeu' => $jeu,
+                'jeux' => $jeux,
                 'controleur' => static::$controleur]);
         }
     }
@@ -164,6 +170,7 @@ abstract class ControleurService extends ControleurGenerique {
                 $enfantData[$attr] = $_REQUEST[$attr];
             }
         }
+
         $service->setAttributsEnfant($enfantData);
 
         (new $repo)->mettreAJour($service);

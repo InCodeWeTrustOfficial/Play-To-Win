@@ -5,7 +5,7 @@ namespace App\PlayToWin\Controleur;
 use App\PlayToWin\Lib\ConnexionUtilisateur;
 use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Modele\DataObject\Commande;
-use App\PlayToWin\Modele\DataObject\Services;
+use App\PlayToWin\Modele\DataObject\Service;
 use App\PlayToWin\Modele\HTTP\Session;
 use App\PlayToWin\Modele\Repository\Single\CommandeRepository;
 use App\PlayToWin\Modele\Repository\ConnexionBaseDeDonnees;
@@ -85,7 +85,7 @@ class ControleurCommande extends ControleurGenerique {
     /**
      * Construit un objet service en fonction du formulaire rempli par l'utilisateur.
      * @param array $tableauDonneesFormulaire
-     * @return Services|null
+     * @return Service|null
      */
     private static function construireDepuisFormulaire(): Commande {
         return (new CommandeRepository())->construireDepuisTableauSQL();

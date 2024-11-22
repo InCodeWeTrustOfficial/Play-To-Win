@@ -6,7 +6,7 @@ use App\PlayToWin\Lib\ConnexionUtilisateur;
 use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Modele\DataObject\AnalyseVideo;
 use App\PlayToWin\Modele\DataObject\Coaching;
-use App\PlayToWin\Modele\DataObject\Services;
+use App\PlayToWin\Modele\DataObject\Service;
 use App\PlayToWin\Modele\Repository\Single\AnalyseVideoRepository;
 use App\PlayToWin\Modele\Repository\Single\CoachingRepository;
 
@@ -37,9 +37,9 @@ class ControleurCoaching extends ControleurService {
     /**
      * Construit un objet service en fonction du formulaire rempli par l'utilisateur.
      * @param array $tableauDonneesFormulaire
-     * @return Services|null
+     * @return Service|null
      */
-    public static function construireDepuisFormulaire(array $tableauDonneesFormulaire): Services {
+    public static function construireDepuisFormulaire(array $tableauDonneesFormulaire): Service {
 
         $nomService = $tableauDonneesFormulaire['nom_services'];
         $descriptionService = $tableauDonneesFormulaire['description'];

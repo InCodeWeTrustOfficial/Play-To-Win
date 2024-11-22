@@ -4,10 +4,10 @@ namespace App\PlayToWin\Modele\Repository\Single;
 
 use App\PlayToWin\Modele\DataObject\AbstractDataObject;
 use App\PlayToWin\Modele\DataObject\Coaching;
-use App\PlayToWin\Modele\DataObject\Services;
+use App\PlayToWin\Modele\DataObject\Service;
 class CoachingRepository extends ServiceRepository {
 
-    public function construireDepuisTableauSQL(array $servicesFormatTableau): Services {
+    public function construireDepuisTableauSQL(array $servicesFormatTableau): Service {
         return new Coaching (
             $servicesFormatTableau["codeService"],
             $servicesFormatTableau["nomService"],

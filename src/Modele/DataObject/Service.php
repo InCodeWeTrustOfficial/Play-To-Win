@@ -5,7 +5,7 @@ namespace App\PlayToWin\Modele\DataObject;
 use App\PlayToWin\Modele\Repository\Single\AnalyseVideoRepository;
 use App\PlayToWin\Modele\Repository\Single\JeuRepository;
 
-abstract class Services extends AbstractDataObject {
+abstract class Service extends AbstractDataObject {
 
     private ?int $codeService;
     private string $nomService;
