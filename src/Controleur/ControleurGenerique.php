@@ -55,7 +55,7 @@ abstract class ControleurGenerique {
     protected static function nestPasBonUtilisateur(string $id,string $url = null, string $controleur = null) : bool{
         $verif = !ConnexionUtilisateur::estBonUtilisateur($id);
 
-        if(!$verif){
+        if($verif){
             MessageFlash::ajouter("danger","Vous n'avez pas les permissions nécessaires.");
             static::redirectionVersURL($url, $controleur);
         }

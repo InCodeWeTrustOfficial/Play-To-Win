@@ -1,6 +1,7 @@
 <?php
 namespace App\PlayToWin\Modele\DataObject;
 
+use App\PlayToWin\Lib\LogistiqueImage;
 use App\PlayToWin\Modele\Repository\Single\UtilisateurRepository;
 use App\PlayToWin\Modele\DataObject\Trajet;
 use DateTime;
@@ -124,14 +125,14 @@ class Utilisateur extends AbstractDataObject {
     {
         $this->mdpHache = $mdpHache;
     }
+
+    public function getPathAvatarBrut(){
+        return self::$pathAvatar;
+    }
+
     public function getAvatarPath(): string {
-        $ext = "";
-        if(file_exists(__DIR__ ."/../../../ressources/img/uploads/pp_utilisateurs/".$this->idUtilisateur.".png")){
-            $ext = ".png";
-        } else if (file_exists(__DIR__ ."/../../../ressources/img/uploads/pp_utilisateurs/".$this->idUtilisateur.".jpg")){
-            $ext = ".jpg";
-        }
-        return $this::$pathAvatar.$this->idUtilisateur.$ext;
+
+        return (new LogistiqueImage(self::$pathAvatar))->getCheminComplet($this->idUtilisateur);
     }
     public function getControleur(): string {
         return "utilisateur";

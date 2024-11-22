@@ -3,6 +3,7 @@
 namespace App\PlayToWin\Controleur;
 
 use App\PlayToWin\Lib\ConnexionUtilisateur;
+use App\PlayToWin\Lib\LogistiqueImage;
 use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Lib\MotDePasse;
 use App\PlayToWin\Lib\VerificationEmail;
@@ -199,36 +200,7 @@ class ControleurCoach extends ControleurGenerique {
                 MessageFlash::ajouter("warning", "Mot de passe incorrect !");
                 self::redirectionVersURL("afficherFormulaireBanniere&id=$idUrl", self::$controleur);
             } else {
-                if (!(!empty($_FILES[$id]) && is_uploaded_file($_FILES[$id]['tmp_name']))) {
-                    MessageFlash::ajouter("warning", "Problème avec le fichier.");
-                    self::redirectionVersURL();
-                } else {
-                    $allowed_ext = array("jpg", "png");
-                    $explosion = explode(".", $_FILES[$id]['name']);
-                    $file_ext = end($explosion);
-
-                    if (!in_array($file_ext, $allowed_ext)) {
-                        MessageFlash::ajouter("warning", "Les fichiers autorisés sont en .png et .jpg");
-                        self::redirectionVersURL("afficherFormulaireBanniere&id=$idUrl", self::$controleur);
-                    } else {
-                        $pic_path = __DIR__ . "/../../ressources/img/uploads/coach/bannieres/$idUrl." . $file_ext;
-
-                        $other_ext = ($file_ext === "jpg") ? "png" : "jpg";
-                        $other_pic_path = __DIR__ . "/../../ressources/img/uploads/coach/bannieres/$idUrl." . $other_ext;
-
-                        if (file_exists($other_pic_path)) {
-                            unlink($other_pic_path);
-                        }
-
-                        if (!move_uploaded_file($_FILES[$id]['tmp_name'], $pic_path)) {
-                            MessageFlash::ajouter("danger", "Problème d'export d'image, peut-être un problème venant de votre fichier.");
-                            self::redirectionVersURL();
-                        } else {
-                            MessageFlash::ajouter("success", "Changement de votre bannière de coach!");
-                            self::redirectionVersURL("afficherDetail&id=$idUrl", self::$controleur);
-                        }
-                    }
-                }
+                (new LogistiqueImage($coach->getPathBannieresBrut()))->enregistrer(new ControleurCoach(),$id,"afficherFormulaireBanniere",self::$controleur);
             }
         }
     }
@@ -243,9 +215,13 @@ class ControleurCoach extends ControleurGenerique {
         $idHtml = htmlspecialchars($id);
         $idUrl = rawurlencode($id);
 
+        /** @var Coach $coach */
+        $coach = (new CoachRepository())->recupererParClePrimaire($id);
+        (new LogistiqueImage($coach->getPathBannieresBrut()))->supprimer($idUrl);
+
         (new CoachRepository())->supprimer($id);
         MessageFlash::ajouter("success", "$idHtml désinscrit des coachs !");
-        self::redirectionVersURL("afficherDetail&id=.$idUrl", "utilisateur");
+        self::redirectionVersURL("afficherDetail&id=$idUrl", "utilisateur");
 
 
     }
