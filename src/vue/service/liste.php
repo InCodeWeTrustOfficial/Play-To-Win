@@ -7,7 +7,7 @@ echo "<h2>Liste des services proposés</h2>";
 /** @var string $id  */
 ?>
 
-<form action="controleurFrontal.php" method="post">
+<form action="controleurFrontal.php" method="<?php if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>">
     <input type='hidden' name='action' id="action" value='afficherListe'>
     <input type='hidden' name='controleur' id="controleur" value='service'>
     <input type='hidden' name='id' value='<?php echo rawurlencode($id); ?>'>
