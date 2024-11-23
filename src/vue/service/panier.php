@@ -24,7 +24,7 @@
             <tr>
                 <td>  <?= htmlspecialchars($produit['nom']) ?>  </td>
                 <td>
-                    <form method="post" action="controleurFrontal.php?controleur=service&action=modifierQuantite&codeService=<?= htmlspecialchars($produit['id']) ?>">
+                    <form method="<?php if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>" action="controleurFrontal.php?controleur=service&action=modifierQuantite&codeService=<?= htmlspecialchars($produit['id']) ?>">
                         <input type="hidden" name="id" value="<?= htmlspecialchars($produit['id']) ?>">
                         <input type="number" name="quantite" value="<?= htmlspecialchars($produit['quantite']) ?>" min="1">
                         <input type="submit" value="Modifier">
@@ -33,7 +33,7 @@
                 <td> <?= number_format($produit['prix'], 2, ',', ' ') ?> €  </td>
                 <td> <?= number_format($sousTotal, 2, ',', ' ') ?> €  </td>
                 <td>
-                    <form method="post" action="controleurFrontal.php?controleur=service&action=supprimerProduit&codeService=<?= rawurlencode($produit['id']) ?>">
+                    <form method="<?php if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>" action="controleurFrontal.php?controleur=service&action=supprimerProduit&codeService=<?= rawurlencode($produit['id']) ?>">
                         <input type="hidden" name="id" value="<?= rawurlencode($produit['id']) ?>">
                         <input type="submit" value="Supprimer">
                     </form>
@@ -47,7 +47,7 @@
         <strong>Total Commande :</strong> <?= number_format($totalGlobal, 2, ',', ' ') ?> €
     </div>
 
-    <form method="post" action="controleurFrontal.php?controleur=commande&action=afficherFormulairePanier">
+    <form method="<?php if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>" action="controleurFrontal.php?controleur=commande&action=afficherFormulairePanier">
         <input type="submit" value="Passer la commande">
     </form>
 <?php endif; ?>
