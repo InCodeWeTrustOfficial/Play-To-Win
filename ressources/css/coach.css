@@ -233,6 +233,11 @@ Coach page perso
     bottom: 5px;
 }
 
+.noms img{
+    width: 38px;
+    height: 38px;
+}
+
 .noms h4:before{
     content : "@";
 }
