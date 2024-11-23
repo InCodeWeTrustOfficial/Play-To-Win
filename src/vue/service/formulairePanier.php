@@ -1,4 +1,6 @@
-<?php if (empty($panier)): ?>
+<?php use App\PlayToWin\Configuration\ConfigurationSite;
+
+if (empty($panier)): ?>
     <p>Votre panier est vide.</p>
 <?php else: ?>
     <form method="<?php if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>" action="controleurFrontal.php" id="PanierForm">

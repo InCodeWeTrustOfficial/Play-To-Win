@@ -2,6 +2,8 @@
 
 /** @var Service $service */
 
+use App\PlayToWin\Modele\DataObject\Service;
+
 ?>
 
 <p class="InputAddOn" id="nbJourRendu_champ">

@@ -2,9 +2,14 @@
 /** @var int $id */
 /** @var ServiceRepository $repo */
 /** @var String $controleur */
-/** @var Services $service */
+/** @var Service $service */
 /** @var Jeu $jeu */
 /** @var Jeu[] $jeux */
+
+use App\PlayToWin\Configuration\ConfigurationSite;
+use App\PlayToWin\Modele\DataObject\Jeu;
+use App\PlayToWin\Modele\DataObject\Service;
+
 ?>
 
 <form method="<?php if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>" action="controleurFrontal.php">

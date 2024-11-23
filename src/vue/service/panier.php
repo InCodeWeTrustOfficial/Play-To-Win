@@ -1,4 +1,6 @@
-<?php if (empty($panier)): ?>
+<?php use App\PlayToWin\Configuration\ConfigurationSite;
+
+if (empty($panier)): ?>
     <div class="empty-cart-message">
         <p>Votre panier est vide.</p>
         <p>Ajoutez des produits à votre panier pour passer commande.</p>

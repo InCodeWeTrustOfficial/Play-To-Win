@@ -1,4 +1,6 @@
-<form method="<?php if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>" action="controleurFrontal.php" id="serviceForm">
+<form method="<?php use App\PlayToWin\Configuration\ConfigurationSite;
+
+if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>" action="controleurFrontal.php" id="serviceForm">
     <input type='hidden' name='action' value='creerDepuisFormulaire'>
     <input type='hidden' name='controleur' id="controleur" value='coaching'>
     <fieldset>
