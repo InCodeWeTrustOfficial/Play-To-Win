@@ -15,28 +15,33 @@ use App\PlayToWin\Modele\DataObject\ObjetListable;
         <table class="admin-table">
             <thead>
             <tr>
-                <th>Identifiant</th>
-                <th>Nom</th>
+                <?php
+                foreach ($objets[0]->getNomColonnes() as $colonne) {
+                    echo "<th>" . htmlspecialchars($colonne) . "</th>";
+                }
+                ?>
                 <th>Actions</th>
             </tr>
             </thead>
             <tbody>
             <?php foreach ($objets as $objet):
-                $idHTML = htmlspecialchars($objet->getId());
                 $idURL = rawurlencode($objet->getId());
-                $nomHTML = htmlspecialchars($objet->getNom());
-                $nomURL = rawurlencode($objet->getNom());
-
+                $elements = $objet->getElementColonnes();
                 ?>
+
                 <tr>
-                    <td>
-                        <a class="admin-list-text" href="../web/controleurFrontal.php?controleur=<?= $controleur ?>&action=afficherDetail&id=<?= $idURL ?>">
-                            <?= $idHTML ?>
-                        </a>
-                    </td>
-                    <td class="admin-list-text">
-                        <?= $nomHTML ?>
-                    </td>
+                    <?php foreach ($elements as $element): ?>
+                        <td class="admin-list-text">
+                            <?php if ($element === $objet->getId()): ?>
+                                <a class="admin-list-id" href="../web/controleurFrontal.php?controleur=<?= $controleur ?>&action=afficherDetail&id=<?= $idURL ?>">
+                                    <?= htmlspecialchars($element) ?>
+                                </a>
+                            <?php else: ?>
+                                <?= htmlspecialchars($element) ?>
+                            <?php endif; ?>
+                        </td>
+                    <?php endforeach; ?>
+
                     <td class="admin-actions">
                         <?php if (ConnexionUtilisateur::estAdministrateur()): ?>
                             <a href="../web/controleurFrontal.php?controleur=<?= $objet->getControleur() ?>&action=afficherFormulaireMiseAJour&id=<?= $idURL ?>"

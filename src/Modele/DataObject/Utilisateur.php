@@ -45,6 +45,14 @@ class Utilisateur extends AbstractDataObject {
         $this->estAdmin = $estAdmin;
     }
 
+    public function getNomColonnes(): array {
+        return ["Identifiant", "nom"];
+    }
+
+    public function getElementColonnes(): array{
+        return [$this->getId() ,$this->getNom()];
+    }
+
     public function getId(): string
     {
         return $this->idUtilisateur;

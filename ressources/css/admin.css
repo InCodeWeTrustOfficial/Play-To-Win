@@ -12,6 +12,19 @@
     margin-bottom: 20px;
 }
 
+.admin-list-id{
+    text-decoration: none;
+    color: #000000;
+    font-weight: bold;
+}
+
+.admin-list-id:hover{
+
+    color: #656565;
+
+}
+
+
 .admin-list-text{
     text-decoration: none;
     color: black;

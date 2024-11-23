@@ -2,8 +2,9 @@
 
 namespace App\PlayToWin\Modele\DataObject;
 
-abstract class ObjetListable extends AbstractDataObject{
-    abstract public function getId();
-    abstract public function getNom();
-
+interface ObjetListable {
+    function getId(): ?int;
+    function getNom(): ?string;
+    function getNomColonnes(): array;
+    function getElementColonnes(): array;
 }

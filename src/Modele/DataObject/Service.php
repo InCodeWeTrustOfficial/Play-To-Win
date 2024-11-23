@@ -5,7 +5,7 @@ namespace App\PlayToWin\Modele\DataObject;
 use App\PlayToWin\Modele\Repository\Single\AnalyseVideoRepository;
 use App\PlayToWin\Modele\Repository\Single\JeuRepository;
 
-abstract class Service extends ObjetListable {
+abstract class Service extends AbstractDataObject implements ObjetListable {
 
     private ?int $codeService;
     private string $nomService;
@@ -42,8 +42,16 @@ abstract class Service extends ObjetListable {
         $this->codeJeu = $codeJeu;
     }
 
+    public function getNomColonnes(): array {
+        return ["Identifiant", "idcoach", "nom"];
+    }
+
+    public function getElementColonnes(): array{
+        return [$this->getId(), $this->getCoach() ,$this->getNom()];
+    }
+
     public function getId(): ?int {
-        return $this->codeService;
+        return htmlspecialchars($this->codeService);
     }
 
     public function setCodeService(int $codeService): void {
