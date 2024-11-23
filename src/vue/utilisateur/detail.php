@@ -90,13 +90,15 @@ $estCoach = (new CoachRepository())->estCoach($utilisateur->getId());
                     $classJeu = (new SeClasserRepository())->recupererDepuisJouer($ligne);
                     $modeHTML = htmlspecialchars($ligne[1]->getNomMode());
                     $modeURL = rawurlencode($ligne[1]->getNomMode());
-                    echo '<p class="ligne-jeu">
-                                    <small>'.$modeHTML.'</small>
+                    echo '<p class="ligne-jeu">';
+                    if($estBonUtilisateur){
+                          echo '<a href="../web/controleurFrontal.php?controleur=jouer&action=afficherModifJouer&id=' . $idURL . '&jeu='.$ligne[0]->getCodeJeu().'&mode='.$modeURL.'">';
+                    }
+                              echo '<small>'.$modeHTML.'</small>
                                     <img src="../'.$ligne[0]->getPathLogo().'" alt="'.htmlspecialchars($ligne[0]->getNomJeu()).'">
                                     <img class="classement" src="../'.$classJeu->getClassPath().'" alt="Classement">';
                     if($estBonUtilisateur){
-                        echo '<a href="../web/controleurFrontal.php?controleur=jouer&action=afficherModifJouer&id=' . $idURL . '&jeu='.$ligne[0]->getCodeJeu().'&mode='.$modeURL.'"> (Modif) </a>
-                                <a href="../web/controleurFrontal.php?controleur=jouer&action=supprimerJouer&id=' . $idURL . '&jeu='.$ligne[0]->getCodeJeu().'&mode='.$modeURL.'">X</a>';
+                        echo '<a href="../web/controleurFrontal.php?controleur=jouer&action=supprimerJouer&id=' . $idURL . '&jeu='.$ligne[0]->getCodeJeu().'&mode='.$modeURL.'">X</a></a>';
                     }
                     echo "</p>";
                 }
