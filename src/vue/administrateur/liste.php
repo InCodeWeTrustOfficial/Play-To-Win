@@ -23,6 +23,8 @@ use App\PlayToWin\Modele\DataObject\AbstractDataObject;
             <?php foreach ($objets as $objet):
                 $idHTML = htmlspecialchars($objet->getId());
                 $idURL = rawurlencode($objet->getId());
+
+
                 ?>
                 <tr>
                     <td>
@@ -36,7 +38,7 @@ use App\PlayToWin\Modele\DataObject\AbstractDataObject;
                                class="admin-btn admin-btn-edit">
                                 Modifier
                             </a>
-                            <a href="../web/controleurFrontal.php?controleur=<?= $controleur ?>&action=supprimer&id=<?= $idURL ?>"
+                            <a href="../web/controleurFrontal.php?controleur=<?= $objet->getControleur() ?>&action=supprimer&id=<?= $idURL ?>"
                                class="admin-btn admin-btn-delete">
                                 Supprimer
                             </a>

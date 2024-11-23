@@ -17,6 +17,7 @@ abstract class ControleurService extends ControleurGenerique {
     abstract static function supprimer();
     abstract static function mettreAJour();
     abstract static function construireDepuisFormulaire(array $tableauDonneesFormulaire): Service;
+    abstract static function creerDepuisFormulaire();
     abstract public static function afficherFormulaireMiseAJour();
     abstract public static function afficherDetail();
     abstract public static function afficherSelfListe();
@@ -119,11 +120,14 @@ abstract class ControleurService extends ControleurGenerique {
         } else {
             $repo->supprimer($_REQUEST['id']);
             $services = $repo->recuperer();
+
+            MessageFlash::ajouter("success", "Service supprimer");
+
             self::afficherVue('vueGenerale.php', [
-                "titre" => "Suppression ". $repo->getNomTableService(),
-                "cheminCorpsVue" => 'service/serviceSupprime.php',
+                "titre" => "Liste des services",
+                "cheminCorpsVue" => "service/liste.php",
                 'services' => $services,
-                'codeService' => $_REQUEST['codeService'],
+                'codeService' => $_REQUEST['id'],
                 'controleur' => static::getControleur()]);
         }
     }
@@ -160,20 +164,27 @@ abstract class ControleurService extends ControleurGenerique {
         self::redirectionVersURL("afficherListe&id=" . $idUrl ,self::$controleur);
 
     }
-    
+
     protected static function creerDepuisFormulaireUtil(ServiceRepository $repo): void {
         try {
             $service = static::construireDepuisFormulaire($_REQUEST);
-
             (new $repo())->ajouter($service);
 
             MessageFlash::ajouter("success", "Service ajouté");
-            static::redirectionVersURL("afficherPanier", self::$controleur);
+
+            $services = $repo->recuperer();
+
+            self::afficherVue('vueGenerale.php', [
+                "titre" => "Liste des services",
+                "cheminCorpsVue" => "service/liste.php",
+                'services' => $services,
+                'controleur' => static::getControleur()]);
 
         } catch (\Exception $e) {
             self::afficherErreur("Une erreur est survenue lors de la création du service : " . $e->getMessage());
         }
     }
+
 
     public static function afficherErreur(string $messageErreur = ""): void {
         if (!$messageErreur == "") {

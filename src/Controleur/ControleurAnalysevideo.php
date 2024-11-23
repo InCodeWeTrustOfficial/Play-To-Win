@@ -21,7 +21,7 @@ class ControleurAnalysevideo extends ControleurService {
         parent::mettreAJourUtil((new AnalyseVideoRepository()));
     }
 
-    public function creerDepuisFormulaire(): void {
+    public static function creerDepuisFormulaire(): void {
         parent::creerDepuisFormulaireUtil(new AnalyseVideoRepository());
     }
 

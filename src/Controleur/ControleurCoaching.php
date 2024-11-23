@@ -34,7 +34,7 @@ class ControleurCoaching extends ControleurService {
         parent::afficherSelfListeUtil((new CoachingRepository()));
     }
 
-    public function creerDepuisFormulaire(): void {
+    public static function creerDepuisFormulaire(): void {
         parent::creerDepuisFormulaireUtil(new CoachingRepository());
     }
 
