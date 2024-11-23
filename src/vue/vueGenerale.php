@@ -20,6 +20,8 @@
         <?php
         /** @var string $titre */
         use App\PlayToWin\Lib\ConnexionUtilisateur;
+        use App\PlayToWin\Modele\Repository\Single\CoachRepository;
+
         echo $titre; ?>
     </title>
 </head>
@@ -37,6 +39,7 @@
             </a>
             <?php
             $estAdmin = ConnexionUtilisateur::estAdministrateur();
+            $estCoach = ConnexionUtilisateur::estConnecte() && (new CoachRepository())->estCoach(ConnexionUtilisateur::getIdUtilisateurConnecte());
             if($estAdmin){
                 echo '
                 <div class="dropdown">
@@ -74,10 +77,12 @@
                         <img src="../ressources/img/icone/panier.png" alt="Panier">
                     </a>';
 
-                echo '
-                    <a href="controleurFrontal.php?controleur=service&action=afficherListe&id='.$idURL.'" class="icon-link">
+                if($estAdmin || $estCoach ) {
+                    echo '
+                    <a href="controleurFrontal.php?controleur=service&action=afficherListe&id=' . $idURL . '" class="icon-link">
                         <img src="../ressources/img/icone/produit.png" alt="Service">
                     </a>';
+                }
 
                 echo '
                     <a href="controleurFrontal.php?controleur=utilisateur&action=afficherDetail&id='.$idURL.'" class="icon-link">

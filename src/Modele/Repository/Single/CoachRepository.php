@@ -29,7 +29,7 @@ class CoachRepository extends AbstractRepository {
         return new Coach((new UtilisateurRepository())->recupererParClePrimaire($coachFormatTableau[0]) ,$coachFormatTableau[1]);
     }
 
-    public function estCoach(string $user):bool{
+    public function estCoach(string $user): bool{
         $sql = "select count(*) from ".$this->getNomTable()." c where c.".$this->getNomClePrimaire()." = :idTag;";
 
         $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
