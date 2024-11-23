@@ -42,6 +42,21 @@
     filter: brightness(0) invert(1);
 }
 
+.logo-link {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 8px;
+    font-weight: bold;
+ }
+
+.logo-link img {
+    width: 20px;
+    height: 20px;
+}
+
 .login-button {
     text-decoration: none;
     background: transparent;

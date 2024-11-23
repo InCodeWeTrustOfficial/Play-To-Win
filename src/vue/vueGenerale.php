@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <link rel="icon" href="../ressources/img/icone/play-to-win-logo.png" type="image/png">
     <link rel="stylesheet" href="../ressources/css/nav_bar.css">
     <link rel="stylesheet" href="../ressources/css/background.css">
     <link rel="stylesheet" href="../ressources/css/footer.css">
@@ -28,6 +29,11 @@
 <body>
 <header>
     <nav class="navbar">
+        <a href="controleurFrontal.php" class="logo-link">
+            <img src="../ressources/img/icone/play-to-win-logo.png" alt="Logo">
+            Play To Win
+        </a>
+
         <div class="nav-center">
             <a href="controleurFrontal.php" class="nav-link">
                 <img src="../ressources/img/icone/home.png" alt="Home">
