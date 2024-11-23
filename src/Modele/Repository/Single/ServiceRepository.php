@@ -45,7 +45,6 @@ abstract class ServiceRepository extends AbstractRepository{
 
     public function ajouter(AbstractDataObject $objet): bool {
         $valide = true;
-        try {
             $sqlService = "INSERT INTO " . $this->getNomTable() . " (" . join(',', $this->getNomsColonnes()) . ") 
             VALUES (" . join(',', array_keys($this->formatTableauSQL($objet))) . ")";
 
@@ -63,10 +62,6 @@ abstract class ServiceRepository extends AbstractRepository{
             $pdoStatementAnalyse = ConnexionBaseDeDonnees::getPdo()->prepare($sqlAnalyse);
             $pdoStatementAnalyse->execute($valuesAnalyse);
 
-        } catch (PDOException $e) {
-            $valide = false;
-            echo "Erreur lors de l'ajout : " . $e->getMessage();
-        }
         return $valide;
     }
 

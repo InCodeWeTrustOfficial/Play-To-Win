@@ -32,11 +32,11 @@ class CommandeRepository extends AbstractRepository {
     public function recupererParCleEtrangere($idUtilisateur): ?array {
         $sql = "SELECT " . join(',', $this->getNomsColonnes()) .
             " FROM " . $this->getNomTable() .
-            " WHERE idUtilisateur = :idUtilisateur";
+            " WHERE idUtilisateur = :idUtilisateurTag";
 
         $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
-        $pdoStatement->bindParam(':idUtilisateur', $idUtilisateur);
-        $pdoStatement->execute();
+        $values = array("idUtilisateurTag" => $idUtilisateur);
+        $pdoStatement->execute($values);
 
         $objets = [];
         foreach ($pdoStatement as $objetFormatTableau) {
@@ -47,15 +47,11 @@ class CommandeRepository extends AbstractRepository {
     }
 
     public function construireDepuisTableauSQL(array $servicesFormatTableau): Commande {
-        try {
-            return new Commande(
-                $servicesFormatTableau[0],
-                new DateTime(),
-                $servicesFormatTableau[2],
-                $servicesFormatTableau[3]
-            );
-        } catch (Exception $e) {
-            throw new RuntimeException("Erreur lors de la conversion de la date : " . $e->getMessage());
-        }
+        return new Commande(
+            $servicesFormatTableau[0],
+            new DateTime(),
+            $servicesFormatTableau[2],
+            $servicesFormatTableau[3]
+        );
     }
 }

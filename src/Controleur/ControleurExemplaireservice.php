@@ -14,12 +14,14 @@ class ControleurExemplaireservice extends ControleurGenerique {
         if (isset($_REQUEST['idcommande'])) {
             $idCommande = $_REQUEST['idcommande'];
             $exemplaireservices = (new ExemplaireServiceRepository)->recupererParCommande($idCommande);
+
             self::afficherVue('vueGenerale.php', [
                 "titre" => "Liste des exemplaire services de la commande",
                 "cheminCorpsVue" => "exemplaireservice/liste.php",
                 'exemplaireservices' => $exemplaireservices,
                 'controleur' => self::$controleur
             ]);
+
         } else {
             MessageFlash::ajouter("danger", "Erreur, le coach n'existe pas !");
         }
@@ -34,13 +36,8 @@ class ControleurExemplaireservice extends ControleurGenerique {
     }
 
     public static function creerDepuisFormulaire(): void {
-        try {
-            $exemplaireService = self::construireDepuisFormulaire($_REQUEST);
-            (new ExemplaireServiceRepository())->ajouter($exemplaireService);
-
-        } catch (\Exception $e) {
-            self::afficherErreur($e->getMessage());
-        }
+        $exemplaireService = self::construireDepuisFormulaire($_REQUEST);
+        (new ExemplaireServiceRepository())->ajouter($exemplaireService);
     }
 
     public static function construireDepuisFormulaire(array $tableauDonneesFormulaire): ExemplaireService {

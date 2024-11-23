@@ -23,11 +23,11 @@ class ExemplaireServiceRepository extends AbstractRepository{
     public function recupererParCommande(string $idCommande): array {
         $sql = "SELECT " . join(',', $this->getNomsColonnes()) .
             " FROM " . $this->getNomTable() .
-            " WHERE idCommande = :idCommande";
+            " WHERE idCommande = :idCommandeTag";
 
         $pdoStatement = ConnexionBaseDeDonnees::getPdo()->prepare($sql);
-        $pdoStatement->bindParam(':idCommande', $idCommande);
-        $pdoStatement->execute();
+        $values = array("idCommandeTag" => $idCommande);
+        $pdoStatement->execute($values);
 
         $objets = [];
         foreach ($pdoStatement as $objetFormatTableau) {
@@ -35,6 +35,20 @@ class ExemplaireServiceRepository extends AbstractRepository{
         }
 
         return $objets;
+    }
+
+    public function getService($codeService): ?AbstractDataObject {
+        $serviceAnalyse = (new AnalyseVideoRepository())->recupererParClePrimaire($codeService);
+        if ($serviceAnalyse !== null) {
+            return $serviceAnalyse;
+        }
+
+        $coachingAnalyse = (new CoachingRepository())->recupererParClePrimaire($codeService);
+        if ($coachingAnalyse !== null) {
+            return $coachingAnalyse;
+        }
+
+        return null;
     }
 
     protected function formatTableauSQL(AbstractDataObject $Exservices): array {
