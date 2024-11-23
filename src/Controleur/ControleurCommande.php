@@ -36,7 +36,8 @@ class ControleurCommande extends ControleurGenerique {
     }
 
     public static function passerCommande(): void {
-        try {
+        if (self::existePasRequest(["sujet"], "Le coach n'existe pas.")) return;
+
             $commandeRepository = new CommandeRepository();
             $commande = $commandeRepository->construireDepuisTableauSQL([
                     null,
@@ -52,7 +53,7 @@ class ControleurCommande extends ControleurGenerique {
             $session = Session::getInstance();
             $panier = $session->lire('panier');
 
-            $sujets = $_GET['sujet'] ?? [];
+            $sujets = $_REQUEST['sujet'] ?? [];
             $prixTotal = 0.0;
 
             foreach ($panier as $codeService => $produit) {
@@ -76,10 +77,7 @@ class ControleurCommande extends ControleurGenerique {
             $session->supprimer('panier');
             MessageFlash::ajouter("success", "Commande passée avec succès.");
             self::redirectionVersURL("afficherListe", "coach");
-        } catch (\Exception $e) {
-            MessageFlash::ajouter("danger", "Erreur lors de la commande : " . htmlspecialchars($e->getMessage()));
-            self::redirectionVersURL("afficherPanier", self::$controleur);
-        }
+
     }
 
     /**
