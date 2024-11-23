@@ -14,9 +14,11 @@ use App\PlayToWin\Modele\DataObject\Jeu;
     <input type = 'hidden' name="mode" value="<?=$mode?>">
     <fieldset>
         <legend>Modification:</legend>
-        <p class="InputAddOn">
-            Jeu : <?= htmlspecialchars($jeu->getNomJeu())?>
-            Mode : <?=htmlspecialchars($mode)?>
+        <p class="nomModif">
+            <?= htmlspecialchars($jeu->getNomJeu())?> <img class="jeuModif" src="../<?=$jeu->getPathLogo()?>">
+        </p>
+        <p class="nomModif">
+            Le mode choisi : <?=htmlspecialchars($mode)?>
         </p>
         <?php
         require_once 'extClassement.php';
