@@ -28,6 +28,11 @@
 <body>
 <header>
     <nav class="navbar">
+        <a href="controleurFrontal.php" class="nav-link">
+            <img src="../ressources/img/icone/play-to-win-logo.png" alt="Logo">
+            Home
+        </a>
+
         <div class="nav-center">
             <a href="controleurFrontal.php" class="nav-link">
                 <img src="../ressources/img/icone/home.png" alt="Home">
