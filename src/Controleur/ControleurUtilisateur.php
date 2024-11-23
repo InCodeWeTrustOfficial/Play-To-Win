@@ -14,24 +14,21 @@ use DateTime;
 class ControleurUtilisateur extends ControleurGenerique {
 
     private static string $controleur = "utilisateur";
-
-    public static function afficherListe() : void {
-        $utilisateurs = (new UtilisateurRepository())->recuperer();
-        self::afficherVue('vueGenerale.php',["titre" => "Liste des utilisateurs", "cheminCorpsVue" => "utilisateur/liste.php", 'utilisateurs'=>$utilisateurs, 'controleur'=>self::$controleur]);
-    }
-
     public static function afficherDetail() : void {
 
-        if (self::existePasRequest(["id"], "L'utilistateur est inexistant !", "afficherListe", self::$controleur)) return;
+        if (self::existePasRequest(["id"], "L'utilistateur est inexistant !")) return;
 
         $id = $_REQUEST['id'];
+
+        if (self::nestPasBonUtilisateur($id)) return;
+
         $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($id);
         if ($utilisateur !== NULL) {
             self::afficherVue('vueGenerale.php', ["titre" => "Détail des utilisateurs", "cheminCorpsVue" => "utilisateur/detail.php", 'utilisateur' => $utilisateur, 'controleur' => self::$controleur]);
         } else {
             $idHTML = htmlspecialchars($id);
             MessageFlash::ajouter("warning", "L'utilisateur $idHTML n'existe pas !");
-            self::redirectionVersURL("afficherListe", self::$controleur);
+            self::redirectionVersURL();
         }
 
     }
@@ -55,7 +52,7 @@ class ControleurUtilisateur extends ControleurGenerique {
         if (self::existePasRequest(["id"], "Login non valide.")) return;
 
         $id = $_REQUEST['id'];
-        if (self::nestPasBonUtilisateur($id,"afficherListe", self::$controleur)) return;
+        if (self::nestPasBonUtilisateur($id)) return;
 
         if (!ConnexionUtilisateur::estAdministrateur()) {
             $id = ConnexionUtilisateur::getIdUtilisateurConnecte();
@@ -68,9 +65,8 @@ class ControleurUtilisateur extends ControleurGenerique {
     public static function afficherFormulaireAvatar() : void{
 
         if (self::existePasRequest(["id"], "Login non valide.")) return;
-
         $id = $_REQUEST['id'];
-        if (self::nestPasBonUtilisateur($id,"afficherListe", self::$controleur)) return;
+        if (self::nestPasBonUtilisateur($id)) return;
 
         if (!ConnexionUtilisateur::estAdministrateur()) {
             $id = ConnexionUtilisateur::getIdUtilisateurConnecte();
@@ -113,7 +109,7 @@ class ControleurUtilisateur extends ControleurGenerique {
     public static function deconnecter(): void{
         ConnexionUtilisateur::deconnecter();
         MessageFlash::ajouter("success","Déconnexion !");
-        self::redirectionVersURL("afficherListe","coach");
+        self::redirectionVersURL();
     }
 
     public static function creerDepuisFormulaire() : void {
@@ -128,7 +124,7 @@ class ControleurUtilisateur extends ControleurGenerique {
 
         if (strlen($id) > 32 || strlen($nom) > 32 || strlen($prenom) > 32 || strlen($pseudo) > 32 || strlen($email) > 256) {
             MessageFlash::ajouter("danger", "Les données sont invalides");
-            self::redirectionVersURL("afficherListe", self::$controleur);
+            self::redirectionVersURL();
             return;
         }
 
@@ -146,8 +142,6 @@ class ControleurUtilisateur extends ControleurGenerique {
                 } else {
                     $utilisateur = self::construireDepuisFormulaireAdmin($_REQUEST);
                 }
-
-
                 (new UtilisateurRepository)->ajouter($utilisateur);
                 (new ParlerRepository())->ajouterTuple(array($_REQUEST['id'], $_REQUEST["lang"]));
                 MessageFlash::ajouter("success", "Compte créé !");
@@ -180,7 +174,7 @@ class ControleurUtilisateur extends ControleurGenerique {
         (new UtilisateurRepository())->supprimer($_REQUEST['id']);
         $idHtml = htmlspecialchars($id);
         MessageFlash::ajouter("success", "Compte $idHtml supprimé !");
-        self::redirectionVersURL("afficherListe", self::$controleur);
+        self::redirectionVersURL();
 
     }
 
@@ -198,7 +192,7 @@ class ControleurUtilisateur extends ControleurGenerique {
 
         if (strlen($id) > 32 || strlen($nom) > 32 || strlen($prenom) > 32 || strlen($pseudo) > 32 || strlen($email) > 256) {
             MessageFlash::ajouter("danger", "Les données sont invalides");
-            self::redirectionVersURL("afficherListe", self::$controleur);
+            self::redirectionVersURL();
             return;
         }
 
@@ -228,9 +222,12 @@ class ControleurUtilisateur extends ControleurGenerique {
                             $utilPossible->setNonce(MotDePasse::genererChaineAleatoire());
                         }
                     }
-                    $utilPossible->setNom($_REQUEST['nom']);
-                    $utilPossible->setPrenom($_REQUEST['prenom']);
-                    $utilPossible->setPseudo($_REQUEST['pseudo']);
+                    $nomHtml = htmlspecialchars($nom);
+                    $prenomHtml = htmlspecialchars($prenom);
+                    $pseudoHtml = htmlspecialchars($pseudo);
+                    $utilPossible->setNom($nomHtml);
+                    $utilPossible->setPrenom($prenomHtml);
+                    $utilPossible->setPseudo($pseudoHtml);
                     $utilPossible->setDateNaissance(new DateTime($_REQUEST['date']));
                     $utilPossible->setMdpHache(MotDePasse::hacher($_REQUEST['mdp']));
                     if (ConnexionUtilisateur::estAdministrateur()) {
@@ -240,9 +237,10 @@ class ControleurUtilisateur extends ControleurGenerique {
                     if ($boolMail) {
                         VerificationEmail::envoiEmailValidation($utilPossible);
                     }
-                    $idHTML = htmlspecialchars($_REQUEST['id']);
+                    $idHTML = htmlspecialchars($id);
+                    $idUrl = rawurlencode($id);
                     MessageFlash::ajouter("success", "Profil de $idHTML a été mis à jour !");
-                    self::redirectionVersURL("afficherListe", self::$controleur);
+                    self::redirectionVersURL("afficherDetail&id=".$idUrl,self::$controleur);
                 }
             }
 
@@ -253,7 +251,7 @@ class ControleurUtilisateur extends ControleurGenerique {
         if (self::existePasRequest(["id", "mdp"], "Informations non complètes.")) return;
 
         $id = $_REQUEST['id'];
-        if (self::nestPasBonUtilisateur($id,"afficherListe", self::$controleur)) return;
+        if (self::nestPasBonUtilisateur($id)) return;
 
         $idUrl = rawurlencode($id);
         /** @var Utilisateur $utilisateur */
@@ -264,7 +262,6 @@ class ControleurUtilisateur extends ControleurGenerique {
         } else {
             (new LogistiqueImage($utilisateur->getPathAvatarBrut()))->enregistrer(new ControleurUtilisateur(),$id, "afficherFormulaireAvatar", "utilisateur");
         }
-
     }
 
     public static function validerEmail(): void {
@@ -273,7 +270,7 @@ class ControleurUtilisateur extends ControleurGenerique {
 
         if (!VerificationEmail::traiterEmailValidation($_REQUEST['id'], $_REQUEST['nonce'])) {
             MessageFlash::ajouter("warning", "Lien non valide!");
-            self::redirectionVersURL("afficherListe", self::$controleur);
+            self::redirectionVersURL();
         } else {
             MessageFlash::ajouter("success", "Email validé!");
             ConnexionUtilisateur::connecter($_REQUEST['id']);
