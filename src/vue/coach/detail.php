@@ -43,7 +43,7 @@ $bonUtilisateur = ConnexionUtilisateur::estUtilisateur($coach->getId()) || Conne
                 <h3><?= $pseudoHTML ?></h3>
                 <h4><?= $idHTML ?></h4>
                 <?php
-                if($bonUtilisateur){echo '<a href = "../web/controleurFrontal.php?controleur=coach&action=afficherFormulaireMiseAJour&id=' . $idURL . '"><img src="../ressources/img/crayon.png"></a>';}
+                if($bonUtilisateur){echo '<a href = "../web/controleurFrontal.php?controleur=coach&action=afficherFormulaireMiseAJour&id=' . $idURL . '"><img src="../ressources/img/icone/crayon.png"></a>';}
                 ?>
             </div>
             <p class="bio"><?=$biographieHTML?></p>

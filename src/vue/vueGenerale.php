@@ -147,7 +147,7 @@
             <h3>Suivez-nous</h3>
             <div class="social-links">
                 <a href="#" class="social-icon">
-                    <img src="../ressources/img/icone/X.png" alt="X">
+                    <img src="../ressources/img/icone/x.png" alt="X">
                 </a>
                 <a href="#" class="social-icon">
                     <img src="../ressources/img/icone/discord.png" alt="Discord">
