@@ -6,7 +6,7 @@ use App\PlayToWin\Modele\DataObject\Service;
 use App\PlayToWin\Lib\ConnexionUtilisateur;
 
 $codeServiceHTML = htmlspecialchars($service->getId());
-$nomServiceHTML = htmlspecialchars($service->getNomService());
+$nomServiceHTML = htmlspecialchars($service->getNom());
 $descriptionServiceHTML = htmlspecialchars($service->getDescriptionService());
 $coachHTML = htmlspecialchars($service->getCoach());
 $coachURL = rawurlencode($service->getCoach());

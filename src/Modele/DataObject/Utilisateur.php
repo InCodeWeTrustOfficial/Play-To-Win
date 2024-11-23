@@ -53,8 +53,7 @@ class Utilisateur extends AbstractDataObject {
     {
         $this->idUtilisateur = $idUtilisateur;
     }
-    public function getNom(): string
-    {
+    public function getNom(): string {
         return $this->nom;
     }
     public function setNom(string $nom)

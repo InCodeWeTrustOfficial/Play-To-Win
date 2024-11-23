@@ -41,28 +41,6 @@ class ControleurAdministrateur extends ControleurGenerique {
             'controleur' => "service"]);
     }
 
-    public static function afficherListeAnalyse() : void {
-        $services = (new AnalyseVideoRepository())->recuperer();
-
-        self::afficherVue('vueGenerale.php',[
-            "titre" => "Liste des services",
-            "cheminCorpsVue" => "administrateur/liste.php",
-            'objets' => $services,
-            'controleur' => self::$controleur
-        ]);
-    }
-
-    public static function afficherListeCoaching() : void {
-        $services = (new CoachingRepository())->recuperer();
-
-        self::afficherVue('vueGenerale.php',[
-            "titre" => "Liste des services",
-            "cheminCorpsVue" => "administrateur/liste.php",
-            'objets' => $services,
-            'controleur' => self::$controleur
-        ]);
-    }
-
     public static function afficherListeCoachs(): void {
         if(!isset($_REQUEST['jeu']) || $_REQUEST['jeu'] === 'rien'){
             $utilisateurs = (new CoachRepository())->recuperer();

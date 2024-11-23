@@ -5,7 +5,7 @@ namespace App\PlayToWin\Modele\DataObject;
 use App\PlayToWin\Modele\Repository\Single\AnalyseVideoRepository;
 use App\PlayToWin\Modele\Repository\Single\JeuRepository;
 
-abstract class Service extends AbstractDataObject {
+abstract class Service extends ObjetListable {
 
     private ?int $codeService;
     private string $nomService;
@@ -50,7 +50,7 @@ abstract class Service extends AbstractDataObject {
         $this->codeService = $codeService;
     }
 
-    public function getNomService(): string {
+    public function getNom(): string {
         return $this->nomService;
     }
 

@@ -31,7 +31,7 @@ class GestionPanier {
             } else {
                 $panier[$codeService] = [
                     'id' => $service->getId(),
-                    'nom' => $service->getNomService(),
+                    'nom' => $service->getNom(),
                     'prix' => $service->getPrixService(),
                     'quantite' => 1,
                     'typeService' => $service->getControleur()

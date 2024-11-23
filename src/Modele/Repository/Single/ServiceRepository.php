@@ -129,7 +129,7 @@ abstract class ServiceRepository extends AbstractRepository{
         /** @var Service $services */
         return array(
             ":codeServiceTag" => $services->getId(),
-            ":nomServiceTag" => $services->getNomService(),
+            ":nomServiceTag" => $services->getNom(),
             ":descriptionServiceTag" => $services->getDescriptionService(),
             ":prixServiceTag" => $services->getPrixService(),
             ":idUtilisateurTag" => $services->getCoach(),

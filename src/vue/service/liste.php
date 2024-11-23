@@ -26,7 +26,7 @@ echo "<h2>Liste des services proposés</h2>";
         <a class="detail-link" href="../web/controleurFrontal.php?controleur=<?php echo $service->getControleur(); ?>&action=afficherDetail&id=<?php echo $service->getId(); ?>">
             <div class="service-card">
                 <img src="../ressources/img/jeux/<?= rawurlencode($service->getCodeJeu())?>.png" alt="Icon" class="service-icon">
-                <div class="service-name"><?php echo htmlspecialchars($service->getNomService()); ?></div>
+                <div class="service-name"><?php echo htmlspecialchars($service->getNom()); ?></div>
                 <div class="service-description"><?php echo htmlspecialchars($service->getDescriptionService()); ?></div>
                 <div class="service-price">
                     <?php if ($service->getPrixService() > 0):

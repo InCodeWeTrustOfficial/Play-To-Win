@@ -1,8 +1,8 @@
 <?php
 use App\PlayToWin\Lib\ConnexionUtilisateur;
-use App\PlayToWin\Modele\DataObject\AbstractDataObject;
+use App\PlayToWin\Modele\DataObject\ObjetListable;
 
-/** @var AbstractDataObject[] $objets */
+/** @var ObjetListable[] $objets */
 /** @var string $controleur */
 ?>
 
@@ -16,6 +16,7 @@ use App\PlayToWin\Modele\DataObject\AbstractDataObject;
             <thead>
             <tr>
                 <th>Identifiant</th>
+                <th>Nom</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -23,14 +24,18 @@ use App\PlayToWin\Modele\DataObject\AbstractDataObject;
             <?php foreach ($objets as $objet):
                 $idHTML = htmlspecialchars($objet->getId());
                 $idURL = rawurlencode($objet->getId());
-
+                $nomHTML = htmlspecialchars($objet->getNom());
+                $nomURL = rawurlencode($objet->getNom());
 
                 ?>
                 <tr>
                     <td>
-                        <a class="admin-list-id" href="../web/controleurFrontal.php?controleur=<?= $controleur ?>&action=afficherDetail&id=<?= $idURL ?>">
+                        <a class="admin-list-text" href="../web/controleurFrontal.php?controleur=<?= $controleur ?>&action=afficherDetail&id=<?= $idURL ?>">
                             <?= $idHTML ?>
                         </a>
+                    </td>
+                    <td class="admin-list-text">
+                        <?= $nomHTML ?>
                     </td>
                     <td class="admin-actions">
                         <?php if (ConnexionUtilisateur::estAdministrateur()): ?>
