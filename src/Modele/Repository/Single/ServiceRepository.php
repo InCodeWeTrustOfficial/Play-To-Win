@@ -47,7 +47,7 @@ abstract class ServiceRepository extends AbstractRepository{
         $valide = true;
         try {
             $sqlService = "INSERT INTO " . $this->getNomTable() . " (" . join(',', $this->getNomsColonnes()) . ") 
- VALUES (" . join(',', array_keys($this->formatTableauSQL($objet))) . ")";
+            VALUES (" . join(',', array_keys($this->formatTableauSQL($objet))) . ")";
 
             $pdoStatementService = ConnexionBaseDeDonnees::getPdo()->prepare($sqlService);
             $valuesService = $this->formatTableauSQL($objet);
@@ -108,8 +108,6 @@ abstract class ServiceRepository extends AbstractRepository{
     }
 
     public function recuperer(): array {
-        $liste = array();
-
         $sql = "SELECT s." . join(', s.', $this->getNomsColonnes()) . ", p." . join(', p.', $this->getNomsColonnesService()) . " 
             FROM " . $this->getNomTable() . " s 
             JOIN " . $this->getNomTableService() . " p 

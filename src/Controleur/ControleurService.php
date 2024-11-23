@@ -25,7 +25,8 @@ abstract class ControleurService extends ControleurGenerique {
     static function getControleur(): string {return static::$controleur;}
 
     public static function afficherListe() : void {
-        if (isset($_REQUEST['id'])) {
+        if (self::existePasRequest(["id"], "Le coach n'existe pas.")) return;
+
             $coachId = $_REQUEST['id'];
             $services = array_merge(
                 (new AnalyseVideoRepository())->recupererParCoach($coachId),
@@ -39,17 +40,10 @@ abstract class ControleurService extends ControleurGenerique {
                 'id' => $coachId,
                 'controleur' => self::$controleur
             ]);
-        } else {
-            MessageFlash::ajouter("danger", "Erreur, le coach n'existe pas !");
-        }
     }
 
     public static function afficherSelfListeUtil(ServiceRepository $repo) : void {
-        if (!isset($_REQUEST['id']) || empty($_REQUEST['id'])) {
-            MessageFlash::ajouter("danger", "Erreur: ID du coach manquant ou vide!");
-            self::redirectionVersURL("afficherListe", "coach");
-            return;
-        }
+        if (self::existePasRequest(["id"], "Le coach n'existe pas.")) return;
 
         $coachId = htmlspecialchars($_REQUEST['id']);
         $services = (new $repo())->recupererParCoach($coachId);
@@ -64,10 +58,8 @@ abstract class ControleurService extends ControleurGenerique {
     }
 
     public static function afficherFormulaireMiseAJourUtil(ServiceRepository $repo) : void {
-        if (!isset($_REQUEST['id'])) {
-            MessageFlash::ajouter("danger", "Erreur, le service n'existe pas !");
-            self::afficherErreur("Erreur, le service n'existe pas !");
-        } else {
+        if (self::existePasRequest(["id"], "Le services n'existe pas.")) return;
+
             $codeService = $_REQUEST['id'];
 
             /** @var Service $service */
@@ -84,7 +76,7 @@ abstract class ControleurService extends ControleurGenerique {
                 'jeu' => $jeu,
                 'jeux' => $jeux,
                 'controleur' => static::$controleur]);
-        }
+
     }
 
     public static function afficherFormulaireCreation() : void {
@@ -94,9 +86,8 @@ abstract class ControleurService extends ControleurGenerique {
     }
 
     public static function afficherDetailUtil(ServiceRepository $repo) : void {
-        if (!isset($_REQUEST['id'])) {
-            MessageFlash::ajouter("danger", "Code service manquant.");
-        } else {
+        if (self::existePasRequest(["id"], "Le services n'existe pas.")) return;
+
             $codeService = $_REQUEST['id'];
             $service = (new $repo())->recupererParClePrimaire($codeService);
 
@@ -107,17 +98,12 @@ abstract class ControleurService extends ControleurGenerique {
                     'service' => $service,
                     'controleur' => static::$controleur
                 ]);
-            } else {
-                MessageFlash::ajouter("danger", "Service introuvable : ".htmlspecialchars($codeService).".");
-
-            }
         }
     }
 
     protected static function supprimerUtils(ServiceRepository $repo) : void {
-        if (!isset($_REQUEST['id'])) {
-            self::afficherErreur("codeService inexistant !");
-        } else {
+        if (self::existePasRequest(["id"], "Login non valide.")) return;
+
             $repo->supprimer($_REQUEST['id']);
             $services = $repo->recuperer();
 
@@ -129,23 +115,20 @@ abstract class ControleurService extends ControleurGenerique {
                 'services' => $services,
                 'codeService' => $_REQUEST['id'],
                 'controleur' => static::getControleur()]);
-        }
     }
 
     protected static function mettreAJourUtil(ServiceRepository $repo): void {
+        if (self::existePasRequest(["id"], "Le service n'existe pas.")) return;
+
+        /** @var ServiceRepository $service */
+
         $codeService = $_REQUEST['id'];
         $service = (new $repo)->recupererParClePrimaire($codeService);
-
-        if ($service === null) {
-            self::afficherErreur("Service non trouvé !");
-            return;
-        }
 
         $service->setNomService($_REQUEST['nom_services']);
         $service->setDescriptionService($_REQUEST['description']);
         $service->setCodeJeu($_REQUEST['jeu']);
         $service->setPrixService((float) $_REQUEST['prix']);
-
         $attributsEnfants = $service->getAttributsEnfants();
         $enfantData = [];
         foreach ($attributsEnfants as $attr) {
@@ -162,11 +145,11 @@ abstract class ControleurService extends ControleurGenerique {
 
         MessageFlash::ajouter("success","Service mis à jour");
         self::redirectionVersURL("afficherListe&id=" . $idUrl ,self::$controleur);
-
     }
 
     protected static function creerDepuisFormulaireUtil(ServiceRepository $repo): void {
-        try {
+            if (self::existePasRequest(["id", "nom_services_id", "description_id", "jeu_id", "type_id", "prix_id"], "Informations manquantes.")) return;
+
             $service = static::construireDepuisFormulaire($_REQUEST);
             (new $repo())->ajouter($service);
 
@@ -179,12 +162,7 @@ abstract class ControleurService extends ControleurGenerique {
                 "cheminCorpsVue" => "service/liste.php",
                 'services' => $services,
                 'controleur' => static::getControleur()]);
-
-        } catch (\Exception $e) {
-            self::afficherErreur("Une erreur est survenue lors de la création du service : " . $e->getMessage());
-        }
     }
-
 
     public static function afficherErreur(string $messageErreur = ""): void {
         if (!$messageErreur == "") {
