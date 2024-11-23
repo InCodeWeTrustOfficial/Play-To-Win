@@ -1,7 +1,7 @@
 <?php if (empty($panier)): ?>
     <p>Votre panier est vide.</p>
 <?php else: ?>
-    <form method="get" action="controleurFrontal.php" id="PanierForm">
+    <form method="post" action="controleurFrontal.php" id="PanierForm">
         <input type='hidden' name='action' value='passerCommande'>
         <input type='hidden' name='controleur' id="controleur" value='commande'>
         <table>

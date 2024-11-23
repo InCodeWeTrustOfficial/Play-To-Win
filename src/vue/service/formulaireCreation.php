@@ -1,4 +1,4 @@
-<form method="get" action="controleurFrontal.php" id="serviceForm">
+<form method="post" action="controleurFrontal.php" id="serviceForm">
     <input type='hidden' name='action' value='creerDepuisFormulaire'>
     <input type='hidden' name='controleur' id="controleur" value='coaching'>
     <fieldset>

@@ -7,7 +7,7 @@
 /** @var Jeu[] $jeux */
 ?>
 
-<form method="get" action="controleurFrontal.php">
+<form method="post" action="controleurFrontal.php">
     <input type='hidden' name='action' value='mettreAJour'>
     <input type='hidden' name='controleur' value='<?= rawurlencode($service->getControleur()) ?>'>
     <input type='hidden' name='id' value='<?= $id ?>'>
