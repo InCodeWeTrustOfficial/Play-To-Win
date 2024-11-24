@@ -61,6 +61,11 @@
             ?>
         </div>
         <div class="nav-right">
+
+            <a href="controleurFrontal.php?controleur=service&action=afficherPanier" class="icon-link">
+                <img src="../ressources/img/icone/panier.png" alt="Panier">
+            </a>
+
             <?php
             if (!ConnexionUtilisateur::estConnecte()) {
                 echo '
@@ -76,12 +81,10 @@
                 $idURL = rawurlencode($ids);
                 echo '
                 <div class="user-icons">
-                    <a href="controleurFrontal.php?controleur=commande&action=afficherListe" class="login-button">
-                        Commande
+                    <a href="controleurFrontal.php?controleur=commande&action=afficherListe" class="icon-link">
+                        <img src="../ressources/img/icone/commande.png" alt="Commande">
                     </a>
-                    <a href="controleurFrontal.php?controleur=service&action=afficherPanier" class="icon-link">
-                        <img src="../ressources/img/icone/panier.png" alt="Panier">
-                    </a>';
+                   ';
 
                 if($estAdmin || $estCoach ) {
                     echo '

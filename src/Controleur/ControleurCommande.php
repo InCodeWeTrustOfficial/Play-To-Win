@@ -10,6 +10,7 @@ use App\PlayToWin\Modele\HTTP\Session;
 use App\PlayToWin\Modele\Repository\Single\CommandeRepository;
 use App\PlayToWin\Modele\Repository\ConnexionBaseDeDonnees;
 use App\PlayToWin\Modele\Repository\Single\ExemplaireServiceRepository;
+use App\PlayToWin\Modele\Repository\Single\LangueRepository;
 use DateTime;
 
 class ControleurCommande extends ControleurGenerique {
@@ -38,6 +39,11 @@ class ControleurCommande extends ControleurGenerique {
     public static function passerCommande(): void {
         if (self::existePasRequest(["sujet"], "Le coach n'existe pas.")) return;
 
+        if (!ConnexionUtilisateur::estConnecte()) {
+            MessageFlash::ajouter("warning", "Vous n'êtes pas connecter.");
+            self::redirectionVersURL("afficherFormulaireConnexion", "utilisateur");
+
+        } else {
             $commandeRepository = new CommandeRepository();
             $commande = $commandeRepository->construireDepuisTableauSQL([
                     null,
@@ -77,7 +83,7 @@ class ControleurCommande extends ControleurGenerique {
             $session->supprimer('panier');
             MessageFlash::ajouter("success", "Commande passée avec succès.");
             self::redirectionVersURL("afficherListe", "coach");
-
+        }
     }
 
     /**
