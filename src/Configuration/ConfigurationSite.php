@@ -12,7 +12,7 @@ class ConfigurationSite {
         return ConfigurationSite::$configurationSite['dureeExpiration'];
     }
     public static function getURLAbsolue():string{
-        //return "http://localhost/web/controleurFrontal.php";
+        //return "http://localhost/s3-projetweb/web/controleurFrontal.php";
         return "https://webinfo.iutmontp.univ-montp2.fr/~turpinb/web/controleurFrontal.php";
     }
 

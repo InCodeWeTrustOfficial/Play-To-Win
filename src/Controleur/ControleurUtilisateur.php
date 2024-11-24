@@ -32,14 +32,6 @@ class ControleurUtilisateur extends ControleurGenerique {
         }
 
     }
-
-    public static function afficherErreur(string $messageErreur = ""): void {
-        if(!$messageErreur == ""){
-            $messageErreur = ': '.$messageErreur;
-        }
-        self::afficherVue('vueGenerale.php',["titre" => "Problème avec l'utilisateur", "cheminCorpsVue" => "utilisateur/erreur.php", "messageErreur" => $messageErreur,'controleur'=>self::$controleur]);
-    }
-
     public static function afficherFormulaireCreation() : void{
         self::afficherVue('vueGenerale.php',["titre" => "Formulaire création utilisateur",
             "cheminCorpsVue" => 'utilisateur/formulaireCreation.php',

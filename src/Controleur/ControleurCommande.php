@@ -28,7 +28,7 @@ class ControleurCommande extends ControleurGenerique {
     public static function afficherFormulairePanier() {
         $panier = Session::getInstance()->lire('panier');
         self::afficherVue('vueGenerale.php', [
-            "titre" => "Liste des services dans passer commande",
+            "titre" => "Liste des services proposés dans la commande",
             "cheminCorpsVue" => "service/formulairePanier.php",
             'panier' => $panier,
             'controleur' => self::$controleur

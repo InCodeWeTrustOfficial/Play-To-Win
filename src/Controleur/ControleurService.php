@@ -58,7 +58,7 @@ abstract class ControleurService extends ControleurGenerique {
     }
 
     public static function afficherFormulaireMiseAJourUtil(ServiceRepository $repo) : void {
-        if (self::existePasRequest(["id"], "Le services n'existe pas.")) return;
+        if (self::existePasRequest(["id"], "Le service n'existe pas.")) return;
 
             $codeService = $_REQUEST['id'];
 
@@ -86,7 +86,7 @@ abstract class ControleurService extends ControleurGenerique {
     }
 
     public static function afficherDetailUtil(ServiceRepository $repo) : void {
-        if (self::existePasRequest(["id"], "Le services n'existe pas.")) return;
+        if (self::existePasRequest(["id"], "Le service n'existe pas.")) return;
 
             $codeService = $_REQUEST['id'];
             $service = (new $repo())->recupererParClePrimaire($codeService);
@@ -107,7 +107,7 @@ abstract class ControleurService extends ControleurGenerique {
             $repo->supprimer($_REQUEST['id']);
             $services = $repo->recuperer();
 
-            MessageFlash::ajouter("success", "Service supprimer");
+            MessageFlash::ajouter("success", "Service supprimé");
 
             self::afficherVue('vueGenerale.php', [
                 "titre" => "Liste des services",
@@ -163,15 +163,6 @@ abstract class ControleurService extends ControleurGenerique {
                 'services' => $services,
                 'controleur' => static::getControleur()]);
     }
-
-    public static function afficherErreur(string $messageErreur = ""): void {
-        if (!$messageErreur == "") {
-            $messageErreur = ': ' . $messageErreur;
-        }
-        MessageFlash::ajouter("danger", "Une erreur est survenue : ".htmlspecialchars($messageErreur));
-        self::afficherVue('vueGenerale.php', ["titre" => "Problème avec le service", "cheminCorpsVue" => "service/erreur.php", "messageErreur" => $messageErreur, 'controleur' => self::$controleur]);
-    }
-
     public static function afficherPanier() : void {
         $panier = Session::getInstance()->lire('panier');
         self::afficherVue('vueGenerale.php',["titre" => "Panier", "cheminCorpsVue" => "service/panier.php",

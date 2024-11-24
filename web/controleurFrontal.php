@@ -2,6 +2,7 @@
 //require_once __DIR__ . '/../src/Controleur/ControleurUtilisateur.php';
 require_once __DIR__ . '/../src/Lib/Psr4AutoloaderClass.php';
 
+use App\PlayToWin\Controleur\ControleurJeux;
 use App\PlayToWin\Controleur\ControleurUtilisateur;
 use App\PlayToWin\Lib\PreferenceControleur;
 
@@ -34,13 +35,15 @@ if(isset($_REQUEST['controleur'])){
 $nomDeClasseControleur = 'App\PlayToWin\Controleur\Controleur'.ucfirst($controleur);
 
 $bool = false;
-foreach (get_class_methods($nomDeClasseControleur) as $possibleAction) {
-    if($possibleAction == $action && class_exists($nomDeClasseControleur)) {
-        $nomDeClasseControleur::$possibleAction();
-        $bool = true;
-        break;
+if (class_exists($nomDeClasseControleur)){
+    foreach (get_class_methods($nomDeClasseControleur) as $possibleAction) {
+        if($possibleAction == $action) {
+            $nomDeClasseControleur::$possibleAction();
+            $bool = true;
+            break;
+        }
     }
 }
 if(!$bool){
-    ControleurUtilisateur::afficherErreur("Vue inexistante");
+    ControleurJeux::afficherErreur();
 }

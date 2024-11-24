@@ -9,6 +9,13 @@ use App\PlayToWin\Lib\PreferenceControleur;
 
 abstract class ControleurGenerique {
 
+    public static function afficherErreur(string $msg = null) : void{
+        if($msg === null){
+            $msg = "Nous rencontrons une erreur dans le chargement de la page.";
+        }
+        self::afficherVue("vueGenerale.php",["titre" => "Problème détecté !", "cheminCorpsVue" => "erreur.php", "message" => $msg]);
+    }
+
     protected static function afficherVue(string $cheminVue, array $parametres = []) : void{
         extract($parametres);
         $messagesFlash = MessageFlash::lireTousMessages();

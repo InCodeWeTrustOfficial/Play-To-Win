@@ -24,17 +24,9 @@ class ControleurExemplaireservice extends ControleurGenerique {
 
         } else {
             MessageFlash::ajouter("danger", "Erreur, le coach n'existe pas !");
+            self::redirectionVersURL();
         }
     }
-
-    public static function afficherErreur(string $messageErreur = ""): void {
-        if (!$messageErreur == "") {
-            $messageErreur = ': ' . $messageErreur;
-        }
-        MessageFlash::ajouter("danger", "Une erreur est survenue : ".htmlspecialchars($messageErreur));
-        self::afficherVue('vueGenerale.php', ["titre" => "Problème avec le service", "cheminCorpsVue" => "service/erreur.php", "messageErreur" => $messageErreur, 'controleur' => self::$controleur]);
-    }
-
     public static function creerDepuisFormulaire(): void {
         $exemplaireService = self::construireDepuisFormulaire($_REQUEST);
         (new ExemplaireServiceRepository())->ajouter($exemplaireService);
@@ -45,7 +37,6 @@ class ControleurExemplaireservice extends ControleurGenerique {
         $sujet = $tableauDonneesFormulaire['sujet'] ?? '';
         $idCommande = $tableauDonneesFormulaire['idCommande'] ?? null;
 
-        echo $idCommande;
         return new ExemplaireService(
             null,                     // ID généré automatiquement
             'achetee',                // état initial
