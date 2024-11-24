@@ -42,8 +42,6 @@ class ControleurAdministrateur extends ControleurGenerique {
     }
 
     public static function afficherListeCoachs(): void {
-        if (self::existePasRequest(["jeu"], "Le jeu n'existe pas.")) return;
-
         if(!isset($_REQUEST['jeu']) || $_REQUEST['jeu'] === 'rien'){
             $utilisateurs = (new CoachRepository())->recuperer();
         } else{
