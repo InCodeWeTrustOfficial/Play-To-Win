@@ -15,6 +15,6 @@
 
 Il est à noter que nous avons privilégié au maximum l'utilisation du php, en réalisant une simulation d'affichage dynamique coté client bien que ce n'est pas le cas. Cependant pour quelques subtilités nous nous sommes permis de rajouter du code Javascript :
 
-- Pour le formulaire de création de services, un petit script est utilisé pour modifier le contrôleur qui sera utilisé pour sa création.
-- Pour l'affichage du type de produit (Coaching / Analyse Vidéo), le choix dans la liste est modifié afin de n'afficher qu'un certain type.
 - Une première apparition du Javascript dans notre projet se situe dans dans les formulaires "jouer", afin de pouvoir utiliser dans un même formulaire une redirection vers une autre action facilement.
+- En second le formulaire de création de services, un petit script est utilisé pour modifier le contrôleur qui sera utilisé pour sa création.
+- En dernier l'affichage du type de produit (Coaching / Analyse Vidéo), le choix dans la liste est modifié afin de n'afficher qu'un certain type.
