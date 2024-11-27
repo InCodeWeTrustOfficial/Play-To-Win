@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <meta charset="UTF-8">
     <link rel="icon" href="../ressources/img/icone/play-to-win-logo.png" type="image/png">
     <link rel="stylesheet" href="../ressources/css/nav_bar.css">
     <link rel="stylesheet" href="../ressources/css/background.css">
@@ -16,7 +17,6 @@
     <link rel="stylesheet" href="../ressources/css/utilisateur.css">
     <link rel="stylesheet" href="../ressources/css/admin.css">
     <script src="../ressources/scripts/service.js" defer></script>
-    <meta charset="UTF-8">
     <title>
         <?php
         /** @var string $titre */

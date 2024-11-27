@@ -148,7 +148,6 @@ abstract class ControleurService extends ControleurGenerique {
     }
 
     protected static function creerDepuisFormulaireUtil(ServiceRepository $repo): void {
-            if (self::existePasRequest(["id", "nom_services_id", "description_id", "jeu_id", "type_id", "prix_id"], "Informations manquantes.")) return;
 
             $service = static::construireDepuisFormulaire($_REQUEST);
             (new $repo())->ajouter($service);
@@ -163,6 +162,7 @@ abstract class ControleurService extends ControleurGenerique {
                 'services' => $services,
                 'controleur' => static::getControleur()]);
     }
+    
     public static function afficherPanier() : void {
         $panier = Session::getInstance()->lire('panier');
         self::afficherVue('vueGenerale.php',["titre" => "Panier", "cheminCorpsVue" => "service/panier.php",

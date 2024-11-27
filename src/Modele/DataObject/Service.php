@@ -51,7 +51,7 @@ abstract class Service extends AbstractDataObject implements ObjetListable {
     }
 
     public function getId(): ?int {
-        return htmlspecialchars($this->codeService);
+        return $this->codeService;
     }
 
     public function setCodeService(int $codeService): void {
