@@ -5,20 +5,24 @@ use App\PlayToWin\Modele\DataObject\Jeu;
 /** @var string $idUser */
 /** @var Jeu $jeu */
 /** @var string $mode */
+/** @var string $conf */
+/** @var string $codeJeu */
+/** @var string $nomJeu */
+/** @var string $nomMode */
 ?>
-<form method="<?php if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>" action="controleurFrontal.php">
+<form method="<?=$conf?>" action="controleurFrontal.php">
     <input type='hidden' name='action' value='modifJouer'>
     <input type='hidden' name='controleur' value="jouer">
     <input type='hidden' name="id" value="<?=rawurlencode($idUser)?>">
-    <input type = 'hidden' name="jeu" value="<?=$jeu->getCodeJeu()?>">
+    <input type = 'hidden' name="jeu" value="<?=$codeJeu?>">
     <input type = 'hidden' name="mode" value="<?=$mode?>">
     <fieldset>
         <legend>Modification:</legend>
         <p class="nomModif">
-            <?= htmlspecialchars($jeu->getNomJeu())?> <img class="jeuModif" src="../<?=$jeu->getPathLogo()?>">
+            <?= $nomJeu?> <img class="jeuModif" src="../<?=$jeu->getPathLogo()?>">
         </p>
         <p class="nomModif">
-            Le mode choisi : <?=htmlspecialchars($mode)?>
+            Le mode choisi : <?=htmlspecialchars($nomMode)?>
         </p>
         <?php
         require_once 'extClassement.php';

@@ -1,7 +1,8 @@
 <?php use App\PlayToWin\Configuration\ConfigurationSite;
 /** @var Langue[] $langues */
+/** @var boolean $conf */
 ?>
-<form method="<?php if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>" action="controleurFrontal.php">
+<form method="<?=$conf?>" action="controleurFrontal.php">
     <input type='hidden' name='action' value='creerDepuisFormulaire'>
     <input type='hidden' name='controleur' value="utilisateur">
     <fieldset>
@@ -59,7 +60,9 @@
         use App\PlayToWin\Lib\ConnexionUtilisateur;
         use App\PlayToWin\Modele\DataObject\Langue;
 
-        if (ConnexionUtilisateur::estAdministrateur()){
+        /** @var boolean $estAdmin */
+
+        if ($estAdmin){
             echo '
             <p class="InputAddOn">
             <label class="InputAddOn-item" for="estAdmin_id">Administrateur ?</label>

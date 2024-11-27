@@ -7,24 +7,25 @@ use App\PlayToWin\Modele\DataObject\Coach;
 use App\PlayToWin\Modele\DataObject\Langue;
 use App\PlayToWin\Modele\Repository\Association\ParlerRepository;
 
-$idURL = rawurlencode($coach->getId());
-$idHTML = htmlspecialchars($coach->getId());
-$nomHTML = htmlspecialchars($coach->getNom());
-$prenomHTML = htmlspecialchars($coach->getPrenom());
-$pseudoHTML = htmlspecialchars($coach->getPseudo());
-$emailHTML = htmlspecialchars($coach->getEmail());
-$biographieHTML = htmlspecialchars($coach->getBiographie());
-$dateNaissanceHTML = htmlspecialchars($coach->getDateNaissance()->format("d/m/Y"));
-$avatarHTML = htmlspecialchars($coach->getAvatarPath());
+/** @var string $idURL */
+/** @var string $idHTML */
+/** @var string $prenomHTML */
+/** @var string $pseudoHTML */
+/** @var string $emailHTML */
+/** @var string $biographieHTML */
+/** @var string $dateNaissanceHTML */
+/** @var string $avatarHTML */
+/** @var string $bannierePath */
 
-$bonUtilisateur = ConnexionUtilisateur::estUtilisateur($coach->getId()) || ConnexionUtilisateur::estAdministrateur();
+/** @var boolean $bonUtilisateur */
+
+/** @var Langue[] $langues */
 ?>
 
     <div class="conteneur-listecoach">
         <div class="conteneur-listeinfo">
             <div class="coach-langs">
                 <?php
-                $langues = (new ParlerRepository())->recupererLangues($coach->getId());
                 /** @var Langue $l */
                 foreach ($langues as $l) {
                     echo '<img class="lang" src="../'.$l->getDrapeauPath().'" alt="'. htmlspecialchars($l->getCodeAlpha()).'">';
@@ -33,7 +34,7 @@ $bonUtilisateur = ConnexionUtilisateur::estUtilisateur($coach->getId()) || Conne
             </div>
             <div class="banniereCustom">
                 <?php if($bonUtilisateur) echo '<a class="changementBann" href = "../web/controleurFrontal.php?controleur=coach&action=afficherFormulaireBanniere&id=' . $idURL . '"></a>';?>
-                <img class="bann" src="../<?= $coach->getBannierePath() ?>" alt="Bannière"
+                <img class="bann" src="../<?= $bannierePath ?>" alt="Bannière"
                  onerror="this.onerror=null; this.src='../ressources/img/defaut_banniere.png';">
 
             </div>

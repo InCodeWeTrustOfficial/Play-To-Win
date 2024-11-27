@@ -3,8 +3,10 @@ use App\PlayToWin\Modele\DataObject\Langue;
 
 /** @var Langue[] $langues */
 /** @var string $idUser */
+
+/** @var string $conf */
 ?>
-<form method="<?php if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>" action="controleurFrontal.php">
+<form method="<?=$conf?>" action="controleurFrontal.php">
     <input type='hidden' name='action' value='ajouterLangue'>
     <input type='hidden' name='controleur' value="langue">
     <input type='hidden' name="id" value="<?=$idUser?>">

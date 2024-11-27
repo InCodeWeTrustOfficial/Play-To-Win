@@ -10,37 +10,40 @@ use App\PlayToWin\Modele\Repository\Association\ParlerRepository;
 use App\PlayToWin\Modele\Repository\Association\SeClasserRepository;
 use App\PlayToWin\Modele\Repository\Single\CoachRepository;
 
-$idURL = rawurlencode($utilisateur->getId());
+/** @var string $idURL */
+/** @var string $idHTML */
+/** @var string $nomHTML */
+/** @var string $prenomHTML */
+/** @var string $pseudoHTML */
+/** @var string $dateNaissanceHTML */
+/** @var string $emailHTML */
+/** @var string $avatarHTML */
 
-$idHTML = htmlspecialchars($utilisateur->getId());
-$nomHTML = htmlspecialchars($utilisateur->getNom());
-$prenomHTML = htmlspecialchars($utilisateur->getPrenom());
-$pseudoHTML = htmlspecialchars($utilisateur->getPseudo());
-$dateNaissanceHTML = htmlspecialchars($utilisateur->getDateNaissance()->format("d/m/Y"));
-$emailHTML = htmlspecialchars($utilisateur->getEmail());
-$avatarHTML = htmlspecialchars($utilisateur->getAvatarPath());
+/** @var array $langues */
+/** @var array $jouer */
 
-$langues = (new ParlerRepository())->recupererLangues($utilisateur->getId());
-$jouer = (new JouerRepository())->recupererModeJeuClassement($utilisateur->getId());
+/** @var boolean $aValideEmail */
+/** @var boolean $estAdmin */
+/** @var boolean $estBonUtilisateur */
+/** @var boolean $estCoach */
 
-$aValideEmail = $utilisateur->getEmail() !== "";
-$estAdmin = ConnexionUtilisateur::estAdministrateur();
-$estBonUtilisateur = $estAdmin || (ConnexionUtilisateur::estConnecte() && ConnexionUtilisateur::estUtilisateur($utilisateur->getId()));
-$estCoach = (new CoachRepository())->estCoach($utilisateur->getId());
+/** @var string $avatarPath */
+/** @var string $emailAValider */
+
 ?>
 
 <div class="utilisateurDetail-conteneur">
 
     <?php if(!$aValideEmail): ?>
     <div class="user-email">
-        <h2><?php echo "Vous devez valider l'email suivante : ".htmlspecialchars($utilisateur->getEmailAValider());?></h2>
+        <h2><?php echo "Vous devez valider l'email suivante : ".$emailAValider?></h2>
     </div>
     <?php endif; ?>
 
     <?php if($aValideEmail): ?>
     <div class="user-main-conteneur <?php if ($estAdmin) echo 'admin'?>">
         <div class ="avatar-conteneur">
-            <img class="ppUser" src="../<?=$utilisateur->getAvatarPath()?>" alt="Photo de profil"
+            <img class="ppUser" src="../<?=$avatarPath?>" alt="Photo de profil"
                  onerror="this.onerror=null; this.src='../ressources/img/defaut_pp.png';">
             <?php if($estBonUtilisateur):?>
             <div class="modifAvatar">
@@ -87,6 +90,7 @@ $estCoach = (new CoachRepository())->estCoach($utilisateur->getId());
             } else{
                 foreach ($jouer as $ligne){
                     /** @var ClassementJeu $classJeu */
+                    // Je ne vois pas comment ne pas faire un appel à seClasserRepository.
                     $classJeu = (new SeClasserRepository())->recupererDepuisJouer($ligne);
                     $modeHTML = htmlspecialchars($ligne[1]->getNomMode());
                     $modeURL = rawurlencode($ligne[1]->getNomMode());

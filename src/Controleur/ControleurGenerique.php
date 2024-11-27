@@ -6,6 +6,7 @@ use App\PlayToWin\Configuration\ConfigurationSite;
 use App\PlayToWin\Lib\ConnexionUtilisateur;
 use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Lib\PreferenceControleur;
+use App\PlayToWin\Modele\Repository\Single\CoachRepository;
 
 abstract class ControleurGenerique {
 
@@ -13,17 +14,31 @@ abstract class ControleurGenerique {
         if($msg === null){
             $msg = "Nous rencontrons une erreur dans le chargement de la page.";
         }
+        $msg = htmlspecialchars($msg);
         self::afficherVue("vueGenerale.php",["titre" => "Problème détecté !", "cheminCorpsVue" => "erreur.php", "message" => $msg]);
     }
 
     protected static function afficherVue(string $cheminVue, array $parametres = []) : void{
         extract($parametres);
         $messagesFlash = MessageFlash::lireTousMessages();
+        $estAdmin = ConnexionUtilisateur::estAdministrateur();
+        $estCoach = ConnexionUtilisateur::estConnecte() && (new CoachRepository())->estCoach(ConnexionUtilisateur::getIdUtilisateurConnecte());
+        $estConnecte = ConnexionUtilisateur::estConnecte();
+        if($estConnecte){
+            $idUtilisateur = ConnexionUtilisateur::getIdUtilisateurConnecte();
+            $idURL = rawurlencode($idUtilisateur);
+        }
         require __DIR__ . "/../vue/$cheminVue";
     }
 
     public static function afficherFormulairePreference() : void{
-        self::afficherVue("formulairePreference.php");
+        $preferenceExiste = PreferenceControleur::existe();
+        $controleurPref = null;
+        if($preferenceExiste){
+            $controleurPref = PreferenceControleur::lire();
+        }
+        $conf = ConfigurationSite::getDebug()?"get":"post";
+        self::afficherVue("formulairePreference.php",["preferenceExiste" => $preferenceExiste, "controleurPref" => $controleurPref, "conf" => $conf]);
     }
 
     public static function enregistrerPreference() : void{

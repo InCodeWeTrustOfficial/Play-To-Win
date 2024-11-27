@@ -4,6 +4,7 @@ use App\PlayToWin\Modele\DataObject\Jeu;
 
 /** @var array $classementsPossibles */
 /** @var Jeu $jeu */
+/** @var ClassementJeu[] $class */
 ?>
 
 <p class="InputAddOn">
@@ -12,8 +13,6 @@ use App\PlayToWin\Modele\DataObject\Jeu;
         <?php
 
         echo '<option value="rien" selected="selected">Classement...?</option>';
-
-        $class = $classementsPossibles[$jeu->getCodeJeu()];
 
         foreach ($class as $cl) {
             /** @var ClassementJeu $cl */

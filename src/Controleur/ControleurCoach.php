@@ -2,6 +2,7 @@
 
 namespace App\PlayToWin\Controleur;
 
+use App\PlayToWin\Configuration\ConfigurationSite;
 use App\PlayToWin\Lib\ConnexionUtilisateur;
 use App\PlayToWin\Lib\LogistiqueImage;
 use App\PlayToWin\Lib\MessageFlash;
@@ -9,6 +10,7 @@ use App\PlayToWin\Lib\MotDePasse;
 use App\PlayToWin\Lib\VerificationEmail;
 use App\PlayToWin\Modele\DataObject\Coach;
 use App\PlayToWin\Modele\DataObject\Jeu;
+use App\PlayToWin\Modele\DataObject\Langue;
 use App\PlayToWin\Modele\DataObject\Utilisateur;
 use App\PlayToWin\Modele\Repository\Association\JouerRepository;
 use App\PlayToWin\Modele\Repository\Association\ParlerRepository;
@@ -16,6 +18,7 @@ use App\PlayToWin\Modele\Repository\Single\AnalyseVideoRepository;
 use App\PlayToWin\Modele\Repository\Single\CoachingRepository;
 use App\PlayToWin\Modele\Repository\Single\CoachRepository;
 use App\PlayToWin\Modele\Repository\Single\JeuRepository;
+use App\PlayToWin\Modele\Repository\Single\LangueRepository;
 use App\PlayToWin\Modele\Repository\Single\UtilisateurRepository;
 
 class ControleurCoach extends ControleurGenerique {
@@ -23,15 +26,26 @@ class ControleurCoach extends ControleurGenerique {
     private static string $controleur = "coach";
 
     public static function afficherListe() : void {
+        $avoirLangue = null;
+        $avoirJeu = null;
+
+        $jeu = null;
+        $codeJeu = null;
+        $nomJeu = null;
+        $jeuRequest = null;
+
         if(!isset($_REQUEST['jeu']) || $_REQUEST['jeu'] === 'rien'){
             $utilisateurs = (new CoachRepository())->recuperer();
         } else{
             /** @var Jeu $jeu */
-            $jeu = (new JeuRepository())->recupererParClePrimaire($_REQUEST['jeu']);
+            $jeuRequest = $_REQUEST['jeu'];
+            $jeu = (new JeuRepository())->recupererParClePrimaire($jeuRequest);
             if($jeu === null){
-
                 $utilisateurs = (new CoachRepository())->recuperer();
             } else{
+                $avoirJeu = true;
+                $codeJeu = $jeu->getCodeJeu();
+                $nomJeu = htmlspecialchars($jeu->getNomJeu());
                 $utilisateurs = array();
                 $tabs = (new JouerRepository())->recupererJoueursAvecJeu($jeu->getCodeJeu());
                 /** @var Utilisateur $tab */
@@ -42,8 +56,16 @@ class ControleurCoach extends ControleurGenerique {
                     }
                 }
             }
+
         }
+
+        $langue = null;
+        $codeAlphaLanque = null;
+        $nomLangue = null;
+        $langueRequest = null;
+
         if(isset($_REQUEST['lang']) && $_REQUEST['lang'] !== 'rien'){
+            $avoirLangue = true;
             /** @var Coach $utilisateur */
             $users = [];
             foreach($utilisateurs as $utilisateur){
@@ -52,9 +74,24 @@ class ControleurCoach extends ControleurGenerique {
                 }
             }
             $utilisateurs = $users;
-        }
+            /** @var Langue $langue */
+            $langue = (new LangueRepository())->recupererParClePrimaire($_REQUEST['lang']);
+            $codeAlphaLanque = rawurlencode($langue->getCodeAlpha());
+            $nomLangue = htmlspecialchars($langue->getNom());
 
-        self::afficherVue('vueGenerale.php',["titre" => "Liste des utilisateurs", "cheminCorpsVue" => "coach/liste.php", 'coachs'=>$utilisateurs, 'controleur'=>self::$controleur]);
+            $langueRequest = $_REQUEST['lang'];
+        }
+        $conf = ConfigurationSite::getDebug()?"get":"post";
+
+
+
+        $langues = (new LangueRepository())->recuperer();
+        $jeux = (new JeuRepository())->recuperer();
+
+        self::afficherVue('vueGenerale.php',["titre" => "Liste des utilisateurs", "cheminCorpsVue" => "coach/liste.php", 'coachs'=>$utilisateurs, 'controleur'=>self::$controleur,
+            "conf" => $conf, "avoirLangue" => $avoirLangue, "langue" => $langue, "codeAlphaLangue" => $codeAlphaLanque, "nomLangue" => $nomLangue,
+            "langues" => $langues, "langueRequest" => $langueRequest, "avoirJeu" => $avoirJeu,
+            "jeu" => $jeu, "codeJeu" => $codeJeu, "nomJeu" => $nomJeu, "jeux" => $jeux, "jeuRequest" => $jeuRequest]);
     }
     
     public static function afficherDetail() : void{
@@ -67,8 +104,29 @@ class ControleurCoach extends ControleurGenerique {
             MessageFlash::ajouter("warning", "$idHtml n'est pas un coach.");
             self::redirectionVersURL();
         } else {
+            /** @var Coach $coach */
             $coach = (new CoachRepository())->recupererParClePrimaire($id);
-            self::afficherVue("vueGenerale.php", ["titre" => "Informations Coach", "cheminCorpsVue" => "coach/detail.php", "coach" => $coach]);
+            $idURL = rawurlencode($id);
+            $idHTML = htmlspecialchars($id);
+            $nomHTML = htmlspecialchars($coach->getNom());
+            $prenomHTML = htmlspecialchars($coach->getPrenom());
+            $pseudoHTML = htmlspecialchars($coach->getPseudo());
+            $emailHTML = htmlspecialchars($coach->getEmail());
+            $biographieHTML = htmlspecialchars($coach->getBiographie());
+            $dateNaissanceHTML = htmlspecialchars($coach->getDateNaissance()->format("d/m/Y"));
+            $avatarHTML = htmlspecialchars($coach->getAvatarPath());
+
+            $bonUtilisateur = ConnexionUtilisateur::estBonUtilisateur($id);
+
+            $langues = (new ParlerRepository())->recupererLangues($coach->getId());
+
+            $bannierePath = $coach->getBannierePath();
+
+            self::afficherVue("vueGenerale.php", ["titre" => "Informations Coach", "cheminCorpsVue" => "coach/detail.php", "coach" => $coach,
+                "idURL" => $idURL, "idHTML" => $idHTML, "nomHTML" => $nomHTML, "prenomHTML" => $prenomHTML,
+                "pseudoHTML" => $pseudoHTML, "emailHTML" => $emailHTML, "dateNaissanceHTML" => $dateNaissanceHTML,
+                "biographieHTML" => $biographieHTML, "avatarHTML" => $avatarHTML, "bonUtilisateur" => $bonUtilisateur,
+                "langues" => $langues, "bannierePath" => $bannierePath]);
         }
 
     }
@@ -91,7 +149,11 @@ class ControleurCoach extends ControleurGenerique {
                 MessageFlash::ajouter("info", "Un coach doit avoir validé son mail.");
                 self::redirectionVersURL("afficherDetail", "utilisateur");
             } else {
-                self::afficherVue("vueGenerale.php", ["titre" => "Formulaire création coach", "cheminCorpsVue" => "coach/formulaireCreation.php", "utilisateur" => $utilisateur, "controleur" => self::$controleur]);
+                $conf = ConfigurationSite::getDebug()?"get":"post";
+                $idUtilisateur = htmlspecialchars(rawurlencode($utilisateur->getId()));
+                $pseudoUtilisateur = htmlspecialchars($utilisateur->getPseudo());
+                self::afficherVue("vueGenerale.php", ["titre" => "Formulaire création coach", "cheminCorpsVue" => "coach/formulaireCreation.php", "utilisateur" => $utilisateur, "controleur" => self::$controleur,
+                    "conf" => $conf, "idUtilisateur" => $idUtilisateur, "pseudoUtilisateur" => $pseudoUtilisateur]);
             }
 
         }
@@ -111,8 +173,13 @@ class ControleurCoach extends ControleurGenerique {
             MessageFlash::ajouter("warning", "Vous n'êtes pas coach !");
             self::redirectionVersURL("afficherFormulaireCreation&id=" . $idUrl, self::$controleur);
         } else {
+            $conf = ConfigurationSite::getDebug()?"get":"post";
+            /** @var Coach $coach */
             $coach = (new CoachRepository())->recupererParClePrimaire($id);
-            self::afficherVue("vueGenerale.php", ["titre" => "Mise à jour du coach", "cheminCorpsVue" => "coach/formulaireMiseAJour.php", "coach" => $coach]);
+            $idUtilisateur =  htmlspecialchars(rawurlencode($coach->getId()));
+            $biographieCoach =htmlspecialchars($coach->getBiographie());
+            self::afficherVue("vueGenerale.php", ["titre" => "Mise à jour du coach", "cheminCorpsVue" => "coach/formulaireMiseAJour.php",
+                "conf" => $conf, "idUtilisateur" => $idUtilisateur, "biographieCoach" => $biographieCoach]);
         }
     }
     public static function afficherFormulaireBanniere() : void{
@@ -130,7 +197,12 @@ class ControleurCoach extends ControleurGenerique {
             if (!ConnexionUtilisateur::estAdministrateur()) {
                 $id = ConnexionUtilisateur::getIdUtilisateurConnecte();
             }
-            self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'coach/formulaireBanniere.php', 'id' => $id]);
+            /** @var Coach $coach */
+            $coach = (new CoachRepository())->recupererParClePrimaire($id);
+            $conf = ConfigurationSite::getDebug()?"get":"post";
+            $banniereCoach = $coach->getBannierePath();
+            self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'coach/formulaireBanniere.php', 'id' => $id,
+                "conf" => $conf, "banniereCoach" => $banniereCoach]);
         }
 
 

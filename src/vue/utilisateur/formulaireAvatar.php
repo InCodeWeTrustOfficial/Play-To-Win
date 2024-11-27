@@ -1,12 +1,13 @@
 <?php
 /** @var string $id */
 /** @var Utilisateur $utilisateur */
+/** @var string $conf */
+/** @var string $avatarPath */
 use App\PlayToWin\Modele\DataObject\Utilisateur;
 use App\PlayToWin\Modele\Repository\Single\UtilisateurRepository;
-$utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($id);
 ?>
 <?php use App\PlayToWin\Configuration\ConfigurationSite;?>
-<form method="<?php if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>" action="controleurFrontal.php" enctype="multipart/form-data">
+<form method="<?=$conf?>" action="controleurFrontal.php" enctype="multipart/form-data">
     <input type='hidden' name='action' value='mettreAJourAvatar'>
     <input type='hidden' name='controleur' value="utilisateur">
     <input type='hidden' name='id' value="<?=$id?>">
@@ -14,7 +15,7 @@ $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($id);
         <legend>Modification de votre image de profil :</legend>
         <p>
             Image actuelle :
-            <img src="../<?=$utilisateur->getAvatarPath()?>" alt="Photo de profil" style="width: 70px; height: 70px; object-fit: cover;"
+            <img src="../<?=$avatarPath?>" alt="Photo de profil" style="width: 70px; height: 70px; object-fit: cover;"
                  onerror="this.onerror=null; this.src='../ressources/img/defaut_pp.png';">
         </p>
 

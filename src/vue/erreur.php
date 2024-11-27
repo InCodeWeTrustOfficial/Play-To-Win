@@ -1,4 +1,4 @@
 <?php
 /** @var String $message */
 ?>
-<h1><?=htmlspecialchars($message)?></h1>
+<h1><?=$message?></h1>

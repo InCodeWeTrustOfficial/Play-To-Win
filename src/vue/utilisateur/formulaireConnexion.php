@@ -1,5 +1,7 @@
-<?php use App\PlayToWin\Configuration\ConfigurationSite;?>
-<form method="<?php if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>" action="controleurFrontal.php">
+<?php use App\PlayToWin\Configuration\ConfigurationSite;
+/** @var string $conf */
+?>
+<form method="<?= $conf ?>" action="controleurFrontal.php">
     <input type='hidden' name='action' value='connecter'>
     <input type='hidden' name='controleur' value="utilisateur">
     <fieldset>

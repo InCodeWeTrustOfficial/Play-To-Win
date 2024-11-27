@@ -1,22 +1,24 @@
 <?php
 /** @var Utilisateur $utilisateur */
 /** @var string $controleur */
+/** @var string $conf */
+
+/** @var string $idUtilisateur */
+/** @var string $pseudoUtilisateur */
 use App\PlayToWin\Modele\DataObject\Utilisateur;
-use App\PlayToWin\Modele\Repository\Single\UtilisateurRepository;
 ?>
-<?php use App\PlayToWin\Configuration\ConfigurationSite;?>
-<form method="<?php if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>" action="controleurFrontal.php">
+<form method="<?=$conf?>" action="controleurFrontal.php">
     <input type='hidden' name='action' value='creerDepuisFormulaire'>
     <input type='hidden' name='controleur' value="<?=$controleur?>">
     <fieldset>
         <legend>Formulaire d'inscription de coach :</legend>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="id_id">id</label>
-            <input class="InputAddOn-field" value="<?= htmlspecialchars(rawurlencode($utilisateur->getId())) ?>" readonly ="readonly" type="text" name="id" id="id_id" required>
+            <input class="InputAddOn-field" value="<?= $idUtilisateur ?>" readonly ="readonly" type="text" name="id" id="id_id" required>
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="pseudo_id">Pseudo</label>
-            <input class="InputAddOn-field" type="text" readonly="readonly" value="<?= htmlspecialchars($utilisateur->getPseudo())?>" name="pseudo" id="pseudo_id" required>
+            <input class="InputAddOn-field" type="text" readonly="readonly" value="<?= $pseudoUtilisateur ?>" name="pseudo" id="pseudo_id" required>
         </p>
 
         <p class="InputAddOn">

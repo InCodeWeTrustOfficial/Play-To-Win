@@ -1,12 +1,12 @@
 <?php
 /** @var string $id */
-/** @var Coach $coach */
 use App\PlayToWin\Modele\DataObject\Coach;
 use App\PlayToWin\Modele\Repository\Single\CoachRepository;
-$coach = (new CoachRepository())->recupererParClePrimaire($id);
+/** @var string $conf */
+/** @var string $banniereCoach */
 ?>
 <?php use App\PlayToWin\Configuration\ConfigurationSite;?>
-<form method="<?php if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>" action="controleurFrontal.php" enctype="multipart/form-data">
+<form method="<?=$conf ?>" action="controleurFrontal.php" enctype="multipart/form-data">
     <input type='hidden' name='action' value='mettreAJourBanniere'>
     <input type='hidden' name='controleur' value="coach">
     <input type='hidden' name='id' value="<?=$id?>">
@@ -14,7 +14,7 @@ $coach = (new CoachRepository())->recupererParClePrimaire($id);
         <legend>Modification de votre bannière de coach :</legend>
         <p>
             Image actuelle :
-            <img src="../<?=$coach->getBannierePath()?>" alt="Bannière" style="width: 70px; height: 70px; object-fit: cover;"
+            <img src="../<?=$banniereCoach?>" alt="Bannière" style="width: 70px; height: 70px; object-fit: cover;"
                  onerror="this.onerror=null; this.src='../ressources/img/defaut_banniere.png';">
         </p>
 

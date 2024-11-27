@@ -6,8 +6,12 @@ use App\PlayToWin\Modele\DataObject\Jeu;
 /** @var array $classementsPossibles */
 /** @var string $idUser */
 /** @var Jeu $jeu */
+/** @var string $codeJeu */
+/** @var string $nomJeu */
+
+/** @var string $conf */
 ?>
-<form method="<?php if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>" action="controleurFrontal.php">
+<form method="<?=$conf ?>" action="controleurFrontal.php">
     <input type='hidden' name='action' id='actionField' value='actualiserJouer'>
     <input type='hidden' name='controleur' value="jouer">
     <input type='hidden' name="id" value="<?=$idUser?>">
@@ -20,18 +24,19 @@ use App\PlayToWin\Modele\DataObject\Jeu;
                     if ($jeu === null) {
                         echo '<option value="rien" selected="selected">Jeu...?</option>';
                     }else {
-                        echo '<option value="'.$jeu->getCodeJeu().'" selected="selected">'.htmlspecialchars($jeu->getNomJeu()).'</option>';
+                        echo '<option value="'.$codeJeu.'" selected="selected">'.$nomJeu.'</option>';
                     }
                     foreach ($jeux as $j) {
                         if($j != $jeu) {
-                            echo '<option value="' . $j->getCodeJeu() . '">' . htmlspecialchars($j->getNomJeu()) . '</option>';
+                            echo '<option value="' . rawurlencode($j->getCodeJeu()) . '">' . htmlspecialchars($j->getNomJeu()) . '</option>';
                         }
                     }
                 ?>
             </select>
         </p>
         <?php
-        if(isset($_REQUEST['jeu'])){
+        /** @var boolean $reqJeu */
+        if($reqJeu){
             require 'extensionAjout.php';
         }
         ?>

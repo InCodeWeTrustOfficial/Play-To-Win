@@ -1,12 +1,15 @@
 <?php
 namespace App\PlayToWin\Controleur;
+use App\PlayToWin\Configuration\ConfigurationSite;
 use App\PlayToWin\Lib\ConnexionUtilisateur;
 use App\PlayToWin\Lib\LogistiqueImage;
 use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Lib\MotDePasse;
 use App\PlayToWin\Lib\VerificationEmail;
 use App\PlayToWin\Modele\DataObject\Utilisateur;
+use App\PlayToWin\Modele\Repository\Association\JouerRepository;
 use App\PlayToWin\Modele\Repository\Association\ParlerRepository;
+use App\PlayToWin\Modele\Repository\Single\CoachRepository;
 use App\PlayToWin\Modele\Repository\Single\LangueRepository;
 use App\PlayToWin\Modele\Repository\Single\UtilisateurRepository;
 use DateTime;
@@ -22,21 +25,50 @@ class ControleurUtilisateur extends ControleurGenerique {
 
         if (self::nestPasBonUtilisateur($id)) return;
 
+        /** @var Utilisateur $utilisateur */
+
         $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($id);
-        if ($utilisateur !== NULL) {
-            self::afficherVue('vueGenerale.php', ["titre" => "Détail des utilisateurs", "cheminCorpsVue" => "utilisateur/detail.php", 'utilisateur' => $utilisateur, 'controleur' => self::$controleur]);
-        } else {
-            $idHTML = htmlspecialchars($id);
-            MessageFlash::ajouter("warning", "L'utilisateur $idHTML n'existe pas !");
-            self::redirectionVersURL();
+
+        $idURL = rawurlencode($utilisateur->getId());
+        $idHTML = htmlspecialchars($utilisateur->getId());
+        $nomHTML = htmlspecialchars($utilisateur->getNom());
+        $prenomHTML = htmlspecialchars($utilisateur->getPrenom());
+        $pseudoHTML = htmlspecialchars($utilisateur->getPseudo());
+        $dateNaissanceHTML = htmlspecialchars($utilisateur->getDateNaissance()->format("d/m/Y"));
+        $emailHTML = htmlspecialchars($utilisateur->getEmail());
+        $avatarHTML = htmlspecialchars($utilisateur->getAvatarPath());
+
+        $langues = (new ParlerRepository())->recupererLangues($utilisateur->getId());
+        $jouer = (new JouerRepository())->recupererModeJeuClassement($utilisateur->getId());
+
+        $aValideEmail = $utilisateur->getEmail() !== "";
+        $estAdmin = ConnexionUtilisateur::estAdministrateur();
+        $estBonUtilisateur = $estAdmin || (ConnexionUtilisateur::estConnecte() && ConnexionUtilisateur::estUtilisateur($utilisateur->getId()));
+        $estCoach = (new CoachRepository())->estCoach($utilisateur->getId());
+
+        $avatarPath =$utilisateur->getAvatarPath();
+        $emailAValider = "";
+        if(!$aValideEmail){
+            $emailAValider = htmlspecialchars($utilisateur->getEmailAValider());
         }
+
+        self::afficherVue('vueGenerale.php', ["titre" => "Détail des utilisateurs", "cheminCorpsVue" => "utilisateur/detail.php", 'utilisateur' => $utilisateur, 'controleur' => self::$controleur,
+            "idURL" => $idURL, "idHTML" => $idHTML, "nomHTML" => $nomHTML, "prenomHTML" => $prenomHTML, "pseudoHTML" => $pseudoHTML,
+            "dateNaissanceHTML" => $dateNaissanceHTML, "emailHTML" => $emailHTML, "avatarHTML" => $avatarHTML,
+            "langues" => $langues, "jouer" => $jouer,
+            "aValideEmail" => $aValideEmail, "estAdmin" => $estAdmin, "estBonUtilisateur" => $estBonUtilisateur, "estCoach" => $estCoach,
+            "avatarPath" => $avatarPath, "emailAValider" => $emailAValider]);
 
     }
     public static function afficherFormulaireCreation() : void{
+        $conf = ConfigurationSite::getDebug()?"get":"post";
+        $estAdmin = ConnexionUtilisateur::estAdministrateur();
         self::afficherVue('vueGenerale.php',["titre" => "Formulaire création utilisateur",
             "cheminCorpsVue" => 'utilisateur/formulaireCreation.php',
             'controleur'=>self::$controleur,
-            "langues" => (new LangueRepository())->recuperer()]);
+            "langues" => (new LangueRepository())->recuperer(),
+            "conf" => $conf,
+            "estAdmin" => $estAdmin]);
     }
 
     public static function afficherFormulaireMiseAJour() : void{
@@ -49,7 +81,23 @@ class ControleurUtilisateur extends ControleurGenerique {
         if (!ConnexionUtilisateur::estAdministrateur()) {
             $id = ConnexionUtilisateur::getIdUtilisateurConnecte();
         }
-        self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'utilisateur/formulaireMiseAJour.php', 'id' => $id, 'controleur' => self::$controleur]);
+
+        $conf = ConfigurationSite::getDebug()?"get":"post";
+
+        /** @var Utilisateur $utilisateur */
+        $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($id);
+        $idHTML = htmlspecialchars($id);
+        $nomHTML = htmlspecialchars($utilisateur->getNom());
+        $prenomHTML = htmlspecialchars($utilisateur->getPrenom());
+        $pseudoHTML = htmlspecialchars($utilisateur->getPseudo());
+        $emailHTML = htmlspecialchars($utilisateur->getEmail());
+
+        $estAdmin = ConnexionUtilisateur::estAdministrateur();
+        $utilAdmin = $utilisateur->isAdmin();
+
+        self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'utilisateur/formulaireMiseAJour.php', 'id' => $id, 'controleur' => self::$controleur,
+            "utilisateur" => $utilisateur, "conf" => $conf, "idHTML" => $idHTML, "nomHTML" => $nomHTML, "prenomHTML" => $prenomHTML,
+            "pseudoHTML" => $pseudoHTML, "emailHTML" => $emailHTML, "estAdmin" => $estAdmin, "utilAdmin" => $utilAdmin]);
 
 
     }
@@ -63,12 +111,20 @@ class ControleurUtilisateur extends ControleurGenerique {
         if (!ConnexionUtilisateur::estAdministrateur()) {
             $id = ConnexionUtilisateur::getIdUtilisateurConnecte();
         }
-        self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'utilisateur/formulaireAvatar.php', 'id' => $id]);
+        /** @var Utilisateur $utilisateur */
+        $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($id);
+        $conf = ConfigurationSite::getDebug()?"get":"post";
+        $avatarPath = $utilisateur->getAvatarPath();
+
+        self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'utilisateur/formulaireAvatar.php', 'id' => $id,
+            "utilisateur" => $utilisateur, "conf" => $conf, "avatarPath" => $avatarPath]);
 
     }
 
     public static function afficherFormulaireConnexion() : void{
-        self::afficherVue('vueGenerale.php',["titre" => "Connexion Utilisateur", "cheminCorpsVue" => 'utilisateur/formulaireConnexion.php']);
+        $conf = ConfigurationSite::getDebug()?"get":"post";
+        self::afficherVue('vueGenerale.php',["titre" => "Connexion Utilisateur", "cheminCorpsVue" => 'utilisateur/formulaireConnexion.php',
+            "conf" => $conf]);
     }
 
     public static function connecter(): void {

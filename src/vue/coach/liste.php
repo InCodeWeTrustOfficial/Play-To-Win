@@ -1,62 +1,68 @@
 <?php
 
-use App\PlayToWin\Configuration\ConfigurationSite;
 use App\PlayToWin\Modele\DataObject\Coach;
 use App\PlayToWin\Modele\DataObject\Jeu;
 use App\PlayToWin\Modele\DataObject\Langue;
 use App\PlayToWin\Modele\Repository\Association\JouerRepository;
 use App\PlayToWin\Modele\Repository\Association\ParlerRepository;
 use App\PlayToWin\Modele\Repository\Single\JeuRepository;
-use App\PlayToWin\Modele\Repository\Single\LangueRepository;
 
 echo '<div class="conteneur-coach">';
 echo "<h2>Découvre les coachs qui pourraient te correspondre :</h2>";
 /** @var Coach[] $coachs */
 /** @var string $controleur  */
+
+/** @var string $conf */
 ?>
 
-<form method="<?php if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>" action="controleurFrontal.php">
+<form method="<?=$conf?>" action="controleurFrontal.php">
     <input type='hidden' name='action' value='afficherListe'>
     <input type='hidden' name='controleur' value="coach">
 
     <select name="lang" id="lang_id">
         <?php
-        if(!isset($_REQUEST['lang']) || $_REQUEST['lang'] === "rien"){
+        /** @var boolean $avoirLangue */
+        if(!$avoirLangue){
             echo '<option value="rien" selected="selected">Langue...?</option>';
         } else{
             /** @var Langue $langue */
-            $langue = (new LangueRepository())->recupererParClePrimaire($_REQUEST['lang']);
-            echo '<option value="'.$langue->getCodeAlpha().'" selected="selected">'.htmlspecialchars($langue->getNom()).'</option>';
+            /** @var string $codeAlphaLanque */
+            /** @var string $nomLangue */
+
+            echo '<option value="'.$codeAlphaLanque.'" selected="selected">'.$nomLangue.'</option>';
             echo '<option value="rien">aucune</option>';
         }
-        $langues = (new LangueRepository())->recuperer();
+        /** @var Langue[] $langues */
+        /** @var string $langueRequest */
 
         foreach ($langues as $l) {
-            /** @var Langue $l */
-            if(!(isset($_REQUEST['lang']) && $l->getCodeAlpha() === $_REQUEST['lang'])){
-                echo '<option value="' . $l->getCodeAlpha().'">' .htmlspecialchars($l->getNom()) . '</option>';
+            if(!($avoirLangue && $l->getCodeAlpha() === $langueRequest)){
+                echo '<option value="' . rawurlencode($l->getCodeAlpha()).'">' .htmlspecialchars($l->getNom()) . '</option>';
             }
         }
         ?>
     </select>
     <select name="jeu" id="jeu_id">
         <?php
+        /** @var boolean $avoirJeu */
+        /** @var Jeu[] $jeux */
 
-        if(!isset($_REQUEST['jeu']) || $_REQUEST['jeu'] === "rien"){
+        if(!$avoirJeu){
             echo '<option value="rien" selected="selected">Jeu...?</option>';
         } else{
             /** @var Jeu $jeu */
-            $jeu = (new JeuRepository())->recupererParClePrimaire($_REQUEST['jeu']);
-            echo '<option value="'.$jeu->getCodeJeu().'" selected="selected">'.htmlspecialchars($jeu->getNomJeu()).'</option>';
+            /** @var string $codeJeu */
+            /** @var string $nomJeu */
+
+            echo '<option value="'.$codeJeu.'" selected="selected">'.$nomJeu.'</option>';
             echo '<option value="rien">aucun</option>';
         }
 
-        $jeux = (new JeuRepository())->recuperer();
+        /** @var string $jeuRequest */
 
         foreach ($jeux as $j) {
-            /** @var Jeu $j */
-            if (!(isset($_REQUEST['jeu']) && $j->getCodeJeu() === $_REQUEST['jeu'])) {
-                echo '<option value="' . $j->getCodeJeu() . '">' .htmlspecialchars($j->getNomJeu()) . '</option>';
+            if (!($avoirJeu && $j->getCodeJeu() === $jeuRequest)) {
+                echo '<option value="' . rawurlencode($j->getCodeJeu()) . '">' .htmlspecialchars($j->getNomJeu()) . '</option>';
             }
         }
         ?>
@@ -66,7 +72,7 @@ echo "<h2>Découvre les coachs qui pourraient te correspondre :</h2>";
 
 <div class="coach-container">
     <?php foreach ($coachs as $coach): ?>
-        <a class="detail-link" href="../web/controleurFrontal.php?controleur=coach&action=afficherDetail&id=<?php echo rawurlencode($coach->getId()); ?>">
+        <a class="detail-link" href="../web/controleurFrontal.php?controleur=coach&action=afficherDetail&id=<?=rawurlencode($coach->getId()); ?>">
             <div class="coach-card">
 
                 <div class="coach-banner">
@@ -76,9 +82,9 @@ echo "<h2>Découvre les coachs qui pourraient te correspondre :</h2>";
 
                 <?php
                 echo '<div class="icones-liste">';
-                $jeux = (new JouerRepository())->recupererJeux($coach->getId());
                 /** @var Jeu $jeu */
-                foreach ($jeux as $jeu) {
+                $jeuxJoues = (new JouerRepository())->recupererJeux($coach->getId());
+                foreach ($jeuxJoues as $jeu) {
                     echo '<img src="../ressources/img/jeux/'.$jeu->getCodeJeu().'.png" alt="Icon" class="coach-icon">';
                 }
                 echo '</div>';
@@ -97,9 +103,10 @@ echo "<h2>Découvre les coachs qui pourraient te correspondre :</h2>";
                     </div>
                     <div class="coach-langs">
                         <?php
-                        $langues = (new ParlerRepository())->recupererLangues($coach->getId());
+                        // Je ne sais pas comment le retirer
+                        $languesParlees = (new ParlerRepository())->recupererLangues($coach->getId());
                         /** @var Langue $l */
-                        foreach ($langues as $l) {
+                        foreach ($languesParlees as $l) {
                             echo '<img class="lang" src="../'.$l->getDrapeauPath().'" alt="'.htmlspecialchars($l->getCodeAlpha()).'">';
                         }
                         ?>

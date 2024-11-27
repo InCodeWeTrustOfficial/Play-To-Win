@@ -2,6 +2,7 @@
 
 namespace App\PlayToWin\Controleur;
 
+use App\PlayToWin\Configuration\ConfigurationSite;
 use App\PlayToWin\Modele\DataObject\Utilisateur;
 use App\PlayToWin\Modele\Repository\Association\AvoirModeRepository;
 use App\PlayToWin\Modele\Repository\Association\SeClasserRepository;
@@ -63,6 +64,7 @@ class ControleurJouer extends ControleurGenerique {
 
         /** @var Jeu $jeu */
         $jeu = (new JeuRepository())->recupererParClePrimaire($_REQUEST["jeu"]);
+        /** @var ModeDeJeu $mode */
         $mode = (new ModeDeJeuRepository())->recupererParClePrimaire($_REQUEST["mode"]);
 
         if ($jeu == null || $mode == null) {
@@ -71,7 +73,16 @@ class ControleurJouer extends ControleurGenerique {
         } else {
             $classementsPossibles = array();
             $classementsPossibles[$jeu->getCodeJeu()] = (new SeClasserRepository())->recupererAvecJeu($jeu->getCodeJeu());
-            self::afficherVue("vueGenerale.php", ["titre" => "modification classement", "cheminCorpsVue" => "jouer/formulaireModif.php", "jeu" => $jeu, "mode" => $mode->getNomMode(), "idUser" => $id, "classementsPossibles" => $classementsPossibles]);
+            $conf = ConfigurationSite::getDebug()?"get":"post";
+
+            $codeJeu = htmlspecialchars($jeu->getCodeJeu());
+            $nomJeu = htmlspecialchars($jeu->getNomJeu());
+            $modeJeu = $mode->getNomMode();
+
+            $class = $classementsPossibles[$jeu->getCodeJeu()];
+
+            self::afficherVue("vueGenerale.php", ["titre" => "modification classement", "cheminCorpsVue" => "jouer/formulaireModif.php", "jeu" => $jeu, "mode" => $modeJeu, "idUser" => $id, "classementsPossibles" => $classementsPossibles,
+                "conf" => $conf, "codeJeu" => $codeJeu, "nomJeu" => $nomJeu, "class" => $class]);
         }
 
     }
@@ -154,11 +165,24 @@ class ControleurJouer extends ControleurGenerique {
 
         // need : modesDunJeu et classementsPossibles
         $jeu = null;
-        if (isset($_REQUEST['jeu'])) {
+        $codeJeu = null;
+        $nomJeu = null;
+        $md = null;
+        $class = null;
+        $reqJeu = isset($_REQUEST['jeu']);
+        if ($reqJeu) {
+            /** @var Jeu $jeu */
             $jeu = (new JeuRepository())->recupererParClePrimaire($_REQUEST['jeu']);
+            $codeJeu = $jeu->getCodeJeu();
+            $nomJeu = $jeu->getNomJeu();
+            $md = $modesDunJeu[$jeu->getCodeJeu()];
+            $class = $classementsPossibles[$jeu->getCodeJeu()];
         }
 
-        self::afficherVue("vueGenerale.php", ["titre" => "Ajout d'un jeu", "cheminCorpsVue" => "jouer/formulaireJouer.php", "jeu" => $jeu, "idUser" => $id, "jeux" => $jeux, "modesDunJeu" => $modesDunJeu, "classementsPossibles" => $classementsPossibles]);
+        $conf = ConfigurationSite::getDebug()?"get":"post";
+
+        self::afficherVue("vueGenerale.php", ["titre" => "Ajout d'un jeu", "cheminCorpsVue" => "jouer/formulaireJouer.php", "jeu" => $jeu, "idUser" => $id, "jeux" => $jeux, "modesDunJeu" => $modesDunJeu, "classementsPossibles" => $classementsPossibles,
+            "conf" => $conf, "codeJeu" => $codeJeu, "nomJeu" => $nomJeu, "md" => $md, "class" => $class, "reqJeu" => $reqJeu]);
 
 
     }
