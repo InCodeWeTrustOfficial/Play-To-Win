@@ -22,7 +22,7 @@ use App\PlayToWin\Modele\DataObject\Service;
 
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="nom_services_id">Nom du service</label>
-            <input class="InputAddOn-field" type="text" placeholder="<?= htmlspecialchars($service->getNomService()) ?>" name="nom_services" id="nom_services_id" required/>
+            <input class="InputAddOn-field" type="text" placeholder="<?= htmlspecialchars($service->getNom()) ?>" name="nom_services" id="nom_services_id" required/>
         </p>
 
         <p class="InputAddOn">
