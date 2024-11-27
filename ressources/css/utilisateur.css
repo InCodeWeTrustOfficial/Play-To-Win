@@ -61,7 +61,7 @@
     margin: 20px;
 }
 
-.devCoach a, .lienMAJ a, .langues-utilisateur > a, .jeux-utilisateur > a{
+.devCoach a, .lienMAJ a, .langues-utilisateur > a, .jeux-utilisateur  a{
     text-decoration: none;
     margin: 20px;
     padding: 20px;
@@ -73,7 +73,7 @@
 
     box-shadow: 2px 2px 5px black;
 }
-.devCoach a:hover, .lienMAJ a:hover, .langues-utilisateur > a:hover, .jeux-utilisateur > a:hover{
+.devCoach a:hover, .lienMAJ a:hover, .langues-utilisateur > a:hover, .jeux-utilisateur a:hover{
     color: #4dabf7;
     background-color: #273550;
 
@@ -141,7 +141,6 @@
     object-fit: cover;
     top:2px;
 }
-
 
 .lienMAJ{
     display: flex;

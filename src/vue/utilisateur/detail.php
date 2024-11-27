@@ -83,7 +83,7 @@ use App\PlayToWin\Modele\Repository\Single\CoachRepository;
                 </div>
             </div>
         </div>
-        <div class="jeux-utilisateur">
+        <a class="jeux-utilisateur">
             <?php
             if($jouer === null){
                 echo '<p>Aucun jeu</p>';
@@ -102,15 +102,15 @@ use App\PlayToWin\Modele\Repository\Single\CoachRepository;
                                     <img src="../'.$ligne[0]->getPathLogo().'" alt="'.htmlspecialchars($ligne[0]->getNomJeu()).'">
                                     <img class="classement" src="../'.$classJeu->getClassPath().'" alt="Classement">';
                     if($estBonUtilisateur){
-                        echo '<a href="../web/controleurFrontal.php?controleur=jouer&action=supprimerJouer&id=' . $idURL . '&jeu='.$ligne[0]->getCodeJeu().'&mode='.$modeURL.'">X</a></a>';
+                        echo '</a><a href="../web/controleurFrontal.php?controleur=jouer&action=supprimerJouer&id=' . $idURL . '&jeu='.$ligne[0]->getCodeJeu().'&mode='.$modeURL.'">X</a>';
                     }
-                    echo "</p>";
                 }
             }
             ?>
             <?php if($estBonUtilisateur):?>
             <a href="../web/controleurFrontal.php?controleur=jouer&action=afficherFormulaireJouer&id=<?=$idURL?>">Nouveau jeu?</a>
             <?php endif; ?>
+            <?="</p>"?>
         </div>
         <?php
         if($estBonUtilisateur){
