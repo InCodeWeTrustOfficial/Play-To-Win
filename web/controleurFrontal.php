@@ -32,18 +32,10 @@ if(isset($_REQUEST['controleur'])){
     }
 }
 
-$nomDeClasseControleur = 'App\PlayToWin\Controleur\Controleur'.ucfirst($controleur);
+$nomDeClasseControleur = 'App\PlayToWin\Controleur\Controleur' . ucfirst($controleur);
 
-$bool = false;
-if (class_exists($nomDeClasseControleur)){
-    foreach (get_class_methods($nomDeClasseControleur) as $possibleAction) {
-        if($possibleAction == $action) {
-            $nomDeClasseControleur::$possibleAction();
-            $bool = true;
-            break;
-        }
-    }
-}
-if(!$bool){
+if (class_exists($nomDeClasseControleur) && method_exists($nomDeClasseControleur, $action)) {
+    $nomDeClasseControleur::$action();
+} else {
     ControleurJeux::afficherErreur();
 }
