@@ -6,7 +6,7 @@ use App\PlayToWin\Modele\DataObject\Langue;
 use App\PlayToWin\Modele\DataObject\Utilisateur;
 use App\PlayToWin\Modele\Repository\Association\SeClasserRepository;
 
-/** @var string $idURL */
+/** @var string $idURLL */
 /** @var string $idHTML */
 /** @var string $nomHTML */
 /** @var string $prenomHTML */
@@ -43,13 +43,14 @@ use App\PlayToWin\Modele\Repository\Association\SeClasserRepository;
                  onerror="this.onerror=null; this.src='../ressources/img/defaut_pp.png';">
             <?php if($estBonUtilisateur):?>
             <div class="modifAvatar">
-                <a href="../web/controleurFrontal.php?controleur=utilisateur&action=afficherFormulaireAvatar&id=<?=$idURL?>"></a>
+                <a href="../web/controleurFrontal.php?controleur=utilisateur&action=afficherFormulaireAvatar&id=<?=$idURLL?>"></a>
             </div>
             <?php endif;?>
         </div>
 
         <div class="infos-generales">
             <div class="basiques">
+                <p>idURL : <?= $idURLL?></p>
                 <p>id : <?= $idHTML ?></p>
                 <p>Nom : <?= $nomHTML ?></p>
                 <p>Prenom : <?= $prenomHTML ?></p>
@@ -67,14 +68,14 @@ use App\PlayToWin\Modele\Repository\Association\SeClasserRepository;
                         foreach ($langues as $l){
                             echo '<p class="langu"><img src="../'.$l->getDrapeauPath().'" alt="Drapeau">';
                             if($estBonUtilisateur){
-                                echo '<a href="../web/controleurFrontal.php?controleur=langue&action=supprimerLangue&id=' . $idURL . '&lang='.$l->getCodeAlpha().'">X</a>';
+                                echo '<a href="../web/controleurFrontal.php?controleur=langue&action=supprimerLangue&id=' . $idURLL . '&lang='.$l->getCodeAlpha().'">X</a>';
                             }
                             echo '</p>';
                         }
                     }
                     ?>
                     <?php if($estBonUtilisateur):?>
-                    <a href="../web/controleurFrontal.php?controleur=langue&action=afficherFormulaireAjout&id=<?=$idURL?>">Nouvelle langue ?</a>
+                    <a href="../web/controleurFrontal.php?controleur=langue&action=afficherFormulaireAjout&id=<?=$idURLL?>">Nouvelle langue ?</a>
                     <?php endif;?>
                 </div>
             </div>
@@ -92,28 +93,28 @@ use App\PlayToWin\Modele\Repository\Association\SeClasserRepository;
                     $modeURL = rawurlencode($ligne[1]->getNomMode());
                     echo '<p class="ligne-jeu">';
                     if($estBonUtilisateur){
-                          echo '<a href="../web/controleurFrontal.php?controleur=jouer&action=afficherModifJouer&id=' . $idURL . '&jeu='.$ligne[0]->getCodeJeu().'&mode='.$modeURL.'">';
+                          echo '<a href="../web/controleurFrontal.php?controleur=jouer&action=afficherModifJouer&id=' . $idURLL . '&jeu='.$ligne[0]->getCodeJeu().'&mode='.$modeURL.'">';
                     }
                               echo '<small>'.$modeHTML.'</small>
                                     <img src="../'.$ligne[0]->getPathLogo().'" alt="'.htmlspecialchars($ligne[0]->getNomJeu()).'">
                                     <img class="classement" src="../'.$classJeu->getClassPath().'" alt="Classement">';
                     if($estBonUtilisateur){
-                        echo '</a><a href="../web/controleurFrontal.php?controleur=jouer&action=supprimerJouer&id=' . $idURL . '&jeu='.$ligne[0]->getCodeJeu().'&mode='.$modeURL.'">X</a>';
+                        echo '</a><a href="../web/controleurFrontal.php?controleur=jouer&action=supprimerJouer&id=' . $idURLL . '&jeu='.$ligne[0]->getCodeJeu().'&mode='.$modeURL.'">X</a>';
                     }
                 }
             }
             ?>
             <?="</p>"?>
             <?php if($estBonUtilisateur):?>
-            <a class="nouveauJeu" href="../web/controleurFrontal.php?controleur=jouer&action=afficherFormulaireJouer&id=<?=$idURL?>">Nouveau jeu?</a>
+            <a class="nouveauJeu" href="../web/controleurFrontal.php?controleur=jouer&action=afficherFormulaireJouer&id=<?=$idURLL?>">Nouveau jeu?</a>
             <?php endif; ?>
 
         </div>
         <?php
         if($estBonUtilisateur){
             echo '<div class="lienMAJ">';
-            echo '    <a href = "../web/controleurFrontal.php?controleur=utilisateur&action=afficherFormulaireMiseAJour&id='.$idURL.'">Modifier des informations ?</a>';
-            echo '    <a href = "../web/controleurFrontal.php?controleur=utilisateur&action=supprimer&id=' . $idURL . '">Supprimer le compte</a>';
+            echo '    <a href = "../web/controleurFrontal.php?controleur=utilisateur&action=afficherFormulaireMiseAJour&id='.$idURLL.'">Modifier des informations ?</a>';
+            echo '    <a href = "../web/controleurFrontal.php?controleur=utilisateur&action=supprimer&id=' . $idURLL . '">Supprimer le compte</a>';
             echo '</div>';
         }
         ?>
@@ -121,10 +122,10 @@ use App\PlayToWin\Modele\Repository\Association\SeClasserRepository;
     <?php endif; ?>
     <div class="devCoach">
         <?php if($estCoach):?>
-        <a href = "../web/controleurFrontal.php?controleur=coach&action=afficherDetail&id=<?=$idURL?>">voir la page coach</a>
+        <a href = "../web/controleurFrontal.php?controleur=coach&action=afficherDetail&id=<?=$idURLL?>">voir la page coach</a>
         <?php endif;?>
         <?php if(!($estCoach || !$estBonUtilisateur)):?>
-        <a href = "../web/controleurFrontal.php?controleur=coach&action=afficherFormulaireCreation&id=<?=$idURL?>">je souhaite devenir coach...</a>
+        <a href = "../web/controleurFrontal.php?controleur=coach&action=afficherFormulaireCreation&id=<?=$idURLL?>">je souhaite devenir coach...</a>
         <?php endif;?>
     </div>
 </div>
