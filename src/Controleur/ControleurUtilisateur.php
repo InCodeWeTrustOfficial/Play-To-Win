@@ -166,42 +166,49 @@ class ControleurUtilisateur extends ControleurGenerique {
         if (self::existePasRequest(["id", "nom", "prenom", "pseudo", "dateDeNaissance", "mdp", "mdp2", "lang", "email"], "Informations manquantes.")) return;
 
         $id = $_REQUEST['id'];
-        $nom = $_REQUEST['nom'];
-        $prenom = $_REQUEST['prenom'];
-        $pseudo = $_REQUEST['pseudo'];
-        $email = $_REQUEST['email'];
 
-        if (strlen($id) > 32 || strlen($nom) > 32 || strlen($prenom) > 32 || strlen($pseudo) > 32 || strlen($email) > 256) {
-            MessageFlash::ajouter("danger", "Les données sont invalides");
+        $userDejaPresent = (new UtilisateurRepository())->recupererParClePrimaire($id);
+
+        if($userDejaPresent != null){
+            MessageFlash::ajouter("danger","L'utilisateur existe déjà");
             self::redirectionVersURL();
-            return;
-        }
+        } else{
+            $nom = $_REQUEST['nom'];
+            $prenom = $_REQUEST['prenom'];
+            $pseudo = $_REQUEST['pseudo'];
+            $email = $_REQUEST['email'];
 
-        if ($_REQUEST["mdp"] != $_REQUEST["mdp2"]) {
-            MessageFlash::ajouter("warning", "Mots de passe distincts");
-            self::redirectionVersURL("afficherFormulaireCreation", self::$controleur);
-        } else {
-            if (!filter_var($_REQUEST["email"], FILTER_VALIDATE_EMAIL)) {
-                MessageFlash::ajouter("warning", "Email incorrect");
+            if (strlen($id) > 32 || strlen($nom) > 32 || strlen($prenom) > 32 || strlen($pseudo) > 32 || strlen($email) > 256) {
+                MessageFlash::ajouter("danger", "Les données sont invalides");
+                self::redirectionVersURL();
+                return;
+            }
+
+            if ($_REQUEST["mdp"] != $_REQUEST["mdp2"]) {
+                MessageFlash::ajouter("warning", "Mots de passe distincts");
                 self::redirectionVersURL("afficherFormulaireCreation", self::$controleur);
             } else {
-                if (!ConnexionUtilisateur::estAdministrateur()) {
-                    unset($_REQUEST["estAdmin"]);
-                    $utilisateur = self::construireDepuisFormulaire($_REQUEST);
+                if (!filter_var($_REQUEST["email"], FILTER_VALIDATE_EMAIL)) {
+                    MessageFlash::ajouter("warning", "Email incorrect");
+                    self::redirectionVersURL("afficherFormulaireCreation", self::$controleur);
                 } else {
-                    $utilisateur = self::construireDepuisFormulaireAdmin($_REQUEST);
+                    if (!ConnexionUtilisateur::estAdministrateur()) {
+                        unset($_REQUEST["estAdmin"]);
+                        $utilisateur = self::construireDepuisFormulaire($_REQUEST);
+                    } else {
+                        $utilisateur = self::construireDepuisFormulaireAdmin($_REQUEST);
+                    }
+                    (new UtilisateurRepository)->ajouter($utilisateur);
+                    (new ParlerRepository())->ajouterTuple(array($_REQUEST['id'], $_REQUEST["lang"]));
+                    MessageFlash::ajouter("success", "Compte créé !");
+                    if (!ConnexionUtilisateur::estConnecte()) {
+                        ConnexionUtilisateur::connecter($utilisateur->getId());
+                    }
+                    $idUrl = rawurlencode($utilisateur->getId());
+                    self::redirectionVersURL("afficherDetail&id=$idUrl", self::$controleur);
                 }
-                (new UtilisateurRepository)->ajouter($utilisateur);
-                (new ParlerRepository())->ajouterTuple(array($_REQUEST['id'], $_REQUEST["lang"]));
-                MessageFlash::ajouter("success", "Compte créé !");
-                if (!ConnexionUtilisateur::estConnecte()) {
-                    ConnexionUtilisateur::connecter($utilisateur->getId());
-                }
-                $idUrl = rawurlencode($utilisateur->getId());
-                self::redirectionVersURL("afficherDetail&id=$idUrl", self::$controleur);
             }
         }
-
     }
 
     public static function supprimer() : void {
