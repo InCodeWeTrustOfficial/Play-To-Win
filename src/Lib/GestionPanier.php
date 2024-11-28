@@ -8,6 +8,11 @@ use App\PlayToWin\Modele\Repository\Single\CoachingRepository;
 
 class GestionPanier {
 
+    public static function getPanier(): array {
+        $session = Session::getInstance();
+        return $session->lire('panier') ?? [];
+    }
+
     public static function ajouterAuPanier() : void {
         if (!isset($_REQUEST['id'])) {
             MessageFlash::ajouter("danger", "Code du service manquant.");
@@ -90,5 +95,18 @@ class GestionPanier {
         }
 
         $session->enregistrer('panier', $panier);
+    }
+
+    public static function getTotalPrix(): float {
+        $session = Session::getInstance();
+        $panier = $session->lire('panier');
+        $totalGlobal = 0;
+
+        foreach ($panier as $produit) {
+            $sousTotal = $produit['prix'] * $produit['quantite'];
+            $totalGlobal += $sousTotal;
+        }
+
+        return $totalGlobal;
     }
 }
