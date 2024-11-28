@@ -60,7 +60,7 @@ class ControleurCoach extends ControleurGenerique {
         }
 
         $langue = null;
-        $codeAlphaLanque = null;
+        $codeAlphaLangue = null;
         $nomLangue = null;
         $langueRequest = null;
 
@@ -76,9 +76,10 @@ class ControleurCoach extends ControleurGenerique {
             $coachs = $users;
             /** @var Langue $langue */
             $langue = (new LangueRepository())->recupererParClePrimaire($_REQUEST['lang']);
-            $codeAlphaLanque = rawurlencode($langue->getCodeAlpha());
-            $nomLangue = htmlspecialchars($langue->getNom());
-
+            if($langue !== null){
+                $codeAlphaLangue = rawurlencode($langue->getCodeAlpha());
+                $nomLangue = htmlspecialchars($langue->getNom());
+            }
             $langueRequest = $_REQUEST['lang'];
         }
         $conf = ConfigurationSite::getDebug()?"get":"post";
@@ -107,7 +108,7 @@ class ControleurCoach extends ControleurGenerique {
         $jeux = (new JeuRepository())->recuperer();
 
         self::afficherVue('vueGenerale.php',["titre" => "Liste des utilisateurs", "cheminCorpsVue" => "coach/liste.php", 'coachs'=>$coachs, 'controleur'=>self::$controleur,
-            "conf" => $conf, "avoirLangue" => $avoirLangue, "langue" => $langue, "codeAlphaLangue" => $codeAlphaLanque, "nomLangue" => $nomLangue,
+            "conf" => $conf, "avoirLangue" => $avoirLangue, "langue" => $langue, "codeAlphaLangue" => $codeAlphaLangue, "nomLangue" => $nomLangue,
             "langues" => $langues, "langueRequest" => $langueRequest, "avoirJeu" => $avoirJeu,
             "jeu" => $jeu, "codeJeu" => $codeJeu, "nomJeu" => $nomJeu, "jeux" => $jeux, "jeuRequest" => $jeuRequest, "coachDetails" => $coachDetails]);
     }

@@ -24,10 +24,10 @@ echo "<h2>Découvre les coachs qui pourraient te correspondre :</h2>";
             echo '<option value="rien" selected="selected">Langue...?</option>';
         } else{
             /** @var Langue $langue */
-            /** @var string $codeAlphaLanque */
+            /** @var string $codeAlphaLangue */
             /** @var string $nomLangue */
 
-            echo '<option value="'.$codeAlphaLanque.'" selected="selected">'.$nomLangue.'</option>';
+            echo '<option value="'.$codeAlphaLangue.'" selected="selected">'.$nomLangue.'</option>';
             echo '<option value="rien">aucune</option>';
         }
         /** @var Langue[] $langues */
