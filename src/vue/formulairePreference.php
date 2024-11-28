@@ -1,5 +1,4 @@
 <?php
-use App\PlayToWin\Lib\PreferenceControleur;
 /** @var string $conf */
 
 /** @var boolean $preferenceExiste */

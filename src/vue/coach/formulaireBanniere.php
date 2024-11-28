@@ -1,11 +1,8 @@
 <?php
 /** @var string $id */
-use App\PlayToWin\Modele\DataObject\Coach;
-use App\PlayToWin\Modele\Repository\Single\CoachRepository;
 /** @var string $conf */
 /** @var string $banniereCoach */
 ?>
-<?php use App\PlayToWin\Configuration\ConfigurationSite;?>
 <form method="<?=$conf ?>" action="controleurFrontal.php" enctype="multipart/form-data">
     <input type='hidden' name='action' value='mettreAJourBanniere'>
     <input type='hidden' name='controleur' value="coach">

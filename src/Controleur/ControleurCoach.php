@@ -83,6 +83,7 @@ class ControleurCoach extends ControleurGenerique {
         }
         $conf = ConfigurationSite::getDebug()?"get":"post";
 
+        $jeuxJoues = (new JouerRepository())->recupererJeux($coach->getId());
 
 
         $langues = (new LangueRepository())->recuperer();

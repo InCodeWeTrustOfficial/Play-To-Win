@@ -6,9 +6,11 @@ use App\PlayToWin\Lib\LogistiqueImage;
 use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Lib\MotDePasse;
 use App\PlayToWin\Lib\VerificationEmail;
+use App\PlayToWin\Modele\DataObject\ClassementJeu;
 use App\PlayToWin\Modele\DataObject\Utilisateur;
 use App\PlayToWin\Modele\Repository\Association\JouerRepository;
 use App\PlayToWin\Modele\Repository\Association\ParlerRepository;
+use App\PlayToWin\Modele\Repository\Association\SeClasserRepository;
 use App\PlayToWin\Modele\Repository\Single\CoachRepository;
 use App\PlayToWin\Modele\Repository\Single\LangueRepository;
 use App\PlayToWin\Modele\Repository\Single\UtilisateurRepository;
@@ -52,12 +54,38 @@ class ControleurUtilisateur extends ControleurGenerique {
             $emailAValider = htmlspecialchars($utilisateur->getEmailAValider());
         }
 
+        $jouerDetails = [];
+
+        if (empty($jouer)) {
+            $jouerDetails = null;
+        } else {
+            foreach ($jouer as $ligne){
+                /** @var ClassementJeu $classJeu */
+                $classJeu = (new SeClasserRepository())->recupererDepuisJouer($ligne);
+                $modeHTML = htmlspecialchars($ligne[1]->getNomMode());
+                $modeURL = rawurlencode($ligne[1]->getNomMode());
+                $pathLogo = $ligne[0]->getPathLogo();
+                $nomJeuHTML = htmlspecialchars($ligne[0]->getNomJeu());
+                $classPath = $classJeu->getClassPath();
+                $codeJeu = $ligne[0]->getCodeJeu();
+
+                $jouerDetails[] = [
+                    'modeHTML' => $modeHTML,
+                    'modeURL' => $modeURL,
+                    'pathLogo' => $pathLogo,
+                    'nomJeuHTML' => $nomJeuHTML,
+                    'classPath' => $classPath,
+                    'codeJeu' => $codeJeu,
+                ];
+            }
+        }
+
         self::afficherVue('vueGenerale.php', ["titre" => "Détail des utilisateurs", "cheminCorpsVue" => "utilisateur/detail.php", 'utilisateur' => $utilisateur, 'controleur' => self::$controleur,
             "idURLL" => $idURLL, "idHTML" => $idHTML, "nomHTML" => $nomHTML, "prenomHTML" => $prenomHTML, "pseudoHTML" => $pseudoHTML,
             "dateNaissanceHTML" => $dateNaissanceHTML, "emailHTML" => $emailHTML, "avatarHTML" => $avatarHTML,
             "langues" => $langues, "jouer" => $jouer,
             "aValideEmail" => $aValideEmail, "estAdmin" => $estAdmin, "estBonUtilisateur" => $estBonUtilisateur, "estCoachh" => $estCoachh,
-            "avatarPath" => $avatarPath, "emailAValider" => $emailAValider]);
+            "avatarPath" => $avatarPath, "emailAValider" => $emailAValider, "jouerDetails" => $jouerDetails]);
 
     }
     public static function afficherFormulaireCreation() : void{

@@ -1,4 +1,4 @@
-<?php use App\PlayToWin\Configuration\ConfigurationSite;
+<?php
 use App\PlayToWin\Modele\DataObject\Jeu;
 
 /** @var Jeu[] $jeux */

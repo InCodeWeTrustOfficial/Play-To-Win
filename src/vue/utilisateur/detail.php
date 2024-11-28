@@ -1,10 +1,8 @@
 <?php
 /** @var Utilisateur $utilisateur */
 
-use App\PlayToWin\Modele\DataObject\ClassementJeu;
 use App\PlayToWin\Modele\DataObject\Langue;
 use App\PlayToWin\Modele\DataObject\Utilisateur;
-use App\PlayToWin\Modele\Repository\Association\SeClasserRepository;
 
 /** @var string $idURLL */
 /** @var string $idHTML */
@@ -25,6 +23,8 @@ use App\PlayToWin\Modele\Repository\Association\SeClasserRepository;
 
 /** @var string $avatarPath */
 /** @var string $emailAValider */
+
+/** @var array $jouerDetails */
 
 ?>
 
@@ -81,29 +81,24 @@ use App\PlayToWin\Modele\Repository\Association\SeClasserRepository;
             </div>
         </div>
         <a class="jeux-utilisateur">
-            <?php
-            if($jouer === null){
-                echo '<p>Aucun jeu</p>';
-            } else{
-                foreach ($jouer as $ligne){
-                    /** @var ClassementJeu $classJeu */
-                    // Je ne vois pas comment ne pas faire un appel à seClasserRepository.
-                    $classJeu = (new SeClasserRepository())->recupererDepuisJouer($ligne);
-                    $modeHTML = htmlspecialchars($ligne[1]->getNomMode());
-                    $modeURL = rawurlencode($ligne[1]->getNomMode());
-                    echo '<p class="ligne-jeu">';
-                    if($estBonUtilisateur){
-                          echo '<a href="../web/controleurFrontal.php?controleur=jouer&action=afficherModifJouer&id=' . $idURLL . '&jeu='.$ligne[0]->getCodeJeu().'&mode='.$modeURL.'">';
-                    }
-                              echo '<small>'.$modeHTML.'</small>
-                                    <img src="../'.$ligne[0]->getPathLogo().'" alt="'.htmlspecialchars($ligne[0]->getNomJeu()).'">
-                                    <img class="classement" src="../'.$classJeu->getClassPath().'" alt="Classement">';
-                    if($estBonUtilisateur){
-                        echo '</a><a href="../web/controleurFrontal.php?controleur=jouer&action=supprimerJouer&id=' . $idURLL . '&jeu='.$ligne[0]->getCodeJeu().'&mode='.$modeURL.'">X</a>';
-                    }
-                }
-            }
-            ?>
+            <?php if($jouerDetails === null): ?>
+                <p>Aucun jeu</p>
+            <?php else: ?>
+                <?php foreach ($jouerDetails as $detail): ?>
+                    <p class="ligne-jeu">
+                        <?php if($estBonUtilisateur): ?>
+                        <a href="../web/controleurFrontal.php?controleur=jouer&action=afficherModifJouer&id=<?= $idURLL ?>&jeu=<?= $detail['codeJeu'] ?>&mode=<?= $detail['modeURL'] ?>">
+                            <?php endif; ?>
+                            <small><?= $detail['modeHTML'] ?></small>
+                            <img src="../<?= htmlspecialchars($detail['pathLogo']) ?>" alt="<?= $detail['nomJeuHTML'] ?>">
+                            <img class="classement" src="../<?= htmlspecialchars($detail['classPath']) ?>" alt="Classement">
+                            <?php if($estBonUtilisateur): ?>
+                        </a>
+                        <a href="../web/controleurFrontal.php?controleur=jouer&action=supprimerJouer&id=<?= $idURLL ?>&jeu=<?= $detail['codeJeu'] ?>&mode=<?= $detail['modeURL'] ?>">X</a>
+                    <?php endif; ?>
+                    </p>
+                <?php endforeach; ?>
+            <?php endif; ?>
             <?="</p>"?>
             <?php if($estBonUtilisateur):?>
             <a class="nouveauJeu" href="../web/controleurFrontal.php?controleur=jouer&action=afficherFormulaireJouer&id=<?=$idURLL?>">Nouveau jeu?</a>

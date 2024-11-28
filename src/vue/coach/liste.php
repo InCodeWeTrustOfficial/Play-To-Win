@@ -5,7 +5,6 @@ use App\PlayToWin\Modele\DataObject\Jeu;
 use App\PlayToWin\Modele\DataObject\Langue;
 use App\PlayToWin\Modele\Repository\Association\JouerRepository;
 use App\PlayToWin\Modele\Repository\Association\ParlerRepository;
-use App\PlayToWin\Modele\Repository\Single\JeuRepository;
 
 echo '<div class="conteneur-coach">';
 echo "<h2>Découvre les coachs qui pourraient te correspondre :</h2>";
@@ -83,7 +82,7 @@ echo "<h2>Découvre les coachs qui pourraient te correspondre :</h2>";
                 <?php
                 echo '<div class="icones-liste">';
                 /** @var Jeu $jeu */
-                $jeuxJoues = (new JouerRepository())->recupererJeux($coach->getId());
+                /** @var array $jeuxJoues */
                 foreach ($jeuxJoues as $jeu) {
                     echo '<img src="../ressources/img/jeux/'.$jeu->getCodeJeu().'.png" alt="Icon" class="coach-icon">';
                 }

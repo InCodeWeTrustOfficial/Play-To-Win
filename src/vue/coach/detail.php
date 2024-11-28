@@ -1,11 +1,8 @@
 <?php
 /** @var Coach $coach */
 
-
-use App\PlayToWin\Lib\ConnexionUtilisateur;
 use App\PlayToWin\Modele\DataObject\Coach;
 use App\PlayToWin\Modele\DataObject\Langue;
-use App\PlayToWin\Modele\Repository\Association\ParlerRepository;
 
 /** @var string $idURLL */
 /** @var string $idHTML */
