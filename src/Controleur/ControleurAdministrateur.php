@@ -115,13 +115,13 @@ class ControleurAdministrateur extends ControleurGenerique {
     }
 
     private static function genererLigneTableau(ObjetListable $objet, bool $estAdmin): string {
-        $idURL = rawurlencode($objet->getId());
+        $idURL = rawurlencode($objet->getIdListable());
         $elements = $objet->getElementColonnes();
 
         $html = '<tr>';
         foreach ($elements as $element) {
             $html .= '<td class="admin-list-text">';
-            if ($element === $objet->getId()) {
+            if ($element === $objet->getIdListable()) {
                 $html .= sprintf(
                     '<a class="admin-list-id" href="../web/controleurFrontal.php?controleur=%s&action=afficherDetail&id=%s">%s</a>',
                     $objet->getControleur(),

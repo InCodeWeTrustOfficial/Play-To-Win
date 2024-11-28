@@ -6,7 +6,7 @@ use App\PlayToWin\Modele\Repository\Single\UtilisateurRepository;
 use App\PlayToWin\Modele\DataObject\Trajet;
 use DateTime;
 
-class Utilisateur extends AbstractDataObject {
+class Utilisateur extends AbstractDataObject implements ObjetListable {
     private string $idUtilisateur;
     private string $nom;
     private string $prenom;
@@ -53,10 +53,14 @@ class Utilisateur extends AbstractDataObject {
         return [$this->getId() ,$this->getNom()];
     }
 
-    public function getId(): string
-    {
+    public function getIdListable(): string {
         return $this->idUtilisateur;
     }
+
+    public function getId(): string {
+        return $this->idUtilisateur;
+    }
+
     public function setId(string $idUtilisateur): void
     {
         $this->idUtilisateur = $idUtilisateur;

@@ -82,6 +82,10 @@ abstract class Service extends AbstractDataObject implements ObjetListable {
         return $this->coach?->getId();
     }
 
+    public function getIdListable(): string {
+        return (string) $this->getId();
+    }
+
     public function getNomCoach(): ?string {
         return $this->coach?->getNom();
     }
