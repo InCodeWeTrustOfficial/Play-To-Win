@@ -22,12 +22,12 @@ use App\PlayToWin\Modele\DataObject\Service;
 
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="nom_services_id">Nom du service</label>
-            <input class="InputAddOn-field" type="text" placeholder="<?= htmlspecialchars($service->getNom()) ?>" name="nom_services" id="nom_services_id" required/>
+            <input class="InputAddOn-field" type="text" value="<?= htmlspecialchars($service->getNom()) ?>" name="nom_services" id="nom_services_id" required/>
         </p>
 
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="description_id">Description</label>
-            <textarea class="InputAddOn-field" name="description" placeholder="<?= htmlspecialchars($service->getDescriptionService()) ?>" id="description_id" rows="4" cols="50" required></textarea>
+            <textarea class="InputAddOn-field" name="description" placeholder="Une description efficace qui doit donner envie de prendre votre service !" id="description_id" rows="4" cols="50" required><?= htmlspecialchars($service->getDescriptionService()) ?></textarea>
         </p>
 
         <p class="InputAddOn">
@@ -52,7 +52,7 @@ use App\PlayToWin\Modele\DataObject\Service;
 
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="prix_id">Prix</label>
-            <input class="InputAddOn-field" type="number" placeholder="<?= rawurlencode($service->getPrixService()) ?>" name="prix" id="prix_id" required/>
+            <input class="InputAddOn-field" type="number" value="<?= rawurlencode($service->getPrixService()) ?>" name="prix" id="prix_id" required/>
         </p>
 
         <p>

@@ -91,13 +91,14 @@ class ControleurUtilisateur extends ControleurGenerique {
         $prenomHTML = htmlspecialchars($utilisateur->getPrenom());
         $pseudoHTML = htmlspecialchars($utilisateur->getPseudo());
         $emailHTML = htmlspecialchars($utilisateur->getEmail());
+        $dateYYYYMMJJ = htmlspecialchars($utilisateur->getDateNaissance()->format("Y-m-d"));
 
         $estAdmin = ConnexionUtilisateur::estAdministrateur();
         $utilAdmin = $utilisateur->isAdmin();
 
         self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'utilisateur/formulaireMiseAJour.php', 'id' => $id, 'controleur' => self::$controleur,
             "utilisateur" => $utilisateur, "conf" => $conf, "idHTML" => $idHTML, "nomHTML" => $nomHTML, "prenomHTML" => $prenomHTML,
-            "pseudoHTML" => $pseudoHTML, "emailHTML" => $emailHTML, "estAdmin" => $estAdmin, "utilAdmin" => $utilAdmin]);
+            "pseudoHTML" => $pseudoHTML, "emailHTML" => $emailHTML, "dateYYYYMMJJ" => $dateYYYYMMJJ,"estAdmin" => $estAdmin, "utilAdmin" => $utilAdmin]);
 
 
     }

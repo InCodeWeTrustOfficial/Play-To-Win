@@ -16,12 +16,12 @@ use App\PlayToWin\Modele\DataObject\Coach;
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="biographie_id">Biographie</label>
-            <input class="InputAddOn-field" type="text" placeholder="<?= $biographieCoach ?>" name="biographie" id="biographie_id" required>
+            <input class="InputAddOn-field" type="text" value="<?= $biographieCoach ?>" name="biographie" id="biographie_id" required>
         </p>
 
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="mdp_id">Mot de passe&#42;</label>
-            <input class="InputAddOn-field" type="password" value="" placeholder="" name="mdp" id="mdp_id" maxlength="128" required>
+            <input class="InputAddOn-field" type="password" value="" placeholder="entrez votre mot de passe" name="mdp" id="mdp_id" maxlength="128" required>
         </p>
 
         <p>

@@ -9,6 +9,7 @@
 /** @var string $prenomHTML */
 /** @var string $pseudoHTML */
 /** @var string $emailHTML */
+/** @var string $dateYYYYMMJJ */
 
 use App\PlayToWin\Modele\DataObject\Utilisateur;
 ?>
@@ -24,15 +25,15 @@ use App\PlayToWin\Modele\DataObject\Utilisateur;
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="nom_id">Nom</label>
-            <input class="InputAddOn-field" type="text"  placeholder="<?= $nomHTML?>" name="nom" id="nom_id" maxlength="32" required>
+            <input class="InputAddOn-field" type="text"  value="<?= $nomHTML?>" name="nom" id="nom_id" maxlength="32" required>
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="prenom_id">Prenom</label>
-            <input class="InputAddOn-field" type="text"  placeholder="<?= $prenomHTML?>" name="prenom" id="prenom_id" maxlength="32" required>
+            <input class="InputAddOn-field" type="text"  value="<?= $prenomHTML?>" name="prenom" id="prenom_id" maxlength="32" required>
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="pseudo_id">Pseudo</label>
-            <input class="InputAddOn-field" type="text"  placeholder="<?= $pseudoHTML ?>" name="pseudo" id="pseudo_id" maxlength="32" required>
+            <input class="InputAddOn-field" type="text"  value="<?= $pseudoHTML ?>" name="pseudo" id="pseudo_id" maxlength="32" required>
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="email_id">Email</label>
@@ -40,21 +41,21 @@ use App\PlayToWin\Modele\DataObject\Utilisateur;
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="date_id">Date de naissance</label>
-            <input class="InputAddOn-field" type="date" name="date" id="date_id"  required>
+            <input class="InputAddOn-field" type="date" value="<?= $dateYYYYMMJJ?>" name="date" id="date_id"  required>
         </p>
 
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="amdp_id">Ancien mot de passe&#42;</label>
-            <input class="InputAddOn-field" type="password" value="" placeholder="" name="amdp" id="amdp_id" maxlength="128" required>
+            <input class="InputAddOn-field" type="password" value="" placeholder="entrez votre ancien mot de passe" name="amdp" id="amdp_id" maxlength="128" required>
         </p>
 
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="mdp_id">Nouveau Mot de passe&#42;</label>
-            <input class="InputAddOn-field" type="password" value="" placeholder="" name="mdp" id="mdp_id" maxlength="128" required>
+            <input class="InputAddOn-field" type="password" value="" placeholder="entrez votre nouveau mot de passe" name="mdp" id="mdp_id" maxlength="128" required>
         </p>
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="mdp2_id">Vérification du nouveau mot de passe&#42;</label>
-            <input class="InputAddOn-field" type="password" value="" placeholder="" name="mdp2" id="mdp2_id" maxlength="128" required>
+            <input class="InputAddOn-field" type="password" value="" placeholder="entrez une deuxième fois votre nouveau mot de passe" name="mdp2" id="mdp2_id" maxlength="128" required>
         </p>
 
         <?php
