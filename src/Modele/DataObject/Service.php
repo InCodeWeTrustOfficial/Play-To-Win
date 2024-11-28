@@ -82,6 +82,10 @@ abstract class Service extends AbstractDataObject implements ObjetListable {
         return $this->coach?->getId();
     }
 
+    public function getNomCoach(): ?string {
+        return $this->coach?->getNom();
+    }
+
     public function getCoach(): Coach {
         return $this->coach;
     }
@@ -98,7 +102,7 @@ abstract class Service extends AbstractDataObject implements ObjetListable {
         return $this->jeu->getNomJeu();
     }
 
-//    public function setCodeJeu(string $codeJeu): void {
-//        $this->jeu->getCodeJeu() = $codeJeu;
-//    }
+    public function setCodeJeu(string $codeJeu): void {
+        $this->jeu->setCodeJeu($codeJeu);
+    }
 }

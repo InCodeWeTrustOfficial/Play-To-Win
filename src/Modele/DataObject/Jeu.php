@@ -14,6 +14,16 @@ class Jeu extends AbstractDataObject
         $this->nomJeu = $nom;
     }
 
+    public function setCodeJeu(string $codeJeu): void
+    {
+        $this->codeJeu = $codeJeu;
+    }
+
+    public function setNomJeu(string $nomJeu): void
+    {
+        $this->nomJeu = $nomJeu;
+    }
+
     public function getCodeJeu(): string{
         return $this->codeJeu;
     }
