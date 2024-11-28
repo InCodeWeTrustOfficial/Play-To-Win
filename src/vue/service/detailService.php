@@ -8,8 +8,8 @@ use App\PlayToWin\Lib\ConnexionUtilisateur;
 $codeServiceHTML = htmlspecialchars($service->getId());
 $nomServiceHTML = htmlspecialchars($service->getNom());
 $descriptionServiceHTML = htmlspecialchars($service->getDescriptionService());
-$coachHTML = htmlspecialchars($service->getCoach());
-$coachURL = rawurlencode($service->getCoach());
+$coachHTML = htmlspecialchars($service->getIdCoach());
+$coachURL = rawurlencode($service->getIdCoach());
 $prixHTML = htmlspecialchars($service->getPrixService());
 
 echo '<h1 class="service-name">' . $nomServiceHTML . '</h1>';
@@ -43,7 +43,7 @@ $boutons .= '<a href="../web/controleurFrontal.php?controleur=' . rawurlencode($
 
 if (ConnexionUtilisateur::estConnecte() &&
     (ConnexionUtilisateur::estAdministrateur() ||
-        ConnexionUtilisateur::getIdUtilisateurConnecte() === $service->getCoach())) {
+        ConnexionUtilisateur::getIdUtilisateurConnecte() === $service->getIdCoach())) {
 
     $boutons .= '
         <a href="../web/controleurFrontal.php?controleur=' . rawurlencode($service->getControleur()) . '&action=afficherFormulaireMiseAJour&id=' .rawurlencode($service->getId())  . ' &idCoach=' . rawurlencode($coachURL) .'" class="btn modify-btn">Modifier</a>

@@ -19,6 +19,7 @@ abstract class ServiceRepository extends AbstractRepository{
     public function getNomClePrimaire(): string {
         return "codeService	";
     }
+
     protected function getNomsColonnes(): array {
         return ["codeService", "nomService", "descriptionService", "prixService", "idCoach","codeJeu"];
     }
@@ -125,7 +126,7 @@ abstract class ServiceRepository extends AbstractRepository{
             ":nomServiceTag" => $services->getNom(),
             ":descriptionServiceTag" => $services->getDescriptionService(),
             ":prixServiceTag" => $services->getPrixService(),
-            ":idUtilisateurTag" => $services->getCoach(),
+            ":idUtilisateurTag" => $services->getIdCoach(),
             ":codeJeuTag" => $services->getCodeJeu(),
         );
     }

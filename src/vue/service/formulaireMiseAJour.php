@@ -16,7 +16,7 @@ use App\PlayToWin\Modele\DataObject\Service;
     <input type='hidden' name='action' value='mettreAJour'>
     <input type='hidden' name='controleur' value='<?= rawurlencode($service->getControleur()) ?>'>
     <input type='hidden' name='id' value='<?= $id ?>'>
-    <input type="hidden" name="idCoach" value='<?= rawurlencode($service->getCoach()) ?>'>
+    <input type="hidden" name="idCoach" value='<?= rawurlencode($service->getIdCoach()) ?>'>
     <fieldset>
         <legend>Modifier l'analyse Vidéo :</legend>
 

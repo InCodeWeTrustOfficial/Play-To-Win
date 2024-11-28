@@ -11,8 +11,8 @@ abstract class Service extends AbstractDataObject implements ObjetListable {
     private string $nomService;
     private string $descriptionService;
     private float $prixService;
-    private string $idCoach;
-    private string $codeJeu;
+    private Coach $coach;
+    private Jeu $jeu;
 
     abstract public function getControleur(): ?string;
     abstract public function setAttributsEnfant(array $attribsEnfant);
@@ -23,23 +23,23 @@ abstract class Service extends AbstractDataObject implements ObjetListable {
      * @param string $nomService
      * @param string $descriptionService
      * @param float $prixService
-     * @param string $idCoach
-     * @param string $codeJeu
+     * @param Coach $Coach
+     * @param Jeu $Jeu
      */
     public function __construct(
         ?int $codeService,
         string $nomService,
         string $descriptionService,
         float $prixService,
-        string $idCoach,
-        string $codeJeu
+        Coach $coach,
+        Jeu $jeu
     ) {
         $this->codeService = $codeService;
         $this->nomService = $nomService;
         $this->descriptionService = $descriptionService;
         $this->prixService = $prixService;
-        $this->idCoach = $idCoach;
-        $this->codeJeu = $codeJeu;
+        $this->coach = $coach;
+        $this->jeu = $jeu;
     }
 
     public function getNomColonnes(): array {
@@ -47,15 +47,11 @@ abstract class Service extends AbstractDataObject implements ObjetListable {
     }
 
     public function getElementColonnes(): array{
-        return [$this->getId(), $this->getCoach() ,$this->getNom()];
+        return [$this->getId(), $this->getIdCoach() ,$this->getNom()];
     }
 
     public function getId(): ?int {
         return $this->codeService;
-    }
-
-    public function setCodeService(int $codeService): void {
-        $this->codeService = $codeService;
     }
 
     public function getNom(): string {
@@ -82,24 +78,27 @@ abstract class Service extends AbstractDataObject implements ObjetListable {
         $this->prixService = $prixService;
     }
 
-    public function getCoach(): string {
-        return $this->idCoach;
+    public function getIdCoach(): ?string {
+        return $this->coach?->getId();
     }
 
-    public function setCoach(string $coach): void {
-        $this->idCoach = $coach;
+    public function getCoach(): Coach {
+        return $this->coach;
+    }
+
+    public function getJeu(): Jeu {
+        return $this->jeu;
     }
 
     public function getCodeJeu(): string {
-        return $this->codeJeu;
-    }
-
-    public function setCodeJeu(string $codeJeu): void {
-        $this->codeJeu = $codeJeu;
+        return $this->jeu->getCodeJeu();
     }
 
     public function getNomJeu(): ?string {
-        $jeu = (new JeuRepository())->recupererParClePrimaire($this->codeJeu);
-        return $jeu ? $jeu->getNomJeu() : null;
+        return $this->jeu->getNomJeu();
     }
+
+//    public function setCodeJeu(string $codeJeu): void {
+//        $this->jeu->getCodeJeu() = $codeJeu;
+//    }
 }

@@ -14,8 +14,8 @@ class AnalyseVideoRepository extends ServiceRepository {
             $servicesFormatTableau["nomService"],
             $servicesFormatTableau["descriptionService"],
             $servicesFormatTableau["prixService"],
-            $servicesFormatTableau["idCoach"],
-            $servicesFormatTableau["codeJeu"],
+            (new CoachRepository())->recupererParClePrimaire($servicesFormatTableau["idCoach"]),
+            (new JeuRepository())->recupererParClePrimaire($servicesFormatTableau["codeJeu"]),
             $servicesFormatTableau["nbJourRendu"]
         );
     }
