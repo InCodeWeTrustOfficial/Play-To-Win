@@ -266,6 +266,8 @@ class ControleurUtilisateur extends ControleurGenerique {
         $id = $_REQUEST['id'];
         if (self::nestPasBonUtilisateur($id)) return;
 
+        $idURL = rawurlencode($id);
+
         $nom = $_REQUEST['nom'];
         $prenom = $_REQUEST['prenom'];
         $pseudo = $_REQUEST['pseudo'];
@@ -285,11 +287,11 @@ class ControleurUtilisateur extends ControleurGenerique {
         } else {
             if ($_REQUEST['mdp'] != $_REQUEST['mdp2']) {
                 MessageFlash::ajouter("warning", "Mots de passe distincts.");
-                self::redirectionVersURL("afficherFormulaireMiseAJour", self::$controleur);
+                self::redirectionVersURL("afficherFormulaireMiseAJour&id=".$idURL, self::$controleur);
             } else {
                 if (!ConnexionUtilisateur::estAdministrateur() && !MotDePasse::verifier($_REQUEST['amdp'], $utilPossible->getMdpHache())) {
                     MessageFlash::ajouter("warning", "Ancien mot de passe erroné.");
-                    self::redirectionVersURL("afficherFormulaireMiseAJour", self::$controleur);
+                    self::redirectionVersURL("afficherFormulaireMiseAJour&id=".$idURL, self::$controleur);
                 } else {
                     $boolMail = false;
                     if (isset($_REQUEST["email"]) && $_REQUEST["email"] != $utilPossible->getEmail()) {
@@ -319,9 +321,8 @@ class ControleurUtilisateur extends ControleurGenerique {
                         VerificationEmail::envoiEmailValidation($utilPossible);
                     }
                     $idHTML = htmlspecialchars($id);
-                    $idUrl = rawurlencode($id);
                     MessageFlash::ajouter("success", "Profil de $idHTML a été mis à jour !");
-                    self::redirectionVersURL("afficherDetail&id=".$idUrl,self::$controleur);
+                    self::redirectionVersURL("afficherDetail&id=".$idURL,self::$controleur);
                 }
             }
 
