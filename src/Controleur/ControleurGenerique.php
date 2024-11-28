@@ -38,7 +38,7 @@ abstract class ControleurGenerique {
             $controleurPref = PreferenceControleur::lire();
         }
         $conf = ConfigurationSite::getDebug()?"get":"post";
-        self::afficherVue("formulairePreference.php",["preferenceExiste" => $preferenceExiste, "controleurPref" => $controleurPref, "conf" => $conf]);
+        self::afficherVue("vueGenerale.php",["cheminCorpsVue" => "formulairePreference.php","preferenceExiste" => $preferenceExiste, "controleurPref" => $controleurPref, "conf" => $conf]);
     }
 
     public static function enregistrerPreference() : void{

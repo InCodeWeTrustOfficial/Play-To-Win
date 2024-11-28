@@ -32,7 +32,7 @@
         </a>
 
         <div class="nav-center">
-            <a href="controleurFrontal.php" class="nav-link">
+            <a href="controleurFrontal.php?controleur=jeux" class="nav-link">
                 <img src="../ressources/img/icone/home.png" alt="Home">
                 Home
             </a>
@@ -58,6 +58,10 @@
             ?>
         </div>
         <div class="nav-right">
+
+            <a href="controleurFrontal.php?controleur=generique&action=afficherFormulairePreference" class="icon-link">
+                <img src="../ressources/img/icone/heart.png" alt="Preference">
+            </a>
 
             <a href="controleurFrontal.php?controleur=service&action=afficherPanier" class="icon-link">
                 <img src="../ressources/img/icone/panier.png" alt="Panier">
