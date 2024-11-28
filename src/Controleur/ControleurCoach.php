@@ -35,24 +35,24 @@ class ControleurCoach extends ControleurGenerique {
         $jeuRequest = null;
 
         if(!isset($_REQUEST['jeu']) || $_REQUEST['jeu'] === 'rien'){
-            $utilisateurs = (new CoachRepository())->recuperer();
+            $coachs = (new CoachRepository())->recuperer();
         } else{
             /** @var Jeu $jeu */
             $jeuRequest = $_REQUEST['jeu'];
             $jeu = (new JeuRepository())->recupererParClePrimaire($jeuRequest);
             if($jeu === null){
-                $utilisateurs = (new CoachRepository())->recuperer();
+                $coachs = (new CoachRepository())->recuperer();
             } else{
                 $avoirJeu = true;
                 $codeJeu = $jeu->getCodeJeu();
                 $nomJeu = htmlspecialchars($jeu->getNomJeu());
-                $utilisateurs = array();
+                $coachs = array();
                 $tabs = (new JouerRepository())->recupererJoueursAvecJeu($jeu->getCodeJeu());
                 /** @var Utilisateur $tab */
                 foreach($tabs as $tab){
                     if ((new CoachRepository())->estCoach($tab->getId())){
                         $coach = (new CoachRepository())->recupererParClePrimaire($tab->getId());
-                        $utilisateurs[] = $coach;
+                        $coachs[] = $coach;
                     }
                 }
             }
@@ -66,14 +66,14 @@ class ControleurCoach extends ControleurGenerique {
 
         if(isset($_REQUEST['lang']) && $_REQUEST['lang'] !== 'rien'){
             $avoirLangue = true;
-            /** @var Coach $utilisateur */
+            /** @var Coach $coach */
             $users = [];
-            foreach($utilisateurs as $utilisateur){
-                if((new ParlerRepository())->existeTuple([$utilisateur->getId(),$_REQUEST['lang']])){
-                    $users[] = $utilisateur;
+            foreach($coachs as $coach){
+                if((new ParlerRepository())->existeTuple([$coach->getId(),$_REQUEST['lang']])){
+                    $users[] = $coach;
                 }
             }
-            $utilisateurs = $users;
+            $coachs = $users;
             /** @var Langue $langue */
             $langue = (new LangueRepository())->recupererParClePrimaire($_REQUEST['lang']);
             $codeAlphaLanque = rawurlencode($langue->getCodeAlpha());
@@ -83,16 +83,33 @@ class ControleurCoach extends ControleurGenerique {
         }
         $conf = ConfigurationSite::getDebug()?"get":"post";
 
-        $jeuxJoues = (new JouerRepository())->recupererJeux($coach->getId());
+        $coachDetails = [];
+
+        foreach ($coachs as $coach) {
+
+            $jeuxJoues = (new JouerRepository())->recupererJeux($coach->getId());
+
+
+            $languesParlees = (new ParlerRepository())->recupererLangues($coach->getId());
+
+
+            $coachDetail = [
+                'coach' => $coach,
+                'jeuxJoues' => $jeuxJoues,
+                'languesParlees' => $languesParlees,
+            ];
+
+            $coachDetails[] = $coachDetail;
+        }
 
 
         $langues = (new LangueRepository())->recuperer();
         $jeux = (new JeuRepository())->recuperer();
 
-        self::afficherVue('vueGenerale.php',["titre" => "Liste des utilisateurs", "cheminCorpsVue" => "coach/liste.php", 'coachs'=>$utilisateurs, 'controleur'=>self::$controleur,
+        self::afficherVue('vueGenerale.php',["titre" => "Liste des utilisateurs", "cheminCorpsVue" => "coach/liste.php", 'coachs'=>$coachs, 'controleur'=>self::$controleur,
             "conf" => $conf, "avoirLangue" => $avoirLangue, "langue" => $langue, "codeAlphaLangue" => $codeAlphaLanque, "nomLangue" => $nomLangue,
             "langues" => $langues, "langueRequest" => $langueRequest, "avoirJeu" => $avoirJeu,
-            "jeu" => $jeu, "codeJeu" => $codeJeu, "nomJeu" => $nomJeu, "jeux" => $jeux, "jeuRequest" => $jeuRequest]);
+            "jeu" => $jeu, "codeJeu" => $codeJeu, "nomJeu" => $nomJeu, "jeux" => $jeux, "jeuRequest" => $jeuRequest, "coachDetails" => $coachDetails]);
     }
     
     public static function afficherDetail() : void{

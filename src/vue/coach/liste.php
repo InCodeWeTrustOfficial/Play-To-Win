@@ -3,8 +3,6 @@
 use App\PlayToWin\Modele\DataObject\Coach;
 use App\PlayToWin\Modele\DataObject\Jeu;
 use App\PlayToWin\Modele\DataObject\Langue;
-use App\PlayToWin\Modele\Repository\Association\JouerRepository;
-use App\PlayToWin\Modele\Repository\Association\ParlerRepository;
 
 echo '<div class="conteneur-coach">';
 echo "<h2>Découvre les coachs qui pourraient te correspondre :</h2>";
@@ -12,6 +10,7 @@ echo "<h2>Découvre les coachs qui pourraient te correspondre :</h2>";
 /** @var string $controleur  */
 
 /** @var string $conf */
+/** @var array $coachDetails */
 ?>
 
 <form method="<?=$conf?>" action="controleurFrontal.php">
@@ -70,53 +69,52 @@ echo "<h2>Découvre les coachs qui pourraient te correspondre :</h2>";
 </form>
 
 <div class="coach-container">
-    <?php foreach ($coachs as $coach): ?>
-        <a class="detail-link" href="../web/controleurFrontal.php?controleur=coach&action=afficherDetail&id=<?=rawurlencode($coach->getId()); ?>">
+    <?php foreach ($coachDetails as $detail): ?>
+        <?php
+        /** @var Coach $coach */
+        $coach = $detail['coach'];
+        /** @var Jeu[] $jeuxJoues */
+        $jeuxJoues = $detail['jeuxJoues'];
+        /** @var Langue[] $languesParlees */
+        $languesParlees = $detail['languesParlees'];
+        ?>
+        <a class="detail-link" href="../web/controleurFrontal.php?controleur=coach&action=afficherDetail&id=<?= rawurlencode($coach->getId()); ?>">
             <div class="coach-card">
 
                 <div class="coach-banner">
-                    <img src="../<?=$coach->getBannierePath()?>" alt="Banner" class="banner-image"
+                    <img src="../<?= htmlspecialchars($coach->getBannierePath()) ?>" alt="Banner" class="banner-image"
                          onerror="this.onerror=null; this.src='../ressources/img/defaut_banniere.png';">
                 </div>
 
-                <?php
-                echo '<div class="icones-liste">';
-                /** @var Jeu $jeu */
-                /** @var array $jeuxJoues */
-                foreach ($jeuxJoues as $jeu) {
-                    echo '<img src="../ressources/img/jeux/'.$jeu->getCodeJeu().'.png" alt="Icon" class="coach-icon">';
-                }
-                echo '</div>';
-                ?>
-
+                <div class="icones-liste">
+                    <?php foreach ($jeuxJoues as $jeu): ?>
+                        <img src="../ressources/img/jeux/<?= htmlspecialchars($jeu->getCodeJeu()) ?>.png" alt="Icon" class="coach-icon">
+                    <?php endforeach; ?>
+                </div>
 
                 <div class="profile-header">
                     <div class="coach-infos">
-                        <img class="pp" src="../<?=$coach->getAvatarPath()?>" alt="Photo de profil"
-                         onerror="this.onerror=null; this.src='../ressources/img/defaut_pp.png';">
+                        <img class="pp" src="../<?= htmlspecialchars($coach->getAvatarPath()) ?>" alt="Photo de profil"
+                             onerror="this.onerror=null; this.src='../ressources/img/defaut_pp.png';">
 
                         <div class="coach-info-texte">
-                            <div class="coach-name"><?php echo htmlspecialchars($coach->getPseudo()); ?></div>
-                            <div class="coach-id"><?php echo htmlspecialchars($coach->getId()); ?></div>
+                            <div class="coach-name"><?= htmlspecialchars($coach->getPseudo()); ?></div>
+                            <div class="coach-id"><?= htmlspecialchars($coach->getId()); ?></div>
                         </div>
                     </div>
                     <div class="coach-langs">
-                        <?php
-                        // Je ne sais pas comment le retirer
-                        $languesParlees = (new ParlerRepository())->recupererLangues($coach->getId());
-                        /** @var Langue $l */
-                        foreach ($languesParlees as $l) {
-                            echo '<img class="lang" src="../'.$l->getDrapeauPath().'" alt="'.htmlspecialchars($l->getCodeAlpha()).'">';
-                        }
-                        ?>
+                        <?php foreach ($languesParlees as $langue): ?>
+                            <img class="lang" src="../<?= htmlspecialchars($langue->getDrapeauPath()) ?>" alt="<?= htmlspecialchars($langue->getCodeAlpha()) ?>">
+                        <?php endforeach; ?>
                     </div>
                 </div>
 
                 <hr>
-                <div class="coach-description"><p><?php echo htmlspecialchars($coach->getBiographie()); ?></p></div>
+                <div class="coach-description"><p><?= htmlspecialchars($coach->getBiographie()); ?></p></div>
 
             </div>
         </a>
     <?php endforeach; ?>
+
 </div>
 <?php echo "</div>";?>
