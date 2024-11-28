@@ -16,7 +16,7 @@ class Coaching extends Service {
      * @param string $descriptionService
      * @param float $prixService
      * @param Coach $coach
-     * @param Jeu $Jeu
+     * @param Jeu $jeu
      * @param int $duree
      */
     public function __construct(
