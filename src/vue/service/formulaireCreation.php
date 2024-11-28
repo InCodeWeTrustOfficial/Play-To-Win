@@ -1,3 +1,4 @@
+<script src="../ressources/scripts/service.js"></script>
 <form method="<?php use App\PlayToWin\Configuration\ConfigurationSite;
 
 if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>" action="controleurFrontal.php" id="serviceForm">
