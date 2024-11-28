@@ -38,6 +38,6 @@ class CoachRepository extends AbstractRepository {
 
         $pdoStatement->execute($values);
 
-        return $pdoStatement->fetchColumn() > 0;
+        return $pdoStatement->fetchColumn() == 1;
     }
 }

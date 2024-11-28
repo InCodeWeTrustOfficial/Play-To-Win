@@ -106,7 +106,7 @@ class ControleurCoach extends ControleurGenerique {
         } else {
             /** @var Coach $coach */
             $coach = (new CoachRepository())->recupererParClePrimaire($id);
-            $idURL = rawurlencode($id);
+            $idURLL = rawurlencode($id);
             $idHTML = htmlspecialchars($id);
             $nomHTML = htmlspecialchars($coach->getNom());
             $prenomHTML = htmlspecialchars($coach->getPrenom());
@@ -123,7 +123,7 @@ class ControleurCoach extends ControleurGenerique {
             $bannierePath = $coach->getBannierePath();
 
             self::afficherVue("vueGenerale.php", ["titre" => "Informations Coach", "cheminCorpsVue" => "coach/detail.php", "coach" => $coach,
-                "idURL" => $idURL, "idHTML" => $idHTML, "nomHTML" => $nomHTML, "prenomHTML" => $prenomHTML,
+                "idURLL" => $idURLL, "idHTML" => $idHTML, "nomHTML" => $nomHTML, "prenomHTML" => $prenomHTML,
                 "pseudoHTML" => $pseudoHTML, "emailHTML" => $emailHTML, "dateNaissanceHTML" => $dateNaissanceHTML,
                 "biographieHTML" => $biographieHTML, "avatarHTML" => $avatarHTML, "bonUtilisateur" => $bonUtilisateur,
                 "langues" => $langues, "bannierePath" => $bannierePath]);
@@ -141,19 +141,24 @@ class ControleurCoach extends ControleurGenerique {
         if ((new CoachRepository())->estCoach($id)) {
             $idHtml = htmlspecialchars($id);
             MessageFlash::ajouter("info", "Le coach $idHtml est déjà inscrit !");
+            self::redirectionVersURL();
         } else {
             /** @var Utilisateur $utilisateur */
             $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($id);
 
             if (!VerificationEmail::aValideEmail($utilisateur) && !ConnexionUtilisateur::estAdministrateur()) {
                 MessageFlash::ajouter("info", "Un coach doit avoir validé son mail.");
-                self::redirectionVersURL("afficherDetail", "utilisateur");
+                self::redirectionVersURL();
             } else {
+                $biographieCoach = null;
+                $titreForm = "création coach";
+                $action = "creerDepuisFormulaire";
                 $conf = ConfigurationSite::getDebug()?"get":"post";
-                $idUtilisateur = htmlspecialchars(rawurlencode($utilisateur->getId()));
-                $pseudoUtilisateur = htmlspecialchars($utilisateur->getPseudo());
-                self::afficherVue("vueGenerale.php", ["titre" => "Formulaire création coach", "cheminCorpsVue" => "coach/formulaireCreation.php", "utilisateur" => $utilisateur, "controleur" => self::$controleur,
-                    "conf" => $conf, "idUtilisateur" => $idUtilisateur, "pseudoUtilisateur" => $pseudoUtilisateur]);
+                $idUtilisateurr = htmlspecialchars(rawurlencode($utilisateur->getId()));
+                $pseudoUtilisateurr = htmlspecialchars($utilisateur->getPseudo());
+                self::afficherVue("vueGenerale.php", ["titre" => "Formulaire création coach", "cheminCorpsVue" => "coach/formulaireGenerique.php", "utilisateur" => $utilisateur, "controleur" => self::$controleur,
+                    "conf" => $conf, "idUtilisateurr" => $idUtilisateurr, "pseudoUtilisateurr" => $pseudoUtilisateurr, "estModif" => false, "action" => $action, "biographieCoach" => $biographieCoach,
+                    "titreForm" => $titreForm]);
             }
 
         }
@@ -173,13 +178,16 @@ class ControleurCoach extends ControleurGenerique {
             MessageFlash::ajouter("warning", "Vous n'êtes pas coach !");
             self::redirectionVersURL("afficherFormulaireCreation&id=" . $idUrl, self::$controleur);
         } else {
+            $action = "mettreAJour";
+            $titreForm = "Modification coach";
             $conf = ConfigurationSite::getDebug()?"get":"post";
             /** @var Coach $coach */
             $coach = (new CoachRepository())->recupererParClePrimaire($id);
-            $idUtilisateur =  htmlspecialchars(rawurlencode($coach->getId()));
+            $idUtilisateurr =  htmlspecialchars(rawurlencode($coach->getId()));
             $biographieCoach =htmlspecialchars($coach->getBiographie());
-            self::afficherVue("vueGenerale.php", ["titre" => "Mise à jour du coach", "cheminCorpsVue" => "coach/formulaireMiseAJour.php",
-                "conf" => $conf, "idUtilisateur" => $idUtilisateur, "biographieCoach" => $biographieCoach]);
+            self::afficherVue("vueGenerale.php", ["titre" => "Mise à jour du coach", "cheminCorpsVue" => "coach/formulaireGenerique.php",
+                "conf" => $conf, "idUtilisateurr" => $idUtilisateurr, "biographieCoach" => $biographieCoach, "estModif" => true, "action" => $action,
+                "titreForm" => $titreForm, "controleur" => self::$controleur]);
         }
     }
     public static function afficherFormulaireBanniere() : void{

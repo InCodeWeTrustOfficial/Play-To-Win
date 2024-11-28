@@ -21,7 +21,7 @@ use App\PlayToWin\Modele\Repository\Association\SeClasserRepository;
 /** @var boolean $aValideEmail */
 /** @var boolean $estAdmin */
 /** @var boolean $estBonUtilisateur */
-/** @var boolean $estCoach */
+/** @var boolean $estCoachh */
 
 /** @var string $avatarPath */
 /** @var string $emailAValider */
@@ -121,10 +121,10 @@ use App\PlayToWin\Modele\Repository\Association\SeClasserRepository;
 
     <?php endif; ?>
     <div class="devCoach">
-        <?php if($estCoach):?>
+        <?php if($estCoachh):?>
         <a href = "../web/controleurFrontal.php?controleur=coach&action=afficherDetail&id=<?=$idURLL?>">voir la page coach</a>
         <?php endif;?>
-        <?php if(!($estCoach || !$estBonUtilisateur)):?>
+        <?php if(!$estCoachh):?>
         <a href = "../web/controleurFrontal.php?controleur=coach&action=afficherFormulaireCreation&id=<?=$idURLL?>">je souhaite devenir coach...</a>
         <?php endif;?>
     </div>

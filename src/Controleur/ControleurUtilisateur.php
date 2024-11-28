@@ -44,7 +44,7 @@ class ControleurUtilisateur extends ControleurGenerique {
         $aValideEmail = $utilisateur->getEmail() !== "";
         $estAdmin = ConnexionUtilisateur::estAdministrateur();
         $estBonUtilisateur = $estAdmin || (ConnexionUtilisateur::estConnecte() && ConnexionUtilisateur::estUtilisateur($utilisateur->getId()));
-        $estCoach = (new CoachRepository())->estCoach($utilisateur->getId());
+        $estCoachh = (new CoachRepository())->estCoach($id);
 
         $avatarPath =$utilisateur->getAvatarPath();
         $emailAValider = "";
@@ -56,7 +56,7 @@ class ControleurUtilisateur extends ControleurGenerique {
             "idURLL" => $idURLL, "idHTML" => $idHTML, "nomHTML" => $nomHTML, "prenomHTML" => $prenomHTML, "pseudoHTML" => $pseudoHTML,
             "dateNaissanceHTML" => $dateNaissanceHTML, "emailHTML" => $emailHTML, "avatarHTML" => $avatarHTML,
             "langues" => $langues, "jouer" => $jouer,
-            "aValideEmail" => $aValideEmail, "estAdmin" => $estAdmin, "estBonUtilisateur" => $estBonUtilisateur, "estCoach" => $estCoach,
+            "aValideEmail" => $aValideEmail, "estAdmin" => $estAdmin, "estBonUtilisateur" => $estBonUtilisateur, "estCoachh" => $estCoachh,
             "avatarPath" => $avatarPath, "emailAValider" => $emailAValider]);
 
     }
