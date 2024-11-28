@@ -2,6 +2,8 @@
 /** @var Service $service */
 /** @var String $controleur */
 
+/** @var boolean $estBonUtilisateur */
+
 use App\PlayToWin\Modele\DataObject\Service;
 use App\PlayToWin\Lib\ConnexionUtilisateur;
 
@@ -41,10 +43,7 @@ echo '<p class="service-description">' . $descriptionServiceHTML . '</p>';
 $boutons = '<div class="button-container">';
 $boutons .= '<a href="../web/controleurFrontal.php?controleur=' . rawurlencode($service->getControleur()) . '&action=ajouterAuPanier&id=' . rawurlencode($service->getId()) . '" class="btn modify-btn">Ajouter</a>';
 
-if (ConnexionUtilisateur::estConnecte() &&
-    (ConnexionUtilisateur::estAdministrateur() ||
-        ConnexionUtilisateur::getIdUtilisateurConnecte() === $service->getIdCoach())) {
-
+if ($estBonUtilisateur) {
     $boutons .= '
         <a href="../web/controleurFrontal.php?controleur=' . rawurlencode($service->getControleur()) . '&action=afficherFormulaireMiseAJour&id=' .rawurlencode($service->getId())  . '&idCoach=' . rawurlencode($coachURL) .'" class="btn modify-btn">Modifier</a>
         <a href="../web/controleurFrontal.php?controleur=' . rawurlencode($service->getControleur()) . '&action=supprimer&id=' . rawurlencode($service->getId()) . '&idCoach=' . rawurlencode($coachURL) .'" class="btn delete-btn">Supprimer</a>

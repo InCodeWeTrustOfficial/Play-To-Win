@@ -399,6 +399,7 @@ class ControleurUtilisateur extends ControleurGenerique {
         VerificationEmail::envoiEmailValidation($utilisateur);
         return $utilisateur;
     }
+
     private static function construireDepuisFormulaireAdmin(array $tableauDonneesFormulaire): Utilisateur {
         $mdpHache = MotDePasse::hacher($tableauDonneesFormulaire['mdp']);
         return new Utilisateur($tableauDonneesFormulaire['id'], $tableauDonneesFormulaire['nom'], $tableauDonneesFormulaire['prenom'],$tableauDonneesFormulaire['pseudo'],$tableauDonneesFormulaire['email'],"","", new DateTime($tableauDonneesFormulaire['dateDeNaissance']), $mdpHache, isset($tableauDonneesFormulaire['estAdmin']));

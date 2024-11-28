@@ -1,9 +1,12 @@
-<?php use App\PlayToWin\Configuration\ConfigurationSite;
+<?php
+use App\PlayToWin\Configuration\ConfigurationSite;
+use App\PlayToWin\Lib\GestionPanier;
 
+$panier = GestionPanier::getPanier();
 if (empty($panier)): ?>
     <p>Votre panier est vide.</p>
 <?php else: ?>
-    <form method="<?php if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>" action="controleurFrontal.php" id="PanierForm">
+    <form method="<?= ConfigurationSite::getDebug() ? 'get' : 'post' ?>" action="controleurFrontal.php" id="PanierForm">
         <input type='hidden' name='action' value='passerCommande'>
         <input type='hidden' name='controleur' id="controleur" value='commande'>
         <table>
@@ -16,28 +19,27 @@ if (empty($panier)): ?>
             </tr>
             </thead>
             <tbody>
-            <?php
-            $totalGlobal = 0;
-            foreach ($panier as $produit):
-                $sousTotal = $produit['prix'] * $produit['quantite'];
-                $totalGlobal += $sousTotal;
-
-                $typeService =  $produit['typeService'];
-
+            <?php foreach ($panier as $produit):
                 for ($i = 0; $i < $produit['quantite']; $i++): ?>
                     <tr>
                         <td><?= htmlspecialchars($produit['nom']) ?></td>
-                        <td><?= htmlspecialchars($typeService) ?></td>
-                        <td><input type="text" id="sujet" name="sujet[<?= rawurlencode($produit['id']) ?>][]" placeholder="Ex : entrainement au kickoff" required></td>
+                        <td><?= htmlspecialchars($produit['typeService']) ?></td>
+                        <td>
+                            <input type="text"
+                                   id="sujet"
+                                   name="sujet[<?= rawurlencode($produit['id']) ?>][]"
+                                   placeholder="Ex : entrainement au kickoff"
+                                   required>
+                        </td>
                         <td><?= number_format($produit['prix'], 2, ',', ' ') ?> €</td>
                     </tr>
-                <?php endfor; ?>
-            <?php endforeach; ?>
+                <?php endfor;
+            endforeach; ?>
             </tbody>
         </table>
 
         <div class="total">
-            <strong>Total Commande :</strong> <?= number_format($totalGlobal, 2, ',', ' ') ?> €
+            <strong>Total Commande :</strong> <?= number_format(GestionPanier::getTotalPrix(), 2, ',', ' ') ?> €
         </div>
 
         <input type="submit" value="Passer la commande">

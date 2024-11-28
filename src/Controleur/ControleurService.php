@@ -2,12 +2,14 @@
 
 namespace App\PlayToWin\Controleur;
 
+use App\PlayToWin\Lib\ConnexionUtilisateur;
 use App\PlayToWin\Lib\GestionPanier;
 use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Modele\DataObject\Service;
 use App\PlayToWin\Modele\HTTP\Session;
 use App\PlayToWin\Modele\Repository\Single\AnalyseVideoRepository;
 use App\PlayToWin\Modele\Repository\Single\CoachingRepository;
+use App\PlayToWin\Modele\Repository\Single\CoachRepository;
 use App\PlayToWin\Modele\Repository\Single\JeuRepository;
 use App\PlayToWin\Modele\Repository\Single\ServiceRepository;
 
@@ -86,9 +88,17 @@ abstract class ControleurService extends ControleurGenerique {
     }
 
     public static function afficherDetailUtil(ServiceRepository $repo) : void {
+
+
         if (self::existePasRequest(["id"], "Le service n'existe pas.")) return;
 
             $codeService = $_REQUEST['id'];
+
+            $utilisateur = (new $repo())->recupererParClePrimaire($codeService);
+
+            $estAdmin = ConnexionUtilisateur::estAdministrateur();
+            $estBonUtilisateur = $estAdmin || (ConnexionUtilisateur::estConnecte() && ConnexionUtilisateur::estUtilisateur($repo->recupererParClePrimaire($utilisateur->getId())));
+
             $service = (new $repo())->recupererParClePrimaire($codeService);
 
             if ($service != NULL) {
@@ -96,6 +106,7 @@ abstract class ControleurService extends ControleurGenerique {
                     "titre" => "Détail du service",
                     "cheminCorpsVue" => "service/detailService.php",
                     'service' => $service,
+                    "estBonUtilisateur" => $estBonUtilisateur,
                     'controleur' => static::$controleur
                 ]);
         }

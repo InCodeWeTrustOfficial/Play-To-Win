@@ -7,7 +7,6 @@ use App\PlayToWin\Modele\DataObject\Commande;
 
 <div class="commandes-container">
     <h2 class="commandes-title">Liste des commandes passées</h2>
-
     <?php if (empty($commandes)): ?>
         <div class="no-commandes">
             Aucune commande n'a été passées pour le moment.
