@@ -29,7 +29,7 @@ class ControleurUtilisateur extends ControleurGenerique {
 
         $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($id);
 
-        $idURL = rawurlencode($utilisateur->getId());
+        $idURLL = rawurlencode($utilisateur->getId());
         $idHTML = htmlspecialchars($utilisateur->getId());
         $nomHTML = htmlspecialchars($utilisateur->getNom());
         $prenomHTML = htmlspecialchars($utilisateur->getPrenom());
@@ -53,7 +53,7 @@ class ControleurUtilisateur extends ControleurGenerique {
         }
 
         self::afficherVue('vueGenerale.php', ["titre" => "Détail des utilisateurs", "cheminCorpsVue" => "utilisateur/detail.php", 'utilisateur' => $utilisateur, 'controleur' => self::$controleur,
-            "idURL" => $idURL, "idHTML" => $idHTML, "nomHTML" => $nomHTML, "prenomHTML" => $prenomHTML, "pseudoHTML" => $pseudoHTML,
+            "idURLL" => $idURLL, "idHTML" => $idHTML, "nomHTML" => $nomHTML, "prenomHTML" => $prenomHTML, "pseudoHTML" => $pseudoHTML,
             "dateNaissanceHTML" => $dateNaissanceHTML, "emailHTML" => $emailHTML, "avatarHTML" => $avatarHTML,
             "langues" => $langues, "jouer" => $jouer,
             "aValideEmail" => $aValideEmail, "estAdmin" => $estAdmin, "estBonUtilisateur" => $estBonUtilisateur, "estCoach" => $estCoach,
@@ -61,14 +61,30 @@ class ControleurUtilisateur extends ControleurGenerique {
 
     }
     public static function afficherFormulaireCreation() : void{
+
+        $action = "creerDepuisFormulaire";
+        $titreFormulaire = "Création d'un nouvel utilisateur";
+
+
+        $idHTML = null;
+        $nomHTML = null;
+        $prenomHTML = null;
+        $pseudoHTML = null;
+        $emailHTML = null;
+        $dateYYYYMMJJ = null;
+
+
         $conf = ConfigurationSite::getDebug()?"get":"post";
         $estAdmin = ConnexionUtilisateur::estAdministrateur();
+
         self::afficherVue('vueGenerale.php',["titre" => "Formulaire création utilisateur",
-            "cheminCorpsVue" => 'utilisateur/formulaireCreation.php',
+            "cheminCorpsVue" => 'utilisateur/formulaireGenerique.php',
             'controleur'=>self::$controleur,
             "langues" => (new LangueRepository())->recuperer(),
             "conf" => $conf,
-            "estAdmin" => $estAdmin]);
+            "estAdmin" => $estAdmin, "estModif" => false, "action" => $action, "idHTML" => $idHTML, "utilAdmin" => false,
+            "nomHTML" => $nomHTML, "prenomHTML" => $prenomHTML, "pseudoHTML" => $pseudoHTML, "dateYYYYMMJJ" => $dateYYYYMMJJ,
+            "emailHTML" => $emailHTML, "titreFormulaire" => $titreFormulaire]);
     }
 
     public static function afficherFormulaireMiseAJour() : void{
@@ -78,14 +94,22 @@ class ControleurUtilisateur extends ControleurGenerique {
         $id = $_REQUEST['id'];
         if (self::nestPasBonUtilisateur($id)) return;
 
+        /**
         if (!ConnexionUtilisateur::estAdministrateur()) {
             $id = ConnexionUtilisateur::getIdUtilisateurConnecte();
         }
+         * */
+        /** @var Utilisateur $utilisateur */
+        $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($id);
+
+        $titreFormulaire = "Modification d'un utilisateur";
+
+        $action = "mettreAJour";
+        $langues = null;
 
         $conf = ConfigurationSite::getDebug()?"get":"post";
 
-        /** @var Utilisateur $utilisateur */
-        $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($id);
+
         $idHTML = htmlspecialchars($id);
         $nomHTML = htmlspecialchars($utilisateur->getNom());
         $prenomHTML = htmlspecialchars($utilisateur->getPrenom());
@@ -96,9 +120,10 @@ class ControleurUtilisateur extends ControleurGenerique {
         $estAdmin = ConnexionUtilisateur::estAdministrateur();
         $utilAdmin = $utilisateur->isAdmin();
 
-        self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'utilisateur/formulaireMiseAJour.php', 'id' => $id, 'controleur' => self::$controleur,
+        self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'utilisateur/formulaireGenerique.php', 'id' => $id, 'controleur' => self::$controleur,
             "utilisateur" => $utilisateur, "conf" => $conf, "idHTML" => $idHTML, "nomHTML" => $nomHTML, "prenomHTML" => $prenomHTML,
-            "pseudoHTML" => $pseudoHTML, "emailHTML" => $emailHTML, "dateYYYYMMJJ" => $dateYYYYMMJJ,"estAdmin" => $estAdmin, "utilAdmin" => $utilAdmin]);
+            "pseudoHTML" => $pseudoHTML, "emailHTML" => $emailHTML, "dateYYYYMMJJ" => $dateYYYYMMJJ,"estAdmin" => $estAdmin, "utilAdmin" => $utilAdmin,
+            "estModif" => true, "action" => $action, "langues" => $langues, "titreFormulaire" => $titreFormulaire]);
 
 
     }
@@ -163,7 +188,7 @@ class ControleurUtilisateur extends ControleurGenerique {
 
     public static function creerDepuisFormulaire() : void {
 
-        if (self::existePasRequest(["id", "nom", "prenom", "pseudo", "dateDeNaissance", "mdp", "mdp2", "lang", "email"], "Informations manquantes.")) return;
+        if (self::existePasRequest(["id", "nom", "prenom", "pseudo", "date", "mdp", "mdp2", "lang", "email"], "Informations manquantes.")) return;
 
         $id = $_REQUEST['id'];
 
@@ -223,7 +248,7 @@ class ControleurUtilisateur extends ControleurGenerique {
 
         (new LogistiqueImage($utilisateur->getPathAvatarBrut()))->supprimer(rawurlencode($id));
 
-        if (ConnexionUtilisateur::estUtilisateur(ConnexionUtilisateur::getIdUtilisateurConnecte())) {
+        if ($id === ConnexionUtilisateur::getIdUtilisateurConnecte()) {
             ConnexionUtilisateur::deconnecter();
         }
 
