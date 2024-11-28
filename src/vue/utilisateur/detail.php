@@ -1,14 +1,10 @@
 <?php
 /** @var Utilisateur $utilisateur */
 
-use App\PlayToWin\Lib\ConnexionUtilisateur;
 use App\PlayToWin\Modele\DataObject\ClassementJeu;
 use App\PlayToWin\Modele\DataObject\Langue;
 use App\PlayToWin\Modele\DataObject\Utilisateur;
-use App\PlayToWin\Modele\Repository\Association\JouerRepository;
-use App\PlayToWin\Modele\Repository\Association\ParlerRepository;
 use App\PlayToWin\Modele\Repository\Association\SeClasserRepository;
-use App\PlayToWin\Modele\Repository\Single\CoachRepository;
 
 /** @var string $idURL */
 /** @var string $idHTML */
@@ -107,10 +103,11 @@ use App\PlayToWin\Modele\Repository\Single\CoachRepository;
                 }
             }
             ?>
-            <?php if($estBonUtilisateur):?>
-            <a href="../web/controleurFrontal.php?controleur=jouer&action=afficherFormulaireJouer&id=<?=$idURL?>">Nouveau jeu?</a>
-            <?php endif; ?>
             <?="</p>"?>
+            <?php if($estBonUtilisateur):?>
+            <a class="nouveauJeu" href="../web/controleurFrontal.php?controleur=jouer&action=afficherFormulaireJouer&id=<?=$idURL?>">Nouveau jeu?</a>
+            <?php endif; ?>
+
         </div>
         <?php
         if($estBonUtilisateur){
@@ -120,7 +117,7 @@ use App\PlayToWin\Modele\Repository\Single\CoachRepository;
             echo '</div>';
         }
         ?>
-    </div>
+
     <?php endif; ?>
     <div class="devCoach">
         <?php if($estCoach):?>
@@ -130,4 +127,5 @@ use App\PlayToWin\Modele\Repository\Single\CoachRepository;
         <a href = "../web/controleurFrontal.php?controleur=coach&action=afficherFormulaireCreation&id=<?=$idURL?>">je souhaite devenir coach...</a>
         <?php endif;?>
     </div>
+</div>
 </div>

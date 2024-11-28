@@ -111,20 +111,36 @@
 .langu a, .ligne-jeu a:last-child{
     font-size: 20px;
     position: relative;
-    left: 10px;
-    bottom: 10px;
+
 
     color:red;
 }
+
+.langu a{
+    left: 10px;
+    bottom: 10px;
+}
+
+.ligne-jeu a:last-child{
+    right:1px;
+    top:15px;
+}
+
+
 .langu a:hover, .ligne-jeu a:last-child:hover{
     color:chocolate;
 }
 
-.ligne-jeu a{
+.ligne-jeu {
+    display: flex;
+    flex-direction: row;
+}
+
+.ligne-jeu a, .nouveauJeu{
     text-decoration: none;
     color: white;
 }
-.ligne-jeu a:link{
+.ligne-jeu a:link, .nouveauJeu:link{
     color : white;
 }
 
