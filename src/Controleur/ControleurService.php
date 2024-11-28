@@ -150,7 +150,8 @@ abstract class ControleurService extends ControleurGenerique {
     protected static function creerDepuisFormulaireUtil(ServiceRepository $repo): void {
 
             $service = static::construireDepuisFormulaire($_REQUEST);
-            (new $repo())->ajouter($service);
+
+            ($repo)->ajouter($service);
 
             MessageFlash::ajouter("success", "Service ajouté");
 
