@@ -6,18 +6,18 @@ use DateTime;
 class Commande extends AbstractDataObject {
     private ?int $idCommande;
     private DateTime $dateAchat;
-    private string $idUtilisateur;
+    private Utilisateur $utilisateur;
     private float $prixTotal;
 
     public function __construct(
         ?int $idCommande,
         DateTime $dateAchat,
-        string $idUtilisateur,
+        Utilisateur $utilisateur,
         float $prixTotal
     ) {
         $this->idCommande = $idCommande;
         $this->dateAchat = $dateAchat;
-        $this->idUtilisateur = $idUtilisateur;
+        $this->utilisateur = $utilisateur;
         $this->prixTotal = $prixTotal;
     }
 
@@ -29,8 +29,16 @@ class Commande extends AbstractDataObject {
         return $this->dateAchat;
     }
 
+    public function getUtilisateur(): Utilisateur {
+        return $this->utilisateur;
+    }
+
+    public function getNomUtilisateur(): string {
+        return $this->utilisateur->getNom();
+    }
+
     public function getIdUtilisateur(): string {
-        return $this->idUtilisateur;
+        return $this->utilisateur->getId();
     }
 
     public function getPrixTotal(): float {

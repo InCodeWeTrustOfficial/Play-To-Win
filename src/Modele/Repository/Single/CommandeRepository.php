@@ -4,6 +4,7 @@ namespace App\PlayToWin\Modele\Repository\Single;
 
 use App\PlayToWin\Modele\DataObject\AbstractDataObject;
 use App\PlayToWin\Modele\DataObject\Commande;
+use App\PlayToWin\Modele\DataObject\Utilisateur;
 use App\PlayToWin\Modele\Repository\ConnexionBaseDeDonnees;
 use DateTime;
 
@@ -50,7 +51,7 @@ class CommandeRepository extends AbstractRepository {
         return new Commande(
             $servicesFormatTableau[0],
             new DateTime(),
-            $servicesFormatTableau[2],
+            (new UtilisateurRepository())->recupererParClePrimaire($servicesFormatTableau[2]),
             $servicesFormatTableau[3]
         );
     }

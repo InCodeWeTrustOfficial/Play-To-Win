@@ -10,22 +10,28 @@ class ExemplaireService extends AbstractDataObject {
     private ?int $idExemplaire;
     private string $etatService;
     private string $sujet;
-    private string $codeService;
-    private string $idCommande;
+    private Service $service;
+    private Commande $commande;
 
     /**
      * @param int|null $idExemplaire
      * @param string $etatService
      * @param string $sujet
-     * @param string $codeService
-     * @param string $idCommande
+     * @param Service $service
+     * @param Commande $commande
      */
-    public function __construct(?int $idExemplaire, string $etatService, string $sujet, string $codeService, string $idCommande) {
+    public function __construct(
+        ?int $idExemplaire,
+        string $etatService,
+        string $sujet,
+        Service $service,
+        Commande $commande)
+    {
         $this->idExemplaire = $idExemplaire;
         $this->etatService = $etatService;
         $this->sujet = $sujet;
-        $this->codeService = $codeService;
-        $this->idCommande = $idCommande;
+        $this->service = $service;
+        $this->commande = $commande;
     }
 
     public function getIdExemplaire(): ?int {
@@ -52,25 +58,24 @@ class ExemplaireService extends AbstractDataObject {
         $this->sujet = $sujet;
     }
 
-    public function getCodeService(): string {
-        return $this->codeService;
+    public function getService(): Service {
+        return $this->service;
     }
 
-    public function setCodeService(string $codeService): void {
-        $this->codeService = $codeService;
+    public function getCodeService(): int {
+        return $this->service->getId();
     }
 
     public function getIdCommande(): string {
-        return $this->idCommande;
+        return $this->commande->getIdCommande();
     }
 
-    public function setIdCommande(string $idCommande): void {
-        $this->idCommande = $idCommande;
+    public function getCommande(): Commande {
+        return $this->commande;
     }
-    
-    public function getService(string $codeservice): ?string {
-        $service = (new ExemplaireServiceRepository())->getService($this->codeService);
-        return $service->getControleur();
+
+    public function getControleurService(): ?string {
+        return $this->service->getControleur();
     }
     
 }

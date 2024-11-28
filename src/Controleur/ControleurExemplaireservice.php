@@ -4,6 +4,9 @@ namespace App\PlayToWin\Controleur;
 
 use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Modele\DataObject\ExemplaireService;
+use App\PlayToWin\Modele\Repository\Single\AnalyseVideoRepository;
+use App\PlayToWin\Modele\Repository\Single\CoachingRepository;
+use App\PlayToWin\Modele\Repository\Single\CommandeRepository;
 use App\PlayToWin\Modele\Repository\Single\ExemplaireServiceRepository;
 
 class ControleurExemplaireservice extends ControleurGenerique {
@@ -37,12 +40,19 @@ class ControleurExemplaireservice extends ControleurGenerique {
         $sujet = $tableauDonneesFormulaire['sujet'] ?? '';
         $idCommande = $tableauDonneesFormulaire['idCommande'] ?? null;
 
+        $commande = (new CommandeRepository())->recupererParClePrimaire($idCommande);
+
+        $service = (new AnalyseVideoRepository())->recupererParClePrimaire($codeService);
+        if ($service === null) {
+            $service = (new CoachingRepository())->recupererParClePrimaire($codeService);
+        }
+
         return new ExemplaireService(
-            null,                     // ID généré automatiquement
-            'achetee',                // état initial
-            $sujet,                   // Sujet en tant que chaîne de caractères
-            $codeService,             // Code du service
-            $idCommande               // ID de la commande
+            null,           // ID généré automatiquement
+            'achetee',      // état initial
+            $sujet,         // Sujet
+            $service,       // Service object instead of just the code
+            $commande     // ID de la commande
         );
     }
 

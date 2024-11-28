@@ -15,7 +15,7 @@ use App\PlayToWin\Modele\DataObject\ExemplaireService;
         </div>
     <?php else: ?>
         <?php foreach ($exemplaireservices as $exemplaireservice): ?>
-            <a class="exemplaireservice-link" href="../web/controleurFrontal.php?controleur=<?php echo htmlspecialchars($exemplaireservice->getService($exemplaireservice->getCodeService())); ?>&action=afficherDetail&id=<?= htmlspecialchars($exemplaireservice->getCodeService()) ?>">
+            <a class="exemplaireservice-link" href="../web/controleurFrontal.php?controleur=<?php echo htmlspecialchars($exemplaireservice->getControleurService()); ?>&action=afficherDetail&id=<?= htmlspecialchars($exemplaireservice->getCodeService()) ?>">
                 <div class="exemplaireservice-card">
                     <div class="exemplaireservice-subject">
                         <?= htmlspecialchars($exemplaireservice->getSujet()) ?>

@@ -9,6 +9,7 @@ use App\PlayToWin\Modele\DataObject\Coaching;
 use App\PlayToWin\Modele\DataObject\Service;
 use App\PlayToWin\Modele\Repository\Single\AnalyseVideoRepository;
 use App\PlayToWin\Modele\Repository\Single\CoachingRepository;
+use App\PlayToWin\Modele\Repository\Single\JeuRepository;
 
 class ControleurCoaching extends ControleurService {
 
@@ -42,6 +43,7 @@ class ControleurCoaching extends ControleurService {
         $nomService = $tableauDonneesFormulaire['nom_services'];
         $descriptionService = $tableauDonneesFormulaire['description'];
         $codeJeu = $tableauDonneesFormulaire['jeu'];
+
         $prix = $tableauDonneesFormulaire['prix'];
         $coach = ConnexionUtilisateur::getIdUtilisateurConnecte();
         $duree = $tableauDonneesFormulaire['duree'];
@@ -51,8 +53,8 @@ class ControleurCoaching extends ControleurService {
             $nomService,
             $descriptionService,
             $prix,
-            $coach,
-            $codeJeu,
+            (new CoachingRepository())->recupererParClePrimaire($coach),
+            (new JeuRepository())->recupererParClePrimaire($codeJeu),
             $duree
         );
     }

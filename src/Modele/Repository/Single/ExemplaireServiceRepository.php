@@ -37,20 +37,6 @@ class ExemplaireServiceRepository extends AbstractRepository{
         return $objets;
     }
 
-    public function getService($codeService): ?AbstractDataObject {
-        $serviceAnalyse = (new AnalyseVideoRepository())->recupererParClePrimaire($codeService);
-        if ($serviceAnalyse !== null) {
-            return $serviceAnalyse;
-        }
-
-        $coachingAnalyse = (new CoachingRepository())->recupererParClePrimaire($codeService);
-        if ($coachingAnalyse !== null) {
-            return $coachingAnalyse;
-        }
-
-        return null;
-    }
-
     protected function formatTableauSQL(AbstractDataObject $Exservices): array {
         /** @var ExemplaireService $Exservices */
         return array(
@@ -63,12 +49,17 @@ class ExemplaireServiceRepository extends AbstractRepository{
     }
 
     public function construireDepuisTableauSQL(array $servicesFormatTableau): ExemplaireService {
+        $service = (new AnalyseVideoRepository())->recupererParClePrimaire($servicesFormatTableau["codeService"]);
+        if ($service === null) {
+            $service = (new CoachingRepository())->recupererParClePrimaire($servicesFormatTableau["codeService"]);
+        }
+
         return new ExemplaireService (
             $servicesFormatTableau["idExemplaire"],
             $servicesFormatTableau["etatService"],
             $servicesFormatTableau["sujet"],
-            $servicesFormatTableau["codeService"],
-            $servicesFormatTableau["idCommande"]
+            $service,
+            (new CommandeRepository())->recupererParClePrimaire($servicesFormatTableau["idCommande"])
         );
     }
 }

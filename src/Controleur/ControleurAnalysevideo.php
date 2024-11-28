@@ -3,11 +3,10 @@
 namespace App\PlayToWin\Controleur;
 
 use App\PlayToWin\Lib\ConnexionUtilisateur;
-use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Modele\DataObject\AnalyseVideo;
 use App\PlayToWin\Modele\DataObject\Service;
 use App\PlayToWin\Modele\Repository\Single\AnalyseVideoRepository;
-use App\PlayToWin\Modele\Repository\Single\CoachingRepository;
+use App\PlayToWin\Modele\Repository\Single\JeuRepository;
 
 class ControleurAnalysevideo extends ControleurService {
 
@@ -50,8 +49,8 @@ class ControleurAnalysevideo extends ControleurService {
             $nomService,
             $descriptionService,
             $prix,
-            $coach,
-            $codeJeu,
+            (new AnalyseVideoRepository())->recupererParClePrimaire($coach),
+            (new JeuRepository())->recupererParClePrimaire($codeJeu),
             $nbJourRendu
         );
     }
