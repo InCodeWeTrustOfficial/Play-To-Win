@@ -1,6 +1,5 @@
 <?php
 
-use App\PlayToWin\Modele\DataObject\ClassementJeu;
 use App\PlayToWin\Modele\DataObject\Jeu;
 use App\PlayToWin\Modele\DataObject\ModeDeJeu;
 

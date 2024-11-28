@@ -4,9 +4,7 @@
 /** @var string $conf */
 /** @var string $avatarPath */
 use App\PlayToWin\Modele\DataObject\Utilisateur;
-use App\PlayToWin\Modele\Repository\Single\UtilisateurRepository;
 ?>
-<?php use App\PlayToWin\Configuration\ConfigurationSite;?>
 <form method="<?=$conf?>" action="controleurFrontal.php" enctype="multipart/form-data">
     <input type='hidden' name='action' value='mettreAJourAvatar'>
     <input type='hidden' name='controleur' value="utilisateur">

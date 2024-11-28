@@ -1,4 +1,4 @@
-<?php use App\PlayToWin\Configuration\ConfigurationSite;
+<?php
 /** @var string $conf */
 ?>
 <form method="<?= $conf ?>" action="controleurFrontal.php">
