@@ -121,10 +121,6 @@
     bottom: 10px;
 }
 
-.ligne-jeu a:last-child{
-    right:1px;
-    top:15px;
-}
 
 
 .langu a:hover, .ligne-jeu a:last-child:hover{
