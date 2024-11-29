@@ -33,7 +33,7 @@ if (empty($panier)): ?>
                 </td>
                 <td><?= number_format($produit['prix'], 2, ',', ' ') ?> €</td>
                 <td>
-                    <form method="<?= ConfigurationSite::getDebug() ? 'get' : 'post' ?>" action="controleurFrontal.php?controleur=service&action=supprimerProduit&codeService=<?= rawurlencode($produit['id']) ?>">
+                    <form method="<?=$conf?>" action="controleurFrontal.php?controleur=service&action=supprimerProduit&codeService=<?= rawurlencode($produit['id']) ?>">
                         <input type="hidden" name="id" value="<?= rawurlencode($produit['id']) ?>">
                         <input type="submit" value="Supprimer">
                     </form>
