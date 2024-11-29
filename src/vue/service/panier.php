@@ -2,6 +2,8 @@
 use App\PlayToWin\Configuration\ConfigurationSite;
 use App\PlayToWin\Lib\GestionPanier;
 
+/** @var string $conf */
+
 $panier = GestionPanier::getPanier();
 if (empty($panier)): ?>
     <div class="empty-cart-message">
@@ -45,7 +47,7 @@ if (empty($panier)): ?>
         <strong>Total Commande :</strong> <?= number_format(GestionPanier::getTotalPrix(), 2, ',', ' ') ?> €
     </div>
 
-    <form method="<?= ConfigurationSite::getDebug() ? 'get' : 'post' ?>" action="controleurFrontal.php?controleur=commande&action=afficherFormulairePanier">
+    <form method="<?=$conf?>" action="controleurFrontal.php?controleur=commande&action=afficherFormulairePanier">
         <input type="submit" value="Passer la commande">
     </form>
 <?php endif; ?>

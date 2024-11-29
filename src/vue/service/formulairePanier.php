@@ -2,11 +2,13 @@
 use App\PlayToWin\Configuration\ConfigurationSite;
 use App\PlayToWin\Lib\GestionPanier;
 
+/** @var string $conf */
+
 $panier = GestionPanier::getPanier();
 if (empty($panier)): ?>
     <p>Votre panier est vide.</p>
 <?php else: ?>
-    <form method="<?= ConfigurationSite::getDebug() ? 'get' : 'post' ?>" action="controleurFrontal.php" id="PanierForm">
+    <form method="<?=$conf?>" action="controleurFrontal.php" id="PanierForm">
         <input type='hidden' name='action' value='passerCommande'>
         <input type='hidden' name='controleur' id="controleur" value='commande'>
         <table>

@@ -5,7 +5,6 @@
 /** @var boolean $estBonUtilisateur */
 
 use App\PlayToWin\Modele\DataObject\Service;
-use App\PlayToWin\Lib\ConnexionUtilisateur;
 
 $codeServiceHTML = htmlspecialchars($service->getId());
 $nomServiceHTML = htmlspecialchars($service->getNom());

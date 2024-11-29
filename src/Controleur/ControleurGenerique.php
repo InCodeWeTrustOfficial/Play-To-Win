@@ -31,14 +31,18 @@ abstract class ControleurGenerique {
         require __DIR__ . "/../vue/$cheminVue";
     }
 
+    protected static function afficherFormulaire(string $cheminVue, array $parametres = []) : void{
+        $parametres["conf"] = ConfigurationSite::getDebug()?"get":"post";
+        self::afficherVue($cheminVue, $parametres);
+    }
+
     public static function afficherFormulairePreference() : void{
         $preferenceExiste = PreferenceControleur::existe();
         $controleurPref = null;
         if($preferenceExiste){
             $controleurPref = PreferenceControleur::lire();
         }
-        $conf = ConfigurationSite::getDebug()?"get":"post";
-        self::afficherVue("vueGenerale.php",["cheminCorpsVue" => "formulairePreference.php","preferenceExiste" => $preferenceExiste, "controleurPref" => $controleurPref, "conf" => $conf]);
+        self::afficherFormulaire("vueGenerale.php",["cheminCorpsVue" => "formulairePreference.php","preferenceExiste" => $preferenceExiste, "controleurPref" => $controleurPref]);
     }
 
     public static function enregistrerPreference() : void{

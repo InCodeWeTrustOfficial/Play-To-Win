@@ -28,7 +28,7 @@ class ControleurCommande extends ControleurGenerique {
 
     public static function afficherFormulairePanier() {
         $panier = Session::getInstance()->lire('panier');
-        self::afficherVue('vueGenerale.php', [
+        self::afficherFormulaire('vueGenerale.php', [
             "titre" => "Liste des services proposés dans la commande",
             "cheminCorpsVue" => "service/formulairePanier.php",
             'panier' => $panier,
@@ -40,7 +40,7 @@ class ControleurCommande extends ControleurGenerique {
         if (self::existePasRequest(["sujet"], "Le coach n'existe pas.")) return;
 
         if (!ConnexionUtilisateur::estConnecte()) {
-            MessageFlash::ajouter("warning", "Vous n'êtes pas connecter.");
+            MessageFlash::ajouter("warning", "Vous n'êtes pas connecté.");
             self::redirectionVersURL("afficherFormulaireConnexion", "utilisateur");
 
         } else {

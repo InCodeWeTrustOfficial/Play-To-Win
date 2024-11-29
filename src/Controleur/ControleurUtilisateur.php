@@ -1,6 +1,5 @@
 <?php
 namespace App\PlayToWin\Controleur;
-use App\PlayToWin\Configuration\ConfigurationSite;
 use App\PlayToWin\Lib\ConnexionUtilisateur;
 use App\PlayToWin\Lib\LogistiqueImage;
 use App\PlayToWin\Lib\MessageFlash;
@@ -102,14 +101,12 @@ class ControleurUtilisateur extends ControleurGenerique {
         $dateYYYYMMJJ = null;
 
 
-        $conf = ConfigurationSite::getDebug()?"get":"post";
         $estAdmin = ConnexionUtilisateur::estAdministrateur();
 
-        self::afficherVue('vueGenerale.php',["titre" => "Formulaire création utilisateur",
+        self::afficherFormulaire('vueGenerale.php',["titre" => "Formulaire création utilisateur",
             "cheminCorpsVue" => 'utilisateur/formulaireGenerique.php',
             'controleur'=>self::$controleur,
             "langues" => (new LangueRepository())->recuperer(),
-            "conf" => $conf,
             "estAdmin" => $estAdmin, "estModif" => false, "action" => $action, "idHTML" => $idHTML, "utilAdmin" => false,
             "nomHTML" => $nomHTML, "prenomHTML" => $prenomHTML, "pseudoHTML" => $pseudoHTML, "dateYYYYMMJJ" => $dateYYYYMMJJ,
             "emailHTML" => $emailHTML, "titreFormulaire" => $titreFormulaire]);
@@ -135,8 +132,6 @@ class ControleurUtilisateur extends ControleurGenerique {
         $action = "mettreAJour";
         $langues = null;
 
-        $conf = ConfigurationSite::getDebug()?"get":"post";
-
 
         $idHTML = htmlspecialchars($id);
         $nomHTML = htmlspecialchars($utilisateur->getNom());
@@ -148,8 +143,8 @@ class ControleurUtilisateur extends ControleurGenerique {
         $estAdmin = ConnexionUtilisateur::estAdministrateur();
         $utilAdmin = $utilisateur->isAdmin();
 
-        self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'utilisateur/formulaireGenerique.php', 'id' => $id, 'controleur' => self::$controleur,
-            "utilisateur" => $utilisateur, "conf" => $conf, "idHTML" => $idHTML, "nomHTML" => $nomHTML, "prenomHTML" => $prenomHTML,
+        self::afficherFormulaire('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'utilisateur/formulaireGenerique.php', 'id' => $id, 'controleur' => self::$controleur,
+            "utilisateur" => $utilisateur, "idHTML" => $idHTML, "nomHTML" => $nomHTML, "prenomHTML" => $prenomHTML,
             "pseudoHTML" => $pseudoHTML, "emailHTML" => $emailHTML, "dateYYYYMMJJ" => $dateYYYYMMJJ,"estAdmin" => $estAdmin, "utilAdmin" => $utilAdmin,
             "estModif" => true, "action" => $action, "langues" => $langues, "titreFormulaire" => $titreFormulaire]);
 
@@ -167,18 +162,15 @@ class ControleurUtilisateur extends ControleurGenerique {
         }
         /** @var Utilisateur $utilisateur */
         $utilisateur = (new UtilisateurRepository())->recupererParClePrimaire($id);
-        $conf = ConfigurationSite::getDebug()?"get":"post";
         $avatarPath = $utilisateur->getAvatarPath();
 
-        self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'utilisateur/formulaireAvatar.php', 'id' => $id,
-            "utilisateur" => $utilisateur, "conf" => $conf, "avatarPath" => $avatarPath]);
+        self::afficherFormulaire('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'utilisateur/formulaireAvatar.php', 'id' => $id,
+            "utilisateur" => $utilisateur, "avatarPath" => $avatarPath]);
 
     }
 
     public static function afficherFormulaireConnexion() : void{
-        $conf = ConfigurationSite::getDebug()?"get":"post";
-        self::afficherVue('vueGenerale.php',["titre" => "Connexion Utilisateur", "cheminCorpsVue" => 'utilisateur/formulaireConnexion.php',
-            "conf" => $conf]);
+        self::afficherFormulaire('vueGenerale.php',["titre" => "Connexion Utilisateur", "cheminCorpsVue" => 'utilisateur/formulaireConnexion.php']);
     }
 
     public static function connecter(): void {

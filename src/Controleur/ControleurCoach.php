@@ -2,7 +2,6 @@
 
 namespace App\PlayToWin\Controleur;
 
-use App\PlayToWin\Configuration\ConfigurationSite;
 use App\PlayToWin\Lib\ConnexionUtilisateur;
 use App\PlayToWin\Lib\LogistiqueImage;
 use App\PlayToWin\Lib\MessageFlash;
@@ -14,8 +13,6 @@ use App\PlayToWin\Modele\DataObject\Langue;
 use App\PlayToWin\Modele\DataObject\Utilisateur;
 use App\PlayToWin\Modele\Repository\Association\JouerRepository;
 use App\PlayToWin\Modele\Repository\Association\ParlerRepository;
-use App\PlayToWin\Modele\Repository\Single\AnalyseVideoRepository;
-use App\PlayToWin\Modele\Repository\Single\CoachingRepository;
 use App\PlayToWin\Modele\Repository\Single\CoachRepository;
 use App\PlayToWin\Modele\Repository\Single\JeuRepository;
 use App\PlayToWin\Modele\Repository\Single\LangueRepository;
@@ -82,7 +79,6 @@ class ControleurCoach extends ControleurGenerique {
             }
             $langueRequest = $_REQUEST['lang'];
         }
-        $conf = ConfigurationSite::getDebug()?"get":"post";
 
         $coachDetails = [];
 
@@ -107,8 +103,8 @@ class ControleurCoach extends ControleurGenerique {
         $langues = (new LangueRepository())->recuperer();
         $jeux = (new JeuRepository())->recuperer();
 
-        self::afficherVue('vueGenerale.php',["titre" => "Liste des utilisateurs", "cheminCorpsVue" => "coach/liste.php", 'coachs'=>$coachs, 'controleur'=>self::$controleur,
-            "conf" => $conf, "avoirLangue" => $avoirLangue, "langue" => $langue, "codeAlphaLangue" => $codeAlphaLangue, "nomLangue" => $nomLangue,
+        self::afficherFormulaire('vueGenerale.php',["titre" => "Liste des utilisateurs", "cheminCorpsVue" => "coach/liste.php", 'coachs'=>$coachs, 'controleur'=>self::$controleur,
+            "avoirLangue" => $avoirLangue, "langue" => $langue, "codeAlphaLangue" => $codeAlphaLangue, "nomLangue" => $nomLangue,
             "langues" => $langues, "langueRequest" => $langueRequest, "avoirJeu" => $avoirJeu,
             "jeu" => $jeu, "codeJeu" => $codeJeu, "nomJeu" => $nomJeu, "jeux" => $jeux, "jeuRequest" => $jeuRequest, "coachDetails" => $coachDetails]);
     }
@@ -172,11 +168,10 @@ class ControleurCoach extends ControleurGenerique {
                 $biographieCoach = null;
                 $titreForm = "création coach";
                 $action = "creerDepuisFormulaire";
-                $conf = ConfigurationSite::getDebug()?"get":"post";
                 $idUtilisateurr = htmlspecialchars(rawurlencode($utilisateur->getId()));
                 $pseudoUtilisateurr = htmlspecialchars($utilisateur->getPseudo());
-                self::afficherVue("vueGenerale.php", ["titre" => "Formulaire création coach", "cheminCorpsVue" => "coach/formulaireGenerique.php", "utilisateur" => $utilisateur, "controleur" => self::$controleur,
-                    "conf" => $conf, "idUtilisateurr" => $idUtilisateurr, "pseudoUtilisateurr" => $pseudoUtilisateurr, "estModif" => false, "action" => $action, "biographieCoach" => $biographieCoach,
+                self::afficherFormulaire("vueGenerale.php", ["titre" => "Formulaire création coach", "cheminCorpsVue" => "coach/formulaireGenerique.php", "utilisateur" => $utilisateur, "controleur" => self::$controleur,
+                    "idUtilisateurr" => $idUtilisateurr, "pseudoUtilisateurr" => $pseudoUtilisateurr, "estModif" => false, "action" => $action, "biographieCoach" => $biographieCoach,
                     "titreForm" => $titreForm]);
             }
 
@@ -199,13 +194,12 @@ class ControleurCoach extends ControleurGenerique {
         } else {
             $action = "mettreAJour";
             $titreForm = "Modification coach";
-            $conf = ConfigurationSite::getDebug()?"get":"post";
             /** @var Coach $coach */
             $coach = (new CoachRepository())->recupererParClePrimaire($id);
             $idUtilisateurr =  htmlspecialchars(rawurlencode($coach->getId()));
             $biographieCoach =htmlspecialchars($coach->getBiographie());
-            self::afficherVue("vueGenerale.php", ["titre" => "Mise à jour du coach", "cheminCorpsVue" => "coach/formulaireGenerique.php",
-                "conf" => $conf, "idUtilisateurr" => $idUtilisateurr, "biographieCoach" => $biographieCoach, "estModif" => true, "action" => $action,
+            self::afficherFormulaire("vueGenerale.php", ["titre" => "Mise à jour du coach", "cheminCorpsVue" => "coach/formulaireGenerique.php",
+                "idUtilisateurr" => $idUtilisateurr, "biographieCoach" => $biographieCoach, "estModif" => true, "action" => $action,
                 "titreForm" => $titreForm, "controleur" => self::$controleur]);
         }
     }
@@ -226,10 +220,9 @@ class ControleurCoach extends ControleurGenerique {
             }
             /** @var Coach $coach */
             $coach = (new CoachRepository())->recupererParClePrimaire($id);
-            $conf = ConfigurationSite::getDebug()?"get":"post";
             $banniereCoach = $coach->getBannierePath();
-            self::afficherVue('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'coach/formulaireBanniere.php', 'id' => $id,
-                "conf" => $conf, "banniereCoach" => $banniereCoach]);
+            self::afficherFormulaire('vueGenerale.php', ["titre" => "Formulaire de MAJ", "cheminCorpsVue" => 'coach/formulaireBanniere.php', 'id' => $id,
+                "banniereCoach" => $banniereCoach]);
         }
 
 

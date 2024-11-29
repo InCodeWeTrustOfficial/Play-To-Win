@@ -2,12 +2,10 @@
 
 namespace App\PlayToWin\Controleur;
 
-use App\PlayToWin\Configuration\ConfigurationSite;
 use App\PlayToWin\Modele\DataObject\Utilisateur;
 use App\PlayToWin\Modele\Repository\Association\AvoirModeRepository;
 use App\PlayToWin\Modele\Repository\Association\SeClasserRepository;
 use App\PlayToWin\Modele\Repository\Single\ClassementRepository;
-use App\PlayToWin\Lib\ConnexionUtilisateur;
 use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Modele\DataObject\Classement;
 use App\PlayToWin\Modele\DataObject\Jeu;
@@ -73,7 +71,6 @@ class ControleurJouer extends ControleurGenerique {
         } else {
             $classementsPossibles = array();
             $classementsPossibles[$jeu->getCodeJeu()] = (new SeClasserRepository())->recupererAvecJeu($jeu->getCodeJeu());
-            $conf = ConfigurationSite::getDebug()?"get":"post";
 
             $codeJeu = htmlspecialchars($jeu->getCodeJeu());
             $nomJeu = htmlspecialchars($jeu->getNomJeu());
@@ -81,8 +78,8 @@ class ControleurJouer extends ControleurGenerique {
 
             $class = $classementsPossibles[$jeu->getCodeJeu()];
 
-            self::afficherVue("vueGenerale.php", ["titre" => "modification classement", "cheminCorpsVue" => "jouer/formulaireModif.php", "jeu" => $jeu, "mode" => $modeJeu, "idUser" => $id, "classementsPossibles" => $classementsPossibles,
-                "conf" => $conf, "codeJeu" => $codeJeu, "nomJeu" => $nomJeu, "class" => $class]);
+            self::afficherFormulaire("vueGenerale.php", ["titre" => "modification classement", "cheminCorpsVue" => "jouer/formulaireModif.php", "jeu" => $jeu, "mode" => $modeJeu, "idUser" => $id, "classementsPossibles" => $classementsPossibles,
+                 "codeJeu" => $codeJeu, "nomJeu" => $nomJeu, "class" => $class]);
         }
 
     }
@@ -179,10 +176,8 @@ class ControleurJouer extends ControleurGenerique {
             $class = $classementsPossibles[$jeu->getCodeJeu()];
         }
 
-        $conf = ConfigurationSite::getDebug()?"get":"post";
-
-        self::afficherVue("vueGenerale.php", ["titre" => "Ajout d'un jeu", "cheminCorpsVue" => "jouer/formulaireJouer.php", "jeu" => $jeu, "idUser" => $id, "jeux" => $jeux, "modesDunJeu" => $modesDunJeu, "classementsPossibles" => $classementsPossibles,
-            "conf" => $conf, "codeJeu" => $codeJeu, "nomJeu" => $nomJeu, "md" => $md, "class" => $class, "reqJeu" => $reqJeu]);
+        self::afficherFormulaire("vueGenerale.php", ["titre" => "Ajout d'un jeu", "cheminCorpsVue" => "jouer/formulaireJouer.php", "jeu" => $jeu, "idUser" => $id, "jeux" => $jeux, "modesDunJeu" => $modesDunJeu, "classementsPossibles" => $classementsPossibles,
+            "codeJeu" => $codeJeu, "nomJeu" => $nomJeu, "md" => $md, "class" => $class, "reqJeu" => $reqJeu]);
 
 
     }

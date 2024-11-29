@@ -50,7 +50,7 @@ class Utilisateur extends AbstractDataObject implements ObjetListable {
     }
 
     public function getElementColonnes(): array{
-        return [$this->getId() ,$this->getNom()];
+        return [$this->getIdListable() ,$this->getNom()];
     }
 
     public function getIdListable(): string {

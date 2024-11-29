@@ -35,7 +35,7 @@ abstract class ControleurService extends ControleurGenerique {
                 (new CoachingRepository())->recupererParCoach($coachId)
             );
 
-            self::afficherVue('vueGenerale.php', [
+            self::afficherFormulaire('vueGenerale.php', [
                 "titre" => "Liste des services",
                 "cheminCorpsVue" => "service/liste.php",
                 'services' => $services,
@@ -48,9 +48,9 @@ abstract class ControleurService extends ControleurGenerique {
         if (self::existePasRequest(["id"], "Le coach n'existe pas.")) return;
 
         $coachId = htmlspecialchars($_REQUEST['id']);
-        $services = (new $repo())->recupererParCoach($coachId);
+        $services = ($repo)->recupererParCoach($coachId);
 
-        self::afficherVue('vueGenerale.php',[
+        self::afficherFormulaire('vueGenerale.php',[
             "titre" => "Liste des services",
             "cheminCorpsVue" => "service/liste.php",
             'services' => $services,
@@ -69,7 +69,7 @@ abstract class ControleurService extends ControleurGenerique {
             $jeu =   (new JeuRepository())->recupererParClePrimaire($service->getCodeJeu());
             $jeux = (new JeuRepository())->recuperer();
 
-            self::afficherVue('vueGenerale.php', [
+            self::afficherFormulaire('vueGenerale.php', [
                 "titre" => "Formulaire de MAJ",
                 "cheminCorpsVue" => 'service/formulaireMiseAJour.php',
                 'id' => $codeService,
@@ -82,7 +82,7 @@ abstract class ControleurService extends ControleurGenerique {
     }
 
     public static function afficherFormulaireCreation() : void {
-        self::afficherVue('vueGenerale.php', [
+        self::afficherFormulaire('vueGenerale.php', [
             "titre" => "Proposition services",
             "cheminCorpsVue" => 'service/formulaireCreation.php']);
     }
@@ -94,12 +94,12 @@ abstract class ControleurService extends ControleurGenerique {
 
             $codeService = $_REQUEST['id'];
 
-            $utilisateur = (new $repo())->recupererParClePrimaire($codeService);
+            $utilisateur = ($repo)->recupererParClePrimaire($codeService);
 
             $estAdmin = ConnexionUtilisateur::estAdministrateur();
             $estBonUtilisateur = $estAdmin || (ConnexionUtilisateur::estConnecte() && ConnexionUtilisateur::estUtilisateur($repo->recupererParClePrimaire($utilisateur->getId())));
 
-            $service = (new $repo())->recupererParClePrimaire($codeService);
+            $service = ($repo)->recupererParClePrimaire($codeService);
 
             if ($service != NULL) {
                 self::afficherVue('vueGenerale.php', [
@@ -120,7 +120,7 @@ abstract class ControleurService extends ControleurGenerique {
 
             MessageFlash::ajouter("success", "Service supprimé");
 
-            self::afficherVue('vueGenerale.php', [
+            self::afficherFormulaire('vueGenerale.php', [
                 "titre" => "Liste des services",
                 "cheminCorpsVue" => "service/liste.php",
                 'services' => $services,
@@ -134,7 +134,7 @@ abstract class ControleurService extends ControleurGenerique {
         /** @var ServiceRepository $service */
 
         $codeService = $_REQUEST['id'];
-        $service = (new $repo)->recupererParClePrimaire($codeService);
+        $service = ($repo)->recupererParClePrimaire($codeService);
 
         $service->setNomService($_REQUEST['nom_services']);
         $service->setDescriptionService($_REQUEST['description']);
@@ -150,7 +150,7 @@ abstract class ControleurService extends ControleurGenerique {
 
         $service->setAttributsEnfant($enfantData);
 
-        (new $repo)->mettreAJour($service);
+        ($repo)->mettreAJour($service);
 
         $idUrl = rawurlencode($_REQUEST['idCoach']);
 
@@ -168,7 +168,7 @@ abstract class ControleurService extends ControleurGenerique {
 
             $services = $repo->recuperer();
 
-            self::afficherVue('vueGenerale.php', [
+            self::afficherFormulaire('vueGenerale.php', [
                 "titre" => "Liste des services",
                 "cheminCorpsVue" => "service/liste.php",
                 'services' => $services,
@@ -177,7 +177,7 @@ abstract class ControleurService extends ControleurGenerique {
     
     public static function afficherPanier() : void {
         $panier = Session::getInstance()->lire('panier');
-        self::afficherVue('vueGenerale.php',["titre" => "Panier", "cheminCorpsVue" => "service/panier.php",
+        self::afficherFormulaire('vueGenerale.php',["titre" => "Panier", "cheminCorpsVue" => "service/panier.php",
             'panier' => $panier,
             'controleur'=> static::$controleur]);
     }

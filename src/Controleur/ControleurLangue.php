@@ -2,8 +2,6 @@
 
 namespace App\PlayToWin\Controleur;
 
-use App\PlayToWin\Configuration\ConfigurationSite;
-use App\PlayToWin\Lib\ConnexionUtilisateur;
 use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Modele\DataObject\Langue;
 use App\PlayToWin\Modele\DataObject\Utilisateur;
@@ -65,10 +63,9 @@ class ControleurLangue extends ControleurGenerique{
             }
         }
 
-        $conf = ConfigurationSite::getDebug()?"get":"post";
 
-        self::afficherVue("vueGenerale.php", ["titre" => "Ajout d'une langue", "cheminCorpsVue" => "langue/formulaireAjout.php", "idUser" => $id, "langues" => $languesNonParlees,
-            "conf" => $conf]);
+        self::afficherFormulaire("vueGenerale.php", ["titre" => "Ajout d'une langue", "cheminCorpsVue" => "langue/formulaireAjout.php", "idUser" => $id, "langues" => $languesNonParlees
+            ]);
 
 
     }

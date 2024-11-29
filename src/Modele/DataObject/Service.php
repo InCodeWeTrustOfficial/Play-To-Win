@@ -47,7 +47,7 @@ abstract class Service extends AbstractDataObject implements ObjetListable {
     }
 
     public function getElementColonnes(): array{
-        return [$this->getId(), $this->getIdCoach() ,$this->getNom()];
+        return [$this->getIdListable(), $this->getIdCoach() ,$this->getNom()];
     }
 
     public function getId(): ?int {

@@ -1,10 +1,11 @@
 <?php
 /** @var int $id */
-/** @var ServiceRepository $repo */
 /** @var String $controleur */
 /** @var Service $service */
 /** @var Jeu $jeu */
 /** @var Jeu[] $jeux */
+
+/** @var string $conf */
 
 use App\PlayToWin\Configuration\ConfigurationSite;
 use App\PlayToWin\Modele\DataObject\Jeu;
@@ -12,7 +13,7 @@ use App\PlayToWin\Modele\DataObject\Service;
 
 ?>
 
-<form method="<?php if(ConfigurationSite::getDebug()){echo "get";}else{echo "post";} ?>" action="controleurFrontal.php">
+<form method="<?=$conf?>" action="controleurFrontal.php">
     <input type='hidden' name='action' value='mettreAJour'>
     <input type='hidden' name='controleur' value='<?= rawurlencode($service->getControleur()) ?>'>
     <input type='hidden' name='id' value='<?= $id ?>'>
@@ -22,7 +23,7 @@ use App\PlayToWin\Modele\DataObject\Service;
 
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="nom_services_id">Nom du service</label>
-            <input class="InputAddOn-field" type="text" value="<?= htmlspecialchars($service->getNom()) ?>" name="nom_services" id="nom_services_id" required/>
+            <input class="InputAddOn-field" type="text" value="<?= htmlspecialchars($service->getNom()) ?>" name="nom_services" id="nom_services_id" required>
         </p>
 
         <p class="InputAddOn">
@@ -52,11 +53,11 @@ use App\PlayToWin\Modele\DataObject\Service;
 
         <p class="InputAddOn">
             <label class="InputAddOn-item" for="prix_id">Prix</label>
-            <input class="InputAddOn-field" type="number" value="<?= rawurlencode($service->getPrixService()) ?>" name="prix" id="prix_id" required/>
+            <input class="InputAddOn-field" type="number" value="<?= rawurlencode($service->getPrixService()) ?>" name="prix" id="prix_id" required>
         </p>
 
         <p>
-            <input type="submit" value="Envoyer" />
+            <input type="submit" value="Envoyer" >
         </p>
     </fieldset>
 </form>
