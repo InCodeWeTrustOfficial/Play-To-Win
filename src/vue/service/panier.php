@@ -1,6 +1,4 @@
 <?php
-use App\PlayToWin\Configuration\ConfigurationSite;
-
 /** @var string $conf */
 /** @var array $panier */
 /* @var float $totalprix */
