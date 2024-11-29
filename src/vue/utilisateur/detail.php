@@ -114,6 +114,7 @@ use App\PlayToWin\Modele\DataObject\Utilisateur;
             }
             ?>
         </div>
+    </div>
 
     <?php endif; ?>
     <div class="devCoach">
