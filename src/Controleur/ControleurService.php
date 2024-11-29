@@ -2,6 +2,7 @@
 
 namespace App\PlayToWin\Controleur;
 
+use App\PlayToWin\Configuration\ConfigurationSite;
 use App\PlayToWin\Lib\ConnexionUtilisateur;
 use App\PlayToWin\Lib\GestionPanier;
 use App\PlayToWin\Lib\MessageFlash;
@@ -86,7 +87,6 @@ abstract class ControleurService extends ControleurGenerique {
     }
 
     public static function afficherDetailUtil(ServiceRepository $repo) : void {
-
 
         if (self::existePasRequest(["id"], "Le service n'existe pas.")) return;
 
@@ -175,8 +175,12 @@ abstract class ControleurService extends ControleurGenerique {
     
     public static function afficherPanier() : void {
         $panier = GestionPanier::getPanier();
+        $totalprix = GestionPanier::getTotalPrix();
+        $conf = ConfigurationSite::getDebug() ? 'get' : 'post';
         self::afficherFormulaire('vueGenerale.php',["titre" => "Panier", "cheminCorpsVue" => "service/panier.php",
             'panier' => $panier,
+            'totalprix' => $totalprix,
+            'conf' => $conf,
             'controleur'=> static::$controleur]);
     }
 

@@ -1,10 +1,9 @@
 <?php
 use App\PlayToWin\Configuration\ConfigurationSite;
-use App\PlayToWin\Lib\GestionPanier;
 
 /** @var string $conf */
-
 /** @var array $panier */
+/* @var float $totalprix */
 
 if (empty($panier)): ?>
     <div class="empty-cart-message">
@@ -26,7 +25,7 @@ if (empty($panier)): ?>
             <tr>
                 <td><?= htmlspecialchars($produit['nom']) ?></td>
                 <td>
-                    <form method="<?= ConfigurationSite::getDebug() ? 'get' : 'post' ?>" action="controleurFrontal.php?controleur=service&action=modifierQuantite&codeService=<?= htmlspecialchars($produit['id']) ?>">
+                    <form method="<?=$conf?>" action="controleurFrontal.php?controleur=service&action=modifierQuantite&codeService=<?= htmlspecialchars($produit['id']) ?>">
                         <input type="hidden" name="id" value="<?= htmlspecialchars($produit['id']) ?>">
                         <input type="number" name="quantite" value="<?= htmlspecialchars($produit['quantite']) ?>" min="1">
                         <input type="submit" value="Modifier">
@@ -45,7 +44,7 @@ if (empty($panier)): ?>
     </table>
 
     <div class="total">
-        <strong>Total Commande :</strong> <?= number_format(GestionPanier::getTotalPrix(), 2, ',', ' ') ?> €
+        <strong>Total Commande :</strong> <?= number_format($totalprix, 2, ',', ' ') ?> €
     </div>
 
     <form method="<?=$conf?>" action="controleurFrontal.php?controleur=commande&action=afficherFormulairePanier">
