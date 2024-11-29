@@ -29,10 +29,12 @@ class ControleurCommande extends ControleurGenerique {
 
     public static function afficherFormulairePanier() {
         $panier = GestionPanier::getPanier();
+        $totalprix = GestionPanier::getTotalPrix();
         self::afficherFormulaire('vueGenerale.php', [
             "titre" => "Liste des services proposés dans la commande",
             "cheminCorpsVue" => "service/formulairePanier.php",
             'panier' => $panier,
+            'totalprix' => $totalprix,
             'controleur' => self::$controleur
         ]);
     }

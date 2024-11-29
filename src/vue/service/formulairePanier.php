@@ -1,9 +1,7 @@
 <?php
-use App\PlayToWin\Configuration\ConfigurationSite;
-use App\PlayToWin\Lib\GestionPanier;
 
 /** @var string $conf */
-
+/* @var float $totalprix */
 /** @var array $panier */
 
 if (empty($panier)): ?>
@@ -42,7 +40,7 @@ if (empty($panier)): ?>
         </table>
 
         <div class="total">
-            <strong>Total Commande :</strong> <?= number_format(GestionPanier::getTotalPrix(), 2, ',', ' ') ?> €
+            <strong>Total Commande :</strong> <?= number_format($totalprix, 2, ',', ' ') ?> €
         </div>
 
         <input type="submit" value="Passer la commande">
