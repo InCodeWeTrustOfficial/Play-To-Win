@@ -80,7 +80,7 @@ use App\PlayToWin\Modele\DataObject\Utilisateur;
                 </div>
             </div>
         </div>
-        <a class="jeux-utilisateur">
+        <div class="jeux-utilisateur">
             <?php if($jouerDetails === null): ?>
                 <p>Aucun jeu</p>
             <?php else: ?>
@@ -88,31 +88,32 @@ use App\PlayToWin\Modele\DataObject\Utilisateur;
                     <p class="ligne-jeu">
                         <?php if($estBonUtilisateur): ?>
                         <a href="../web/controleurFrontal.php?controleur=jouer&action=afficherModifJouer&id=<?= $idURLL ?>&jeu=<?= $detail['codeJeu'] ?>&mode=<?= $detail['modeURL'] ?>">
-                            <?php endif; ?>
+                        <?php endif; ?>
                             <small><?= $detail['modeHTML'] ?></small>
                             <img src="../<?= htmlspecialchars($detail['pathLogo']) ?>" alt="<?= $detail['nomJeuHTML'] ?>">
                             <img class="classement" src="../<?= htmlspecialchars($detail['classPath']) ?>" alt="Classement">
                             <?php if($estBonUtilisateur): ?>
-                        </a>
-                        <a href="../web/controleurFrontal.php?controleur=jouer&action=supprimerJouer&id=<?= $idURLL ?>&jeu=<?= $detail['codeJeu'] ?>&mode=<?= $detail['modeURL'] ?>">X</a>
-                    <?php endif; ?>
+                            </a>
+                            <a href="../web/controleurFrontal.php?controleur=jouer&action=supprimerJouer&id=<?= $idURLL ?>&jeu=<?= $detail['codeJeu'] ?>&mode=<?= $detail['modeURL'] ?>">X</a>
+                            <?php endif; ?>
                     </p>
                 <?php endforeach; ?>
             <?php endif; ?>
-            <?="</p>"?>
+
+
             <?php if($estBonUtilisateur):?>
             <a class="nouveauJeu" href="../web/controleurFrontal.php?controleur=jouer&action=afficherFormulaireJouer&id=<?=$idURLL?>">Nouveau jeu?</a>
             <?php endif; ?>
 
+            <?php
+            if($estBonUtilisateur){
+                echo '<div class="lienMAJ">';
+                echo '    <a href = "../web/controleurFrontal.php?controleur=utilisateur&action=afficherFormulaireMiseAJour&id='.$idURLL.'">Modifier des informations ?</a>';
+                echo '    <a href = "../web/controleurFrontal.php?controleur=utilisateur&action=supprimer&id=' . $idURLL . '">Supprimer le compte</a>';
+                echo '</div>';
+            }
+            ?>
         </div>
-        <?php
-        if($estBonUtilisateur){
-            echo '<div class="lienMAJ">';
-            echo '    <a href = "../web/controleurFrontal.php?controleur=utilisateur&action=afficherFormulaireMiseAJour&id='.$idURLL.'">Modifier des informations ?</a>';
-            echo '    <a href = "../web/controleurFrontal.php?controleur=utilisateur&action=supprimer&id=' . $idURLL . '">Supprimer le compte</a>';
-            echo '</div>';
-        }
-        ?>
 
     <?php endif; ?>
     <div class="devCoach">
@@ -123,5 +124,4 @@ use App\PlayToWin\Modele\DataObject\Utilisateur;
         <a href = "../web/controleurFrontal.php?controleur=coach&action=afficherFormulaireCreation&id=<?=$idURLL?>">je souhaite devenir coach...</a>
         <?php endif;?>
     </div>
-</div>
 </div>

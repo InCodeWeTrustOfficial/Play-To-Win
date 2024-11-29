@@ -78,7 +78,7 @@ class ControleurJouer extends ControleurGenerique {
 
             $class = $classementsPossibles[$jeu->getCodeJeu()];
 
-            self::afficherFormulaire("vueGenerale.php", ["titre" => "modification classement", "cheminCorpsVue" => "jouer/formulaireModif.php", "jeu" => $jeu, "mode" => $modeJeu, "idUser" => $id, "classementsPossibles" => $classementsPossibles,
+            self::afficherFormulaire("vueGenerale.php", ["titre" => "modification classement", "cheminCorpsVue" => "jouer/formulaireModif.php", "jeu" => $jeu, "nomMode" => $modeJeu, "idUser" => $id, "classementsPossibles" => $classementsPossibles,
                  "codeJeu" => $codeJeu, "nomJeu" => $nomJeu, "class" => $class]);
         }
 

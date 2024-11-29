@@ -15,14 +15,14 @@ use App\PlayToWin\Modele\DataObject\Jeu;
     <input type='hidden' name='controleur' value="jouer">
     <input type='hidden' name="id" value="<?=rawurlencode($idUser)?>">
     <input type = 'hidden' name="jeu" value="<?=$codeJeu?>">
-    <input type = 'hidden' name="mode" value="<?=$mode?>">
+    <input type = 'hidden' name="mode" value="<?=$nomMode?>">
     <fieldset>
         <legend>Modification:</legend>
         <p class="nomModif">
             <?= $nomJeu?> <img class="jeuModif" src="../<?=$jeu->getPathLogo()?>">
         </p>
         <p class="nomModif">
-            Le mode choisi : <?=htmlspecialchars($nomMode)?>
+            Le mode choisi : <?=$nomMode?>
         </p>
         <?php
         require_once 'extClassement.php';
