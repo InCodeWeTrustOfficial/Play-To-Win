@@ -4,7 +4,8 @@ use App\PlayToWin\Lib\GestionPanier;
 
 /** @var string $conf */
 
-$panier = GestionPanier::getPanier();
+/** @var array $panier */
+
 if (empty($panier)): ?>
     <div class="empty-cart-message">
         <p>Votre panier est vide.</p>

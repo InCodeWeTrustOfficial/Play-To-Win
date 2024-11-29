@@ -3,6 +3,7 @@
 namespace App\PlayToWin\Controleur;
 
 use App\PlayToWin\Lib\ConnexionUtilisateur;
+use App\PlayToWin\Lib\GestionPanier;
 use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Modele\DataObject\Commande;
 use App\PlayToWin\Modele\DataObject\Service;
@@ -27,7 +28,7 @@ class ControleurCommande extends ControleurGenerique {
     }
 
     public static function afficherFormulairePanier() {
-        $panier = Session::getInstance()->lire('panier');
+        $panier = GestionPanier::getPanier();
         self::afficherFormulaire('vueGenerale.php', [
             "titre" => "Liste des services proposés dans la commande",
             "cheminCorpsVue" => "service/formulairePanier.php",
@@ -56,8 +57,7 @@ class ControleurCommande extends ControleurGenerique {
             $commandeRepository->ajouter($commande);
             $idCommande = ConnexionBaseDeDonnees::getPdo()->lastInsertId();
 
-            $session = Session::getInstance();
-            $panier = $session->lire('panier');
+            $panier = GestionPanier::getPanier();
 
             $sujets = $_REQUEST['sujet'] ?? [];
             $prixTotal = 0.0;
@@ -80,7 +80,7 @@ class ControleurCommande extends ControleurGenerique {
                 }
             }
 
-            $session->supprimer('panier');
+            GestionPanier::viderPanier();
             MessageFlash::ajouter("success", "Commande passée avec succès.");
             self::redirectionVersURL("afficherListe", "coach");
         }

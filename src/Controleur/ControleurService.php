@@ -6,10 +6,8 @@ use App\PlayToWin\Lib\ConnexionUtilisateur;
 use App\PlayToWin\Lib\GestionPanier;
 use App\PlayToWin\Lib\MessageFlash;
 use App\PlayToWin\Modele\DataObject\Service;
-use App\PlayToWin\Modele\HTTP\Session;
 use App\PlayToWin\Modele\Repository\Single\AnalyseVideoRepository;
 use App\PlayToWin\Modele\Repository\Single\CoachingRepository;
-use App\PlayToWin\Modele\Repository\Single\CoachRepository;
 use App\PlayToWin\Modele\Repository\Single\JeuRepository;
 use App\PlayToWin\Modele\Repository\Single\ServiceRepository;
 
@@ -176,7 +174,7 @@ abstract class ControleurService extends ControleurGenerique {
     }
     
     public static function afficherPanier() : void {
-        $panier = Session::getInstance()->lire('panier');
+        $panier = GestionPanier::getPanier();
         self::afficherFormulaire('vueGenerale.php',["titre" => "Panier", "cheminCorpsVue" => "service/panier.php",
             'panier' => $panier,
             'controleur'=> static::$controleur]);

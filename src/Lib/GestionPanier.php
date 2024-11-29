@@ -13,6 +13,11 @@ class GestionPanier {
         return $session->lire('panier') ?? [];
     }
 
+    public static function viderPanier() : void{
+        $session = Session::getInstance();
+        $session->supprimer('panier');
+    }
+
     public static function ajouterAuPanier() : void {
         if (!isset($_REQUEST['id'])) {
             MessageFlash::ajouter("danger", "Code du service manquant.");
