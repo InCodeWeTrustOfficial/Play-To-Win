@@ -33,7 +33,7 @@ class GestionPanier {
 
         if ($service != null) {
             $session = Session::getInstance();
-            $panier = $session->lire('panier');
+            $panier = $session->lire('panier') ?? [];
 
             if (isset($panier[$codeService])) {
                 $panier[$codeService]['quantite']++;
@@ -65,7 +65,7 @@ class GestionPanier {
         $quantite = (int)$_REQUEST['quantite'];
 
         $session = Session::getInstance();
-        $panier = $session->lire('panier');
+        $panier = $session->lire('panier') ?? [];
 
         if (isset($panier[$codeService])) {
             if ($quantite <= 0) {
@@ -104,7 +104,7 @@ class GestionPanier {
 
     public static function getTotalPrix(): float {
         $session = Session::getInstance();
-        $panier = $session->lire('panier');
+        $panier = $session->lire('panier') ?? [];
         $totalGlobal = 0;
 
         foreach ($panier as $produit) {
