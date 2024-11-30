@@ -1,6 +1,5 @@
 <?php
 
-use App\PlayToWin\Configuration\ConfigurationSite;
 use App\PlayToWin\Modele\DataObject\Service;
 
 echo "<h2>Liste des services proposés</h2>";

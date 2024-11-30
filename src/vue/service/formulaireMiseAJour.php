@@ -7,7 +7,6 @@
 
 /** @var string $conf */
 
-use App\PlayToWin\Configuration\ConfigurationSite;
 use App\PlayToWin\Modele\DataObject\Jeu;
 use App\PlayToWin\Modele\DataObject\Service;
 
