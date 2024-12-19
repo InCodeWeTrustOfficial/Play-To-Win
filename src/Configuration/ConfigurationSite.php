@@ -13,7 +13,7 @@ class ConfigurationSite {
     }
     public static function getURLAbsolue():string{
         //return "http://localhost/s3-projetweb/web/controleurFrontal.php";
-        return "https://webinfo.iutmontp.univ-montp2.fr/~turpinb/web/controleurFrontal.php";
+        return "https://webinfo.iutmontp.univ-montp2.fr/~turpinb/s3-projetweb/web/controleurFrontal.php";
     }
 
     public static function getDebug():bool{
