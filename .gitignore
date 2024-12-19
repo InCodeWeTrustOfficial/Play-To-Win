@@ -1,1 +1,3 @@
-.idea
+.idea/
+src/Configuration/ConfigurationBaseDeDonnees.php
+BaseDeDonnees/

@@ -1,0 +1,86 @@
+.table-container {
+    max-width: 800px;
+    margin: auto;
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-weight: bold;
+}
+
+thead {
+    background-color: #000000;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-weight: bold;
+}
+
+input[type="number"] {
+    width: 60px;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+input[type="submit"] {
+    margin-top: 10px;
+    background-color: #28a745;
+    color: #ffffff;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-weight: bold;
+}
+
+input[type="submit"]:hover {
+    background-color: #218838;
+}
+
+.button-container {
+    text-align: center;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+.total {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #e9ecef;
+    color: #0a0a0a;
+    border: 1px solid #ced4da;
+}
+
+.empty-cart-message {
+    text-align: center;
+    padding: 20px;
+    background-color: #f8d7da;
+    color: #721c24;
+    border-radius: 8px;
+    margin-top: 20px;
+    border: 1px solid #f5c6cb;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    font-weight: bold;
+}
+
+.empty-cart-message p {
+    margin: 10px 0;
+    font-size: 1.2em;
+    font-weight: bold;
+}
