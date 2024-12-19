@@ -1,6 +1,4 @@
-**Lien vers le site :** https://webinfo.iutmontp.univ-montp2.fr/~turpinb/web/controleurFrontal.php
-
-**Lien vers le gitlab :** https://gitlabinfo.iutmontp.univ-montp2.fr/turpinb/s3-projetweb
+**Lien vers le site :** https://webinfo.iutmontp.univ-montp2.fr/~turpinb/s3-projetweb/web/controleurFrontal.php
 
 **Récapitulatif de l'investissement :**
 - Benjamin (47 %) : Gestions de l'architecture du projet / des Utilisateurs / Coachs / Sécurité / Messages flash
